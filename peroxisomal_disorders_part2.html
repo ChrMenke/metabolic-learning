@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peroxisomale Erkrankungen - Teil 2</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --xald-color: #e17055;
+            --cerebral-color: #fd79a8;
+            --amn-color: #fdcb6e;
+            --addison-color: #6c5ce7;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color), var(--amn-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--xald-color), var(--cerebral-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--xald-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            color: white;
+            border-color: var(--xald-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--xald-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--xald-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* X-ALD specific boxes */
+        .xald-box {
+            background: linear-gradient(135deg, #fef7f0, #fed7aa);
+            border: 2px solid var(--xald-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .xald-box h4 {
+            color: #c2410c;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .xald-box p, .xald-box ul, .xald-box li {
+            color: #c2410c;
+        }
+        
+        /* Phenotype boxes */
+        .cerebral-box {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border: 2px solid var(--cerebral-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .cerebral-box h4 {
+            color: #be185d;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .cerebral-box p, .cerebral-box ul, .cerebral-box li {
+            color: #be185d;
+        }
+        
+        .amn-box {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid var(--amn-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .amn-box h4 {
+            color: #a16207;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .amn-box p, .amn-box ul, .amn-box li {
+            color: #a16207;
+        }
+        
+        .addison-box {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 2px solid var(--addison-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .addison-box h4 {
+            color: #4338ca;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .addison-box p, .addison-box ul, .addison-box li {
+            color: #4338ca;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: var(--xald-color);
+            border-radius: 50%;
+            border: 4px solid var(--bg-white);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .timeline-item:nth-child(odd)::before {
+            right: -32px;
+        }
+        
+        .timeline-item:nth-child(even)::before {
+            left: -32px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+            
+            .timeline-item::before {
+                left: -32px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 X-linked Adrenoleukodystrophie</h1>
+            <p>Teil 2: Pathophysiologie, Klinik & Therapie</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 2</h3>
+            <p>Dieser Teil fokussiert auf X-ALD: Pathophysiologie der VLCFA-Akkumulation, klinische Phänotypen, moderne Diagnostik und innovative Therapieansätze inkl. Gentherapie.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. X-ALD Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('pathophysiologie')">2. Pathophysiologie</button>
+            <button class="nav-btn" onclick="showSection('phenotypen')">3. Klinische Phänotypen</button>
+            <button class="nav-btn" onclick="showSection('therapie')">4. Therapie & Management</button>
+        </div>
+
+        <!-- X-ALD Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 X-linked Adrenoleukodystrophie: Grundlagen</h2>
+
+            <div class="subsection">
+                <h3>Definition und Epidemiologie</h3>
+                <div class="xald-box">
+                    <h4>🧬 X-ALD: Die häufigste Leukodystrophie</h4>
+                    <p><strong>Definition:</strong> X-chromosomal vererbte peroxisomale Erkrankung durch Defekt des ABCD1-Gens, führt zur Akkumulation sehr langkettiger Fettsäuren (VLCFA).</p>
+                    
+                    <p><strong>Epidemiologie:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 1:15.000 bis 1:20.000 männliche Neugeborene</li>
+                        <li><strong>Prävalenz:</strong> Etwa 1:42.000 in der Gesamtbevölkerung</li>
+                        <li><strong>Trägerfrequenz:</strong> 1:14.000 bis 1:17.000 Frauen</li>
+                        <li><strong>Geografische Verteilung:</strong> Weltweit, keine ethnischen Präferenzen</li>
+                    </ul>
+                    
+                    <p><strong>Vererbung:</strong></p>
+                    <ul>
+                        <li><strong>X-chromosomal rezessiv:</strong> Männer betroffen, Frauen Trägerinnen</li>
+                        <li><strong>Wiederholungsrisiko:</strong> 50% für männliche Nachkommen von Trägerinnen</li>
+                        <li><strong>Neue Mutationen:</strong> 4-7% aller Fälle</li>
+                        <li><strong>Keimbahnmosaik:</strong> Selten, aber beschrieben</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Das ABCD1-Gen und ALD-Protein</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>Details</th>
+                            <th>Klinische Relevanz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Genlokalisation</strong></td>
+                            <td>Xq28, 10 Exons, ~20 kb</td>
+                            <td>Nahe Telomer, rekombinationsarm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Protein</strong></td>
+                            <td>ALDP, 745 AS, 75 kDa</td>
+                            <td>Peroxisomaler VLCFA-Transporter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Struktur</strong></td>
+                            <td>ABC-Transporter, 6 Transmembrandomänen</td>
+                            <td>ATP-abhängiger Transport</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lokalisation</strong></td>
+                            <td>Peroxisomale Membran</td>
+                            <td>Importfunktion für Acyl-CoA-Synthetase</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mutationen</strong></td>
+                            <td>>800 verschiedene beschrieben</td>
+                            <td>Meist private Mutationen, Hotspots selten</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Funktionelle Domänen des ALD-Proteins</h3>
+                <div class="pathway-diagram">
+                    <h4>Struktur-Funktions-Beziehungen</h4>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 15px 0; border: 1px solid #e2e8f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="text-align: center; flex: 1;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">N-Terminus</div>
+                                <p style="font-size: 0.9em; margin-top: 5px;">Zytoplasmatisch</p>
+                            </div>
+                            <div style="text-align: center; flex: 2;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, var(--xald-color), var(--cerebral-color));">6 Transmembrandomänen</div>
+                                <p style="font-size: 0.9em; margin-top: 5px;">Membrananker</p>
+                            </div>
+                            <div style="text-align: center; flex: 1;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #059669, #047857);">ATP-Bindungsdomäne</div>
+                                <p style="font-size: 0.9em; margin-top: 5px;">Energieversorgung</p>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Funktionelle Bereiche:</strong></p>
+                        <ul>
+                            <li><strong>TMD1 (AS 1-326):</strong> Erste Transmembrandomäne, Substratbindung</li>
+                            <li><strong>NBD1 (AS 327-580):</strong> Nukleotid-Bindungsdomäne, ATP-Hydrolyse</li>
+                            <li><strong>TMD2 (AS 581-745):</strong> Zweite Transmembrandomäne, Transportkanal</li>
+                        </ul>
+                        
+                        <p><strong>Kritische Regionen für Mutationen:</strong></p>
+                        <ul>
+                            <li><strong>Walker A/B Motive:</strong> ATP-Bindung (AS 441-448, 531-536)</li>
+                            <li><strong>ABC-Signatur:</strong> Charakteristisch für ABC-Transporter (AS 502-513)</li>
+                            <li><strong>Transmembranbereiche:</strong> Substratspezifität und -transport</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mutationsspektrum und Häufigkeiten</h3>
+                <div class="highlight-box">
+                    <h4>Häufigste Mutationstypen bei X-ALD</h4>
+                    <p><strong>Mutationsverteilung:</strong></p>
+                    <ul>
+                        <li><strong>Missense-Mutationen:</strong> 60% aller Fälle</li>
+                        <li><strong>Nonsense-Mutationen:</strong> 15% aller Fälle</li>
+                        <li><strong>Frameshift-Mutationen:</strong> 10% aller Fälle</li>
+                        <li><strong>Splice-Site-Mutationen:</strong> 8% aller Fälle</li>
+                        <li><strong>Große Deletionen:</strong> 6% aller Fälle</li>
+                        <li><strong>Komplexe Rearrangements:</strong> 1% aller Fälle</li>
+                    </ul>
+                    
+                    <p><strong>Hotspot-Regionen:</strong></p>
+                    <ul>
+                        <li><strong>Exon 1:</strong> 20% aller Mutationen (besonders 5'-Bereich)</li>
+                        <li><strong>Exon 5:</strong> 15% aller Mutationen (ATP-Bindungsdomäne)</li>
+                        <li><strong>Exon 9-10:</strong> 25% aller Mutationen (C-terminaler Bereich)</li>
+                    </ul>
+                    
+                    <p><strong>Besondere Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>p.Ala495Val:</strong> Häufig in bestimmten Populationen</li>
+                        <li><strong>p.Arg518Gln:</strong> Residuale Funktionalität</li>
+                        <li><strong>Komplette Gendeletion:</strong> Schwere Verläufe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Genotyp-Phänotyp-Korrelationen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Mutationstyp</th>
+                            <th>Restfunktion ALDP</th>
+                            <th>VLCFA-Erhöhung</th>
+                            <th>Typischer Phänotyp</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Null-Mutationen</strong></td>
+                            <td>0%</td>
+                            <td>+++</td>
+                            <td>Oft schwere zerebrale Form</td>
+                            <td>Schlecht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schwere Missense</strong></td>
+                            <td>&lt;5%</td>
+                            <td>+++</td>
+                            <td>Variable, meist zerebral</td>
+                            <td>Schlecht bis mäßig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Milde Missense</strong></td>
+                            <td>5-20%</td>
+                            <td>++</td>
+                            <td>Meist AMN, spätere Manifestation</td>
+                            <td>Mäßig bis gut</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hypomorphe Mutationen</strong></td>
+                            <td>&gt;20%</td>
+                            <td>+</td>
+                            <td>Addison-only, sehr milde AMN</td>
+                            <td>Gut</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4>⚠️ Wichtige klinische Erkenntnisse</h4>
+                    <p><strong>Genotyp-Phänotyp-Korrelation ist limitiert:</strong></p>
+                    <ul>
+                        <li>Identische Mutationen können zu verschiedenen Phänotypen führen</li>
+                        <li>Selbst innerhalb von Familien große klinische Variabilität</li>
+                        <li>Modifizierende Faktoren spielen wichtige Rolle</li>
+                        <li>Keine zuverlässige Prognose allein basierend auf Genotyp</li>
+                    </ul>
+                    
+                    <p><strong>Praktische Konsequenzen:</strong></p>
+                    <ul>
+                        <li>Regelmäßiges Monitoring aller Patienten erforderlich</li>
+                        <li>Genetische Beratung: Phänotyp nicht vorhersagbar</li>
+                        <li>Frühe Intervention unabhängig vom Mutationstyp</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Trägerinnen (Heterozygote Frauen)</h3>
+                <div class="xald-box">
+                    <h4>👩 Klinische Manifestationen bei Trägerinnen</h4>
+                    <p><strong>X-Inaktivierungsmuster entscheidet:</strong></p>
+                    <ul>
+                        <li><strong>Zufällige X-Inaktivierung:</strong> 50% normale, 50% defekte Zellen</li>
+                        <li><strong>Skewed X-Inaktivierung:</strong> Kann zu klinischen Symptomen führen</li>
+                        <li><strong>Gewebe-spezifische Unterschiede:</strong> ZNS besonders betroffen</li>
+                    </ul>
+                    
+                    <p><strong>Häufigkeit von Symptomen bei Trägerinnen:</strong></p>
+                    <ul>
+                        <li><strong>Asymptomatisch:</strong> 15-20%</li>
+                        <li><strong>Milde Myelopathie:</strong> 60-70% (meist ab 40. Lebensjahr)</li>
+                        <li><strong>Schwere Myelopathie:</strong> 10-15%</li>
+                        <li><strong>Zerebrale Beteiligung:</strong> 1-2% (sehr selten)</li>
+                    </ul>
+                    
+                    <p><strong>Typische Symptome:</strong></p>
+                    <ul>
+                        <li><strong>Spastische Paraparese:</strong> Oft schleichend progredient</li>
+                        <li><strong>Blasenfunktionsstörungen:</strong> Häufig erstes Symptom</li>
+                        <li><strong>Sensible Störungen:</strong> Vibrations- und Lagesinn</li>
+                        <li><strong>Fatigue:</strong> Oft unterschätzt, aber belastend</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('pathophysiologie')">Weiter zur Pathophysiologie →</button>
+            </div>
+        </div>
+
+        <!-- Pathophysiologie -->
+        <div class="content-section" id="pathophysiologie">
+            <h2 class="section-title">⚗️ Pathophysiologie der X-ALD</h2>
+
+            <div class="subsection">
+                <h3>VLCFA-Metabolismus: Normal vs. X-ALD</h3>
+                <div class="pathway-diagram">
+                    <h4>Normale peroxisomale β-Oxidation sehr langkettiger Fettsäuren</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">VLCFA-CoA (C24-C26)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">ABCD1 (ALD-Protein)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Peroxisomenmatrix</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: VLCFA-Transport in Peroxisomen (bei X-ALD defekt)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">VLCFA-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Acyl-CoA-Oxidase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">trans-2-Enoyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Erste Oxidation (normal funktional)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">trans-2-Enoyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">D-bifunktionelles Protein</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Ketoacyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Hydratisierung + Oxidation (normal funktional)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">3-Ketoacyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Ketoacyl-CoA-Thiolase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Acetyl-CoA + LCFA-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 4: Spaltung, verkürzte Fettsäure (normal funktional)</div>
+                    </div>
+                    
+                    <p style="text-align: center; font-weight: bold; margin-top: 1rem; color: #dc2626;"><strong>Problem bei X-ALD:</strong> VLCFA können nicht in Peroxisomen transportiert werden → Akkumulation</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>VLCFA-Akkumulation: Biochemische Details</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>VLCFA-Spezies</th>
+                            <th>Normale Konzentration</th>
+                            <th>X-ALD Konzentration</th>
+                            <th>Fold-Increase</th>
+                            <th>Klinische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>C24:0 (Lignocerinsäure)</strong></td>
+                            <td>20-40 μg/ml</td>
+                            <td>50-120 μg/ml</td>
+                            <td>2-3x</td>
+                            <td>Frühester Marker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C25:0 (Pentacosansäure)</strong></td>
+                            <td>0,5-2 μg/ml</td>
+                            <td>5-15 μg/ml</td>
+                            <td>5-10x</td>
+                            <td>Spezifischster Marker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C26:0 (Hexacosansäure)</strong></td>
+                            <td>0,5-1,0 μg/ml</td>
+                            <td>3-15 μg/ml</td>
+                            <td>5-20x</td>
+                            <td>Standardmarker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C26:1 (Hexacosenoic acid)</strong></td>
+                            <td>&lt;0,1 μg/ml</td>
+                            <td>0,5-2 μg/ml</td>
+                            <td>10-20x</td>
+                            <td>Zusätzlicher Marker</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight-box">
+                    <h4>Diagnostische Ratios bei X-ALD</h4>
+                    <p><strong>Wichtigste diagnostische Parameter:</strong></p>
+                    <ul>
+                        <li><strong>C26:0/C22:0 Ratio:</strong> Normal &lt;0,02, X-ALD &gt;0,06 (3-5x erhöht)</li>
+                        <li><strong>C24:0/C22:0 Ratio:</strong> Normal &lt;0,7, X-ALD &gt;1,0</li>
+                        <li><strong>C26:0 absolut:</strong> Normal &lt;1,0 μg/ml, X-ALD &gt;3,0 μg/ml</li>
+                    </ul>
+                    
+                    <p><strong>Warum Ratios verwenden?</strong></p>
+                    <ul>
+                        <li>Kompensation für individuelle Schwankungen</li>
+                        <li>Unabhängig von Nahrungsaufnahme</li>
+                        <li>Höhere diagnostische Spezifität</li>
+                        <li>Bessere Abgrenzung von anderen Erkrankungen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Zellbiologische Konsequenzen der VLCFA-Akkumulation</h3>
+                <div class="pathway-diagram">
+                    <h4>Schädigungsmechanismen auf zellulärer Ebene</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🧠 Membranstörungen</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Veränderte Membranfluidität</li>
+                                <li>Gestörte Ionenkanäle</li>
+                                <li>Beeinträchtigte Membranproteine</li>
+                                <li>Myelin-Instabilität</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">⚡ Energiestoffwechsel</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Mitochondriale Dysfunktion</li>
+                                <li>Reduzierte ATP-Produktion</li>
+                                <li>Gestörte Ca²⁺-Homöostase</li>
+                                <li>Oxidativer Stress</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🔥 Inflammation</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Mikroglia-Aktivierung</li>
+                                <li>Astrozyten-Reaktion</li>
+                                <li>Zytokin-Freisetzung</li>
+                                <li>Blut-Hirn-Schranken-Störung</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">💀 Zelltod</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>Apoptose-Induktion</li>
+                                <li>Endoplasmatischer Stress</li>
+                                <li>Autophagie-Dysregulation</li>
+                                <li>Oligodendrozyten-Verlust</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gewebespezifische Vulnerabilität</h3>
+                <div class="xald-box">
+                    <h4>🎯 Warum sind bestimmte Gewebe besonders betroffen?</h4>
+                    <p><strong>1. Zentrale weiße Substanz:</strong></p>
+                    <ul>
+                        <li><strong>Hoher Myelin-Gehalt:</strong> VLCFA bevorzugt in Myelin eingebaut</li>
+                        <li><strong>Oligodendrozyten-Vulnerabilität:</strong> Hoher Energiebedarf für Myelinproduktion</li>
+                        <li><strong>Begrenzte Reparaturkapazität:</strong> ZNS-Regeneration limitiert</li>
+                        <li><strong>Inflammatorische Amplifikation:</strong> Mikroglia/Astrozyten verstärken Schädigung</li>
+                    </ul>
+                    
+                    <p><strong>2. Rückenmark (kortikospinale Bahnen):</strong></p>
+                    <ul>
+                        <li><strong>Lange Axone:</strong> Besonders vulnerable für Transportstörungen</li>
+                        <li><strong>Hohe metabolische Aktivität:</strong> Energiedefizit wirkt sich stark aus</li>
+                        <li><strong>Prädilektionsstellen:</strong> Spinaler Kortikospinaltrakt</li>
+                    </ul>
+                    
+                    <p><strong>3. Nebennierenrinde:</strong></p>
+                    <ul>
+                        <li><strong>Steroidhormonsynthese:</strong> Abhängig von Cholesterolstoffwechsel</li>
+                        <li><strong>Hoher VLCFA-Turnover:</strong> In Steroidhormonen integriert</li>
+                        <li><strong>Mikrozirkulationsstörungen:</strong> Durch VLCFA-Akkumulation</li>
+                    </ul>
+                    
+                    <p><strong>4. Peripheres Nervensystem (bei Frauen):</strong></p>
+                    <ul>
+                        <li><strong>X-Inaktivierungsmuster:</strong> Mosaik aus normalen/defekten Zellen</li>
+                        <li><strong>Längere Kompensationsmöglichkeit:</strong> Durch normale Zellpopulation</li>
+                        <li><strong>Schleichende Progression:</strong> Graduelle Dekompensation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neuroinflammation als Krankheitsverstärker</h3>
+                <div class="case-study">
+                    <h4>🔥 Die zentrale Rolle der Inflammation bei X-ALD</h4>
+                    <p><strong>Initiation der Neuroinflammation:</strong></p>
+                    <ul>
+                        <li><strong>VLCFA als DAMPs:</strong> "Damage-associated molecular patterns"</li>
+                        <li><strong>Mikroglia-Aktivierung:</strong> M1-Polarisation (pro-inflammatorisch)</li>
+                        <li><strong>Astrozyten-Reaktion:</strong> Reaktive Gliose</li>
+                        <li><strong>Komplement-Aktivierung:</strong> Verstärkt Gewebeschädigung</li>
+                    </ul>
+                    
+                    <p><strong>Selbstverstärkender Zyklus:</strong></p>
+                    <ul>
+                        <li><strong>Inflammatorische Mediatoren:</strong> TNF-α, IL-1β, IL-6</li>
+                        <li><strong>Oxidativer Stress:</strong> ROS/RNS-Produktion</li>
+                        <li><strong>Blut-Hirn-Schranken-Störung:</strong> Weitere Immunzell-Infiltration</li>
+                        <li><strong>Demyelinisierung:</strong> Verstärkte VLCFA-Freisetzung</li>
+                    </ul>
+                    
+                    <p><strong>Therapeutische Implikationen:</strong></p>
+                    <ul>
+                        <li><strong>Anti-inflammatorische Therapie:</strong> Cortisol, Immunsuppression</li>
+                        <li><strong>Antioxidantien:</strong> N-Acetylcystein, Vitamin E</li>
+                        <li><strong>Mikroglia-Modulation:</strong> Experimentelle Ansätze</li>
+                        <li><strong>Frühe Intervention:</strong> Vor inflammatorischer Verstärkung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biomarker der Krankheitsprogression</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Marker</th>
+                            <th>Probenmaterial</th>
+                            <th>Normale Werte</th>
+                            <th>X-ALD Veränderungen</th>
+                            <th>Prognostische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>VLCFA-Spiegel</strong></td>
+                            <td>Plasma</td>
+                            <td>C26:0 &lt;1,0 μg/ml</td>
+                            <td>3-15 μg/ml</td>
+                            <td>Diagnostisch, nicht prognostisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Neurofilament light (NfL)</strong></td>
+                            <td>CSF/Plasma</td>
+                            <td>&lt;10 pg/ml (CSF)</td>
+                            <td>10-100x erhöht</td>
+                            <td>Neurodegeneration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chitotriosidase</strong></td>
+                            <td>Plasma</td>
+                            <td>&lt;50 nmol/ml/h</td>
+                            <td>100-1000 nmol/ml/h</td>
+                            <td>Mikroglia-Aktivierung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CCL2 (MCP-1)</strong></td>
+                            <td>CSF</td>
+                            <td>&lt;200 pg/ml</td>
+                            <td>500-2000 pg/ml</td>
+                            <td>Neuroinflammation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GFAP</strong></td>
+                            <td>CSF/Plasma</td>
+                            <td>&lt;3000 pg/ml (CSF)</td>
+                            <td>5-20x erhöht</td>
+                            <td>Astrozyten-Aktivierung</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('phenotypen')">Weiter zu den klinischen Phänotypen →</button>
+            </div>
+        </div>
+
+        <!-- Klinische Phänotypen -->
+        <div class="content-section" id="phenotypen">
+            <h2 class="section-title">🏥 Klinische Phänotypen der X-ALD</h2>
+
+            <div class="subsection">
+                <h3>Überblick der Phänotypen</h3>
+                <div class="pathway-diagram">
+                    <h4>X-ALD Phänotypen: Häufigkeit und Altersverteilung</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="cerebral-box" style="margin-bottom: 10px;">
+                                <h4>🧠 Kindheit-zerebral</h4>
+                                <p><strong>35-40%</strong> der Fälle</p>
+                                <p>Manifestation: 4-10 Jahre</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div class="amn-box" style="margin-bottom: 10px;">
+                                <h4>🚶 AMN</h4>
+                                <p><strong>40-45%</strong> der Fälle</p>
+                                <p>Manifestation: 20-40 Jahre</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div class="addison-box" style="margin-bottom: 10px;">
+                                <h4>⚡ Addison-only</h4>
+                                <p><strong>10-15%</strong> der Fälle</p>
+                                <p>Manifestation: variabel</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div class="case-study" style="margin-bottom: 10px;">
+                                <h4>👩 Trägerinnen</h4>
+                                <p><strong>60-70%</strong> symptomatisch</p>
+                                <p>Manifestation: 40-60 Jahre</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; margin-top: 1rem; font-style: italic;">
+                        <strong>Wichtig:</strong> Phänotypen können sich überschneiden und im Verlauf ändern!
+                    </p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kindheit-zerebrale Form (Childhood Cerebral ALD)</h3>
+                <div class="cerebral-box">
+                    <h4>🧠 Die dramatischste Form der X-ALD</h4>
+                    <p><strong>Epidemiologie:</strong></p>
+                    <ul>
+                        <li><strong>Häufigkeit:</strong> 35-40% aller X-ALD-Patienten</li>
+                        <li><strong>Manifestationsalter:</strong> Meist 4-10 Jahre (Peak bei 7 Jahren)</li>
+                        <li><strong>Geschlecht:</strong> Ausschließlich Jungen betroffen</li>
+                        <li><strong>Familienhistorie:</strong> Oft positive Familienanamnese</li>
+                    </ul>
+                    
+                    <p><strong>Frühe klinische Zeichen:</strong></p>
+                    <ul>
+                        <li><strong>Verhaltensauffälligkeiten:</strong> ADHS-ähnliche Symptome, Aggression</li>
+                        <li><strong>Schulprobleme:</strong> Nachlassende Leistungen, Konzentrationsstörungen</li>
+                        <li><strong>Visuelle Störungen:</strong> Gesichtsfelddefekte, Cortical blindness</li>
+                        <li><strong>Auditive Probleme:</strong> Zentrale Hörstörungen</li>
+                    </ul>
+                    
+                    <p><strong>Progression (typischer 2-4 Jahres-Verlauf):</strong></p>
+                    <ul>
+                        <li><strong>Stadium 1:</strong> Subtile kognitive Defizite, Verhaltensänderungen</li>
+                        <li><strong>Stadium 2:</strong> Deutliche neuropsychologische Defizite, Krampfanfälle</li>
+                        <li><strong>Stadium 3:</strong> Schwere Demenz, spastische Tetraparese</li>
+                        <li><strong>Stadium 4:</strong> Vegetativer Zustand, Tod innerhalb von Monaten</li>
+                    </ul>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Jahr 0: Symptombeginn</h4>
+                        <p>Verhaltensauffälligkeiten, Schulprobleme, erste visuelle Symptome</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jahr 1: Progression</h4>
+                        <p>Kognitive Verschlechterung, Krampfanfälle, Hörverlust, Sprachstörungen</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jahr 2: Schwere Phase</h4>
+                        <p>Schwere Demenz, Spastik, Schluckstörungen, Inkontinenz</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Jahr 3-4: Endstadium</h4>
+                        <p>Vegetativer Zustand, Beatmung erforderlich, Tod</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Adrenomyeloneuropathie (AMN)</h3>
+                <div class="amn-box">
+                    <h4>🚶 Die chronisch-progrediente Form</h4>
+                    <p><strong>Epidemiologie und Manifestation:</strong></p>
+                    <ul>
+                        <li><strong>Häufigkeit:</strong> 40-45% aller männlichen X-ALD-Patienten</li>
+                        <li><strong>Manifestationsalter:</strong> Meist 20-40 Jahre, kann auch später</li>
+                        <li><strong>Progression:</strong> Langsam progredient über Dekaden</li>
+                        <li><strong>Geschlechtsverteilung:</strong> Männer und symptomatische Trägerinnen</li>
+                    </ul>
+                    
+                    <p><strong>Charakteristische Symptomatik:</strong></p>
+                    <ul>
+                        <li><strong>Spastische Paraparese:</strong> Meist erstes und führendes Symptom</li>
+                        <li><strong>Sensible Ataxie:</strong> Vibrations- und Lagesinnstörungen</li>
+                        <li><strong>Blasenfunktionsstörungen:</strong> Oft früh und belastend</li>
+                        <li><strong>Erektile Dysfunktion:</strong> Häufig bei männlichen Patienten</li>
+                        <li><strong>Periphere Neuropathie:</strong> Distal symmetrisch, axonal</li>
+                    </ul>
+                    
+                    <p><strong>Natürlicher Verlauf:</strong></p>
+                    <ul>
+                        <li><strong>Frühe Phase (Jahre 1-5):</strong> Steifigkeit, leichte Gangunssicherheit</li>
+                        <li><strong>Mittlere Phase (Jahre 5-15):</strong> Zunehmende Spastik, Gehhilfen nötig</li>
+                        <li><strong>Späte Phase (Jahre 15+):</strong> Rollstuhlpflicht, schwere Behinderung</li>
+                        <li><strong>Zerebrale Konversion:</strong> 20% entwickeln zerebrale Beteiligung</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>Häufigkeit</th>
+                            <th>Schweregrad</th>
+                            <th>Zeitlicher Verlauf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Spastische Paraparese</strong></td>
+                            <td>95-100%</td>
+                            <td>Mild → schwer</td>
+                            <td>Progredient über 10-20 Jahre</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blasendysfunktion</strong></td>
+                            <td>80-90%</td>
+                            <td>Mild → schwer</td>
+                            <td>Oft früh, dann progredient</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Periphere Neuropathie</strong></td>
+                            <td>70-80%</td>
+                            <td>Mild → mäßig</td>
+                            <td>Langsam progredient</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kognitive Probleme</strong></td>
+                            <td>30-40%</td>
+                            <td>Mild</td>
+                            <td>Später Verlauf</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zerebrale Progression</strong></td>
+                            <td>20%</td>
+                            <td>Variabel</td>
+                            <td>Unvorhersagbar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Addison-only Phänotyp</h3>
+                <div class="addison-box">
+                    <h4>⚡ Isolierte Nebenniereninsuffizienz</h4>
+                    <p><strong>Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Häufigkeit:</strong> 10-15% aller X-ALD-Patienten</li>
+                        <li><strong>Definition:</strong> Nebenniereninsuffizienz ohne neurologische Symptome</li>
+                        <li><strong>Manifestationsalter:</strong> Variabel, oft Kindheit oder Adoleszenz</li>
+                        <li><strong>Prognose:</strong> Gut bei adäquater Hormonsubstitution</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Präsentation:</strong></p>
+                    <ul>
+                        <li><strong>Primäre Nebenniereninsuffizienz:</strong> Cortisol- und Aldosteron-Mangel</li>
+                        <li><strong>Hyperpigmentierung:</strong> Besonders an Druckstellen</li>
+                        <li><strong>Salzverlust:</strong> Elektrolytstörungen (Hyponatriämie, Hyperkaliämie)</li>
+                        <li><strong>Addison-Krise:</strong> Lebensbedrohlich bei Stress/Infektion</li>
+                    </ul>
+                    
+                    <p><strong>Labordiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>ACTH:</strong> Stark erhöht (&gt;100 pg/ml)</li>
+                        <li><strong>Cortisol:</strong> Niedrig (&lt;5 μg/dl)</li>
+                        <li><strong>ACTH-Stimulationstest:</strong> Fehlende Cortisol-Antwort</li>
+                        <li><strong>Renin/Aldosteron:</strong> Erhöht/niedrig</li>
+                    </ul>
+                    
+                    <p><strong>Langzeit-Prognose:</strong></p>
+                    <ul>
+                        <li><strong>Neurologische Entwicklung:</strong> 60-80% entwickeln später AMN</li>
+                        <li><strong>Monitoring erforderlich:</strong> Jährliche neurologische Untersuchungen</li>
+                        <li><strong>MRT-Überwachung:</strong> Alle 2 Jahre zerebrale Bildgebung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Adoleszent-zerebrale Form</h3>
+                <div class="highlight-box">
+                    <h4>Seltene, aber wichtige Variante</h4>
+                    <p><strong>Epidemiologie:</strong></p>
+                    <ul>
+                        <li><strong>Häufigkeit:</strong> 5-10% aller X-ALD-Fälle</li>
+                        <li><strong>Manifestationsalter:</strong> 11-20 Jahre</li>
+                        <li><strong>Progression:</strong> Langsamer als kindheit-zerebrale Form</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Unterschiede:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Oft psychiatrische Symptome im Vordergrund</li>
+                        <li><strong>Psychose:</strong> Schizophreniforme Störungen möglich</li>
+                        <li><strong>Verhaltensstörungen:</strong> Aggression, soziale Probleme</li>
+                        <li><strong>Schulprobleme:</strong> Leistungsabfall in höherer Schule</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostische Herausforderungen:</strong></p>
+                    <ul>
+                        <li><strong>Differentialdiagnose:</strong> Psychiatrische Erkrankungen</li>
+                        <li><strong>Verzögerte Diagnose:</strong> Oft Jahre bis zur korrekten Einordnung</li>
+                        <li><strong>MRT-Befunde:</strong> Können initial subtil sein</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Symptomatische Trägerinnen</h3>
+                <div class="case-study">
+                    <h4>👩 Heterozygote Frauen: Unterschätzte Problematik</h4>
+                    <p><strong>Epidemiologie der Symptomatik:</strong></p>
+                    <ul>
+                        <li><strong>Lebenszeitrisiko:</strong> 60-70% werden symptomatisch</li>
+                        <li><strong>Manifestationsalter:</strong> Meist 40-60 Jahre</li>
+                        <li><strong>Progression:</strong> Langsamer als bei Männern</li>
+                        <li><strong>Schweregrad:</strong> Sehr variabel</li>
+                    </ul>
+                    
+                    <p><strong>Typische Symptome (in Reihenfolge der Häufigkeit):</strong></p>
+                    <ul>
+                        <li><strong>Blasenfunktionsstörungen:</strong> 70% (oft erstes Symptom)</li>
+                        <li><strong>Spastische Paraparese:</strong> 60% (meist mild bis mäßig)</li>
+                        <li><strong>Sensible Störungen:</strong> 50% (Vibration, Lagesinn)</li>
+                        <li><strong>Fatigue:</strong> 40% (oft unterschätzt, aber belastend)</li>
+                        <li><strong>Neuropathische Schmerzen:</strong> 30%</li>
+                    </ul>
+                    
+                    <p><strong>Faktoren für Symptomatik:</strong></p>
+                    <ul>
+                        <li><strong>X-Inaktivierungsmuster:</strong> Skewed inactivation → stärkere Symptome</li>
+                        <li><strong>Lebensalter:</strong> Häufigkeit steigt mit dem Alter</li>
+                        <li><strong>Hormonelle Faktoren:</strong> Menopause kann Progression beschleunigen</li>
+                        <li><strong>Genetische Modifikatoren:</strong> Noch nicht vollständig verstanden</li>
+                    </ul>
+                    
+                    <p><strong>Monitoring und Management:</strong></p>
+                    <ul>
+                        <li><strong>Jährliche Kontrollen:</strong> Ab dem 18. Lebensjahr</li>
+                        <li><strong>Neurologische Untersuchung:</strong> Fokus auf Spastik und Sensibilität</li>
+                        <li><strong>Urologische Evaluation:</strong> Bei Blasensymptomen</li>
+                        <li><strong>MRT-Überwachung:</strong> Alle 2-3 Jahre (zerebrale Beteiligung sehr selten)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('therapie')">Weiter zu Therapie & Management →</button>
+            </div>
+        </div>
+
+        <!-- Therapie & Management -->
+        <div class="content-section" id="therapie">
+            <h2 class="section-title">💊 Therapie & Management</h2>
+
+            <div class="subsection">
+                <h3>Therapeutische Strategien im Überblick</h3>
+                <div class="pathway-diagram">
+                    <h4>Multimodale Therapieansätze bei X-ALD</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef7f0, #fed7aa); padding: 20px; border-radius: 12px; border: 2px solid var(--xald-color);">
+                            <h5 style="color: #c2410c; margin-bottom: 15px;">🥗 Diätetische Therapie</h5>
+                            <ul style="color: #c2410c; font-size: 0.9em;">
+                                <li>Lorenzo's Oil (4:1 Ölsäure/Erucasäure)</li>
+                                <li>VLCFA-reduzierte Diät</li>
+                                <li>Antioxidantien-Supplementation</li>
+                                <li>Supportive Nahrungsergänzung</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); padding: 20px; border-radius: 12px; border: 2px solid var(--cerebral-color);">
+                            <h5 style="color: #be185d; margin-bottom: 15px;">🏥 Hämatopoetische Stammzelltransplantation</h5>
+                            <ul style="color: #be185d; font-size: 0.9em;">
+                                <li>Frühzeitige zerebrale Form</li>
+                                <li>HLA-kompatible Spender</li>
+                                <li>Konditionierung & Immunsuppression</li>
+                                <li>Langzeit-Nachsorge</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 20px; border-radius: 12px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 15px;">🧬 Gentherapie</h5>
+                            <ul style="color: #2563eb; font-size: 0.9em;">
+                                <li>Lentivirale Vektoren</li>
+                                <li>Ex-vivo Modifikation autologer Zellen</li>
+                                <li>Elivaldogene tavalentivec (Skysona®)</li>
+                                <li>Klinische Studien laufend</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 20px; border-radius: 12px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🔧 Symptomatische Therapie</h5>
+                            <ul style="color: #16a34a; font-size: 0.9em;">
+                                <li>Spastik-Management</li>
+                                <li>Blasenfunktionsstörungen</li>
+                                <li>Hormonsubstitution</li>
+                                <li>Rehabilitation & Physiotherapie</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lorenzo's Oil: Mechanismus und Evidenz</h3>
+                <div class="xald-box">
+                    <h4>🥗 Die erste kausale Therapie</h4>
+                    <p><strong>Zusammensetzung von Lorenzo's Oil:</strong></p>
+                    <ul>
+                        <li><strong>Ölsäure (C18:1):</strong> 4 Teile (80%)</li>
+                        <li><strong>Erucasäure (C22:1):</strong> 1 Teil (20%)</li>
+                        <li><strong>Dosierung:</strong> 20% der täglichen Kalorienaufnahme</li>
+                        <li><strong>Präparate:</strong> Verschiedene kommerzielle Formulierungen</li>
+                    </ul>
+                    
+                    <p><strong>Wirkmechanismus:</strong></p>
+                    <ul>
+                        <li><strong>Kompetitive Hemmung:</strong> Ölsäure/Erucasäure konkurrieren mit VLCFA</li>
+                        <li><strong>Elongase-Inhibition:</strong> Blockade der VLCFA-Synthese</li>
+                        <li><strong>Feedback-Regulation:</strong> Reduktion endogener VLCFA-Produktion</li>
+                        <li><strong>Normalisierung:</strong> 50-70% Reduktion der Plasma-VLCFA</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Evidenz:</strong></p>
+                    <ul>
+                        <li><strong>Präventive Wirkung:</strong> Verzögert neurologische Manifestation</li>
+                        <li><strong>Asymptomatische Jungen:</strong> 15% Risikoreduktion für zerebrale Form</li>
+                        <li><strong>Begrenzte therapeutische Wirkung:</strong> Wenig Nutzen bei manifester Erkrankung</li>
+                        <li><strong>AMN-Progression:</strong> Keine klare Verlangsamung nachgewiesen</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Studiengruppe</th>
+                            <th>Lorenzo's Oil Effekt</th>
+                            <th>Evidenzniveau</th>
+                            <th>Empfehlung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Asymptomatische Jungen</strong></td>
+                            <td>Risikoreduktion für zerebrale Form</td>
+                            <td>Moderat</td>
+                            <td>Empfohlen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frühe zerebrale Form</strong></td>
+                            <td>Kein Nutzen nachgewiesen</td>
+                            <td>Gut</td>
+                            <td>Nicht empfohlen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AMN (männlich)</strong></td>
+                            <td>Unklarer Nutzen</td>
+                            <td>Schwach</td>
+                            <td>Individuell abwägen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Symptomatische Trägerinnen</strong></td>
+                            <td>Möglicher Nutzen</td>
+                            <td>Sehr schwach</td>
+                            <td>Kann versucht werden</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Hämatopoetische Stammzelltransplantation (HSCT)</h3>
+                <div class="cerebral-box">
+                    <h4>🏥 Die etablierte kurative Therapie</h4>
+                    <p><strong>Indikationen für HSCT:</strong></p>
+                    <ul>
+                        <li><strong>Frühe zerebrale Form:</strong> Lod Score 0,5-9 (mild bis mäßig)</li>
+                        <li><strong>MRT-Kriterien:</strong> Gadolinium-Enhancement vorhanden</li>
+                        <li><strong>Funktionsstatus:</strong> IQ &gt;80, keine schweren neurologischen Defizite</li>
+                        <li><strong>Spenderverfügbarkeit:</strong> HLA-kompatibler Familienspender oder MUD</li>
+                    </ul>
+                    
+                    <p><strong>Ausschlusskriterien:</strong></p>
+                    <ul>
+                        <li><strong>Fortgeschrittene zerebrale Form:</strong> Lod Score &gt;10</li>
+                        <li><strong>Schwere Behinderung:</strong> IQ &lt;75, schwere motorische Defizite</li>
+                        <li><strong>AMN ohne zerebrale Beteiligung:</strong> Kein Nutzen nachgewiesen</li>
+                        <li><strong>Addison-only:</strong> Keine Indikation</li>
+                    </ul>
+                    
+                    <p><strong>Transplantationsprotokoll:</strong></p>
+                    <ul>
+                        <li><strong>Konditionierung:</strong> Busulfan/Cyclophosphamid oder Fludarabin-basiert</li>
+                        <li><strong>GVHD-Prophylaxe:</strong> Ciclosporin + Methotrexat</li>
+                        <li><strong>Stammzellquelle:</strong> Knochenmark bevorzugt, Nabelschnurblut möglich</li>
+                        <li><strong>Monitoring:</strong> Engmaschige neurologische und ophthalmologische Kontrollen</li>
+                    </ul>
+                    
+                    <p><strong>Outcomes und Komplikationen:</strong></p>
+                    <ul>
+                        <li><strong>Gesamtüberleben:</strong> 85-90% bei frühzeitiger Transplantation</li>
+                        <li><strong>Neurologische Stabilisierung:</strong> 80-85% der Patienten</li>
+                        <li><strong>Akute GVHD:</strong> 30-40% Grad II-IV</li>
+                        <li><strong>Chronische GVHD:</strong> 20-30%</li>
+                        <li><strong>Transplantations-assoziierte Mortalität:</strong> 10-15%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gentherapie: Der neue Goldstandard</h3>
+                <div class="highlight-box">
+                    <h4>🧬 Elivaldogene tavalentivec (Skysona®)</h4>
+                    <p><strong>Mechanismus der Gentherapie:</strong></p>
+                    <ul>
+                        <li><strong>Lentiviraler Vektor:</strong> Übertragung funktionsfähiger ABCD1-Kopie</li>
+                        <li><strong>Ex-vivo Modifikation:</strong> Patienteneigene CD34+ Stammzellen</li>
+                        <li><strong>Myeloablative Konditionierung:</strong> Busulfan-basiert</li>
+                        <li><strong>Reinfusion:</strong> Genmodifizierte autologe Stammzellen</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Studien (ALD-102, ALD-104):</strong></p>
+                    <ul>
+                        <li><strong>Studiendesign:</strong> Phase 2/3, single-arm, historische Kontrollen</li>
+                        <li><strong>Einschlusskriterien:</strong> Frühe zerebrale X-ALD, Lod Score ≤9</li>
+                        <li><strong>Primärer Endpunkt:</strong> Überleben ohne schwere Behinderung</li>
+                        <li><strong>Follow-up:</strong> Median 4,2 Jahre</li>
+                    </ul>
+                    
+                    <p><strong>Ergebnisse der Zulassungsstudien:</strong></p>
+                    <ul>
+                        <li><strong>Erfolgsrate:</strong> 88% der Patienten erreichten primären Endpunkt</li>
+                        <li><strong>Neurologische Stabilisierung:</strong> 85% zeigten keine Progression</li>
+                        <li><strong>VLCFA-Normalisierung:</strong> Bei 70% der Patienten</li>
+                        <li><strong>Sicherheit:</strong> Vergleichbar mit allogener HSCT, aber ohne GVHD</li>
+                    </ul>
+                    
+                    <p><strong>Vorteile gegenüber HSCT:</strong></p>
+                    <ul>
+                        <li><strong>Keine GVHD:</strong> Autologe Transplantation eliminiert GVHD-Risiko</li>
+                        <li><strong>Keine Spendersuche:</strong> Unabhängig von HLA-kompatiblen Spendern</li>
+                        <li><strong>Reduzierte Immunsuppression:</strong> Geringeres Infektionsrisiko</li>
+                        <li><strong>Verbesserte Lebensqualität:</strong> Weniger chronische Komplikationen</li>
+                    </ul>
+                    
+                    <p><strong>Aktuelle Zulassungssituation:</strong></p>
+                    <ul>
+                        <li><strong>EMA-Zulassung:</strong> Juli 2021 für frühe zerebrale X-ALD</li>
+                        <li><strong>FDA-Zulassung:</strong> September 2022</li>
+                        <li><strong>Kostenübernahme:</strong> In vielen Ländern noch in Verhandlung</li>
+                        <li><strong>Behandlungszentren:</strong> Limitiert auf spezialisierte Zentren</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Symptomatische Therapie</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>Erste Wahl</th>
+                            <th>Alternative</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Spastik</strong></td>
+                            <td>Baclofen 10-60 mg/d</td>
+                            <td>Tizanidin, Botulinumtoxin</td>
+                            <td>Intrathekale Pumpe bei schwerer Spastik</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blasenfunktionsstörungen</strong></td>
+                            <td>Anticholinergika (Oxybutynin)</td>
+                            <td>Intermittierender Katheter</td>
+                            <td>Urologische Mitbetreuung sinnvoll</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nebenniereninsuffizienz</strong></td>
+                            <td>Hydrocortison 15-25 mg/d</td>
+                            <td>Prednisolon</td>
+                            <td>Stressdosierung bei Infekten!</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Neuropathische Schmerzen</strong></td>
+                            <td>Gabapentin 300-1800 mg/d</td>
+                            <td>Pregabalin, Duloxetin</td>
+                            <td>Langsame Dosissteigerung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fatigue</strong></td>
+                            <td>Amantadin 100-200 mg/d</td>
+                            <td>Modafinil</td>
+                            <td>Off-label Verwendung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Krampfanfälle</strong></td>
+                            <td>Levetiracetam 500-3000 mg/d</td>
+                            <td>Valproat (Vorsicht!)</td>
+                            <td>Neurologische Mitbetreuung</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>⚠️ Wichtige Therapieüberlegungen</h4>
+                    <p><strong>Nebenniereninsuffizienz-Management:</strong></p>
+                    <ul>
+                        <li><strong>Notfallausweis:</strong> Immer bei sich tragen</li>
+                        <li><strong>Stressdosierung:</strong> Bei Fieber, Operationen, schweren Infekten</li>
+                        <li><strong>Notfall-Hydrocortison:</strong> 100 mg i.v./i.m. bei Addison-Krise</li>
+                        <li><strong>Regelmäßige Kontrollen:</strong> ACTH, Elektrolyte, Blutdruck</li>
+                    </ul>
+                    
+                    <p><strong>Spastik-Management:</strong></p>
+                    <ul>
+                        <li><strong>Physiotherapie:</strong> Essentiell zur Kontrakturprophylaxe</li>
+                        <li><strong>Hilfsmittel:</strong> Frühe Versorgung mit Gehhilfen/Rollstuhl</li>
+                        <li><strong>Botulinumtoxin:</strong> Bei fokaler Spastik sehr effektiv</li>
+                        <li><strong>Intrathekale Pumpe:</strong> Bei generalisierter schwerer Spastik</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Monitoring und Nachsorge</h3>
+                <div class="amn-box">
+                    <h4>📊 Strukturiertes Langzeit-Monitoring</h4>
+                    <p><strong>Asymptomatische Patienten (Jungen &lt;12 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Klinische Untersuchung:</strong> Alle 6 Monate</li>
+                        <li><strong>Zerebrale MRT:</strong> Alle 6 Monate bis 12 Jahre, dann jährlich</li>
+                        <li><strong>Neuropsychologische Tests:</strong> Jährlich ab 6 Jahren</li>
+                        <li><strong>VLCFA-Kontrolle:</strong> Jährlich (bei Lorenzo's Oil alle 6 Monate)</li>
+                    </ul>
+                    
+                    <p><strong>AMN-Patienten:</strong></p>
+                    <ul>
+                        <li><strong>Neurologische Kontrollen:</strong> Alle 6-12 Monate</li>
+                        <li><strong>Funktionelle Assessments:</strong> EDSS, Gehtest, Fragebögen</li>
+                        <li><strong>Zerebrale MRT:</strong> Alle 2 Jahre (Konversionsdetektion)</li>
+                        <li><strong>Urologische Evaluation:</strong> Bei Blasensymptomen</li>
+                    </ul>
+                    
+                    <p><strong>Nach HSCT/Gentherapie:</strong></p>
+                    <ul>
+                        <li><strong>Engmaschige Kontrollen:</strong> Monatlich in den ersten 6 Monaten</li>
+                        <li><strong>MRT-Monitoring:</strong> 3, 6, 12 Monate, dann jährlich</li>
+                        <li><strong>Chimerismus/Vektor-Kopienanzahl:</strong> Regelmäßig bestimmen</li>
+                        <li><strong>Langzeit-Komplikationen:</strong> Sekundäre Malignome, Organfunktionen</li>
+                    </ul>
+                    
+                    <p><strong>Trägerinnen:</strong></p>
+                    <ul>
+                        <li><strong>Jährliche Kontrollen:</strong> Ab 18 Jahren</li>
+                        <li><strong>Fokus:</strong> Spastik, Blasenfunktion, Sensibilität</li>
+                        <li><strong>MRT:</strong> Alle 2-3 Jahre (zerebrale Beteiligung sehr selten)</li>
+                        <li><strong>Genetische Beratung:</strong> Bei Kinderwunsch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prognose und Langzeitoutcomes</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Phänotyp</th>
+                            <th>Unbehandelt</th>
+                            <th>Mit Lorenzo's Oil</th>
+                            <th>Mit HSCT/Gentherapie</th>
+                            <th>Langzeit-Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kindheit-zerebral</strong></td>
+                            <td>Tod in 2-4 Jahren</td>
+                            <td>Kein Nutzen</td>
+                            <td>85% neurologisch stabil</td>
+                            <td>Gut bei früher Therapie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AMN</strong></td>
+                            <td>Langsame Progression</td>
+                            <td>Unklarer Nutzen</td>
+                            <td>Kein etablierter Nutzen</td>
+                            <td>Variable, oft rollstuhlpflichtig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addison-only</strong></td>
+                            <td>Gute Prognose</td>
+                            <td>Mögliche Prävention</td>
+                            <td>Keine Indikation</td>
+                            <td>Gut bei Hormonsubstitution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trägerinnen</strong></td>
+                            <td>Variable Progression</td>
+                            <td>Möglicher Nutzen</td>
+                            <td>Keine Indikation</td>
+                            <td>Meist milde Symptome</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="cerebral-box">
+                    <h4>📈 Prognostische Faktoren</h4>
+                    <p><strong>Günstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Frühe Diagnose:</strong> Vor Auftreten schwerer Symptome</li>
+                        <li><strong>Niedriger Lod Score:</strong> &lt;5 bei Therapiebeginn</li>
+                        <li><strong>Erhaltene Kognition:</strong> IQ &gt;80 zum Zeitpunkt der Diagnose</li>
+                        <li><strong>Fehlende Gadolinium-Anreicherung:</strong> Weniger aktive Inflammation</li>
+                        <li><strong>Jüngeres Alter:</strong> &lt;8 Jahre bei zerebraler Manifestation</li>
+                    </ul>
+                    
+                    <p><strong>Ungünstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Späte Diagnose:</strong> Bei bereits fortgeschrittener Erkrankung</li>
+                        <li><strong>Hoher Lod Score:</strong> &gt;10 bei Therapiebeginn</li>
+                        <li><strong>Kognitive Defizite:</strong> IQ &lt;75</li>
+                        <li><strong>Ausgedehnte MRT-Läsionen:</strong> Bilateral, Corpus callosum-Beteiligung</li>
+                        <li><strong>Schwere neurologische Defizite:</strong> Zum Zeitpunkt der Diagnose</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Zukunftsperspektiven und experimentelle Therapien</h3>
+                <div class="highlight-box">
+                    <h4>🔬 Innovative Therapieansätze in der Entwicklung</h4>
+                    <p><strong>Zelltherapie-Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>Oligodendrozyten-Transplantation:</strong> Aus iPSC-abgeleitete Oligodendrozyten</li>
+                        <li><strong>Mikroglia-Modifikation:</strong> Genetische Modifikation von Mikroglia</li>
+                        <li><strong>Neurale Stammzellen:</strong> Direkte ZNS-Transplantation</li>
+                    </ul>
+                    
+                    <p><strong>Pharmakologische Strategien:</strong></p>
+                    <ul>
+                        <li><strong>Peroxisomen-Proliferatoren:</strong> Bezafibrat, andere PPAR-Agonisten</li>
+                        <li><strong>Antioxidantien:</strong> N-Acetylcystein, Vitamin E in hohen Dosen</li>
+                        <li><strong>Anti-inflammatorische Therapie:</strong> Minocyclin, andere Mikroglia-Inhibitoren</li>
+                        <li><strong>Autophagie-Modulatoren:</strong> Rapamycin, andere mTOR-Inhibitoren</li>
+                    </ul>
+                    
+                    <p><strong>Gentherapie der nächsten Generation:</strong></p>
+                    <ul>
+                        <li><strong>In-vivo Gentherapie:</strong> Direkte ZNS-Applikation via AAV-Vektoren</li>
+                        <li><strong>Base/Prime Editing:</strong> Präzise Korrektur der ABCD1-Mutationen</li>
+                        <li><strong>mRNA-Therapie:</strong> Transiente ABCD1-Expression</li>
+                    </ul>
+                    
+                    <p><strong>Biomarker-Entwicklung:</strong></p>
+                    <ul>
+                        <li><strong>Liquid Biopsies:</strong> Neurofilament, GFAP als Progressionsmarker</li>
+                        <li><strong>Advanced MRI:</strong> DTI, MR-Spektroskopie für frühe Detektion</li>
+                        <li><strong>Metabolomics:</strong> Umfassende Lipidprofile als Therapiemonitoring</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 2 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die X-linked Adrenoleukodystrophie umfassend durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 3 mit Rhizomelia chondrodysplasia punctata und Praxisintegration</p>
+                    <button class="next-btn">Weiter zu Teil 3 - RCDP & Praxis →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'pathophysiologie', 'phenotypen', 'therapie'];
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Highlight active nav button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hepatorenale Tyrosinämie - Teil 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            margin: var(--spacing-lg) auto 0;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            width: 0%;
+        }
+
+        /* Part info */
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .part-info p {
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeInStagger {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--bg-white);
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box h4 {
+            color: var(--warning-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        /* Pathway diagram */
+        .pathway-diagram {
+            background: var(--bg-lighter);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .enzyme-box {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .enzyme-box:hover {
+            transform: scale(1.05);
+        }
+
+        .metabolite-box {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            text-align: center;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Next button */
+        .next-section {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: var(--spacing-md);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Hepatorenale Tyrosinämie</h1>
+            <p>Teil 1: Grundlagen & Pathophysiologie</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 1</h3>
+            <p>Dieser erste Teil behandelt Definition, Epidemiologie, Pathophysiologie und klinische Manifestationen der hepatorenalen Tyrosinämie (HT1).</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('definition')">1. Definition</button>
+            <button class="nav-btn" onclick="showSection('epidemiologie')">2. Epidemiologie</button>
+            <button class="nav-btn" onclick="showSection('pathophysiologie')">3. Pathophysiologie</button>
+            <button class="nav-btn" onclick="showSection('klinik')">4. Klinische Manifestationen</button>
+        </div>
+
+        <!-- Definition Section -->
+        <div class="content-section active" id="definition">
+            <h2 class="section-title">Definition & Grundlagen</h2>
+            
+            <div class="subsection">
+                <h3>Was ist hepatorenale Tyrosinämie Typ 1?</h3>
+                <p>Die <strong>hepatorenale Tyrosinämie Typ 1 (HT1)</strong> ist eine seltene, autosomal-rezessiv vererbte Stoffwechselerkrankung im Tyrosinabbau.</p>
+                
+                <div class="highlight-box">
+                    <h4>🎯 Schlüsselmerkmale</h4>
+                    <p><strong>OMIM:</strong> 276700 | <strong>Orpha Code:</strong> 882</p>
+                    <p><strong>Defektes Enzym:</strong> Fumarylazetoazetase/Fumarylazetoazetathydratase (FAH)</p>
+                    <p><strong>Chromosom:</strong> 15q25.1 | <strong>Gen:</strong> FAH (MIM 613871)</p>
+                    <p><strong>Enzym-Klassifikation:</strong> E.C. 3.7.1.2</p>
+                </div>
+
+                <p>HT1 ist die schwerste Form der Tyrosinämien und war bis zur Einführung von Nitisinon (NTBC) in den 1990er Jahren mit einer sehr schlechten Prognose verbunden.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>Historischer Kontext</h3>
+                <p>Bis Anfang der 1990er Jahre gab es keine kausale Therapie für HT1. Die betroffenen Kinder hatten eine deutlich eingeschränkte Lebenserwartung, und die einzige Option war eine Lebertransplantation.</p>
+                
+                <div class="pathway-diagram">
+                    <h4>🏛️ Meilensteine der HT1-Therapie</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #6b7280, #4b5563);">Vor 1990</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Nur symptomatische Therapie<br>Lebertransplantation als einzige Option</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">1990er</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Entdeckung von Nitisinon<br>Compassionate use</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box">2005</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">EMA-Zulassung als Orphan Drug<br>OPAL-Studie</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">Heute</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Etablierte Therapie<br>Deutlich verbesserte Prognose</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Tyrosinämie-Klassifikation</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th>Defektes Enzym</th>
+                            <th>Hauptorgane</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Typ 1 (HT1)</strong></td>
+                            <td>Fumarylazetoazetase (FAH)</td>
+                            <td>Leber, Niere</td>
+                            <td>Schwer, aber therapierbar</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typ 2</strong></td>
+                            <td>Tyrosin-Aminotransferase</td>
+                            <td>Augen, Haut, ZNS</td>
+                            <td>Mild bis moderat</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typ 3</strong></td>
+                            <td>4-Hydroxyphenylpyruvat-Dioxygenase</td>
+                            <td>ZNS</td>
+                            <td>Sehr selten, mild</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Epidemiologie Section -->
+        <div class="content-section" id="epidemiologie">
+            <h2 class="section-title">Epidemiologie</h2>
+            
+            <div class="subsection">
+                <h3>Häufigkeit & Verteilung</h3>
+                <p>HT1 ist eine sehr seltene Erkrankung mit ausgeprägten regionalen Unterschieden in der Prävalenz.</p>
+                
+                <div class="pathway-diagram">
+                    <h4>🌍 Weltweite Inzidenz</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="metabolite-box">Weltweit</div>
+                            <p style="margin: 10px 0;">1:100.000 - 1:120.000</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Quebec (Saguenay)</div>
+                            <p style="margin: 10px 0;">1:1.846<br>(Founder-Effekt)</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">Finnland</div>
+                            <p style="margin: 10px 0;">1:60.000</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">Deutschland</div>
+                            <p style="margin: 10px 0;">1:134.000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Genetische Faktoren</h3>
+                <p>Die regionalen Häufigkeitsunterschiede sind durch verschiedene Founder-Effekte und Gründerpopulationen bedingt.</p>
+                
+                <div class="highlight-box">
+                    <h4>🧬 Wichtige Populationsgenetik</h4>
+                    <ul>
+                        <li><strong>Quebec (Saguenay-Lac-Saint-Jean):</strong> Mutation IVS12+5G>A (c.1062+5G>A)</li>
+                        <li><strong>Finnland:</strong> Verschiedene Mutationen, erhöhte Konsanguinität</li>
+                        <li><strong>Türkei:</strong> Hohe Rate durch Verwandtenehen</li>
+                        <li><strong>Europa:</strong> Über 80 verschiedene Mutationen beschrieben</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <p>Seit der Einführung des erweiterten Neugeborenenscreenings werden mehr Fälle früh erkannt.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Screening seit</th>
+                            <th>Screeningparameter</th>
+                            <th>Detektionsrate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Deutschland</td>
+                            <td>2005</td>
+                            <td>Sukzinylazeton (SA)</td>
+                            <td>>95%</td>
+                        </tr>
+                        <tr>
+                            <td>USA</td>
+                            <td>Variable</td>
+                            <td>SA + Tyrosin</td>
+                            <td>>90%</td>
+                        </tr>
+                        <tr>
+                            <td>Kanada</td>
+                            <td>1970er</td>
+                            <td>SA</td>
+                            <td>>95%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pathophysiologie Section -->
+        <div class="content-section" id="pathophysiologie">
+            <h2 class="section-title">Pathophysiologie</h2>
+            
+            <div class="subsection">
+                <h3>Tyrosin-Abbauweg</h3>
+                <p>HT1 entsteht durch einen Defekt der Fumarylazetoazetase (FAH), dem letzten Enzym im Tyrosinabbauweg.</p>
+                
+                <div class="pathway-diagram">
+                    <h4>🔬 Metabolischer Abbauweg</h4>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Tyrosin</div>
+                            <div style="margin: 5px 0;">↓</div>
+                            <div style="font-size: 0.8em;">Tyrosin-Aminotransferase</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">4-Hydroxyphenylpyruvat</div>
+                            <div style="margin: 5px 0;">↓</div>
+                            <div style="font-size: 0.8em;">4-Hydroxyphenylpyruvat-Dioxygenase</div>
+                            <div style="color: #f97316; font-weight: bold; margin: 5px 0;">← NTBC hemmt hier</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Homogentisat</div>
+                            <div style="margin: 5px 0;">↓</div>
+                            <div style="font-size: 0.8em;">Homogentisat-Dioxygenase</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Maleylacetoacetat</div>
+                            <div style="margin: 5px 0;">↓</div>
+                            <div style="font-size: 0.8em;">Maleylacetoacetat-Isomerase</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Fumarylacetoacetat</div>
+                            <div style="margin: 5px 0;">↓</div>
+                            <div style="font-size: 0.8em; color: #dc2626; font-weight: bold;">FAH (DEFEKT!)</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Fumarat + Acetoacetat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Toxische Metabolite</h3>
+                <p>Durch den FAH-Defekt akkumulieren toxische Metabolite, die die charakteristischen Organschäden verursachen.</p>
+                
+                <div class="highlight-box">
+                    <h4>☠️ Haupttoxine bei HT1</h4>
+                    <p><strong>Sukzinylazeton (SA):</strong> Biomarker und Nephrotoxin</p>
+                    <p><strong>Fumarylacetoacetat:</strong> Hepatotoxin, DNA-alkylierend</p>
+                    <p><strong>Maleylacetoacetat:</strong> Hepatotoxin</p>
+                    <p><strong>δ-Aminolävulinsäure:</strong> Neurotoxin (Porphyrie-ähnlich)</p>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Metabolit</th>
+                            <th>Entstehung</th>
+                            <th>Toxizität</th>
+                            <th>Klinische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sukzinylazeton</strong></td>
+                            <td>Spontane Zyklisierung</td>
+                            <td>Niere (tubulärer Schaden)</td>
+                            <td>Biomarker, Screening</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fumarylacetoacetat</strong></td>
+                            <td>Direkter Substrataufstau</td>
+                            <td>Leber (DNA-Alkylierung)</td>
+                            <td>Karzinogenese, Zirrhose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>δ-Aminolävulinsäure</strong></td>
+                            <td>Häm-Synthese-Hemmung</td>
+                            <td>Nervensystem</td>
+                            <td>Porphyrie-Krisen</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathomechanismen</h3>
+                <div class="pathway-diagram">
+                    <h4>🎯 Organtoxizität</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center; padding: 15px; background: #fef2f2; border-radius: 8px; border: 1px solid #fecaca;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">🫀 Leber</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">DNA-Alkylierung<br>→ Mutationen<br>→ HCC-Risiko</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">🫘 Niere</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">Tubuläre Toxizität<br>→ Rachitis<br>→ Azidose</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f5f3ff; border-radius: 8px; border: 1px solid #d8b4fe;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🧠 Nervensystem</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">ALA-Akkumulation<br>→ Neuropathie<br>→ Krisen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Klinik Section -->
+        <div class="content-section" id="klinik">
+            <h2 class="section-title">Klinische Manifestationen</h2>
+            
+            <div class="subsection">
+                <h3>Verlaufsformen nach Manifestationsalter</h3>
+                <p>HT1 zeigt ein phänotypisches Kontinuum, wobei der Schweregrad mit der FAH-Restaktivität korreliert.</p>
+                
+                <div class="pathway-diagram">
+                    <h4>📊 Altersabhängige Symptome</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">👶 Akute Form (0-2 Monate)</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Hepatomegalie + Leberfunktionsstörung</li>
+                                <li>Akutes Leberversagen möglich</li>
+                                <li>Schwere Gedeihstörung</li>
+                                <li>Hohe Mortalität unbehandelt</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🍼 Subakute Form (2-12 Monate)</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Hepatomegalie</li>
+                                <li>Gedeihstörung</li>
+                                <li>Rachitis (Vitamin D-resistent)</li>
+                                <li>Renale Tubulopathie</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🧒 Chronische Form (>12 Monate)</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Leberzirrhose</li>
+                                <li>Renale Tubulusfunktionsstörung</li>
+                                <li>Gedeihstörung</li>
+                                <li>Spätkomplikationen: HCC, neurolog. Defizite</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kardinalsymptome</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organsystem</th>
+                            <th>Symptome</th>
+                            <th>Pathomechanismus</th>
+                            <th>Häufigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Leber</strong></td>
+                            <td>Hepatomegalie, Ikterus, Gerinnungsstörung, Hypoglykämie</td>
+                            <td>Hepatozytentoxizität</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Niere</strong></td>
+                            <td>Tubulopathie, Rachitis, Proteinurie, Kleinwuchs</td>
+                            <td>Tubuläre Toxizität</td>
+                            <td>80-90%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nervensystem</strong></td>
+                            <td>Porphyrie-Krisen, Neuropathie, Dysästhesien</td>
+                            <td>δ-ALA-Akkumulation</td>
+                            <td>15-20%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wachstum</strong></td>
+                            <td>Gedeihstörung, Kleinwuchs</td>
+                            <td>Multifaktoriell</td>
+                            <td>70-80%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Porphyrie-ähnliche Krisen</h3>
+                <p>Ein charakteristisches Merkmal von HT1 sind akute neurologische Krisen, die der akuten intermittierenden Porphyrie ähneln.</p>
+                
+                <div class="highlight-box">
+                    <h4>⚡ Klinische Zeichen der Porphyrie-Krisen</h4>
+                    <ul>
+                        <li><strong>Neurologie:</strong> Periphere Neuropathie, Lähmungen, Parästhesien</li>
+                        <li><strong>Vegetativ:</strong> Bauchschmerzen, Erbrechen, Obstipation</li>
+                        <li><strong>Psychiatrisch:</strong> Verwirrtheit, Halluzinationen, Agitation</li>
+                        <li><strong>Labor:</strong> Erhöhte δ-Aminolävulinsäure im Urin</li>
+                        <li><strong>Auslöser:</strong> Infekte, Medikamente, Fasten, Stress</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Langzeitkomplikationen</h3>
+                <div class="pathway-diagram">
+                    <h4>⚠️ Spätkomplikationen bei unbehandelter HT1</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🎯 Hepatozelluläres Karzinom (HCC)</h5>
+                            <ul style="font-size: 0.9em;">
+                                <li>Risiko: >90% bis zum 16. Lebensjahr</li>
+                                <li>Frühe Entstehung möglich (ab 1. Lebensjahr)</li>
+                                <li>Multiple Herde häufig</li>
+                                <li>Therapie: Lebertransplantation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🧠 Neurokognitive Defizite</h5>
+                            <ul style="font-size: 0.9em;">
+                                <li>Aufmerksamkeitsdefizite</li>
+                                <li>Exekutive Funktionsstörungen</li>
+                                <li>Visuell-räumliche Probleme</li>
+                                <li>Häufiger bei später Diagnose</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="next-section">
+            <p style="margin-bottom: 16px; color: var(--text-muted);">Sie haben Teil 1 abgeschlossen! Fahren Sie mit Teil 2 fort für Diagnostik, Therapie und Monitoring.</p>
+            <button class="next-btn" onclick="alert('Teil 2 wird als nächstes erstellt: Diagnostik, Therapie und Monitoring')">
+                ➡️ Weiter zu Teil 2
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentProgress = 0;
+        const totalSections = 4;
+        
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update navigation
+            event.target.classList.add('active');
+            
+            // Update progress
+            const sectionOrder = ['definition', 'epidemiologie', 'pathophysiologie', 'klinik'];
+            currentProgress = (sectionOrder.indexOf(sectionName) + 1) / totalSections * 100;
+            document.getElementById('progressBar').style.width = currentProgress + '%';
+            
+            // Trigger animations
+            setTimeout(() => {
+                const activeSection = document.querySelector('.content-section.active');
+                const subsections = activeSection.querySelectorAll('.subsection');
+                subsections.forEach((subsection, index) => {
+                    subsection.style.animationDelay = (index * 0.1) + 's';
+                });
+            }, 100);
+        }
+
+        // Initialize progress
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('definition');
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const sections = ['definition', 'epidemiologie', 'pathophysiologie', 'klinik'];
+            const currentIndex = sections.findIndex(section => 
+                document.getElementById(section).classList.contains('active')
+            );
+            
+            if (e.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+                const nextButton = document.querySelector(`.nav-btn[onclick*="${sections[currentIndex + 1]}"]`);
+                nextButton.click();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                const prevButton = document.querySelector(`.nav-btn[onclick*="${sections[currentIndex - 1]}"]`);
+                prevButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

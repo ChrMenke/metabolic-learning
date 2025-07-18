@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lysosomale Speicherkrankheiten - Teil 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Diagnostic flow */
+        .diagnostic-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-width: 320px;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--info-color);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Lysosomale Speicherkrankheiten</h1>
+            <p>Teil 1: Grundlagen & Mukopolysaccharidosen</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 1</h3>
+            <p>Dieser erste Teil behandelt die Grundlagen lysosomaler Speicherkrankheiten und die detaillierte Darstellung der Mukopolysaccharidosen (MPS I-VII).</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('biochemie')">2. Biochemie</button>
+            <button class="nav-btn" onclick="showSection('mps')">3. Mukopolysaccharidosen</button>
+            <button class="nav-btn" onclick="showSection('diagnostik')">4. Diagnostik</button>
+        </div>
+
+        <!-- Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen lysosomaler Speicherkrankheiten</h2>
+
+            <div class="subsection">
+                <h3>Definition und Überblick</h3>
+                <p>Lysosomale Speicherkrankheiten sind angeborene Stoffwechseldefekte, bei denen Enzymdefekte zu einer pathologischen Akkumulation von Substraten in den Lysosomen führen. Mit über 70 verschiedenen Erkrankungen stellen sie eine der größten Gruppen der Speicherkrankheiten dar.</p>
+                
+                <div class="highlight-box">
+                    <h4>Hauptkategorien lysosomaler Speicherkrankheiten</h4>
+                    <ul>
+                        <li><strong>Mukopolysaccharidosen (MPS)</strong> - Glykosaminoglykan-Abbau gestört</li>
+                        <li><strong>Sphingolipidosen</strong> - Sphingolipid-Metabolismus betroffen</li>
+                        <li><strong>Oligosaccharidosen</strong> - Oligosaccharid-Abbau defekt</li>
+                        <li><strong>Mukolipidosen</strong> - Multiple Enzymdefekte</li>
+                        <li><strong>Glykogenose Typ II</strong> - Lysosomale Glykogenakkumulation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Epidemiologie und Genetik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankungsgruppe</th>
+                            <th>Gesamtinzidenz</th>
+                            <th>Häufigste Formen</th>
+                            <th>Vererbung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mukopolysaccharidosen</strong></td>
+                            <td>1:25.000</td>
+                            <td>MPS I, II, III, VI</td>
+                            <td>Autosomal-rezessiv (außer MPS II)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sphingolipidosen</strong></td>
+                            <td>1:40.000</td>
+                            <td>Gaucher, Niemann-Pick</td>
+                            <td>Autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Morbus Pompe</strong></td>
+                            <td>1:40.000</td>
+                            <td>Infantile/Spätform</td>
+                            <td>Autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mukolipidosen</strong></td>
+                            <td>1:100.000</td>
+                            <td>ML II/III</td>
+                            <td>Autosomal-rezessiv</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathophysiologie - Grundprinzipien</h3>
+                <div class="pathway-diagram">
+                    <h4>Der lysosomale Abbauweg</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Makromolekül</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Endozytose</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Endosom</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Aufnahme und Transport</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Endosom</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Lysosom-Fusion</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Phago-/Autolysosom</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Lysosomale Fusion</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Substrat</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">Lysosomales Enzym</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Abbauprodukte</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Enzymatischer Abbau (Defekt-Stelle)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Abbauprodukte</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Transport</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Zytoplasmaverwertung</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Produkttransport und Recycling</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gemeinsame klinische Merkmale</h3>
+                <div class="pathway-diagram">
+                    <h4>Organmanifestation bei lysosomalen Speicherkrankheiten</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">🧠 ZNS</h5>
+                            <p style="color: #dc2626;">Entwicklungsrückstand</p>
+                            <p style="color: #dc2626;">Neurodegeneration</p>
+                            <p style="color: #dc2626;">Krampfanfälle</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 12px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🦴 Skelett</h5>
+                            <p style="color: #16a34a;">Dysostosis multiplex</p>
+                            <p style="color: #16a34a;">Kleinwuchs</p>
+                            <p style="color: #16a34a;">Gelenksteife</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">👁️ Augen</h5>
+                            <p style="color: #ea580c;">Hornhauttrübung</p>
+                            <p style="color: #ea580c;">Retinopathie</p>
+                            <p style="color: #ea580c;">Sehstörungen</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 12px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 15px;">❤️ Kardial</h5>
+                            <p style="color: #2563eb;">Kardiomyopathie</p>
+                            <p style="color: #2563eb;">Klappendefekte</p>
+                            <p style="color: #2563eb;">Arrhythmien</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f3f4f6, #e5e7eb); border-radius: 12px; border: 2px solid #6b7280;">
+                            <h5 style="color: #4b5563; margin-bottom: 15px;">🫁 Pulmonal</h5>
+                            <p style="color: #4b5563;">Atemwegsverlegung</p>
+                            <p style="color: #4b5563;">Restriktive Ventilation</p>
+                            <p style="color: #4b5563;">Schlafapnoe</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fdf4ff, #fae8ff); border-radius: 12px; border: 2px solid #a855f7;">
+                            <h5 style="color: #7c3aed; margin-bottom: 15px;">🔊 HNO</h5>
+                            <p style="color: #7c3aed;">Hörverlust</p>
+                            <p style="color: #7c3aed;">Adenotonsilläre Hypertrophie</p>
+                            <p style="color: #7c3aed;">Rhinitis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('biochemie')">Weiter zur Biochemie →</button>
+            </div>
+        </div>
+
+        <!-- Biochemie -->
+        <div class="content-section" id="biochemie">
+            <h2 class="section-title">⚗️ Biochemische Grundlagen</h2>
+
+            <div class="subsection">
+                <h3>Lysosomale Enzyme und ihre Funktion</h3>
+                <div class="pathway-diagram">
+                    <h4>Enzymatische Ausstattung der Lysosomen</h4>
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">
+                        <p><strong>Über 60 verschiedene hydrolytische Enzyme:</strong></p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div>
+                                <h5 style="color: #2563eb; margin-bottom: 10px;">Kohlenhydrat-abbauende Enzyme</h5>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">α-Glukosidase (Pompe)</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">β-Galaktosidase</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">α-Mannosidase</div>
+                            </div>
+                            
+                            <div>
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">Lipid-abbauende Enzyme</h5>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #dc2626, #b91c1c); text-align: center;">β-Glukozerebrosidase</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #dc2626, #b91c1c); text-align: center;">Sphingomyelinase</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #dc2626, #b91c1c); text-align: center;">Hexosaminidase A</div>
+                            </div>
+                            
+                            <div>
+                                <h5 style="color: #16a34a; margin-bottom: 10px;">GAG-abbauende Enzyme</h5>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #16a34a, #15803d); text-align: center;">α-L-Iduronidase</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #16a34a, #15803d); text-align: center;">Iduronat-2-Sulfatase</div>
+                                <div class="metabolite-box" style="margin: 5px 0; width: 100%; background: linear-gradient(135deg, #16a34a, #15803d); text-align: center;">Arylsulfatase B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lysosomaler Transport und Targeting</h3>
+                <div class="case-study">
+                    <h4>🔬 Mannose-6-Phosphat System</h4>
+                    <p><strong>Klassischer Weg der Enzym-Sortierung:</strong></p>
+                    <ul>
+                        <li>Neu-synthetisierte lysosomale Enzyme erhalten M6P-Markierung</li>
+                        <li>M6P-Rezeptoren im Trans-Golgi erkennen markierte Enzyme</li>
+                        <li>Transport in Clathrin-beschichteten Vesikeln</li>
+                        <li>Fusion mit Endosomen, dann mit Lysosomen</li>
+                    </ul>
+                    
+                    <p><strong>Defekte im Targeting (Mukolipidosen):</strong></p>
+                    <ul>
+                        <li><strong>ML II (I-Cell Disease):</strong> N-Acetylglukosamin-1-Phosphotransferase-Defekt</li>
+                        <li><strong>ML III:</strong> Partieller Phosphotransferase-Defekt</li>
+                        <li>Folge: Multiple Enzymdefekte durch falsches Targeting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Speichersubstrate und ihre Herkunft</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Substratklasse</th>
+                            <th>Normale Funktion</th>
+                            <th>Beispiele</th>
+                            <th>Hauptquelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Glykosaminoglykane</strong></td>
+                            <td>Strukturkomponente der EZM</td>
+                            <td>Heparansulfat, Dermatansulfat</td>
+                            <td>Bindegewebe, Knorpel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sphingolipide</strong></td>
+                            <td>Membrankomponenten</td>
+                            <td>GM2-Gangliosid, Glukosylceramid</td>
+                            <td>Nervensystem, alle Zellen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glykogen</strong></td>
+                            <td>Glukosespeicher</td>
+                            <td>Lysosomales Glykogen</td>
+                            <td>Muskel, Leber</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oligosaccharide</strong></td>
+                            <td>Glykoprotein-Seitenketten</td>
+                            <td>Mannose-reiche Oligosaccharide</td>
+                            <td>Glykoproteinstoffwechsel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Zelluläre Pathophysiologie</h3>
+                <div class="pathway-diagram">
+                    <h4>Von der Speicherung zur Organschädigung</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #fca5a5;">
+                        <div class="enzyme-box defect" style="font-size: 1.1em;">Enzymdefekt</div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</span>
+                        
+                        <div class="enzyme-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">Substratakkumulation</div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</span>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                            <div style="text-align: center;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">Lysosomale Schwellung</div>
+                                <p style="font-size: 0.9em; color: #dc2626; margin-top: 10px;">Zellvolumen ↑</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Autophagiedefekt</div>
+                                <p style="font-size: 0.9em; color: #dc2626; margin-top: 10px;">Zellerneuerung ↓</p>
+                            </div>
+                        </div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</span>
+                        
+                        <div class="enzyme-box" style="background: linear-gradient(135deg, #b91c1c, #991b1b);">Zellfunktionsstörung</div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</span>
+                        
+                        <div class="enzyme-box" style="background: linear-gradient(135deg, #991b1b, #7f1d1d);">Organschädigung</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Sekundäre zelluläre Effekte</h3>
+                <div class="highlight-box">
+                    <h4>Komplex der Zellschädigung</h4>
+                    
+                    <p><strong>Autophagie-Lysosom System (ALS) Störung:</strong></p>
+                    <ul>
+                        <li>Beeinträchtigte Organellen-Qualitätskontrolle</li>
+                        <li>Akkumulation geschädigter Mitochondrien</li>
+                        <li>Reduzierte zelluläre Stressresistenz</li>
+                    </ul>
+                    
+                    <p><strong>Inflammatorische Kaskade:</strong></p>
+                    <ul>
+                        <li>Aktivierung von Mikroglia (ZNS)</li>
+                        <li>Zytokin-Release (IL-1β, TNF-α)</li>
+                        <li>Chronische neuroinflammatorische Prozesse</li>
+                    </ul>
+                    
+                    <p><strong>Metabolische Sekundäreffekte:</strong></p>
+                    <ul>
+                        <li>mTOR-Pathway Dysregulation</li>
+                        <li>Veränderte Lipid-Homöostase</li>
+                        <li>Calcium-Handling Störungen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('mps')">Zu den Mukopolysaccharidosen →</button>
+            </div>
+        </div>
+
+        <!-- Mukopolysaccharidosen -->
+        <div class="content-section" id="mps">
+            <h2 class="section-title">🧬 Mukopolysaccharidosen (MPS I-VII)</h2>
+
+            <div class="subsection">
+                <h3>Übersicht und Klassifikation</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>MPS Typ</th>
+                            <th>Enzymdefekt</th>
+                            <th>Speichersubstrat</th>
+                            <th>Schweregrad</th>
+                            <th>ZNS-Beteiligung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MPS I</strong></td>
+                            <td>α-L-Iduronidase</td>
+                            <td>Heparansulfat, Dermatansulfat</td>
+                            <td>Mild - Schwer</td>
+                            <td>Schwere Formen: Ja</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS II</strong></td>
+                            <td>Iduronat-2-Sulfatase</td>
+                            <td>Heparansulfat, Dermatansulfat</td>
+                            <td>Mild - Schwer</td>
+                            <td>Schwere Form: Ja</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS III</strong></td>
+                            <td>4 verschiedene Enzyme</td>
+                            <td>Heparansulfat</td>
+                            <td>Variabel</td>
+                            <td>Schwer betroffen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS IV</strong></td>
+                            <td>GALNS / β-Galaktosidase</td>
+                            <td>Keratansulfat, C6S</td>
+                            <td>Mild - Schwer</td>
+                            <td>Nein</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS VI</strong></td>
+                            <td>Arylsulfatase B</td>
+                            <td>Dermatansulfat</td>
+                            <td>Mild - Schwer</td>
+                            <td>Nein</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS VII</strong></td>
+                            <td>β-Glukuronidase</td>
+                            <td>Heparansulfat, Dermatansulfat, C4S</td>
+                            <td>Sehr variabel</td>
+                            <td>Ja</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>MPS I (Morbus Hurler/Scheie/Hurler-Scheie)</h3>
+                <div class="case-study">
+                    <h4>🔬 Klinische Subtypen</h4>
+                    
+                    <p><strong>MPS IH (Hurler-Syndrom) - Schwere Form:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Erste 2 Lebensjahre</li>
+                        <li><strong>ZNS:</strong> Progressive geistige Behinderung</li>
+                        <li><strong>Skelett:</strong> Ausgeprägte Dysostosis multiplex</li>
+                        <li><strong>Augen:</strong> Hornhauttrübung</li>
+                        <li><strong>Prognose:</strong> Tod meist vor 10. Lebensjahr</li>
+                    </ul>
+                    
+                    <p><strong>MPS IS (Scheie-Syndrom) - Milde Form:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Später Beginn</li>
+                        <li><strong>ZNS:</strong> Normale Intelligenz</li>
+                        <li><strong>Skelett:</strong> Milde skelettale Veränderungen</li>
+                        <li><strong>Besonderheiten:</strong> Karpaltunnelsyndrom häufig</li>
+                        <li><strong>Prognose:</strong> Normale Lebenserwartung möglich</li>
+                    </ul>
+                    
+                    <p><strong>MPS IH/S (Hurler-Scheie) - Intermediär:</strong></p>
+                    <ul>
+                        <li>Merkmale beider Formen in mittlerer Ausprägung</li>
+                        <li>Variable ZNS-Beteiligung</li>
+                        <li>Lebensdauer oft bis ins Erwachsenenalter</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>ERT und HSCT bei MPS I</h4>
+                    <p><strong>Enzymersatztherapie (Laronidase):</strong></p>
+                    <ul>
+                        <li>Dosierung: 0,58 mg/kg wöchentlich i.v.</li>
+                        <li>Effekte: Organomegalie ↓, Lungenfunktion ↑, 6-min-Gehtest ↑</li>
+                        <li>Limitation: Penetriert nicht ZNS oder Augen/Knochen</li>
+                    </ul>
+                    
+                    <p><strong>Hämatopoetische Stammzelltransplantation:</strong></p>
+                    <ul>
+                        <li>Indikation: MPS IH vor 2. Lebensjahr</li>
+                        <li>Ziel: ZNS-Progression stoppen</li>
+                        <li>Outcome: Cognitive Entwicklung stabilisiert</li>
+                        <li>Timing crucial: Je früher, desto besser</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>MPS II (Morbus Hunter)</h3>
+                <div class="pathway-diagram">
+                    <h4>Besonderheiten der X-chromosomalen Vererbung</h4>
+                    <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #3b82f6;">
+                        <p><strong>Genetische Besonderheiten:</strong></p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0;">
+                            <div>
+                                <h5 style="color: #2563eb; margin-bottom: 10px;">Betroffene Männer</h5>
+                                <ul style="color: #2563eb;">
+                                    <li>Hemizygot für IDS-Gen</li>
+                                    <li>Vollständige Manifestation</li>
+                                    <li>Zwei Phänotypen: mild/schwer</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 style="color: #2563eb; margin-bottom: 10px;">Heterozygote Frauen</h5>
+                                <ul style="color: #2563eb;">
+                                    <li>X-Inaktivierung variabel</li>
+                                    <li>Meist asymptomatisch</li>
+                                    <li>Gelegentlich milde Symptome</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Merkmal</th>
+                            <th>Schwere Form</th>
+                            <th>Milde Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ZNS-Beteiligung</strong></td>
+                            <td>Ja, progredient</td>
+                            <td>Nein</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manifestationsalter</strong></td>
+                            <td>2-4 Jahre</td>
+                            <td>10-15 Jahre</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hornhauttrübung</strong></td>
+                            <td>Nein (Differenzierung zu MPS I!)</td>
+                            <td>Nein</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lebenserwartung</strong></td>
+                            <td>2.-3. Lebensjahrzehnt</td>
+                            <td>Nahezu normal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ERT verfügbar</strong></td>
+                            <td>Ja (Idursulfase)</td>
+                            <td>Ja (Idursulfase)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>MPS III (Morbus Sanfilippo A-D)</h3>
+                <div class="case-study">
+                    <h4>🧠 Die "ZNS-MPS"</h4>
+                    
+                    <p><strong>Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Hauptmerkmal:</strong> Schwere ZNS-Degeneration bei relativ milden somatischen Symptomen</li>
+                        <li><strong>Speichersubstrat:</strong> Ausschließlich Heparansulfat</li>
+                        <li><strong>4 Subtypen:</strong> IIIA (häufigste), IIIB, IIIC, IIID</li>
+                    </ul>
+                    
+                    <p><strong>Klinischer Verlauf in 3 Phasen:</strong></p>
+                    <ul>
+                        <li><strong>Phase 1 (2-6 Jahre):</strong> Entwicklungsverzögerung, Hyperaktivität</li>
+                        <li><strong>Phase 2 (6-10 Jahre):</strong> Verhaltensstörungen, Schlafstörungen, Aggressivität</li>
+                        <li><strong>Phase 3 (>10 Jahre):</strong> Progressive Demenz, Verlust motorischer Fähigkeiten</li>
+                    </ul>
+                    
+                    <p><strong>Therapeutische Herausforderungen:</strong></p>
+                    <ul>
+                        <li>Keine etablierte ERT (ZNS-Penetration Problem)</li>
+                        <li>Experimentelle Ansätze: Gentherapie, Substrate Reduction</li>
+                        <li>Symptomatische Therapie: Verhalten, Schlaf, Epilepsie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>MPS IV (Morbus Morquio A/B)</h3>
+                <div class="highlight-box">
+                    <h4>Die skelett-dominante MPS</h4>
+                    
+                    <p><strong>MPS IVA (GALNS-Defekt):</strong></p>
+                    <ul>
+                        <li><strong>Häufigkeit:</strong> 95% aller MPS IV Fälle</li>
+                        <li><strong>Speicher:</strong> Keratansulfat, Chondroitin-6-sulfat</li>
+                        <li><strong>ERT verfügbar:</strong> Elosulfase alfa</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Intellekt:</strong> Normal (wichtigste Abgrenzung!)</li>
+                        <li><strong>Skelett:</strong> Universelle Platyspondylie, Pectus carinatum</li>
+                        <li><strong>Komplikationen:</strong> Atlantoaxiale Instabilität (lebensbedrohlich!)</li>
+                        <li><strong>Gelenke:</strong> Laxität (im Gegensatz zu anderen MPS)</li>
+                        <li><strong>Hornhaut:</strong> Feine punktförmige Trübungen</li>
+                    </ul>
+                    
+                    <p><strong>Kritische Komplikation - Zervikale Myelopathie:</strong></p>
+                    <ul>
+                        <li>Odontoid-Hypoplasie mit atlantoaxialer Instabilität</li>
+                        <li>Notwendigkeit: Regelmäßige MRT der HWS</li>
+                        <li>Bei Instabilität: Neurochirurgische Fusion indiziert</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>MPS VI (Morbus Maroteaux-Lamy)</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organmanifest.</th>
+                            <th>Milde Form</th>
+                            <th>Schwere Form</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                            <td>Wichtigste Abgrenzung zu MPS I/II</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skelett</strong></td>
+                            <td>Milde Dysostosis</td>
+                            <td>Schwere Dysostosis</td>
+                            <td>Gibbusbildung häufig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardial</strong></td>
+                            <td>Milde Klappenfehler</td>
+                            <td>Schwere Kardiomyopathie</td>
+                            <td>Haupttodesursache</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Augen</strong></td>
+                            <td>Hornhauttrübung</td>
+                            <td>Hornhauttrübung</td>
+                            <td>Kornealer Hydrops möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Therapie</strong></td>
+                            <td>ERT (Galsulfase)</td>
+                            <td>ERT (Galsulfase)</td>
+                            <td>Alle 2 Wochen 1 mg/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('diagnostik')">Zur Diagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Diagnostik -->
+        <div class="content-section" id="diagnostik">
+            <h2 class="section-title">🔬 Diagnostik lysosomaler Speicherkrankheiten</h2>
+
+            <div class="subsection">
+                <h3>Diagnostisches Vorgehen</h3>
+                <div class="diagnostic-flow">
+                    <div class="flow-step">
+                        <strong>Klinischer Verdacht</strong><br>
+                        Organomegalie + Entwicklungsrückstand?<br>
+                        Dysostosis multiplex?
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Urinscreening</strong><br>
+                        GAGs quantitativ/qualitativ<br>
+                        Oligosaccharide
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Enzymdiagnostik</strong><br>
+                        Trockenblut / Leukozyten<br>
+                        Kultivierte Fibroblasten
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Molekulargenetik</strong><br>
+                        Mutationsanalyse<br>
+                        Familienscreening
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Urinscreening bei MPS</h3>
+                <div class="pathway-diagram">
+                    <h4>GAG-Ausscheidungsmuster</h4>
+                    <table class="clinical-table">
+                        <thead>
+                            <tr>
+                                <th>MPS Typ</th>
+                                <th>Heparansulfat</th>
+                                <th>Dermatansulfat</th>
+                                <th>Keratansulfat</th>
+                                <th>Chondroitin-4-sulfat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MPS I</strong></td>
+                                <td>++</td>
+                                <td>++</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MPS II</strong></td>
+                                <td>++</td>
+                                <td>++</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MPS III</strong></td>
+                                <td>+++</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MPS IV</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>+++</td>
+                                <td>(+)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MPS VI</strong></td>
+                                <td>-</td>
+                                <td>+++</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MPS VII</strong></td>
+                                <td>++</td>
+                                <td>++</td>
+                                <td>-</td>
+                                <td>++</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Enzymdiagnostik - Methodische Aspekte</h3>
+                <div class="case-study">
+                    <h4>🧪 Analytische Ansätze</h4>
+                    
+                    <p><strong>Trockenblut (DBS - Dried Blood Spot):</strong></p>
+                    <ul>
+                        <li><strong>Vorteile:</strong> Einfach, versendbar, Neugeborenenscreening-tauglich</li>
+                        <li><strong>Verfügbar für:</strong> MPS I, II, IIIB, IVA, VI, Pompe, Gaucher, Krabbe</li>
+                        <li><strong>Methoden:</strong> Fluorimetrie, MS/MS</li>
+                        <li><strong>Limitation:</strong> Pseudodefekte durch Inhibitoren möglich</li>
+                    </ul>
+                    
+                    <p><strong>Leukozyten-basierte Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Methode:</strong> Frische oder gefrorene Leukozyten</li>
+                        <li><strong>Substrat:</strong> 4-Methylumbelliferyl-Substrate</li>
+                        <li><strong>Vorteil:</strong> Höhere Spezifität als DBS</li>
+                        <li><strong>Nachteil:</strong> Aufwendigere Logistik</li>
+                    </ul>
+                    
+                    <p><strong>Fibroblasten-Kultur (Goldstandard):</strong></p>
+                    <ul>
+                        <li><strong>Indikation:</strong> Bestätigung grenzwertiger Befunde</li>
+                        <li><strong>Weitere Tests:</strong> Komplementationsanalyse, Substratakkumulation</li>
+                        <li><strong>Dauer:</strong> 2-3 Wochen für Kultivierung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <div class="highlight-box">
+                    <h4>Lysosomale Erkrankungen im NGS</h4>
+                    
+                    <p><strong>Aktuell gescreente Erkrankungen (international):</strong></p>
+                    <ul>
+                        <li><strong>MPS I:</strong> USA, Taiwan seit >10 Jahren</li>
+                        <li><strong>Morbus Pompe:</strong> USA, Taiwan, Italien</li>
+                        <li><strong>Morbus Gaucher:</strong> Pilotprojekte</li>
+                        <li><strong>Morbus Krabbe:</strong> New York State</li>
+                    </ul>
+                    
+                    <p><strong>Deutschland - Aktuelle Situation:</strong></p>
+                    <ul>
+                        <li>Noch keine lysosomalen Erkrankungen im Regel-NGS</li>
+                        <li>Pilotprojekte in Planung/Durchführung</li>
+                        <li>Diskussion über MPS I und Pompe</li>
+                    </ul>
+                    
+                    <p><strong>Herausforderungen:</strong></p>
+                    <ul>
+                        <li><strong>Pseudodefekte:</strong> 1-5% falsch-positive Rate</li>
+                        <li><strong>Spätmanifeste Formen:</strong> Therapieindikation unklar</li>
+                        <li><strong>Therapieverfügbarkeit:</strong> Nicht für alle Erkrankungen</li>
+                        <li><strong>Kosten-Nutzen:</strong> Hohe Therapiekosten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Differentialdiagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Leitsymptom</th>
+                            <th>Verdachtsdiagnosen</th>
+                            <th>Ausschlussdiagnostik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hepatosplenomegalie</strong></td>
+                            <td>Gaucher, Niemann-Pick, MPS I/II/VII</td>
+                            <td>Chitotriosidase, Enzymaktivität</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hornhauttrübung</strong></td>
+                            <td>MPS I/IV/VI/VII, Mukolipidosen</td>
+                            <td>Urin-GAGs, spezifische Enzyme</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardiomyopathie</strong></td>
+                            <td>Pompe, Danon, Fabry</td>
+                            <td>α-Glukosidase, α-Galaktosidase</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dysostosis multiplex</strong></td>
+                            <td>Alle MPS, Mukolipidosen</td>
+                            <td>Radiologie-Score, Urin-GAGs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS-Degeneration</strong></td>
+                            <td>MPS I/II/III/VII, Sphingolipidosen</td>
+                            <td>MRT-Pattern, Enzymdiagnostik</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Bildgebende Diagnostik</h3>
+                <div class="case-study">
+                    <h4>📱 Radiologische Charakteristika</h4>
+                    
+                    <p><strong>Dysostosis multiplex - Typische Veränderungen:</strong></p>
+                    <ul>
+                        <li><strong>Schädel:</strong> Makrozephalus, J-förmige Sella turcica</li>
+                        <li><strong>Wirbelsäule:</strong> Platyspondylie, Kyphoskoliose, Gibbus</li>
+                        <li><strong>Thorax:</strong> Paddelrippen, Pectus carinatum</li>
+                        <li><strong>Becken:</strong> Flache Azetabula, Coxa valga</li>
+                        <li><strong>Extremitäten:</strong> Verkürzung, Gelenkversteifung</li>
+                    </ul>
+                    
+                    <p><strong>MRT-Befunde ZNS (bei ZNS-MPS):</strong></p>
+                    <ul>
+                        <li><strong>T2-Hyperintensitäten:</strong> Periventrikulär, Balken</li>
+                        <li><strong>Atrophie:</strong> Kortex und Stammhirn progredient</li>
+                        <li><strong>Speicherung:</strong> Vergrößerte Virchow-Robin-Räume</li>
+                        <li><strong>Komplikation:</strong> Hydrozephalus bei Kleinhirnatrophie</li>
+                    </ul>
+                    
+                    <p><strong>Karpaltunnelsyndrom (häufig bei MPS IS, VI):</strong></p>
+                    <ul>
+                        <li>Oft eines der ersten Symptome bei Erwachsenen</li>
+                        <li>Elektroneurographie zur Bestätigung</li>
+                        <li>Operative Dekompression meist erforderlich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen und Mukopolysaccharidosen erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit Sphingolipidosen, Morbus Pompe und therapeutischen Optionen</p>
+                    <button class="next-btn">Weiter zu Teil 2 →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'biochemie', 'mps', 'diagnostik'];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

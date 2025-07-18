@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmationsdiagnostik - Finale: Algorithmen II & Praxis</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --purple-color: #8b5cf6;
+            --teal-color: #14b8a6;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, var(--success-color), var(--teal-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--success-color), var(--teal-color));
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .algorithm-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .mini-algorithm {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mini-algorithm:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mini-header {
+            padding: var(--spacing-md);
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .mini-header.vlcad {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+        }
+
+        .mini-header.lchad {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .mini-header.galactose {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .mini-header.biotin {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .mini-content {
+            padding: var(--spacing-md);
+        }
+
+        .mini-flow {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin: var(--spacing-sm) 0;
+        }
+
+        .mini-step {
+            background: var(--bg-light);
+            padding: var(--spacing-xs);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .mini-step.start {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-color: var(--info-color);
+        }
+
+        .mini-step.critical {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .case-study-container {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin: var(--spacing-xl) 0;
+            overflow: hidden;
+        }
+
+        .case-study-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .case-study-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .case-tabs {
+            display: flex;
+            background: #f1f5f9;
+            overflow-x: auto;
+        }
+
+        .case-tab {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: #e2e8f0;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .case-tab.active {
+            background: var(--bg-white);
+            color: var(--primary-color);
+        }
+
+        .case-tab:hover {
+            background: var(--bg-white);
+        }
+
+        .case-content {
+            padding: var(--spacing-lg);
+            display: none;
+        }
+
+        .case-content.active {
+            display: block;
+        }
+
+        .patient-info {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .lab-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-sm);
+            margin: var(--spacing-md) 0;
+        }
+
+        .lab-value {
+            background: var(--bg-light);
+            padding: var(--spacing-sm);
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .lab-value.abnormal {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .lab-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .lab-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .quiz-container {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin: var(--spacing-xl) 0;
+            overflow: hidden;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--purple-color), #7c3aed);
+            color: white;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .quiz-content {
+            padding: var(--spacing-lg);
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .quiz-option {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(4px);
+        }
+
+        .quiz-option.selected {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: var(--success-color);
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: var(--danger-color);
+            animation: incorrectShake 0.6s ease-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .quiz-feedback {
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid var(--success-color);
+        }
+
+        .quiz-feedback.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 1px solid var(--danger-color);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .summary-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-card h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+        }
+
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .completion-ceremony {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 3px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .completion-ceremony h2 {
+            color: var(--success-color);
+            font-size: 2rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .completion-ceremony .trophy {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-lg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .page-number {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-xl);
+        }
+
+        .nav-btn, .final-btn {
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+        }
+
+        .final-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--teal-color));
+            color: white;
+            padding: 18px 36px;
+            font-size: 16px;
+        }
+
+        .nav-btn:hover, .final-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-md);
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .algorithm-compact {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-values {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-number">Seite 4/4</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Spezifische Algorithmen II & Praxisanwendung</h1>
+            <p class="subtitle">VLCAD, LCHAD, Galaktosämie, Biotinidasemangel + Interaktive Fallbeispiele</p>
+        </div>
+
+        <!-- Compact Algorithms Section -->
+        <div class="algorithm-compact">
+            <!-- VLCAD -->
+            <div class="mini-algorithm">
+                <div class="mini-header vlcad">
+                    🫀 VLCAD-Mangel
+                    <span style="font-size: 0.8rem; opacity: 0.9;">1:40.000-100.000</span>
+                </div>
+                <div class="mini-content">
+                    <div class="mini-flow">
+                        <div class="mini-step start">NGS: C14:1 erhöht, Ratios pathologisch</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">VLCAD-Enzymaktivität (Lymphozyten/Fibroblasten)</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">Molekulargenetik ACADVL-Gen (parallel)</div>
+                        <div class="mini-step critical">⚠️ Kardiomyopathie-Screening!</div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 0.8rem; border-radius: 6px; margin-top: 0.5rem;">
+                        <strong>Biomarker:</strong><br>
+                        • C14:1/C2 Ratio >0,03<br>
+                        • C14:1-Carnitin ↑↑<br>
+                        • Oft variable organische Säuren
+                    </div>
+                </div>
+            </div>
+
+            <!-- LCHAD -->
+            <div class="mini-algorithm">
+                <div class="mini-header lchad">
+                    👁️ LCHAD-Mangel
+                    <span style="font-size: 0.8rem; opacity: 0.9;">1:100.000</span>
+                </div>
+                <div class="mini-content">
+                    <div class="mini-flow">
+                        <div class="mini-step start">NGS: C16-OH, C18-OH erhöht</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">3-OH-Acylcarnitin-Profil</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">HADHA-Gen: c.1528G>C Screening</div>
+                        <div class="mini-step critical">⚠️ Retinopathie + Maternale Komplikationen!</div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 0.8rem; border-radius: 6px; margin-top: 0.5rem;">
+                        <strong>Pathognomonisch:</strong><br>
+                        • C16-OH/C16 Ratio >0,08<br>
+                        • 3-OH-Dicarboxylsäuren (Urin)<br>
+                        • Häufigste Mutation: c.1528G>C
+                    </div>
+                </div>
+            </div>
+
+            <!-- Galaktosämie -->
+            <div class="mini-algorithm">
+                <div class="mini-header galactose">
+                    🚨 Galaktosämie
+                    <span style="font-size: 0.8rem; opacity: 0.9;">1:70.000</span>
+                </div>
+                <div class="mini-content">
+                    <div class="mini-flow">
+                        <div class="mini-step start">NGS: Galaktose total erhöht</div>
+                        <div class="mini-step critical">SOFORT: Galaktose-STOPP!</div>
+                        <div class="mini-step">GALT-Enzymaktivität (Erythrozyten)</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">Molekulargenetik GALT-Gen (parallel)</div>
+                        <div class="mini-step critical">⚠️ Oft bereits symptomatisch bei Diagnose!</div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 0.8rem; border-radius: 6px; margin-top: 0.5rem;">
+                        <strong>Notfall-Charakter:</strong><br>
+                        • Leberversagen, Katarakt<br>
+                        • Galaktose <30mg/dl = milde Form<br>
+                        • Häufige Mutationen in Deutschland
+                    </div>
+                </div>
+            </div>
+
+            <!-- Biotinidasemangel -->
+            <div class="mini-algorithm">
+                <div class="mini-header biotin">
+                    🧬 Biotinidasemangel
+                    <span style="font-size: 0.8rem; opacity: 0.9;">1:25.000</span>
+                </div>
+                <div class="mini-content">
+                    <div class="mini-flow">
+                        <div class="mini-step start">NGS: Biotinidaseaktivität reduziert</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">Biotinidaseaktivität Serum/Plasma</div>
+                        <div class="mini-step">↓</div>
+                        <div class="mini-step">Molekulargenetik BTD-Gen (parallel)</div>
+                        <div class="mini-step critical">⚠️ Enzymaktivität kann "nachreifen"!</div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 0.8rem; border-radius: 6px; margin-top: 0.5rem;">
+                        <strong>Formen:</strong><br>
+                        • Komplett: <10% der Norm<br>
+                        • Partiell: 10-30% der Norm<br>
+                        • Kontrolle nach 2-12 Monaten!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Case Studies -->
+        <div class="case-study-container">
+            <div class="case-study-header">
+                <h2>🔬 Interaktive Fallbeispiele</h2>
+                <p>Testen Sie Ihr Wissen anhand realistischer Patientenfälle</p>
+            </div>
+            
+            <div class="case-tabs">
+                <button class="case-tab active" onclick="showCase('case1')">Fall 1: Notfall</button>
+                <button class="case-tab" onclick="showCase('case2')">Fall 2: Screening</button>
+                <button class="case-tab" onclick="showCase('case3')">Fall 3: Grenzfall</button>
+            </div>
+
+            <!-- Case 1 -->
+            <div class="case-content active" id="case1">
+                <h3>🚨 Fall 1: Akute Dekompensation</h3>
+                
+                <div class="patient-info">
+                    <strong>Patientin:</strong> Lisa, 8 Monate, weiblich<br>
+                    <strong>Anamnese:</strong> Seit 2 Tagen Gastroenteritis mit Erbrechen, heute Morgen lethargisch aufgefunden<br>
+                    <strong>Klinik:</strong> Bewusstseinstrübung, Hypothermie 35.2°C, Tachykardie 180/min
+                </div>
+
+                <h4>Laborwerte bei Aufnahme:</h4>
+                <div class="lab-values">
+                    <div class="lab-value abnormal">
+                        <div class="lab-label">Glukose</div>
+                        <div class="lab-number">1.9 mmol/l</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">Laktat</div>
+                        <div class="lab-number">2.8 mmol/l</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">NH₃</div>
+                        <div class="lab-number">65 μmol/l</div>
+                    </div>
+                    <div class="lab-value abnormal">
+                        <div class="lab-label">Urin-Ketone</div>
+                        <div class="lab-number">Negativ</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">CK</div>
+                        <div class="lab-number">420 U/l</div>
+                    </div>
+                    <div class="lab-value abnormal">
+                        <div class="lab-label">C8-Carnitin</div>
+                        <div class="lab-number">12.5 μmol/l</div>
+                    </div>
+                </div>
+
+                <div style="background: #eff6ff; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <strong>🤔 Ihre Verdachtsdiagnose:</strong><br>
+                    <em>Hypoketotische Hypoglykämie bei 8 Monate altem Säugling nach Gastroenteritis + C8-Carnitin 31-fach erhöht</em>
+                    <br><br>
+                    <strong>⚡ Sofortmaßnahmen:</strong> Glukose 10% i.v. (2ml/kg) → Dauertropf → L-Carnitin → Stoffwechselzentrum kontaktieren
+                    <br><br>
+                    <strong>🎯 Diagnose:</strong> <span style="color: var(--success-color); font-weight: bold;">MCAD-Mangel</span>
+                </div>
+            </div>
+
+            <!-- Case 2 -->
+            <div class="case-content" id="case2">
+                <h3>🔍 Fall 2: Auffälliges Neugeborenenscreening</h3>
+                
+                <div class="patient-info">
+                    <strong>Patient:</strong> Max, 5 Tage alt, männlich<br>
+                    <strong>NGS-Befund:</strong> C14:1-Carnitin erhöht, C14:1/C2-Ratio 0.045<br>
+                    <strong>Klinik:</strong> Bisher unauffällig, normale Gewichtsentwicklung
+                </div>
+
+                <h4>Konfirmationsdiagnostik:</h4>
+                <div class="lab-values">
+                    <div class="lab-value abnormal">
+                        <div class="lab-label">C14:1-Carnitin</div>
+                        <div class="lab-number">0.85 μmol/l</div>
+                    </div>
+                    <div class="lab-value abnormal">
+                        <div class="lab-label">C14:1/C2-Ratio</div>
+                        <div class="lab-number">0.045</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">Freies Carnitin</div>
+                        <div class="lab-number">28 μmol/l</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">VLCAD-Enzymaktivität</div>
+                        <div class="lab-number">8% der Norm</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">Genetik</div>
+                        <div class="lab-number">c.1349G>A compound het.</div>
+                    </div>
+                    <div class="lab-value">
+                        <div class="lab-label">Echo-Kardiographie</div>
+                        <div class="lab-number">Unauffällig</div>
+                    </div>
+                </div>
+
+                <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <strong>🎯 Diagnose:</strong> <span style="color: var(--success-color); font-weight: bold;">VLCAD-Mangel</span><br>
+                    <strong>📋 Management:</strong> 
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Fastenvermeidung (max. 8h)</li>
+                        <li>Fettrestriktion + MCT-Öl</li>
+                        <li>L-Carnitin 100 mg/kg/d</li>
+                        <li>Kardiologie-Follow-up alle 6 Monate</li>
+                        <li>Elternschulung Notfallmanagement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Case 3 -->
+            <div class="case-content" id="case3">
+                <h3>🔬 Fall 3: Grenzwertiger Befund</h3>
+                
+                <div class="patient-info">
+                    <strong>Patientin:</strong> Anna, 3 Tage alt, weiblich<br>
+                    <strong>NGS-Befund:</strong> Biotinidaseaktivität 25% der Norm<br>
+                    <strong>Familienanamnese:</strong> Unauffällig, Konsanguinität verneint
+                </div>
+
+                <h4>Verlaufskontrollen:</h4>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Zeitpunkt</th>
+                            <th>Biotinidaseaktivität</th>
+                            <th>Klinik</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3. Lebenstag</td>
+                            <td>25% der Norm</td>
+                            <td>Unauffällig</td>
+                            <td>Grenzwertig</td>
+                        </tr>
+                        <tr>
+                            <td>6 Wochen</td>
+                            <td>35% der Norm</td>
+                            <td>Unauffällig</td>
+                            <td>Leichte Besserung</td>
+                        </tr>
+                        <tr>
+                            <td>6 Monate</td>
+                            <td>45% der Norm</td>
+                            <td>Normales Wachstum</td>
+                            <td>"Nachreifen"</td>
+                        </tr>
+                        <tr>
+                            <td>12 Monate</td>
+                            <td>50% der Norm</td>
+                            <td>Normale Entwicklung</td>
+                            <td>Stabilisierung</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background: #fff7ed; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <strong>🎯 Diagnose:</strong> <span style="color: var(--warning-color); font-weight: bold;">Biotinidasemangel, partiell</span><br>
+                    <strong>📋 Management:</strong> 
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Biotin 5-10 mg/d (lebenslang)</li>
+                        <li>Jährliche Kontrollen</li>
+                        <li>Genetische Beratung der Familie</li>
+                        <li><strong>Lernpunkt:</strong> Enzymaktivität kann "nachreifen" - mehrfache Kontrollen!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Quiz -->
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2>🧠 Lernkontrolle Quiz</h2>
+                <p>Testen Sie Ihr Wissen zur Konfirmationsdiagnostik</p>
+            </div>
+            
+            <div class="quiz-content">
+                <div class="quiz-question">
+                    Frage 1: Ein 6 Monate alter Säugling wird mit hypoketotischer Hypoglykämie aufgenommen. Das Acylcarnitin-Profil zeigt C8-Carnitin 8,2 μmol/l (N: <0,4). Welche Aussage ist KORREKT?
+                </div>
+                
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        A) Eine Fettrestriktion ist dringend erforderlich
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this, true)">
+                        B) MCAD-Mangel ist die wahrscheinlichste Diagnose
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        C) Die Prognose ist auch bei Therapie schlecht
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        D) Eine Enzymaktivitätsbestimmung ist nicht erforderlich
+                    </div>
+                </div>
+                
+                <div class="quiz-feedback" id="quiz1-feedback">
+                    <div id="quiz1-explanation"></div>
+                </div>
+                
+                <button onclick="nextQuizQuestion()" id="next-quiz-btn" style="display: none;" class="nav-btn">Nächste Frage →</button>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h3>🎯 Kernbotschaften</h3>
+                <ul>
+                    <li><strong>Frühzeitige Diagnose rettet Leben</strong> - NGS ermöglicht präsymptomatische Erkennung</li>
+                    <li><strong>Drei diagnostische Ebenen</strong> - Metaboliten, Enzyme, Genetik ergänzen sich</li>
+                    <li><strong>Schnelle Konfirmation entscheidend</strong> - besonders bei Notfällen (MSUD, Galaktosämie)</li>
+                    <li><strong>Therapie ist verfügbar</strong> - exzellente Prognose bei früher Behandlung</li>
+                </ul>
+            </div>
+
+            <div class="summary-card">
+                <h3>⚠️ Häufige Fallstricke</h3>
+                <ul>
+                    <li><strong>Negativer Genetikbefund</strong> schließt Krankheit nicht aus</li>
+                    <li><strong>"Nachreifen" der Enzymaktivität</strong> bei Biotinidasemangel beachten</li>
+                    <li><strong>Milde Formen</strong> können im NGS übersehen werden</li>
+                    <li><strong>BH₄-Kofaktordefekte</strong> bei PKU nicht vergessen (1-2%)</li>
+                </ul>
+            </div>
+
+            <div class="summary-card">
+                <h3>🚨 Notfall-Essentials</h3>
+                <ul>
+                    <li><strong>MSUD:</strong> Sofort stationär, Leucin >1000 μmol/l = Dialyse</li>
+                    <li><strong>Galaktosämie:</strong> Sofort Galaktose-Stopp, oft schon symptomatisch</li>
+                    <li><strong>MCAD:</strong> Glukose 10% i.v., auch bei normalem BZ!</li>
+                    <li><strong>Valproat kontraindiziert</strong> bei Fettsäureoxidationsstörungen</li>
+                </ul>
+            </div>
+
+            <div class="summary-card">
+                <h3>📊 Biomarker-Highlights</h3>
+                <ul>
+                    <li><strong>C8-Carnitin >3 μmol/l</strong> = MCAD-Mangel</li>
+                    <li><strong>C14:1/C2 >0,03</strong> = VLCAD-Mangel</li>
+                    <li><strong>C16-OH/C16 >0,08</strong> = LCHAD-Mangel</li>
+                    <li><strong>Hypoketotische Hypoglykämie</strong> = Fettsäureoxidationsstörung</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Completion Ceremony -->
+        <div class="completion-ceremony">
+            <div class="trophy">🏆</div>
+            <h2>Herzlichen Glückwunsch!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: var(--spacing-lg);">
+                Sie haben das interaktive Lernmodul zur <strong>Konfirmationsdiagnostik bei Stoffwechselerkrankungen</strong> erfolgreich abgeschlossen.
+            </p>
+            <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);">
+                Sie sind nun bestens gerüstet für die leitlinienbasierte Diagnostik und das Management von angeborenen Stoffwechseldefekten in der klinischen Praxis.
+            </p>
+            
+            <div style="background: rgba(255, 255, 255, 0.8); padding: var(--spacing-lg); border-radius: 8px; margin: var(--spacing-lg) 0;">
+                <h3 style="color: var(--text-primary); margin-bottom: var(--spacing-md);">📚 Wichtige Ressourcen:</h3>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>AWMF S1-Leitlinie Konfirmationsdiagnostik (027/021)</li>
+                    <li>DGNS-Screeningreports (regelmäßige Updates)</li>
+                    <li>Stoffwechselzentren-Netzwerk Deutschland</li>
+                    <li>24h-Notfallkontakte der Stoffwechselzentren</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="goToPreviousPage()">← Zurück zu Seite 3</button>
+            <button class="final-btn" onclick="completeModule()">🎉 Modul Abschließen</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuizQuestion = 1;
+        const totalQuizQuestions = 3;
+
+        function showCase(caseId) {
+            // Hide all case contents
+            const contents = document.querySelectorAll('.case-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.case-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected case
+            document.getElementById(caseId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectQuizOption(option, isCorrect) {
+            // Remove previous selections
+            const options = option.parentNode.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                opt.onclick = null; // Disable further clicks
+            });
+            
+            // Mark the selected option
+            option.classList.add('selected');
+            
+            // Show correct/incorrect styling
+            if (isCorrect) {
+                option.classList.add('correct');
+                showQuizFeedback(true);
+            } else {
+                option.classList.add('incorrect');
+                // Also highlight the correct answer
+                options.forEach(opt => {
+                    if (opt.onclick && opt !== option) {
+                        // This is a bit hacky, but works for our simple case
+                        if (currentQuizQuestion === 1 && opt.textContent.includes('MCAD-Mangel')) {
+                            opt.classList.add('correct');
+                        }
+                    }
+                });
+                showQuizFeedback(false);
+            }
+            
+            // Show next button
+            document.getElementById('next-quiz-btn').style.display = 'inline-block';
+        }
+
+        function showQuizFeedback(isCorrect) {
+            const feedback = document.getElementById('quiz1-feedback');
+            const explanation = document.getElementById('quiz1-explanation');
+            
+            feedback.classList.add('show');
+            
+            if (isCorrect) {
+                feedback.classList.add('correct');
+                explanation.innerHTML = '<strong>✅ Richtig!</strong> Ein C8-Carnitin von 8,2 μmol/l (>20-fach erhöht) bei hypoketotischer Hypoglykämie ist pathognomonisch für MCAD-Mangel. Eine Fettrestriktion ist bei MCAD NICHT erforderlich, da nur C6-C12 Fettsäuren betroffen sind, Nahrungsfette aber hauptsächlich C16-C18 enthalten.';
+            } else {
+                feedback.classList.add('incorrect');
+                explanation.innerHTML = '<strong>❌ Nicht korrekt.</strong> Die richtige Antwort ist B. MCAD-Mangel ist bei diesem Befund die wahrscheinlichste Diagnose. C8-Carnitin >3 μmol/l ist pathognomonisch für MCAD-Mangel, besonders in Kombination mit hypoketotischer Hypoglykämie.';
+            }
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuizQuestion < totalQuizQuestions) {
+                currentQuizQuestion++;
+                // In a full implementation, this would load the next question
+                alert(`Quiz Frage ${currentQuizQuestion} würde hier geladen werden.\n\nIn der vollständigen Version würden alle Fragen durchgegangen.`);
+            } else {
+                alert('Quiz abgeschlossen! 🎉\n\nSie haben alle Fragen bearbeitet.');
+            }
+        }
+
+        function goToPreviousPage() {
+            alert('In der vollständigen Implementierung würde hier zu Seite 3 zurück gewechselt werden.');
+        }
+
+        function completeModule() {
+            alert('🎉 Herzlichen Glückwunsch!\n\nSie haben das Lernmodul zur Konfirmationsdiagnostik erfolgreich abgeschlossen.\n\nIn der vollständigen Version würde hier:\n• Ein Zertifikat generiert\n• Der Fortschritt gespeichert\n• Weitere Module vorgeschlagen werden');
+        }
+
+        // Enhanced animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate mini algorithms
+            const miniAlgorithms = document.querySelectorAll('.mini-algorithm');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                        }, index * 150);
+                    }
+                });
+            });
+            
+            miniAlgorithms.forEach(algo => {
+                algo.style.opacity = '0';
+                algo.style.transform = 'translateY(20px) scale(0.95)';
+                algo.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(algo);
+            });
+
+            // Animate summary cards
+            const summaryCards = document.querySelectorAll('.summary-card');
+            summaryCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+                
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+
+            // Lab values animation
+            const labValues = document.querySelectorAll('.lab-value');
+            labValues.forEach((value, index) => {
+                setTimeout(() => {
+                    value.style.opacity = '1';
+                    value.style.transform = 'scale(1)';
+                }, index * 50);
+                
+                value.style.opacity = '0';
+                value.style.transform = 'scale(0.8)';
+                value.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmationsdiagnostik - Diagnostische Ebenen</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        .diagnostic-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .level-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .level-card.metabolites::before {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .level-card.enzyme::before {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .level-card.genetics::before {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .level-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: var(--spacing-md);
+            color: white;
+        }
+
+        .metabolites .level-icon {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .enzyme .level-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .genetics .level-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .level-card h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .level-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.7;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .pros, .cons {
+            padding: var(--spacing-md);
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #22c55e;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 1px solid #ef4444;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: var(--spacing-sm);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .pros h4 {
+            color: #16a34a;
+        }
+
+        .cons h4 {
+            color: #dc2626;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pros li, .cons li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pros li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .cons li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .decision-matrix {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚡';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .page-number {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-xl);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-md);
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .diagnostic-levels {
+                grid-template-columns: 1fr;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-number">Seite 2/4</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Diagnostische Ebenen der Konfirmationsdiagnostik</h1>
+            <p class="subtitle">Drei komplementäre Ansätze zur sicheren Diagnosestellung</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Grundprinzip der mehrstufigen Diagnostik</h4>
+            <p>Die Verdachtsdiagnose aus dem Neugeborenenscreening kann auf <strong>drei komplementären Ebenen</strong> verifiziert werden. Die Wahl der optimalen Methode hängt von der spezifischen Stoffwechselkrankheit, der lokalen Verfügbarkeit und der erforderlichen Geschwindigkeit der Diagnosestellung ab.</p>
+        </div>
+
+        <div class="diagnostic-levels">
+            <!-- Metaboliten-Ebene -->
+            <div class="level-card metabolites">
+                <div class="level-icon">🧪</div>
+                <h3>1. Metabolitennachweis</h3>
+                <p><strong>Nachweis pathologisch erhöhter oder verminderter Konzentrationen charakteristischer Stoffwechsel(zwischen)produkte in Körperflüssigkeiten.</strong></p>
+                
+                <div class="case-study">
+                    <h4>💡 Beispiel: Ahornsirupkrankheit</h4>
+                    <p>Charakteristisches Profil der Aminosäuren im Plasma mit oder ohne Befund der organischen Säuren im Urin - <strong>alleine durch den Metabolitennachweis sicher diagnostizierbar.</strong></p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Vorteile</h4>
+                        <ul>
+                            <li>Direkte Darstellung des Stoffwechseldefekts</li>
+                            <li>Oft schnell verfügbar</li>
+                            <li>Kostengünstig</li>
+                            <li>Bei einigen Krankheiten diagnostisch eindeutig</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Nachteile</h4>
+                        <ul>
+                            <li>Nicht bei allen Krankheiten eindeutig</li>
+                            <li>Kann durch Ernährung beeinflusst werden</li>
+                            <li>Falsch-negative Befunde möglich</li>
+                            <li>Keine Aussage zur Restaktivität</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enzymaktivitäts-Ebene -->
+            <div class="level-card enzyme">
+                <div class="level-icon">⚗️</div>
+                <h3>2. Enzymaktivitätsbestimmung</h3>
+                <p><strong>Nachweis einer erheblichen Einschränkung einer Enzymaktivität.</strong> Kommt dem biochemischen Phänotyp "in-vivo" am nächsten bei Krankheiten, die nicht eindeutig durch Metaboliten diagnostizierbar sind.</p>
+
+                <div class="case-study">
+                    <h4>💡 Beispiel: Biotinidasemangel</h4>
+                    <p>Direkte Bestimmung der Biotinidaseaktivität in Serum/Plasma erlaubt Unterscheidung zwischen komplettem (&lt;10% der Norm) und partiellem (10-30% der Norm) Mangel.</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Vorteile</h4>
+                        <ul>
+                            <li>Direkter Nachweis des Enzymdefekts</li>
+                            <li>Quantifizierung der Restaktivität</li>
+                            <li>Unabhängig von Nahrungsaufnahme</li>
+                            <li>Prognostische Aussagekraft</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Nachteile</h4>
+                        <ul>
+                            <li>Nicht zeitnah für alle Enzyme verfügbar</li>
+                            <li>Methodisch aufwendig</li>
+                            <li>Spezielle Transportbedingungen nötig</li>
+                            <li>Höhere Kosten</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Molekulargenetik-Ebene -->
+            <div class="level-card genetics">
+                <div class="level-icon">🧬</div>
+                <h3>3. Molekulargenetik</h3>
+                <p><strong>Nachweis von krankheitsverursachenden genetischen Varianten in homozygoter oder compound heterozygoter Form.</strong> Alle Stoffwechselstörungen im NGS sind autosomal-rezessiv vererbt.</p>
+
+                <div class="case-study">
+                    <h4>💡 Beispiel: MCAD-Mangel</h4>
+                    <p>Die Mutation c.985A&gt;G (p.Lys329Glu) macht 70% aller Allele in Nordeuropa aus - <strong>schnelle und kostengünstige Diagnose bei positivem Befund möglich.</strong></p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Vorteile</h4>
+                        <ul>
+                            <li>Bei häufigen Mutationen schnell</li>
+                            <li>Eindeutige Diagnose bei positivem Befund</li>
+                            <li>Pränataldiagnostik möglich</li>
+                            <li>Familienberatung ermöglicht</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Nachteile</h4>
+                        <ul>
+                            <li>Negativer Befund schließt Krankheit nicht aus</li>
+                            <li>Keine Aussage zur Restaktivität</li>
+                            <li>Genotyp-Phänotyp-Korrelation variabel</li>
+                            <li>Bei seltenen Varianten aufwendig</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="decision-matrix">
+            <h2 class="section-title">Entscheidungsmatrix: Wann welche Methode?</h2>
+            
+            <table class="clinical-table">
+                <thead>
+                    <tr>
+                        <th>Klinische Situation</th>
+                        <th>1. Wahl</th>
+                        <th>2. Wahl</th>
+                        <th>Besonderheiten</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Akute Notfallsituation</strong><br>(z.B. Galaktosämie)</td>
+                        <td>Metaboliten + Genetik (häufige Mutationen)</td>
+                        <td>Enzymaktivität</td>
+                        <td>Sofortiger Therapiebeginn bei Verdacht</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Eindeutige Metabolitenkonstellation</strong><br>(z.B. MSUD, PKU)</td>
+                        <td>Metaboliten</td>
+                        <td>Genetik (Differenzierung)</td>
+                        <td>Zusätzliche Genetik für Subtypisierung</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Häufige bekannte Mutationen</strong><br>(z.B. MCAD, LCHAD)</td>
+                        <td>Genetik (Screening häufiger Varianten)</td>
+                        <td>Metaboliten + Enzymaktivität</td>
+                        <td>Bei negativer Genetik weitere Diagnostik</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grenzwertige Befunde</strong></td>
+                        <td>Enzymaktivität</td>
+                        <td>Genetik (bestätigend)</td>
+                        <td>Kombination beider Methoden empfohlen</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prognostische Einschätzung gewünscht</strong></td>
+                        <td>Enzymaktivität + Genetik</td>
+                        <td>Metaboliten</td>
+                        <td>Restaktivität korreliert mit Schweregrad</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Wichtiger Hinweis für die Praxis</h4>
+            <p><strong>Ein negativer molekulargenetischer Befund schließt bei den derzeit in der Routine angewandten Methoden eine Verdachtsdiagnose nicht aus.</strong> Die Mutationsanalytik kann bei grenzwertigen Befunden der funktionellen Diagnostik als unterstützende Diagnostik von Bedeutung sein.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="goToPreviousPage()">← Zurück zu Seite 1</button>
+            <button class="next-btn" onclick="goToNextPage()">Weiter zu Seite 3: Spezifische Algorithmen I →</button>
+        </div>
+    </div>
+
+    <script>
+        function goToPreviousPage() {
+            alert('In der vollständigen Implementierung würde hier zu Seite 1 zurück gewechselt werden.');
+        }
+
+        function goToNextPage() {
+            alert('In der vollständigen Implementierung würde hier Seite 3 geladen werden.\n\nSeite 3 behandelt spezifische Algorithmen:\n• Hyperphenylalaninämien (PKU/MHP)\n• MCAD-Mangel\n• Ahornsirupkrankheit (MSUD)\n• Detaillierte Flussdiagramme');
+        }
+
+        // Animation beim Laden
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.level-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, (index + 1) * 200);
+            });
+
+            // Hover-Effekte für Tabelle
+            const tableRows = document.querySelectorAll('.clinical-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organoacidämien - Teil 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Prognosis boxes */
+        .prognosis-box {
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .prognosis-box h4 {
+            color: #6d28d9;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .prognosis-box p, .prognosis-box ul, .prognosis-box li {
+            color: #6d28d9;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Organoacidämien</h1>
+            <p>Teil 3: Prognose, Fallbeispiele & Quiz</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📈 Lerneinheit Teil 3</h3>
+            <p>Dieser abschließende Teil behandelt die Langzeitprognose, praxisnahe Fallbeispiele aus der Klinik und eine umfassende Lernkontrolle.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('prognose')">1. Langzeitprognose</button>
+            <button class="nav-btn" onclick="showSection('fallbeispiele')">2. Fallbeispiele</button>
+            <button class="nav-btn" onclick="showSection('quiz')">3. Lernkontrolle</button>
+            <button class="nav-btn" onclick="showSection('zusammenfassung')">4. Zusammenfassung</button>
+        </div>
+
+        <!-- Prognose -->
+        <div class="content-section active" id="prognose">
+            <h2 class="section-title">📈 Langzeitprognose und Komplikationen</h2>
+            
+            <div class="subsection">
+                <h3>Outcomes nach Erkrankung und Therapiezeitpunkt</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organoacidämie</th>
+                            <th>Früh behandelt (Screening)</th>
+                            <th>Spät behandelt (symptomatisch)</th>
+                            <th>Hauptkomplikationen</th>
+                            <th>Lebenserwartung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Methylmalonacidämie</strong></td>
+                            <td>70-85% normale Entwicklung</td>
+                            <td>30-50% normale Entwicklung</td>
+                            <td>Niereninsuffizienz, Kardiomyopathie</td>
+                            <td>60-80% überleben bis Erwachsenenalter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>60-75% normale Entwicklung</td>
+                            <td>20-40% normale Entwicklung</td>
+                            <td>Neutropenie, Kardiomyopathie, Stroke-like</td>
+                            <td>70-85% überleben bis Erwachsenenalter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isovalerianacidämie</strong></td>
+                            <td>85-95% normale Entwicklung</td>
+                            <td>60-80% normale Entwicklung</td>
+                            <td>Selten schwere Komplikationen</td>
+                            <td>Normal bei adäquater Therapie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutaracidämie I</strong></td>
+                            <td>80-90% normale Entwicklung</td>
+                            <td>10-30% normale Entwicklung</td>
+                            <td>Irreversible Bewegungsstörungen</td>
+                            <td>Normal, aber Behinderung möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-MCC-Mangel</strong></td>
+                            <td>95-99% normale Entwicklung</td>
+                            <td>90-95% normale Entwicklung</td>
+                            <td>Meist asymptomatisch</td>
+                            <td>Normal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Neurokognitive Langzeitoutcomes</h3>
+                <div class="prognosis-box">
+                    <h4>🧠 Intellektuelle Entwicklung und Kognition</h4>
+                    <p><strong>IQ-Verteilung bei früh behandelten Patienten (Screening-Kohorte):</strong></p>
+                    <ul>
+                        <li><strong>IQ >90 (normal):</strong> 65-80% (abhängig von Erkrankung)</li>
+                        <li><strong>IQ 70-90 (grenzwertig):</strong> 15-25%</li>
+                        <li><strong>IQ <70 (Behinderung):</strong> 5-15%</li>
+                        <li><strong>Schwere Behinderung (IQ <50):</strong> 2-8%</li>
+                    </ul>
+
+                    <p><strong>Spezifische kognitive Bereiche:</strong></p>
+                    <ul>
+                        <li><strong>Exekutive Funktionen:</strong> Häufig betroffen auch bei normalem IQ</li>
+                        <li><strong>Arbeitsgedächtnis:</strong> Defizite bei 30-40% der Patienten</li>
+                        <li><strong>Aufmerksamkeit:</strong> ADHS-ähnliche Symptome bei 25-35%</li>
+                        <li><strong>Verarbeitungsgeschwindigkeit:</strong> Oft verlangsamt</li>
+                    </ul>
+
+                    <p><strong>Einflussfaktoren auf kognitive Entwicklung:</strong></p>
+                    <ul>
+                        <li><strong>Anzahl schwerer Krisen:</strong> Jede Krise ↓ IQ um 5-10 Punkte</li>
+                        <li><strong>Peak-Ammoniak-Spiegel:</strong> >300 μmol/l = hohes Risiko</li>
+                        <li><strong>Koma-Dauer:</strong> >24h oft irreversible Schäden</li>
+                        <li><strong>Therapietreue:</strong> Kontinuierliche Therapie protektiv</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Organspezifische Langzeitkomplikationen</h3>
+                <div class="case-study">
+                    <h4>🫀 Kardiovaskuläre Komplikationen</h4>
+                    <p><strong>Propionacidämie - Kardiale Beteiligung:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz Kardiomyopathie:</strong> 15-25% aller Patienten</li>
+                        <li><strong>Typ:</strong> Meist dilatative, seltener hypertrophe CMP</li>
+                        <li><strong>Onset:</strong> Säuglingsalter bis Adoleszenz</li>
+                        <li><strong>Prognose:</strong> 50% Reversibilität bei früher Intervention</li>
+                        <li><strong>Tx-Indikation:</strong> Refraktäre Herzinsuffizienz</li>
+                    </ul>
+
+                    <p><strong>Methylmalonacidämie - Kardiale Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 5-15%, besonders mut0-Form</li>
+                        <li><strong>QTc-Verlängerung:</strong> Bei 30% der Patienten</li>
+                        <li><strong>Arrhythmien:</strong> Ventrikuläre Extrasystolen häufig</li>
+                        <li><strong>Monitoring:</strong> Jährliches EKG + Echo ab Diagnose</li>
+                    </ul>
+
+                    <p><strong>Therapiestrategien:</strong></p>
+                    <ul>
+                        <li><strong>ACE-Hemmer:</strong> Frühzeitig bei ersten Echo-Auffälligkeiten</li>
+                        <li><strong>Beta-Blocker:</strong> Bei Arrhythmien und Tachykardie</li>
+                        <li><strong>Diuretika:</strong> Symptomatische Herzinsuffizienz</li>
+                        <li><strong>Herztransplantation:</strong> Bei refraktärer Kardiomyopathie</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧠 Neurologische Spätschäden</h4>
+                    <p><strong>Glutaracidämie I - Bewegungsstörungen:</strong></p>
+                    <ul>
+                        <li><strong>Dystonie:</strong> 60-80% bei Late-Diagnosed, 5-15% bei Screening</li>
+                        <li><strong>Choreoathetose:</strong> 30-50% nach Encephalopathic Crisis</li>
+                        <li><strong>Spastik:</strong> 20-40% bei schweren Verläufen</li>
+                        <li><strong>Irreversibilität:</strong> Schäden meist permanent</li>
+                    </ul>
+
+                    <p><strong>Propionacidämie - Stroke-like Episodes:</strong></p>
+                    <ul>
+                        <li><strong>Basalganglien-Infarkte:</strong> 15-25% aller PA-Patienten</li>
+                        <li><strong>Auslöser:</strong> Metabolische Krisen, Infekte</li>
+                        <li><strong>Symptome:</strong> Hemiparese, Dysarthrie, Dystonie</li>
+                        <li><strong>Recovery:</strong> Teilweise Besserung über Monate möglich</li>
+                    </ul>
+
+                    <p><strong>Interventionsstrategien:</strong></p>
+                    <ul>
+                        <li><strong>Physiotherapie:</strong> Frühzeitig und intensiv</li>
+                        <li><strong>Botulinum-Toxin:</strong> Bei fokaler Dystonie</li>
+                        <li><strong>DBS (Deep Brain Stimulation):</strong> Bei schwerer generalisierter Dystonie</li>
+                        <li><strong>Antikonvulsiva:</strong> Bei sekundärer Epilepsie</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🥽 Nierenprobleme bei Methylmalonacidämie</h4>
+                    <p><strong>Tubulointerstitielle Nephropathie:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 60-80% aller MMA-Patienten (mut-Formen)</li>
+                        <li><strong>Pathogenese:</strong> Direkte Toxizität von Methylmalonsäure</li>
+                        <li><strong>Progression:</strong> Schleichend über Jahre bis Jahrzehnte</li>
+                        <li><strong>Endstadium:</strong> 20-30% benötigen Nierenersatztherapie</li>
+                    </ul>
+
+                    <p><strong>Klinische Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>Polyurie/Polydipsie:</strong> Frühe Zeichen der Tubulopathie</li>
+                        <li><strong>Proteinurie:</strong> Meist gering (<1 g/d)</li>
+                        <li><strong>Hyperkalzurie:</strong> Nephrolithiasis-Risiko</li>
+                        <li><strong>Azidose:</strong> Renale tubuläre Azidose Typ II</li>
+                    </ul>
+
+                    <p><strong>Nephro-protektive Maßnahmen:</strong></p>
+                    <ul>
+                        <li><strong>ACE-Hemmer:</strong> Ab ersten Proteinurie-Zeichen</li>
+                        <li><strong>Optimale MMA-Kontrolle:</strong> Ziel <500 mmol/mol Kreatinin</li>
+                        <li><strong>Hypertonie-Kontrolle:</strong> RR <130/80 mmHg</li>
+                        <li><strong>Nierentransplantation:</strong> Bei eGFR <20 ml/min/1,73m²</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Hämatologische Langzeitkomplikationen</h3>
+                <div class="highlight-box">
+                    <h4>Neutropenie bei Propion- und Methylmalonacidämie</h4>
+                    <p><strong>Epidemiologie und Pathogenese:</strong></p>
+                    <ul>
+                        <li><strong>Propionacidämie:</strong> 50-70% entwickeln Neutropenie</li>
+                        <li><strong>Methylmalonacidämie:</strong> 30-50% betroffen</li>
+                        <li><strong>Mechanismus:</strong> Knochenmark-Toxizität durch organische Säuren</li>
+                        <li><strong>Schweregrad:</strong> ANC meist 500-1500/μl</li>
+                    </ul>
+
+                    <p><strong>Klinische Konsequenzen:</strong></p>
+                    <ul>
+                        <li><strong>Erhöhte Infektanfälligkeit:</strong> Besonders bakterielle Infekte</li>
+                        <li><strong>Schwere Verläufe:</strong> Sepsis-Risiko bei ANC <500/μl</li>
+                        <li><strong>Hospitalisierung:</strong> Häufiger und länger</li>
+                        <li><strong>Teufelskreis:</strong> Infekte → Krisen → schlechtere Kontrolle</li>
+                    </ul>
+
+                    <p><strong>Management-Strategien:</strong></p>
+                    <ul>
+                        <li><strong>G-CSF-Therapie:</strong> Bei ANC <1000/μl und rezidivierenden Infekten</li>
+                        <li><strong>Dosierung:</strong> 5-10 μg/kg/d s.c., 2-3x/Woche</li>
+                        <li><strong>Monitoring:</strong> Wöchentliche Blutbilder initial</li>
+                        <li><strong>Infektprophylaxe:</strong> Impfungen aktuell halten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Reproduktive Gesundheit und Schwangerschaft</h3>
+                <div class="prognosis-box">
+                    <h4>👶 Schwangerschaft bei Organoacidämien</h4>
+                    <p><strong>Präkonzeptionelle Beratung:</strong></p>
+                    <ul>
+                        <li><strong>Genetische Beratung:</strong> 25% Wiederholungsrisiko bei beiden Partnern betroffen</li>
+                        <li><strong>Carrier-Screening Partner:</strong> Mutationsanalyse empfohlen</li>
+                        <li><strong>Pränataldiagnostik:</strong> CVS (10-12 SSW) oder Amniozentese (15-17 SSW)</li>
+                        <li><strong>Präimplantationsdiagnostik:</strong> Option bei IVF</li>
+                    </ul>
+
+                    <p><strong>Schwangerschaftsmanagement:</strong></p>
+                    <ul>
+                        <li><strong>Protein-Bedarf:</strong> Erhöht auf 1,8-2,2 g/kg/d ab 2. Trimenon</li>
+                        <li><strong>Folsäure hochdosiert:</strong> 5 mg/d bei allen Organoacidämien</li>
+                        <li><strong>Vitamin B12:</strong> Hochdosis bei MMA-Patientinnen</li>
+                        <li><strong>Monitoring:</strong> Monatliche Laborkontrollen</li>
+                    </ul>
+
+                    <p><strong>Peripartales Management:</strong></p>
+                    <ul>
+                        <li><strong>Geburtsplanung:</strong> Stoffwechselzentrum mit Geburtshilfe</li>
+                        <li><strong>Glucose-Infusion:</strong> Peripartal kontinuierlich</li>
+                        <li><strong>Protein-Pause:</strong> 12-24h um Geburt</li>
+                        <li><strong>Stillberatung:</strong> Meist möglich bei guter Kontrolle</li>
+                    </ul>
+
+                    <p><strong>Neonatale Betreuung:</strong></p>
+                    <ul>
+                        <li><strong>Newborn Screening:</strong> Standardmäßig, aber genetische Bestätigung</li>
+                        <li><strong>Frühe Symptome:</strong> Engmaschige Überwachung erste 48h</li>
+                        <li><strong>Notfall-Protokolle:</strong> Bereitschaft für sofortige Intervention</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('fallbeispiele')">Weiter zu den Fallbeispielen →</button>
+            </div>
+        </div>
+
+        <!-- Fallbeispiele -->
+        <div class="content-section" id="fallbeispiele">
+            <h2 class="section-title">🩺 Praxisnahe Fallbeispiele</h2>
+            
+            <div class="subsection">
+                <h3>Fall 1: Akute Dekompensation bei Propionacidämie</h3>
+                <div class="case-study">
+                    <h4>📋 Anamnese und Präsentation</h4>
+                    <p><strong>Patient:</strong> 18 Monate alter Junge, bekannte Propionacidämie seit Neugeborenenscreening</p>
+                    
+                    <p><strong>Aktuelle Anamnese:</strong></p>
+                    <ul>
+                        <li>Seit 3 Tagen Gastroenteritis mit Erbrechen und Durchfall</li>
+                        <li>Reduktion der Protein-Aufnahme wie geschult</li>
+                        <li>Heute zunehmend lethargisch, Eltern sehr beunruhigt</li>
+                        <li>Letzter Kontakt zum Stoffwechselzentrum vor 6 Monaten</li>
+                    </ul>
+
+                    <p><strong>Aufnahmebefund:</strong></p>
+                    <ul>
+                        <li><strong>Allgemeinzustand:</strong> Reduziert, aber ansprechbar</li>
+                        <li><strong>Vitalparameter:</strong> HF 140/min, RR 90/50, Temp 37,8°C</li>
+                        <li><strong>Klinisch:</strong> Mild dehydriert, Hepatomegalie 3 cm</li>
+                        <li><strong>Neurologie:</strong> Somnolent, aber erweckbar</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Aufnahmewerte</th>
+                            <th>6h nach Therapie</th>
+                            <th>24h nach Therapie</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>pH</strong></td>
+                            <td>7,25</td>
+                            <td>7,32</td>
+                            <td>7,38</td>
+                            <td>Metabolische Azidose, gut responsiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base Excess</strong></td>
+                            <td>-12 mmol/l</td>
+                            <td>-6 mmol/l</td>
+                            <td>-2 mmol/l</td>
+                            <td>Deutliche Besserung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ammoniak</strong></td>
+                            <td>185 μmol/l</td>
+                            <td>95 μmol/l</td>
+                            <td>65 μmol/l</td>
+                            <td>Moderat erhöht, rasche Besserung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Anionenlücke</strong></td>
+                            <td>22 mmol/l</td>
+                            <td>16 mmol/l</td>
+                            <td>12 mmol/l</td>
+                            <td>Organische Säuren-Akkumulation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C3-Carnitin</strong></td>
+                            <td>15,2 μmol/l</td>
+                            <td>8,5 μmol/l</td>
+                            <td>4,2 μmol/l</td>
+                            <td>Typische PA-Elevation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Freies Carnitin</strong></td>
+                            <td>8 μmol/l</td>
+                            <td>18 μmol/l</td>
+                            <td>28 μmol/l</td>
+                            <td>Depletion → Besserung unter Substitution</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Therapeutisches Management - Schritt für Schritt</h4>
+                    <p><strong>Sofortmaßnahmen (0-60 min):</strong></p>
+                    <ul>
+                        <li><strong>Protein-Stopp:</strong> Alle Protein-haltigen Nahrungsmittel sofort beenden</li>
+                        <li><strong>Glucose 10%:</strong> Dauertropf 7 mg/kg/min i.v.</li>
+                        <li><strong>Bicarbonat:</strong> 2 mmol/kg i.v. (pH <7,3)</li>
+                        <li><strong>L-Carnitin:</strong> 200 mg/kg/d i.v. in 3 Dosen</li>
+                    </ul>
+
+                    <p><strong>Spezifische PA-Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Biotin:</strong> 10 mg p.o. täglich (Cofaktor für PCC)</li>
+                        <li><strong>Metronidazol:</strong> 15 mg/kg/d i.v. (Darmsterilisation)</li>
+                        <li><strong>Monitoring:</strong> BGA alle 6h, NH₃ alle 8h</li>
+                    </ul>
+
+                    <p><strong>Outcome und Entlassung:</strong></p>
+                    <ul>
+                        <li><strong>Tag 3:</strong> Vollständige klinische Besserung</li>
+                        <li><strong>Tag 4:</strong> Normale orale Nahrungsaufnahme</li>
+                        <li><strong>Entlassung:</strong> Mit optimierter Diät und Notfallplan</li>
+                        <li><strong>Follow-up:</strong> Stoffwechselambulanz in 2 Wochen</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🎓 Lernpunkte aus diesem Fall</h4>
+                    <ul>
+                        <li><strong>Frühe Intervention entscheidend:</strong> Moderat erhöhtes NH₃ gut behandelbar</li>
+                        <li><strong>Carnitin-Depletion typisch:</strong> Aggressive Substitution nötig</li>
+                        <li><strong>Metronidazol-Effekt:</strong> Reduktion der bakteriellen Propionat-Produktion</li>
+                        <li><strong>Prognose exzellent:</strong> Bei früher adäquater Therapie</li>
+                        <li><strong>Familie schulen:</strong> Sick-Day-Management und Warnsymptome</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 2: Diagnostische Herausforderung - 3-MCC vs. IVA</h3>
+                <div class="case-study">
+                    <h4>🔬 Screening-Befund und Differentialdiagnose</h4>
+                    <p><strong>Patient:</strong> 5 Tage altes Neugeborenes, unauffällige Schwangerschaft und Geburt</p>
+
+                    <p><strong>Newborn Screening (Tag 3):</strong></p>
+                    <ul>
+                        <li><strong>C5-Isovalerylcarnitin:</strong> 2,8 μmol/l (Cut-off: 1,5 μmol/l)</li>
+                        <li><strong>C5-OH-3-Hydroxyisovalerylcarnitin:</strong> 1,2 μmol/l (Cut-off: 0,6 μmol/l)</li>
+                        <li><strong>Verdacht:</strong> Isovalerianacidämie vs. 3-MCC-Mangel</li>
+                        <li><strong>Kontrolle angefordert:</strong> Bestätigungsdiagnostik</li>
+                    </ul>
+
+                    <p><strong>Klinischer Befund bei Kontrolle (Tag 6):</strong></p>
+                    <ul>
+                        <li><strong>Allgemeinzustand:</strong> Völlig unauffällig</li>
+                        <li><strong>Trinken:</strong> Normale Mengen, gute Gewichtszunahme</li>
+                        <li><strong>Kein Geruch:</strong> Kein "sweaty feet odor" erkennbar</li>
+                        <li><strong>Familie:</strong> Keine bekannten Stoffwechselerkrankungen</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnostischer Test</th>
+                            <th>Befund</th>
+                            <th>Normwerte</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Acylcarnitin-Profil (Bestätigung)</strong></td>
+                            <td>C5: 1,8 μmol/l<br>C5-OH: 1,5 μmol/l</td>
+                            <td>C5: <0,8<br>C5-OH: <0,4</td>
+                            <td>Beide Marker erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Organische Säuren (Urin)</strong></td>
+                            <td>3-OH-Isovaleriansäure: 45 mmol/mol Kreat<br>Isovalerylglycin: 3 mmol/mol Kreat</td>
+                            <td>3-OH-Isovaleriansäure: <10<br>Isovalerylglycin: <2</td>
+                            <td>3-OH-Isovaleriansäure dominiert</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enzymaktivität (Lymphozyten)</strong></td>
+                            <td>3-MCC: 0,8 nmol/min/mg<br>IVD: 18 nmol/min/mg</td>
+                            <td>3-MCC: >5<br>IVD: >15</td>
+                            <td>3-MCC-Aktivität erniedrigt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Genetik (Trio-Analyse)</strong></td>
+                            <td>MCCC1: c.1528C>T (p.Arg510Trp)<br>homozygot</td>
+                            <td>Wildtyp</td>
+                            <td>Pathogene Mutation bekannt</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Differentialdiagnostische Überlegungen</h4>
+                    <p><strong>Warum C5 und C5-OH beide erhöht?</strong></p>
+                    <ul>
+                        <li><strong>3-MCC-Defekt:</strong> 3-Methylcrotonyl-CoA akkumuliert</li>
+                        <li><strong>Alternative Wege:</strong> Bildung von 3-OH-Isovaleriansäure</li>
+                        <li><strong>Carnitin-Konjugation:</strong> Sowohl mit Isovaleryl- als auch 3-OH-Isovaleryl-CoA</li>
+                        <li><strong>Dominanz 3-OH-Pattern:</strong> Typisch für 3-MCC-Mangel</li>
+                    </ul>
+
+                    <p><strong>Klinische Einschätzung:</strong></p>
+                    <ul>
+                        <li><strong>Asymptomatisch:</strong> Typisch für 3-MCC-Mangel</li>
+                        <li><strong>Kein Geruch:</strong> Unterscheidung zu IVA</li>
+                        <li><strong>Biotin-Response:</strong> Test mit 10 mg/d für 4 Wochen</li>
+                        <li><strong>Prognose:</strong> Exzellent bei den meisten 3-MCC-Patienten</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧬 Management-Entscheidung</h4>
+                    <p><strong>Diagnose:</strong> 3-Methylcrotonyl-CoA-Carboxylase-Mangel</p>
+
+                    <p><strong>Therapeutische Entscheidung:</strong></p>
+                    <ul>
+                        <li><strong>Biotin-Versuch:</strong> 10 mg/d p.o. für 8 Wochen</li>
+                        <li><strong>Keine Diätrestriktion:</strong> Bei asymptomatischen Patienten</li>
+                        <li><strong>Notfallplan:</strong> Für Stress-Situationen (Infekte, OP)</li>
+                        <li><strong>Monitoring:</strong> 3-monatlich erste 2 Jahre</li>
+                    </ul>
+
+                    <p><strong>Biotin-Response-Test Ergebnis:</strong></p>
+                    <ul>
+                        <li><strong>Nach 4 Wochen:</strong> 3-OH-Isovaleriansäure 50% Reduktion</li>
+                        <li><strong>Nach 8 Wochen:</strong> Weitere Reduktion auf 15 mmol/mol</li>
+                        <li><strong>Entscheidung:</strong> Biotin-Fortsetzung lebenslang</li>
+                        <li><strong>Follow-up:</strong> Bisher (18 Monate) völlig asymptomatisch</li>
+                    </ul>
+
+                    <p><strong>Familienberatung:</strong></p>
+                    <ul>
+                        <li><strong>Vererbung:</strong> Autosomal-rezessiv, 25% Wiederholungsrisiko</li>
+                        <li><strong>Prognose:</strong> Exzellent bei meisten 3-MCC-Patienten</li>
+                        <li><strong>Geschwister-Screening:</strong> Bei weiteren Schwangerschaften</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 3: Glutaracidämie I - Präventionserfolg</h3>
+                <div class="case-study">
+                    <h4>🧠 Screening-Erfolgsgeschichte</h4>
+                    <p><strong>Patient:</strong> Jetzt 8 Jahre alt, GA-I diagnostiziert mit 4 Tagen durch Newborn Screening</p>
+
+                    <p><strong>Screening-Befunde damals:</strong></p>
+                    <ul>
+                        <li><strong>C5-DC (Glutarylcarnitin):</strong> 1,8 μmol/l (Cut-off: 0,3)</li>
+                        <li><strong>Bestätigung:</strong> Glutarsäure im Urin 850 mmol/mol Kreatinin</li>
+                        <li><strong>Genetik:</strong> GCDH c.1204C>T homozygot (High-Excretor)</li>
+                        <li><strong>Sofortmaßnahmen:</strong> Lysin-restriktive Diät ab Tag 8</li>
+                    </ul>
+
+                    <p><strong>Therapie-Protokoll (8 Jahre konsequent):</strong></p>
+                    <ul>
+                        <li><strong>Lysin-Restriktion:</strong> 100 mg/kg/d (aktuell 2,4 g/d)</li>
+                        <li><strong>L-Carnitin:</strong> 100 mg/kg/d (aktuell 2,4 g/d)</li>
+                        <li><strong>Sick-Day-Protokoll:</strong> Bei Infekten sofort befolgt</li>
+                        <li><strong>Notaufnahmen:</strong> 3x in 8 Jahren (Gastroenteritis)</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Alter</th>
+                            <th>Glutarsäure (Urin)</th>
+                            <th>Entwicklungsstand</th>
+                            <th>MRT-Befund</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>6 Monate</strong></td>
+                            <td>420 mmol/mol Kreatinin</td>
+                            <td>Altersentsprechend</td>
+                            <td>Erweiterte Liquorräume</td>
+                            <td>Makrozephalie (97. Perzentile)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2 Jahre</strong></td>
+                            <td>380 mmol/mol Kreatinin</td>
+                            <td>Normal, läuft frei</td>
+                            <td>Unverändert</td>
+                            <td>Sprache altersentsprechend</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4 Jahre</strong></td>
+                            <td>295 mmol/mol Kreatinin</td>
+                            <td>Kindergarten unauffällig</td>
+                            <td>Stabil</td>
+                            <td>Keine Auffälligkeiten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>8 Jahre</strong></td>
+                            <td>180 mmol/mol Kreatinin</td>
+                            <td>2. Klasse, gute Noten</td>
+                            <td>Keine Progression</td>
+                            <td>Sport eingeschränkt, sonst normal</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="prognosis-box">
+                    <h4>📈 Erfolgsanalyse - Was war entscheidend?</h4>
+                    <p><strong>Kritische Erfolgsfaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Screening-Diagnose:</strong> Vor jeder encephalopathic crisis</li>
+                        <li><strong>Sofortige Therapie:</strong> Lysinarme Diät ab Tag 8</li>
+                        <li><strong>Familien-Compliance:</strong> 100%ige Therapietreue über 8 Jahre</li>
+                        <li><strong>Präventive Carnitin-Gabe:</strong> Kontinuierlich</li>
+                        <li><strong>Notfall-Management:</strong> Alle Infekte konsequent behandelt</li>
+                    </ul>
+
+                    <p><strong>Aktuelle Situation mit 8 Jahren:</strong></p>
+                    <ul>
+                        <li><strong>Neurologisch:</strong> Völlig unauffällig, keine Bewegungsstörungen</li>
+                        <li><strong>Kognitiv:</strong> IQ 105 (normal), keine Lernprobleme</li>
+                        <li><strong>Schule:</strong> Regelschule, 2. Klasse, altersgerecht</li>
+                        <li><strong>Sport:</strong> Moderat eingeschränkt, Schwimmen OK</li>
+                        <li><strong>Sozial:</strong> Vollständig integriert</li>
+                    </ul>
+
+                    <p><strong>Langzeit-Perspektive:</strong></p>
+                    <ul>
+                        <li><strong>Prognose:</strong> Exzellent, normale Lebenserwartung</li>
+                        <li><strong>Diät-Lockerung:</strong> Adoleszenz, aber Carnitin lebenslang</li>
+                        <li><strong>Berufsplanung:</strong> Keine wesentlichen Einschränkungen</li>
+                        <li><strong>Familienplanung:</strong> Genetische Beratung im Jugendlichen-Alter</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🎯 Vergleich: GA-I mit vs. ohne Screening</h4>
+                    <p><strong>Screening-Kohorte (wie unser Patient):</strong></p>
+                    <ul>
+                        <li><strong>Normale Entwicklung:</strong> 85-90%</li>
+                        <li><strong>Bewegungsstörungen:</strong> 5-10%</li>
+                        <li><strong>Schwere Behinderung:</strong> <5%</li>
+                        <li><strong>Lebensqualität:</strong> Excellent bis gut</li>
+                    </ul>
+
+                    <p><strong>Historische Kohorte (symptomatische Diagnose):</strong></p>
+                    <ul>
+                        <li><strong>Normale Entwicklung:</strong> 10-25%</li>
+                        <li><strong>Bewegungsstörungen:</strong> 70-85%</li>
+                        <li><strong>Schwere Behinderung:</strong> 40-60%</li>
+                        <li><strong>Lebensqualität:</strong> Stark eingeschränkt</li>
+                    </ul>
+
+                    <p><strong>Newborn Screening Impact:</strong></p>
+                    <ul>
+                        <li><strong>Relatives Risiko Behinderung:</strong> 90% Reduktion</li>
+                        <li><strong>NNT (Number Needed to Treat):</strong> 1,2 (extrem effektiv)</li>
+                        <li><strong>Ökonomischer Benefit:</strong> Massive Kosteneinsparung</li>
+                        <li><strong>Familiärer Impact:</strong> Normale Familienplanung möglich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="content-section" id="quiz">
+            <h2 class="section-title">🧠 Lernkontrolle - Expertenwissen</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Welcher Cofaktor ist spezifisch für die Methylmalonyl-CoA-Mutase erforderlich?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Biotin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Adenosylcobalamin (AdoCbl)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Thiaminpyrophosphat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Pyridoxalphosphat</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. Bei welcher Organoacidämie ist der charakteristische "sweaty feet odor" pathognomonisch?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Propionacidämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Isovalerianacidämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Methylmalonacidämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) 3-MCC-Mangel</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. Welcher Acylcarnitin-Marker ist diagnostisch für Glutaracidämie Typ I?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) C3 (Propionylcarnitin)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) C5 (Isovalerylcarnitin)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) C5-DC (Glutarylcarnitin)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) C5-OH (3-Hydroxyisovalerylcarnitin)</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. Ab welchem Ammoniak-Spiegel sollte eine Hämodialyse erwogen werden?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) >150 μmol/l</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) >200 μmol/l</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) >300 μmol/l</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) >400 μmol/l</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. Welche Langzeitkomplikation ist typisch für Methylmalonacidämie?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Retinopathie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Tubulointerstitielle Nephropathie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Bewegungsstörungen</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Pankreatitis</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">6. Welche Mutation ist die häufigste bei MCAD-Mangel in Nordeuropa?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) c.1204C>T</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) c.1528C>T</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) c.323G>A</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">D) Frage bezieht sich auf MMA, nicht MCAD</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">7. Welcher Mechanismus führt zur Hyperammonämie bei Organoacidämien?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) N-Acetylglutamat-Synthase-Hemmung durch Propionyl-CoA</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Direkte Harnstoffzyklus-Enzym-Defekte</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Arginin-Mangel</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Citrullin-Akkumulation</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">8. Welche Diät-Modifikation ist spezifisch für Glutaracidämie I?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Protein-Restriktion generell</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Lysin- und Tryptophan-Restriktion</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) BCAA-Restriktion</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Methionin-Restriktion</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">9. Welcher Organoacidämie-Subtyp zeigt die beste B12-Responsivität?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) mut0-Form der MMA</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) cblA-Form der MMA</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Propionacidämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) mut--Form der MMA</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">10. Was ist das Screening-Ziel des deutschen Neugeborenenscreenings für Organoacidämien?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Alle Organoacidämien zu detektieren</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Die 5 häufigsten und behandelbaren Formen zu erfassen</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Nur schwere Verläufe zu identifizieren</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ausschließlich PA und MMA zu screenen</div>
+            </div>
+
+            <div id="quiz-result" style="margin-top: 30px; padding: 20px; border-radius: 12px; text-align: center; display: none;">
+                <h3 id="result-title"></h3>
+                <p id="result-text"></p>
+                <div id="result-badge"></div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('zusammenfassung')">Zur Zusammenfassung →</button>
+            </div>
+        </div>
+
+        <!-- Zusammenfassung -->
+        <div class="content-section" id="zusammenfassung">
+            <h2 class="section-title">📋 Zusammenfassung - Key Take-Home Messages</h2>
+            
+            <div class="subsection">
+                <h3>Die wichtigsten Erkenntnisse im Überblick</h3>
+                <div class="prognosis-box">
+                    <h4>🎯 Essentials für die klinische Praxis</h4>
+                    <p><strong>1. Newborn Screening revolutionierte die Prognose:</strong></p>
+                    <ul>
+                        <li><strong>85-95% normale Entwicklung</strong> bei Screening-diagnostizierten Patienten</li>
+                        <li><strong>Frühe Therapie vor ersten Symptomen</strong> verhindert irreversible Schäden</li>
+                        <li><strong>Glutaracidämie I Paradebeispiel:</strong> 90% Reduktion des Behinderungsrisikos</li>
+                        <li><strong>Falsch-negative Rate <5%:</strong> Screening sehr zuverlässig</li>
+                    </ul>
+
+                    <p><strong>2. Hyperammonämie = neurologischer Notfall:</strong></p>
+                    <ul>
+                        <li><strong>Jede Minute zählt:</strong> Irreversible Hirnschäden ab 6-12h Koma</li>
+                        <li><strong>300 μmol/l = Dialyse-Indikation</strong> bei Kindern</li>
+                        <li><strong>Nitrogen Scavenger + Carnitin</strong> als Erste-Hilfe-Maßnahmen</li>
+                        <li><strong>Protein-Stopp sofort</strong> bei Verdacht auf Organoacidämie</li>
+                    </ul>
+
+                    <p><strong>3. Langzeitprognose abhängig von:</strong></p>
+                    <ul>
+                        <li><strong>Anzahl der Krisen:</strong> Jede Krise reduziert IQ um 5-10 Punkte</li>
+                        <li><strong>Therapietreue:</strong> Kontinuierliche Behandlung schützt vor Komplikationen</li>
+                        <li><strong>B12-Responsivität:</strong> Cbl-Formen haben beste Prognose</li>
+                        <li><strong>Frühe Diagnose:</strong> Screening vs. klinische Diagnose dramatischer Unterschied</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Erkrankungsspezifische Kernbotschaften</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organoacidämie</th>
+                            <th>Screening-Marker</th>
+                            <th>Spezifische Therapie</th>
+                            <th>Hauptkomplikation</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Methylmalonacidämie</strong></td>
+                            <td>C3 ↑</td>
+                            <td>B12-Test obligatorisch</td>
+                            <td>Progressive Nephropathie</td>
+                            <td>Gut bei cbl-Formen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>C3 ↑</td>
+                            <td>Biotin + Metronidazol</td>
+                            <td>Kardiomyopathie, Stroke-like</td>
+                            <td>Variable, Tx oft nötig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isovalerianacidämie</strong></td>
+                            <td>C5 ↑</td>
+                            <td>Glycin + Carnitin</td>
+                            <td>Meist keine</td>
+                            <td>Exzellent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutaracidämie I</strong></td>
+                            <td>C5-DC ↑</td>
+                            <td>Lysin-Restriktion</td>
+                            <td>Irreversible Bewegungsstörungen</td>
+                            <td>Exzellent bei Screening</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-MCC-Mangel</strong></td>
+                            <td>C5-OH ↑</td>
+                            <td>Biotin-Versuch</td>
+                            <td>Meist asymptomatisch</td>
+                            <td>Exzellent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Praktische Algorithmen für den Klinikalltag</h3>
+                <div class="case-study">
+                    <h4>🚨 Notfall-Checkliste: Verdacht auf Organoacidämie</h4>
+                    <p><strong>Sofort-Diagnostik (≤30 min):</strong></p>
+                    <ul>
+                        <li><strong>✓ BGA:</strong> pH, BE, Laktat → metabolische Azidose?</li>
+                        <li><strong>✓ Elektrolyte:</strong> Anionenlücke berechnen (Ziel: <15 mmol/l)</li>
+                        <li><strong>✓ Ammoniak:</strong> Eis-gekühlt, sofort → Ziel: <50 μmol/l</li>
+                        <li><strong>✓ Ketonkörper:</strong> Blut + Urin → meist negativ/schwach bei OA</li>
+                    </ul>
+
+                    <p><strong>Sofort-Therapie (≤60 min):</strong></p>
+                    <ul>
+                        <li><strong>✓ Protein-Stopp:</strong> Alle Protein-Quellen sofort beenden</li>
+                        <li><strong>✓ Glucose 10%:</strong> 6-8 mg/kg/min Dauertropf</li>
+                        <li><strong>✓ L-Carnitin:</strong> 100-200 mg/kg/d i.v. in 3-4 Dosen</li>
+                        <li><strong>✓ Bicarbonat:</strong> Bei pH <7,1 oder BE <-15 mmol/l</li>
+                    </ul>
+
+                    <p><strong>Spezial-Diagnostik (≤2h):</strong></p>
+                    <ul>
+                        <li><strong>✓ Acylcarnitine:</strong> Tandem-MS für Differential-Diagnose</li>
+                        <li><strong>✓ Organische Säuren:</strong> GC-MS Urin für Bestätigung</li>
+                        <li><strong>✓ Kontakt Stoffwechselzentrum:</strong> 24h-Hotline nutzen</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>📊 Langzeit-Monitoring Schema</h4>
+                    <p><strong>Alle 3 Monate (stabil):</strong></p>
+                    <ul>
+                        <li><strong>Wachstum/Entwicklung:</strong> Gewicht, Länge, psychomotorische Meilensteine</li>
+                        <li><strong>Acylcarnitin-Profil:</strong> Krankheitsspezifische Marker + freies Carnitin</li>
+                        <li><strong>Ernährungsanamnese:</strong> Protein-Intake, Compliance, Gewichtsentwicklung</li>
+                    </ul>
+
+                    <p><strong>Alle 6-12 Monate:</strong></p>
+                    <ul>
+                        <li><strong>Organische Säuren:</strong> Urin-GC-MS für metabolische Kontrolle</li>
+                        <li><strong>Spezial-Untersuchungen:</strong> Je nach Erkrankung (Echo, Niere, Neuro)</li>
+                        <li><strong>Entwicklungsdiagnostik:</strong> Bei Auffälligkeiten neuropädiatrische Mitbetreuung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Zukunftsperspektiven und Innovation</h3>
+                <div class="highlight-box">
+                    <h4>Neue Therapieansätze in Entwicklung</h4>
+                    <p><strong>Gentherapie-Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>Adeno-assoziierte Viren (AAV):</strong> Leberspezifische Genexpression</li>
+                        <li><strong>CRISPR/Cas9:</strong> Genom-Editing für Enzym-Korrektur</li>
+                        <li><strong>Erste klinische Studien:</strong> MMA und PA im Phase I/II-Stadium</li>
+                    </ul>
+
+                    <p><strong>Zelltherapie-Strategien:</strong></p>
+                    <ul>
+                        <li><strong>Hepatozyten-Transplantation:</strong> Als Bridge zur Organspende</li>
+                        <li><strong>iPS-Zell-basierte Therapien:</strong> Patientenspezifische Ansätze</li>
+                        <li><strong>Ex-vivo Genkorrektur:</strong> Kombination Gen- + Zelltherapie</li>
+                    </ul>
+
+                    <p><strong>Pharmakologische Innovation:</strong></p>
+                    <ul>
+                        <li><strong>Neue Nitrogen Scavenger:</strong> Glycerol-Phenylbutyrat (bessere Compliance)</li>
+                        <li><strong>Enzym-Replacement:</strong> Rekombinante Enzyme in Entwicklung</li>
+                        <li><strong>Chaperon-Therapie:</strong> Stabilisierung mutierter Enzyme</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: var(--border-radius); border: 2px solid var(--success-color);">
+                    <h3 style="color: #16a34a; margin-bottom: 1rem;">🎉 Herzlichen Glückwunsch!</h3>
+                    <p style="color: #166534; margin-bottom: 1.5rem;">Sie haben die komplette Lerneinheit zu Organoacidämien erfolgreich absolviert.</p>
+                    <div class="completion-badge">EXPERTEN-LEVEL ERREICHT</div>
+                    <p style="color: #166534; margin-top: 1.5rem;"><strong>Ihr Wissenstand:</strong> Sie beherrschen nun die Diagnostik, Therapie und das Management aller fünf wichtigen Organoacidämien auf Experten-Niveau.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['prognose', 'fallbeispiele', 'quiz', 'zusammenfassung'];
+        let quizScore = 0;
+        let quizCompleted = false;
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function selectAnswer(element, isCorrect) {
+            // Disable all options in this question
+            const container = element.parentElement;
+            const options = container.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option === element) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        quizScore++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                } else if (option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                }
+            });
+
+            // Check if quiz is complete
+            const totalQuestions = document.querySelectorAll('.quiz-container').length;
+            const answeredQuestions = document.querySelectorAll('.quiz-option.correct, .quiz-option.incorrect').length;
+            
+            if (answeredQuestions === totalQuestions && !quizCompleted) {
+                quizCompleted = true;
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            const resultDiv = document.getElementById('quiz-result');
+            const resultTitle = document.getElementById('result-title');
+            const resultText = document.getElementById('result-text');
+            const resultBadge = document.getElementById('result-badge');
+            
+            const percentage = (quizScore / 10) * 100;
+            
+            if (percentage >= 90) {
+                resultTitle.textContent = '🏆 Ausgezeichnet!';
+                resultText.textContent = `${quizScore}/10 richtig (${percentage}%). Sie haben Experten-Niveau erreicht!`;
+                resultBadge.innerHTML = '<div class="completion-badge">ORGANOACIDÄMIEN-EXPERTE</div>';
+                resultDiv.style.background = 'linear-gradient(135deg, #f0fdf4, #dcfce7)';
+            } else if (percentage >= 70) {
+                resultTitle.textContent = '👍 Sehr gut!';
+                resultText.textContent = `${quizScore}/10 richtig (${percentage}%). Solides Expertenwissen!`;
+                resultBadge.innerHTML = '<div class="completion-badge" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">FORTGESCHRITTEN</div>';
+                resultDiv.style.background = 'linear-gradient(135deg, #eff6ff, #dbeafe)';
+            } else {
+                resultTitle.textContent = '📚 Weiter üben!';
+                resultText.textContent = `${quizScore}/10 richtig (${percentage}%). Wiederholen Sie die Lerneinheiten.`;
+                resultBadge.innerHTML = '<div class="completion-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">AUFBAU-NIVEAU</div>';
+                resultDiv.style.background = 'linear-gradient(135deg, #fff7ed, #fed7aa)';
+            }
+            
+            resultDiv.style.display = 'block';
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

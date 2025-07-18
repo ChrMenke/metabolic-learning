@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitochondriopathien - Teil 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Differential diagnosis box */
+        .dd-box {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            border: 2px solid #f59e0b;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dd-box::before {
+            content: '🔍';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dd-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .dd-box p, .dd-box ul, .dd-box li {
+            color: #92400e;
+        }
+        
+        /* Emergency box */
+        .emergency-box {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid #ef4444;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .emergency-box::before {
+            content: '🚨';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .emergency-box h4 {
+            color: #dc2626;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .emergency-box p, .emergency-box ul, .emergency-box li {
+            color: #dc2626;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .quiz-explanation {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            display: none;
+        }
+        
+        .quiz-explanation.show {
+            display: block;
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        /* Algorithm boxes */
+        .algorithm-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .algorithm-box::before {
+            content: '📋';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .algorithm-box h4 {
+            color: #0c4a6e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .algorithm-box p, .algorithm-box ul, .algorithm-box li {
+            color: #0c4a6e;
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Flow diagram */
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--info-color);
+            margin: 10px auto;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Mitochondriopathien</h1>
+            <p>Teil 3: Fallbeispiele & Praxis</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 3</h3>
+            <p>Dieser abschließende Teil vertieft das Wissen durch komplexe Fallbeispiele, Differentialdiagnosen und interaktive Lernkontrollen.</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('fallbeispiele')">1. Fallbeispiele</button>
+            <button class="nav-btn" onclick="showSection('differentialdiagnosen')">2. Differentialdiagnosen</button>
+            <button class="nav-btn" onclick="showSection('lernkontrolle')">3. Lernkontrolle</button>
+            <button class="nav-btn" onclick="showSection('zusammenfassung')">4. Zusammenfassung</button>
+        </div>
+        
+        <!-- Fallbeispiele -->
+        <div class="content-section active" id="fallbeispiele">
+            <h2 class="section-title">🩺 Komplexe Fallbeispiele</h2>
+            
+            <div class="subsection">
+                <h3>Fall 1: Der 16-jährige Sportler mit Exercise Intolerance</h3>
+                <div class="case-study">
+                    <h4>📋 Anamnese und Befund</h4>
+                    <p><strong>Patient:</strong> 16-jähriger Fußballspieler, bisher gesund</p>
+                    
+                    <p><strong>Aktuelle Anamnese:</strong></p>
+                    <ul>
+                        <li>Seit 6 Monaten zunehmende Exercise Intolerance</li>
+                        <li>Früher Leistungssportler, jetzt schon bei mäßiger Belastung erschöpft</li>
+                        <li>Gelegentlich Muskelkrämpfe und -schmerzen nach Training</li>
+                        <li>Trainer bemerkte verminderte Ausdauer und Regeneration</li>
+                    </ul>
+                    
+                    <p><strong>Familienanamnese:</strong></p>
+                    <ul>
+                        <li>Mutter: Diabetes mellitus seit 30. Lebensjahr, trägt Hörgeräte</li>
+                        <li>Maternale Tante: Früh verstorben an "Herzproblemen"</li>
+                        <li>Maternaler Großvater: Diabetes, Hörverlust</li>
+                        <li>Väterlicherseits: Unauffällig</li>
+                    </ul>
+                    
+                    <p><strong>Klinischer Befund:</strong></p>
+                    <ul>
+                        <li>Normaler neurologischer Status</li>
+                        <li>Leichte proximale Muskelschwäche</li>
+                        <li>Herzfrequenz Ruhe: 72/min, bei Belastung inadäquat hoch</li>
+                        <li>Keine Dysmorphiezeichen</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Wert</th>
+                            <th>Normbereich</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Laktat (Ruhe)</strong></td>
+                            <td>3,8 mmol/l</td>
+                            <td><2,0 mmol/l</td>
+                            <td>Deutlich erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pyruvat</strong></td>
+                            <td>0,18 mmol/l</td>
+                            <td>0,04-0,10 mmol/l</td>
+                            <td>Erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Laktat/Pyruvat-Ratio</strong></td>
+                            <td>21</td>
+                            <td><10</td>
+                            <td>Pathologisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CK</strong></td>
+                            <td>450 U/l</td>
+                            <td><200 U/l</td>
+                            <td>Erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Belastungs-Laktat</strong></td>
+                            <td>8,2 mmol/l (nach 5 min)</td>
+                            <td><4,0 mmol/l</td>
+                            <td>Exzessive Akkumulation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="dd-box">
+                    <h4>Differentialdiagnostischer Prozess</h4>
+                    <p><strong>Hypothesen basierend auf Anamnese + Labor:</strong></p>
+                    <ul>
+                        <li><strong>Mitochondriopathie:</strong> Familienanamnese + Exercise Intolerance + Laktat ↑</li>
+                        <li><strong>Glykogenose:</strong> Exercise Intolerance + CK ↑ (aber Laktat-Pattern atypisch)</li>
+                        <li><strong>Lipidspeicherkrankheit:</strong> Myopathie (aber keine Hepatomegalie)</li>
+                        <li><strong>Myositis:</strong> CK ↑ + Myalgie (aber keine Entzündungszeichen)</li>
+                    </ul>
+                    
+                    <p><strong>Führende Hypothese: MIDD (maternally inherited diabetes and deafness)</strong></p>
+                    <ul>
+                        <li><strong>Familienanamnese:</strong> Maternal vererbter Diabetes + Hörverlust</li>
+                        <li><strong>Laktatazidose:</strong> Charakteristisch für mtDNA-Defekte</li>
+                        <li><strong>Exercise Intolerance:</strong> Frühe Manifestation bei Sportlern</li>
+                        <li><strong>Altersgruppe:</strong> Typisch für milde mtDNA-Syndrome</li>
+                    </ul>
+                </div>
+                
+                <div class="emergency-box">
+                    <h4>Weiterführende Diagnostik</h4>
+                    <p><strong>Zielgerichtete Tests:</strong></p>
+                    <ul>
+                        <li><strong>m.3243A>G-Mutation:</strong> In Blut + Urin (höhere Sensitivität)</li>
+                        <li><strong>Audiometrie:</strong> Sensorineuraler Hörverlust?</li>
+                        <li><strong>Ophthalmologie:</strong> Pattern-Makulopathie?</li>
+                        <li><strong>Glukosetoleranztest:</strong> Prädiabetes/Diabetes?</li>
+                    </ul>
+                    
+                    <p><strong>Ergebnis:</strong></p>
+                    <ul>
+                        <li><strong>m.3243A>G:</strong> 25% Heteroplasmie (Blut), 45% (Urin)</li>
+                        <li><strong>Audiometrie:</strong> Hochtonverlust bilateral</li>
+                        <li><strong>oGTT:</strong> Gestörte Glukosetoleranz</li>
+                        <li><strong>Ophthalmologie:</strong> Diskrete retinale Pigmentveränderungen</li>
+                    </ul>
+                </div>
+                
+                <div class="case-study">
+                    <h4>🎯 Diagnose und Management</h4>
+                    <p><strong>Enddiagnose:</strong> MIDD-Syndrom (m.3243A>G-Mutation) mit früher sportassoziierter Manifestation</p>
+                    
+                    <p><strong>Therapeutisches Management:</strong></p>
+                    <ul>
+                        <li><strong>Sport-Modifikation:</strong> Ausdauersport reduzieren, Krafttraining bevorzugen</li>
+                        <li><strong>L-Arginin:</strong> 3g/d zur Exercise Intolerance-Verbesserung</li>
+                        <li><strong>Diabetes-Prävention:</strong> Lifestyle-Intervention, jährliche oGTT</li>
+                        <li><strong>Audiologie:</strong> Jährliche Kontrollen, ggf. Hörgeräte</li>
+                    </ul>
+                    
+                    <p><strong>Familienscreening:</strong></p>
+                    <ul>
+                        <li><strong>Mutter:</strong> Bestätigung der Mutation, Diabetesoptimierung</li>
+                        <li><strong>Geschwister:</strong> Präsymptomatisches Screening</li>
+                        <li><strong>Genetische Beratung:</strong> Reproduktive Optionen</li>
+                    </ul>
+                    
+                    <p><strong>Prognose:</strong> Gut bei früher Diagnose und Lifestyle-Anpassung</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Fall 2: Das Neugeborene mit metabolischer Azidose</h3>
+                <div class="case-study">
+                    <h4>🍼 Neonatale Intensivstation</h4>
+                    <p><strong>Patient:</strong> 3 Tage altes männliches Neugeborenes</p>
+                    
+                    <p><strong>Geburt und Anamnese:</strong></p>
+                    <ul>
+                        <li>Termingerecht geboren, Geburtsgewicht 3200g</li>
+                        <li>Zunächst unauffällig, normal gestillt</li>
+                        <li>Ab 48h zunehmende Trinkschwäche</li>
+                        <li>Lethargie, schwache Schreie</li>
+                        <li>Temperaturinstabilität</li>
+                    </ul>
+                    
+                    <p><strong>Familienanamnese:</strong></p>
+                    <ul>
+                        <li>Erstgeborenes gesunder Eltern</li>
+                        <li>Bruder des Vaters: Im Säuglingsalter verstorben (ungeklärt)</li>
+                        <li>Konsanguinität: Eltern sind Cousins 2. Grades</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Tag 1</th>
+                            <th>Tag 3</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>pH</strong></td>
+                            <td>7,38</td>
+                            <td>7,12</td>
+                            <td>Schwere metabolische Azidose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bikarbonat</strong></td>
+                            <td>22 mmol/l</td>
+                            <td>8 mmol/l</td>
+                            <td>Schwerer Bikarbonat-Verlust</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Anionenlücke</strong></td>
+                            <td>12 mmol/l</td>
+                            <td>28 mmol/l</td>
+                            <td>Hohe Anionenlücke</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Laktat</strong></td>
+                            <td>2,1 mmol/l</td>
+                            <td>18,5 mmol/l</td>
+                            <td>Extreme Laktatazidose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pyruvat</strong></td>
+                            <td>0,08 mmol/l</td>
+                            <td>0,32 mmol/l</td>
+                            <td>Deutlich erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glukose</strong></td>
+                            <td>4,2 mmol/l</td>
+                            <td>2,8 mmol/l</td>
+                            <td>Hypoglykämie</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="emergency-box">
+                    <h4>Akutmanagement bei Laktatazidose</h4>
+                    <p><strong>Sofortmaßnahmen:</strong></p>
+                    <ul>
+                        <li><strong>Atemweg/Beatmung:</strong> Kompensatorische Hyperventilation unterstützen</li>
+                        <li><strong>Glukose:</strong> 10% Dauerinfusion 6-8 mg/kg/min</li>
+                        <li><strong>Bikarbonat:</strong> Vorsichtig titrieren auf pH >7,2 (nicht überpuffern!)</li>
+                        <li><strong>Thiamin:</strong> 100mg i.v. (bei PDH-Verdacht)</li>
+                    </ul>
+                    
+                    <p><strong>Spezialdiagnostik parallel:</strong></p>
+                    <ul>
+                        <li><strong>Organische Säuren (Urin):</strong> STAT-Analyse</li>
+                        <li><strong>Aminosäuren (Plasma):</strong> Alanin bei PDH-Defekten erhöht</li>
+                        <li><strong>Pyruvat/Laktat-Ratio:</strong> <10 → PDH-Defekt wahrscheinlich</li>
+                        <li><strong>Ketone:</strong> Bei PDH-Defekten oft erniedrigt</li>
+                    </ul>
+                </div>
+                
+                <div class="dd-box">
+                    <h4>Differentialdiagnose der neonatalen Laktatazidose</h4>
+                    <p><strong>Häufige Ursachen:</strong></p>
+                    <ul>
+                        <li><strong>PDH-Komplex-Defekte:</strong> Pyruvat/Laktat <10, Alanin ↑</li>
+                        <li><strong>Atmungskettendefekte:</strong> Oft multisystemisch</li>
+                        <li><strong>Organoacidopathien:</strong> Charakteristische organische Säuren</li>
+                        <li><strong>Glykogenose I:</strong> Hypoglykämie + Hepatomegalie</li>
+                    </ul>
+                    
+                    <p><strong>Seltene/erworbene Ursachen:</strong></p>
+                    <ul>
+                        <li><strong>Sepsis/Schock:</strong> Klinische Zeichen der Infektion</li>
+                        <li><strong>Intoxikation:</strong> Methanol, Ethylenglykol (sehr selten neonatal)</li>
+                        <li><strong>Thiamin-Mangel:</strong> Bei TPN ohne Vitaminzusatz</li>
+                    </ul>
+                    
+                    <p><strong>In diesem Fall spricht für PDH-Defekt:</strong></p>
+                    <ul>
+                        <li><strong>Pyruvat/Laktat-Ratio:</strong> 1,7 (normal >10)</li>
+                        <li><strong>Alanin:</strong> 850 μmol/l (normal <400)</li>
+                        <li><strong>Männliches Geschlecht:</strong> PDHA1 X-chromosomal</li>
+                        <li><strong>Konsanguinität:</strong> Autosomal-rezessive Formen möglich</li>
+                    </ul>
+                </div>
+                
+                <div class="case-study">
+                    <h4>🔬 Diagnosebestätigung und Outcome</h4>
+                    <p><strong>Weitere Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>PDH-Enzymaktivität (Fibroblasten):</strong> <5% der Kontrolle</li>
+                        <li><strong>Thiamin-Response-Test:</strong> Keine Besserung</li>
+                        <li><strong>Molekulargenetik:</strong> PDHA1 c.784C>T (p.Arg262Cys)</li>
+                        <li><strong>Mutation bekannt:</strong> Schwerer Phänotyp, keine Thiamin-Responsivität</li>
+                    </ul>
+                    
+                    <p><strong>Therapieversuche:</strong></p>
+                    <ul>
+                        <li><strong>Ketogene Diät:</strong> Beginn mit MCT-Öl-reicher Formula</li>
+                        <li><strong>Dichloracetat:</strong> 25 mg/kg/d (experimentell)</li>
+                        <li><strong>Cofaktoren:</strong> Thiamin, Liponsäure, Carnitin</li>
+                        <li><strong>Laktat-Monitoring:</strong> Reduktion von 18 auf 6 mmol/l</li>
+                    </ul>
+                    
+                    <p><strong>Langzeit-Outcome:</strong></p>
+                    <ul>
+                        <li><strong>Überlebend:</strong> Mit schweren neurologischen Defiziten</li>
+                        <li><strong>Entwicklung:</strong> Schwere globale Entwicklungsretardierung</li>
+                        <li><strong>Prognose:</strong> Lebenslimitierende Erkrankung</li>
+                        <li><strong>Familienberatung:</strong> 25% Wiederholungsrisiko bei männlichen Nachkommen</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Fall 3: Die 8-jährige mit progressiver Ataxie</h3>
+                <div class="case-study">
+                    <h4>🤸‍♀️ Entwicklungsrückgang bei Schulkind</h4>
+                    <p><strong>Patientin:</strong> 8 Jahre, weiblich</p>
+                    
+                    <p><strong>Entwicklungsanamnese:</strong></p>
+                    <ul>
+                        <li>Normale Geburt und frühe Entwicklung</li>
+                        <li>Laufen mit 14 Monaten, Sprechen rechtzeitig</li>
+                        <li>Schulbeginn problemlos</li>
+                        <li>Seit 6 Monaten zunehmende Gangstörung</li>
+                        <li>Häufigere Stürze, Probleme beim Treppensteigen</li>
+                    </ul>
+                    
+                    <p><strong>Aktuelle Symptomatik:</strong></p>
+                    <ul>
+                        <li>Breitbasiger, unsicherer Gang</li>
+                        <li>Fingernase-Versuch unkoordiniert</li>
+                        <li>Dysdiadochokinese</li>
+                        <li>Leichte Dysarthrie</li>
+                        <li>Schulleistungen konstant</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Untersuchung</th>
+                            <th>Befund</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MRT Gehirn</strong></td>
+                            <td>Kleinhirn-Atrophie, diskrete T2-Hyperintensitäten</td>
+                            <td>Zerebellare Degeneration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Laktat (Liquor)</strong></td>
+                            <td>4,2 mmol/l (normal <2,2)</td>
+                            <td>Erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CoQ10 (Muskel)</strong></td>
+                            <td>12% der Kontrolle</td>
+                            <td>Schwerer Mangel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Komplex I+III (Muskel)</strong></td>
+                            <td>25% bzw. 30% der Kontrolle</td>
+                            <td>Reduziert</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proteinurie</strong></td>
+                            <td>2+ (0,8 g/l)</td>
+                            <td>Nephrotisches Syndrom?</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4>🎯 Therapiedurchbruch</h4>
+                    <p><strong>Verdachtsdiagnose:</strong> Primärer Coenzym Q10-Mangel</p>
+                    
+                    <p><strong>Molekulargenetik:</strong></p>
+                    <ul>
+                        <li><strong>COQ6-Gen:</strong> Compound heterozygot</li>
+                        <li><strong>Mutation 1:</strong> c.541C>T (p.Arg181*)</li>
+                        <li><strong>Mutation 2:</strong> c.890G>A (p.Gly297Asp)</li>
+                        <li><strong>Pathogenität:</strong> Beide Mutationen bekannt pathogen</li>
+                    </ul>
+                    
+                    <p><strong>CoQ10-Hochdosis-Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Dosierung:</strong> 30 mg/kg/d in 3 Dosen</li>
+                        <li><strong>Applikation:</strong> Mit fettreicher Mahlzeit</li>
+                        <li><strong>Monitoring:</strong> CoQ10-Spiegel + klinische Verlaufskontrolle</li>
+                    </ul>
+                    
+                    <p><strong>Therapeutische Response:</strong></p>
+                    <ul>
+                        <li><strong>Nach 4 Wochen:</strong> Deutlich verbesserter Gang</li>
+                        <li><strong>Nach 3 Monaten:</strong> Normale Schulleistungen</li>
+                        <li><strong>Nach 6 Monaten:</strong> Vollständige Regredienz der Ataxie</li>
+                        <li><strong>Proteinurie:</strong> Normalisierung nach 8 Wochen</li>
+                    </ul>
+                    
+                    <p><strong>Lernpunkt:</strong> CoQ10-Mangel ist eine der wenigen vollständig reversiblen Mitochondriopathien!</p>
+                </div>
+            </div>
+            
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('differentialdiagnosen')">Zu den Differentialdiagnosen →</button>
+            </div>
+        </div>
+        
+        <!-- Differentialdiagnosen -->
+        <div class="content-section" id="differentialdiagnosen">
+            <h2 class="section-title">🔍 Differentialdiagnosen</h2>
+            
+            <div class="subsection">
+                <h3>Mitochondriopathien vs. andere Stoffwechselerkrankungen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Krankheitsgruppe</th>
+                            <th>Überlappende Symptome</th>
+                            <th>Unterscheidungsmerkmale</th>
+                            <th>Schlüsseltests</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Glykogenosen</strong></td>
+                            <td>Exercise Intolerance, Hypoglykämie, Hepatomegalie</td>
+                            <td>Normale Laktat/Pyruvat-Ratio, Ketose bei Hypoglykämie</td>
+                            <td>Glukagon-Test, Enzymaktivität</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fettsäureoxidationsdefekte</strong></td>
+                            <td>Hypoglykämie, Kardiomyopathie, Exercise Intolerance</td>
+                            <td>Hypoketotische Hypoglykämie, normale mtDNA</td>
+                            <td>Acylcarnitin-Profil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Organoacidopathien</strong></td>
+                            <td>Laktatazidose, Hyperammonämie, Entwicklungsretardierung</td>
+                            <td>Charakteristische organische Säuren, Ketoazidose</td>
+                            <td>Organische Säuren (Urin)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Peroxisomale Störungen</strong></td>
+                            <td>Hypotonie, Entwicklungsretardierung, Hepatopathie</td>
+                            <td>VLCFA erhöht, charakteristische Dysmorphie</td>
+                            <td>VLCFA, Phytansäure, Plasmalogene</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lysosomale Speicherkrankheiten</strong></td>
+                            <td>Organomegalie, Entwicklungsrückgang, Myopathie</td>
+                            <td>Speicherzellen, spezifische Substrate</td>
+                            <td>Enzymaktivitäten, GAG</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="dd-box">
+                    <h4>Diagnostische Algorithmen nach Leitsymptom</h4>
+                    <p><strong>Exercise Intolerance bei Kindern/Jugendlichen:</strong></p>
+                    <ul>
+                        <li><strong>1. CK messen:</strong> Normal → Mitochondriopathie/Glykogenose wahrscheinlicher</li>
+                        <li><strong>2. Laktat (Ruhe + Belastung):</strong> Exzessiver Anstieg → Mitochondriopathie</li>
+                        <li><strong>3. Familienanamnese:</strong> Maternal → mtDNA-Syndrome, Konsanguinität → autosomal-rezessive</li>
+                        <li><strong>4. Zusatzsymptome:</strong> Hörverlust + Diabetes → MIDD, Epilepsie → MERRF</li>
+                    </ul>
+                    
+                    <p><strong>Neonatale Laktatazidose:</strong></p>
+                    <ul>
+                        <li><strong>1. Pyruvat/Laktat-Ratio:</strong> <10 → PDH-Defekt, >20 → Atmungskettendefekt</li>
+                        <li><strong>2. Organische Säuren:</strong> Ausschluss Organoacidopathien</li>
+                        <li><strong>3. Thiamin-Test:</strong> Bei PDH-Verdacht therapeutischer Versuch</li>
+                        <li><strong>4. Multisystem-Beteiligung:</strong> Herz, Niere, Muskel → Atmungskettendefekt</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Neurologische Differentialdiagnosen</h3>
+                <div class="dd-box">
+                    <h4>Progressive Ataxie im Kindesalter</h4>
+                    <p><strong>Mitochondriale Ursachen:</strong></p>
+                    <ul>
+                        <li><strong>CoQ10-Mangel:</strong> Therapierbar, oft mit Nephropathie</li>
+                        <li><strong>Atmungskettendefekte:</strong> Multisystemisch, Laktatazidose</li>
+                        <li><strong>PDHA1-Defekte:</strong> Meist frühere Manifestation</li>
+                        <li><strong>mtDNA-Syndrome:</strong> Seltener, oft weitere Symptome</li>
+                    </ul>
+                    
+                    <p><strong>Nicht-mitochondriale Ursachen:</strong></p>
+                    <ul>
+                        <li><strong>Friedreich-Ataxie:</strong> Autosomal-rezessiv, Kardiomyopathie, normale Laktatwerte</li>
+                        <li><strong>Spinozerebelläre Ataxien:</strong> Meist dominanter Erbgang, späterer Beginn</li>
+                        <li><strong>Ataxia telangiectasia:</strong> Teleangiektasien, Immundefekt, α-Fetoprotein ↑</li>
+                        <li><strong>Wilson-Krankheit:</strong> Kayser-Fleischer-Ring, Coeruloplasmin ↓, Kupfer ↑</li>
+                    </ul>
+                    
+                    <p><strong>Differentialdiagnostische Marker:</strong></p>
+                    <ul>
+                        <li><strong>MRS (Gehirn):</strong> Laktat-Peak bei Mitochondriopathien</li>
+                        <li><strong>Muskelbiopsie:</strong> RRF, COX-negative Fasern</li>
+                        <li><strong>Genetik:</strong> Targeted Panels vs. Exom-Sequenzierung</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Ataxie-Typ</th>
+                            <th>Zusatzsymptome</th>
+                            <th>Diagnostik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CoQ10-Mangel</strong></td>
+                            <td>Zerebellar, progredient</td>
+                            <td>Nephropathie, Myopathie</td>
+                            <td>CoQ10-Spiegel ↓, Gen-Panel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Friedreich-Ataxie</strong></td>
+                            <td>Sensory + zerebellar</td>
+                            <td>Kardiomyopathie, Skoliose</td>
+                            <td>FXN-Repeat-Expansion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ataxia telangiectasia</strong></td>
+                            <td>Zerebellar, früh</td>
+                            <td>Teleangiektasien, Immundefekt</td>
+                            <td>ATM-Mutationen, α-Fetoprotein ↑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wilson-Krankheit</strong></td>
+                            <td>Extrapyramidal + zerebellar</td>
+                            <td>Hepatopathie, Psychiatrie</td>
+                            <td>Coeruloplasmin ↓, ATP7B-Mutationen</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="subsection">
+                <h3>Kardiale Differentialdiagnosen</h3>
+                <div class="dd-box">
+                    <h4>Kardiomyopathie bei Kindern</h4>
+                    <p><strong>Mitochondriale Ursachen (5-10% aller Kardiomyopathien):</strong></p>
+                    <ul>
+                        <li><strong>Atmungskettendefekte:</strong> Meist Komplex I, III, IV</li>
+                        <li><strong>PDH-Defekte:</strong> Besonders PDHA1, PDK3</li>
+                        <li><strong>mtDNA-Syndrome:</strong> Kearns-Sayre (Reizleitungsstörungen!)</li>
+                        <li><strong>Coenzym Q10-Mangel:</strong> Oft reversibel unter Therapie</li>
+                    </ul>
+                    
+                    <p><strong>Nicht-mitochondriale Stoffwechselerkrankungen:</strong></p>
+                    <ul>
+                        <li><strong>Pompe-Krankheit:</strong> Hypertrophe CM, Makroglossia, Hypotonie</li>
+                        <li><strong>Danon-Krankheit:</strong> X-chromosomal, Myopathie, intellektuelle Behinderung</li>
+                        <li><strong>Glykogenose III:</strong> Hepatomegalie, Hypoglykämie, CK ↑</li>
+                        <li><strong>Fabry-Krankheit:</strong> Angiokeratome, Neuropathie, progressive CM</li>
+                    </ul>
+                    
+                    <p><strong>Genetische Kardiomyopathien:</strong></p>
+                    <ul>
+                        <li><strong>Hypertrophe CM:</strong> MYBPC3, MYH7, TNNT2 (häufigste Ursachen)</li>
+                        <li><strong>Dilatative CM:</strong> TTN, LMNA, MYH7</li>
+                        <li><strong>Arrhythmogene CM:</strong> PKP2, DSP, DSG2</li>
+                    </ul>
+                </div>
+                
+                <div class="emergency-box">
+                    <h4>Red Flags für mitochondriale Kardiomyopathie</h4>
+                    <p><strong>Klinische Warnsignale:</strong></p>
+                    <ul>
+                        <li><strong>Multisystem-Beteiligung:</strong> Herz + ZNS + Muskel + Auge</li>
+                        <li><strong>Maternale Vererbung:</strong> Weitere Familienmitglieder über Mutterlinie</li>
+                        <li><strong>Laktatazidose:</strong> Besonders bei Stress/Infekten</li>
+                        <li><strong>Reizleitungsstörungen:</strong> Progressive AV-Blocks (Kearns-Sayre!)</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostische Schritte:</strong></p>
+                    <ul>
+                        <li><strong>Laktat/Pyruvat:</strong> Ruhe + Belastung</li>
+                        <li><strong>CK:</strong> Oft erhöht bei mitochondrialen Formen</li>
+                        <li><strong>MRT-Spektroskopie:</strong> Myokardiales Laktat</li>
+                        <li><strong>Endomyokardbiopsie:</strong> Bei unklaren Fällen</li>
+                    </ul>
+                    
+                    <p><strong>Therapieimplika Funktionen:</strong></p>
+                    <ul>
+                        <li><strong>CoQ10-Versuch:</strong> Bei Verdacht auf primären Mangel</li>
+                        <li><strong>Antiarrhythmika:</strong> Vorsicht bei Mitochondriopathien</li>
+                        <li><strong>Schrittmacher:</strong> Liberal bei Kearns-Sayre-Syndrom</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Diagnostische Fallen und Pitfalls</h3>
+                <div class="emergency-box">
+                    <h4>Häufige Fehldiagnosen</h4>
+                    <p><strong>Mitochondriopathie fälschlich als andere Erkrankung diagnostiziert:</strong></p>
+                    <ul>
+                        <li><strong>Zerebralparese:</strong> Bei früher Manifestation mit statomotorischen Defiziten</li>
+                        <li><strong>Muskeldystrophie:</strong> Bei progressiver Myopathie ohne Familienanamnese</li>
+                        <li><strong>Epilepsie-Syndrom:</strong> Bei MERRF oder MELAS mit prominenten Krampfanfällen</li>
+                        <li><strong>Psychiatrische Erkrankung:</strong> Bei MELAS mit Persönlichkeitsveränderungen</li>
+                    </ul>
+                    
+                    <p><strong>Andere Erkrankung fälschlich als Mitochondriopathie diagnostiziert:</strong></p>
+                    <ul>
+                        <li><strong>Sepsis/Schock:</strong> Laktatazidose durch Gewebshypoxie</li>
+                        <li><strong>Valproat-Toxizität:</strong> Laktatazidose, Hyperammonämie</li>
+                        <li><strong>Malnutrition:</strong> Sekundäre mitochondriale Dysfunktion</li>
+                        <li><strong>Medikamenten-Nebenwirkungen:</strong> Metformin, Linezolid</li>
+                    </ul>
+                </div>
+                
+                <div class="dd-box">
+                    <h4>Labordiagnostische Fallstricke</h4>
+                    <p><strong>Laktat-Messung:</strong></p>
+                    <ul>
+                        <li><strong>Präanalytik:</strong> Stauung, Hämolyse → falsch erhöhte Werte</li>
+                        <li><strong>Stress-induziert:</strong> Schreien, Krampfanfälle → vorübergehend erhöht</li>
+                        <li><strong>Medikamente:</strong> Metformin, Valproat → sekundäre Erhöhung</li>
+                        <li><strong>Alter:</strong> Neugeborene haben physiologisch höhere Werte</li>
+                    </ul>
+                    
+                    <p><strong>Muskelbiopsie:</strong></p>
+                    <ul>
+                        <li><strong>Altersabhängigkeit:</strong> Mehr COX-negative Fasern bei älteren Patienten</li>
+                        <li><strong>Probenqualität:</strong> Freezing artifacts können RRF vortäuschen</li>
+                        <li><strong>Muskelselektion:</strong> Unterschiedliche Aktivitäten in verschiedenen Muskeln</li>
+                        <li><strong>Therapieeffekte:</strong> CoQ10, Statine können Ergebnisse beeinflussen</li>
+                    </ul>
+                    
+                    <p><strong>Genetische Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>mtDNA-Heteroplasmie:</strong> Variable Gewebeverteilung</li>
+                        <li><strong>Varianten unklarer Signifikanz:</strong> Schwierige Interpretation</li>
+                        <li><strong>Mosaik-Mutationen:</strong> Können im Blut übersehen werden</li>
+                        <li><strong>Epigenetische Faktoren:</strong> Können Penetranz beeinflussen</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('lernkontrolle')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+        
+        <!-- Lernkontrolle -->
+        <div class="content-section" id="lernkontrolle">
+            <h2 class="section-title">🧠 Interaktive Lernkontrolle</h2>
+            
+            <div class="subsection">
+                <h3>Expertenquiz Mitochondriopathien</h3>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">1. Ein 25-jähriger Patient entwickelt nach einem Infekt eine Episode mit Hemiplegie und Aphasie. MRT zeigt eine okzipitale Läsion, die nicht vaskulären Territorien entspricht. Laktat ist erhöht. Welche Untersuchung ist am zielführendsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Thrombophilie-Diagnostik</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) mtDNA-Sequenzierung mit Fokus auf m.3243A>G</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Vaskulitis-Screening (ANA, ANCA)</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Echokardiographie mit Bubble-Test</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) mtDNA-Sequenzierung mit Fokus auf m.3243A>G</strong><br>
+                        Die Kombination aus Stroke-like Episode bei jungem Erwachsenen, nicht-vaskulärer Läsionsverteilung und Laktatazidose ist pathognomonisch für MELAS. m.3243A>G ist die häufigste Ursache (80% der MELAS-Fälle).
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">2. Bei einem Neugeborenen mit schwerer metabolischer Azidose finden Sie: Laktat 15 mmol/l, Pyruvat 0,4 mmol/l, Alanin 800 μmol/l. Die Laktat/Pyruvat-Ratio beträgt 37,5. Welche Diagnose ist am wahrscheinlichsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Pyruvatdehydrogenase-Defekt</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) Atmungskettendefekt</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Organoacidopathie</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Glykogenose Typ I</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) Atmungskettendefekt</strong><br>
+                        Eine Laktat/Pyruvat-Ratio >20 spricht für einen Atmungskettendefekt. Bei PDH-Defekten wäre die Ratio typischerweise <10. Das erhöhte Alanin unterstützt die Diagnose einer mitochondrialen Dysfunktion.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">3. Eine 6-jährige Patientin zeigt progressive zerebellare Ataxie und entwickelt ein nephrotisches Syndrom. In der Muskelbiopsie sind Komplex I und III auf 25% reduziert. Welche Therapie ist am erfolgversprechendsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Immunsuppression mit Steroiden</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) Coenzym Q10 hochdosiert (30-50 mg/kg/d)</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Mitochondrialer Cocktail (Carnitin, B-Vitamine)</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ketogene Diät</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) Coenzym Q10 hochdosiert</strong><br>
+                        Die Kombination aus zerebellärer Ataxie, nephrotischem Syndrom und isolierten Komplex I+III-Defekten ist hochverdächtig für primären CoQ10-Mangel. Dies ist eine der wenigen vollständig reversiblen Mitochondriopathien.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">4. Ein 12-jähriges Mädchen mit MERRF-Syndrom benötigt eine antikonvulsive Therapie. Welches Medikament ist absolut kontraindiziert?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Levetiracetam</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) Valproinsäure</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Lamotrigin</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Topiramat</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) Valproinsäure</strong><br>
+                        Valproat ist bei allen Mitochondriopathien kontraindiziert, da es die mitochondriale Funktion zusätzlich verschlechtert und bei POLG-Defekten akutes Leberversagen auslösen kann. Levetiracetam ist die erste Wahl bei MERRF.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">5. Bei einem AGAT-Mangel zeigt die MR-Spektroskopie des Gehirns komplettes Fehlen des Kreatin-Signals. Nach 6 Monaten Kreatin-Substitution (600 mg/kg/d) ist das klinische Ansprechen ausgeblieben. Was ist der wahrscheinlichste Grund?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Zu niedrige Dosierung</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">B) Schlechte Compliance</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">C) Fehldiagnose - wahrscheinlich CRT-Mangel</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Zu kurze Therapiedauer</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: C) Fehldiagnose - wahrscheinlich CRT-Mangel</strong><br>
+                        Bei AGAT-Mangel sollte unter adäquater Kreatin-Substitution das Gehirn-Kreatin-Signal in der MRS wiederkehren. Bleibt es dauerhaft absent, spricht dies für einen Kreatintransporter-Defekt (CRT-Mangel), bei dem Kreatin nicht ins Gehirn gelangen kann.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">6. Ein Patient mit Kearns-Sayre-Syndrom entwickelt einen AV-Block ersten Grades. Das EKG ist ansonsten unauffällig. Welche Maßnahme ist am wichtigsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Abwarten und EKG-Kontrolle in 6 Monaten</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) Prophylaktische Schrittmacher-Implantation erwägen</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Medikamentöse Herzfrequenz-Steigerung</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Regelmäßige Belastungs-EKGs</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) Prophylaktische Schrittmacher-Implantation erwägen</strong><br>
+                        Bei Kearns-Sayre-Syndrom können Reizleitungsstörungen rapid progredieren und sind eine häufige Todesursache. Bereits bei AV-Block I° sollte eine prophylaktische Schrittmacher-Implantation diskutiert werden.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">7. Bei einem thiamin-responsiven PDH-Defekt tritt trotz Thiamin-Hochdosis-Therapie eine schwere Laktatazidose auf. Welche zusätzliche Maßnahme ist am effektivsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Thiamin-Dosis verdoppeln</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">B) Ketogene Diät einleiten</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">C) Dichloracetat hinzufügen</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Hämodialyse zur Laktat-Elimination</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: B) Ketogene Diät einleiten</strong><br>
+                        Die ketogene Diät umgeht den PDH-Defekt, indem sie alternative Substrate für die Energiegewinnung bereitstellt. Dies ist oft effektiver als die alleinige Thiamin-Gabe, besonders bei schweren Dekompensationen.
+                    </div>
+                </div>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">8. Welcher Befund macht eine mitochondriale Kardiomyopathie gegenüber anderen Formen am wahrscheinlichsten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">A) Hypertrophe Kardiomyopathie mit Obstruktion</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">B) Isolierte dilatative Kardiomyopathie</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">C) Kardiomyopathie + Hörverlust + Diabetes mellitus</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">D) Frühe Manifestation einer Kardiomyopathie</div>
+                    <div class="quiz-explanation">
+                        <strong>Richtig: C) Kardiomyopathie + Hörverlust + Diabetes mellitus</strong><br>
+                        Die Kombination aus Kardiomyopathie mit Hörverlust und Diabetes mellitus ist charakteristisch für mtDNA-Syndrome, insbesondere bei maternaler Vererbung. Diese Multisystem-Beteiligung unterscheidet mitochondriale von genetischen Kardiomyopathien.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Interaktive Fallanalyse</h3>
+                <div class="case-study">
+                    <h4>🔍 Schritt-für-Schritt Diagnostik</h4>
+                    <p><strong>Klinisches Szenario:</strong></p>
+                    <p>Ein 4-jähriger Junge wird wegen rezidivierender Krampfanfälle und Entwicklungsrückstand vorgestellt. Die Mutter berichtet von auffälliger Schwäche und häufigen Infekten. Bei der Untersuchung fallen eine leichte Ptosis und eine proximale Muskelschwäche auf.</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <button class="quiz-option" onclick="revealStep(1)" style="width: 100%; text-align: left;">📋 Schritt 1: Welche Zusatzanamnese ist am wichtigsten?</button>
+                        <div id="step1" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px;">
+                            <strong>Familienanamnese über Mutterlinie!</strong><br>
+                            Bei Verdacht auf Mitochondriopathie ist die maternale Familienanamnese entscheidend. Fragen nach Diabetes, Hörverlust, Herzproblemen oder ungeklärten Todesfällen in der mütterlichen Familie.
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <button class="quiz-option" onclick="revealStep(2)" style="width: 100%; text-align: left;">🔬 Schritt 2: Welche Laboruntersuchungen ordnen Sie an?</button>
+                        <div id="step2" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px;">
+                            <strong>Basis-Mitochondrien-Panel:</strong><br>
+                            • Laktat/Pyruvat (nüchtern, ohne Stauung)<br>
+                            • CK, LDH<br>
+                            • Organische Säuren (Urin)<br>
+                            • Aminosäuren (Plasma)<br>
+                            • Bei Verdacht: mtDNA-Sequenzierung
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <button class="quiz-option" onclick="revealStep(3)" style="width: 100%; text-align: left;">🧠 Schritt 3: MRT zeigt bilaterale Basalganglien-Läsionen. Welche Diagnose?</button>
+                        <div id="step3" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px;">
+                            <strong>Leigh-Syndrom!</strong><br>
+                            Bilaterale Basalganglien-Läsionen bei progressiver Enzephalopathie sind charakteristisch für das Leigh-Syndrom. Dies kann durch Atmungskettendefekte, PDH-Defekte oder mtDNA-Mutationen verursacht werden.
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <button class="quiz-option" onclick="revealStep(4)" style="width: 100%; text-align: left;">💊 Schritt 4: Welche Therapie leiten Sie umgehend ein?</button>
+                        <div id="step4" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px;">
+                            <strong>Thiamin-Hochdosis + Antikonvulsiva:</strong><br>
+                            • Thiamin 10-20 mg/kg/d (therapeutischer Versuch)<br>
+                            • Levetiracetam bei Krampfanfällen (NICHT Valproat!)<br>
+                            • Cofaktoren: Riboflavin, Coenzym Q10<br>
+                            • ggf. ketogene Diät diskutieren
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('zusammenfassung')">Zur Zusammenfassung →</button>
+            </div>
+        </div>
+        
+        <!-- Zusammenfassung -->
+        <div class="content-section" id="zusammenfassung">
+            <h2 class="section-title">📚 Zusammenfassung & Handlungsalgorithmen</h2>
+            
+            <div class="subsection">
+                <h3>Klinische Entscheidungsalgorithmen</h3>
+                <div class="algorithm-box">
+                    <h4>Algorithmus: Verdacht auf Mitochondriopathie</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 20px 0;">
+                        <div class="flow-step">Multisystem-Erkrankung + energiereiche Gewebe betroffen?</div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">Basislabor: Laktat/Pyruvat, CK, BGA</div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">Laktat erhöht? → Organische Säuren + Aminosäuren</div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">mtDNA-Sequenzierung + Muskelbiopsie erwägen</div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">Spezifische Therapie oder supportive Maßnahmen</div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-box">
+                    <h4>Notfall-Algorithmus: Akute Laktatazidose</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🚨 Sofortmaßnahmen</h5>
+                            <ul style="color: #0c4a6e; font-size: 0.9em;">
+                                <li>O₂-Gabe, Atemweg sichern</li>
+                                <li>Venöser Zugang, BGA</li>
+                                <li>Glukose 10% Dauerinfusion</li>
+                                <li>Bikarbonat vorsichtig (pH >7,2)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🔬 Parallel-Diagnostik</h5>
+                            <ul style="color: #0c4a6e; font-size: 0.9em;">
+                                <li>Laktat/Pyruvat-Ratio</li>
+                                <li>Organische Säuren (STAT)</li>
+                                <li>Thiamin 100mg i.v. (bei PDH-Verdacht)</li>
+                                <li>Sepsis-Ausschluss</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Therapierbare Mitochondriopathien - Essentials</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Therapeutikum</th>
+                            <th>Dosierung</th>
+                            <th>Erwartete Response</th>
+                            <th>Monitoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CoQ10-Mangel</strong></td>
+                            <td>Coenzym Q10</td>
+                            <td>30-50 mg/kg/d</td>
+                            <td>Dramatische Besserung in Wochen</td>
+                            <td>CoQ10-Spiegel, Klinik</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AGAT-Mangel</strong></td>
+                            <td>Kreatin-Monohydrat</td>
+                            <td>400-800 mg/kg/d</td>
+                            <td>Vollständige Normalisierung möglich</td>
+                            <td>MRS, Kreatinin, Entwicklung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GAMT-Mangel</strong></td>
+                            <td>Kreatin + Arginin-Restriktion</td>
+                            <td>400-800 mg/kg/d + <40 mg/kg/d</td>
+                            <td>Gut bei frühem Therapiebeginn</td>
+                            <td>Guanidinoacetat (Urin)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thiamin-responsiver PDH</strong></td>
+                            <td>Thiamin (B1)</td>
+                            <td>10-20 mg/kg/d</td>
+                            <td>Laktat-Normalisierung</td>
+                            <td>Pyruvat/Laktat, Klinik</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MELAS</strong></td>
+                            <td>L-Arginin</td>
+                            <td>150-300 mg/kg/d</td>
+                            <td>Reduktion von Stroke-like Episodes</td>
+                            <td>Episoden-Häufigkeit</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="emergency-box">
+                    <h4>Kontraindikationen bei Mitochondriopathien</h4>
+                    <p><strong>Absolut kontraindiziert:</strong></p>
+                    <ul>
+                        <li><strong>Valproinsäure:</strong> Alle Mitochondriopathien (besonders POLG-Defekte!)</li>
+                        <li><strong>Aminoglykoside:</strong> Bei mtDNA-Mutationen (Ototoxizität ↑)</li>
+                        <li><strong>Linezolid:</strong> Längere Anwendung bei Mitochondriopathien</li>
+                    </ul>
+                    
+                    <p><strong>Relative Kontraindikationen:</strong></p>
+                    <ul>
+                        <li><strong>Metformin:</strong> Bei schweren Formen (Laktatazidose-Risiko)</li>
+                        <li><strong>Statine:</strong> Können CoQ10-Spiegel reduzieren</li>
+                        <li><strong>Propofol:</strong> Längere Anwendung problematisch</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Prognose-relevante Faktoren</h3>
+                <div class="case-study">
+                    <h4>🎯 Entscheidende Prognosefaktoren</h4>
+                    <p><strong>Günstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Therapierbare Formen:</strong> CoQ10-Mangel, Kreatin-Defekte, thiamin-responsive PDH</li>
+                        <li><strong>Späte Manifestation:</strong> Erwachsenenalter, isolierte Organbeteiligung</li>
+                        <li><strong>Milde Genotypen:</strong> Missense vs. Nonsense-Mutationen</li>
+                        <li><strong>Niedrige mtDNA-Heteroplasmie:</strong> <60% meist asymptomatisch</li>
+                        <li><strong>Frühe Diagnose:</strong> Vor irreversiblen Organschäden</li>
+                    </ul>
+                    
+                    <p><strong>Ungünstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Neonatale Manifestation:</strong> Besonders bei Leigh-Syndrom</li>
+                        <li><strong>Therapie-Resistenz:</strong> Keine Response auf spezifische Behandlung</li>
+                        <li><strong>Multisystem-Beteiligung:</strong> ZNS + Herz + Muskel</li>
+                        <li><strong>Hohe mtDNA-Heteroplasmie:</strong> >80% meist symptomatisch</li>
+                        <li><strong>Status epilepticus:</strong> Hinweis auf schwere Hirnschädigung</li>
+                    </ul>
+                    
+                    <p><strong>Lebensqualität-orientierte Ziele:</strong></p>
+                    <ul>
+                        <li><strong>Funktionelle Unabhängigkeit:</strong> ADL-Fähigkeiten erhalten/verbessern</li>
+                        <li><strong>Soziale Teilhabe:</strong> Schule, Beruf, Beziehungen</li>
+                        <li><strong>Symptomkontrolle:</strong> Krampfanfälle, Schmerzen, Exercise Intolerance</li>
+                        <li><strong>Familienintegration:</strong> Belastung minimieren, Unterstützung optimieren</li>
+                    </ul>
+                </div>
+                
+                <div class="dd-box">
+                    <h4>Transition ins Erwachsenenalter</h4>
+                    <p><strong>Strukturierte Übergangsplanung (16-18 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Medizinische Transition:</strong> Wechsel zu Erwachsenen-Stoffwechselzentrum</li>
+                        <li><strong>Eigenverantwortung:</strong> Schrittweise Übertragung der Therapie-Compliance</li>
+                        <li><strong>Berufsorientierung:</strong> Angepasste Ausbildungs-/Studienwahl</li>
+                        <li><strong>Reproduktive Beratung:</strong> Genetische Beratung, Familienplanung</li>
+                    </ul>
+                    
+                    <p><strong>Erwachsenen-spezifische Aspekte:</strong></p>
+                    <ul>
+                        <li><strong>Schwangerschaftsmanagement:</strong> Besonders bei LCHAD, MELAS</li>
+                        <li><strong>Begleiterkrankungen:</strong> Diabetes, Hörverlust, Kardiomyopathie</li>
+                        <li><strong>Medikamenten-Interaktionen:</strong> Statine, Metformin, Antibiotika</li>
+                        <li><strong>Lebensversicherung:</strong> Aufklärung über genetische Diskriminierung</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Multidisziplinäre Langzeitbetreuung</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Fachbereich</th>
+                            <th>Kontrollintervall</th>
+                            <th>Untersuchungen</th>
+                            <th>Indikationen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Stoffwechselmedizin</strong></td>
+                            <td>3-6 Monate</td>
+                            <td>Klinik, Laktat/Pyruvat, CK</td>
+                            <td>Alle Mitochondriopathien</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardiologie</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>Echo, EKG, ggf. Holter</td>
+                            <td>Kearns-Sayre, Kardiomyopathie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Neurologie</strong></td>
+                            <td>6 Monate</td>
+                            <td>Status, EEG, ggf. MRT</td>
+                            <td>Leigh, MELAS, MERRF</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ophthalmologie</strong></td>
+                            <td>12 Monate</td>
+                            <td>Funduskopie, Visus, Gesichtsfeld</td>
+                            <td>Kearns-Sayre, MELAS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Audiologie</strong></td>
+                            <td>12 Monate</td>
+                            <td>Audiometrie, Tympanometrie</td>
+                            <td>MELAS, MERRF, MIDD</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Endokrinologie</strong></td>
+                            <td>12 Monate</td>
+                            <td>oGTT, HbA1c, Schilddrüse</td>
+                            <td>MIDD, endokrine Beteiligung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nephrologie</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>Urinstatus, Kreatinin, Proteinurie</td>
+                            <td>CoQ10-Mangel, Tubulopathien</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4>🏥 Koordinierte Patientenbetreuung</h4>
+                    <p><strong>Zentrale Koordination durch Stoffwechselzentrum:</strong></p>
+                    <ul>
+                        <li><strong>Case Management:</strong> Koordination aller Fachdisziplinen</li>
+                        <li><strong>Notfallplanung:</strong> 24/7-Erreichbarkeit, Notfallausweise</li>
+                        <li><strong>Familienbetreuung:</strong> Genetische Beratung, Selbsthilfegruppen</li>
+                        <li><strong>Forschungsanbindung:</strong> Klinische Studien, Register-Teilnahme</li>
+                    </ul>
+                    
+                    <p><strong>Lokale Kooperationen:</strong></p>
+                    <ul>
+                        <li><strong>Hausarzt:</strong> Regelmäßige Kommunikation, Therapie-Updates</li>
+                        <li><strong>Kinderklinik:</strong> Notfallprotokolle, Ansprechpartner definieren</li>
+                        <li><strong>Therapiezentren:</strong> Physiotherapie, Ergotherapie, Logopädie</li>
+                        <li><strong>Schulen:</strong> Aufklärung über Erkrankung, Nachteilsausgleich</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Zukunftsperspektiven und Forschung</h3>
+                <div class="algorithm-box">
+                    <h4>Innovative Therapieansätze in Entwicklung</h4>
+                    <p><strong>Gentherapeutische Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>AAV-basierte Gentherapie:</strong> Für nukleäre Mitochondriopathien</li>
+                        <li><strong>Allotopische Expression:</strong> Verlegung mtDNA-Gene in den Zellkern</li>
+                        <li><strong>Base Editing:</strong> Präzise Korrektur von mtDNA-Punktmutationen</li>
+                        <li><strong>Mitochondrien-Transplantation:</strong> Transfer gesunder Mitochondrien</li>
+                    </ul>
+                    
+                    <p><strong>Pharmakologische Innovationen:</strong></p>
+                    <ul>
+                        <li><strong>Mitochondria-targeted Drugs:</strong> MitoQ, SS-31 (Elamipretide)</li>
+                        <li><strong>NAD+-Booster:</strong> Nicotinamid-Riboside, Sirtuine-Aktivatoren</li>
+                        <li><strong>Autophagie-Modulatoren:</strong> Rapamycin, Trehalose</li>
+                        <li><strong>Metabolic Reprogramming:</strong> Alternative Energiepfade aktivieren</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostische Fortschritte:</strong></p>
+                    <ul>
+                        <li><strong>Non-invasive Biomarker:</strong> FGF21, GDF15 für Screening</li>
+                        <li><strong>Liquid Biopsies:</strong> mtDNA-Analyse aus Körperflüssigkeiten</li>
+                        <li><strong>Funktionelle Genomik:</strong> Einzelzell-Technologien</li>
+                        <li><strong>AI-basierte Diagnostik:</strong> Phenotype-Matching, Bildanalyse</li>
+                    </ul>
+                </div>
+                
+                <div class="case-study">
+                    <h4>🔬 Klinische Studien und Register</h4>
+                    <p><strong>Aktuelle Studienlandschaft:</strong></p>
+                    <ul>
+                        <li><strong>Internationale Register:</strong> NAMDC, EUROMITO, mitoNET</li>
+                        <li><strong>Natural History Studies:</strong> Verlaufsdokumentation für Therapiestudien</li>
+                        <li><strong>Biomarker-Studien:</strong> Validierung prognostischer Marker</li>
+                        <li><strong>Therapiestudien:</strong> Phase I-III für innovative Behandlungen</li>
+                    </ul>
+                    
+                    <p><strong>Patientenbeteiligung:</strong></p>
+                    <ul>
+                        <li><strong>Informed Consent:</strong> Aufklärung über Studienziele und -risiken</li>
+                        <li><strong>Register-Teilnahme:</strong> Beitrag zur Forschung und Therapieentwicklung</li>
+                        <li><strong>Patientenorganisationen:</strong> Selbsthilfe und Forschungsförderung</li>
+                        <li><strong>Advocacy:</strong> Interessensvertretung für seltene Erkrankungen</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Kernbotschaften für die Praxis</h3>
+                <div class="emergency-box">
+                    <h4>Take-Home Messages</h4>
+                    <p><strong>🎯 Diagnostische Essentials:</strong></p>
+                    <ul>
+                        <li><strong>Hoher Index of Suspicion:</strong> Bei Multisystem-Erkrankungen energiereicher Gewebe</li>
+                        <li><strong>Familienanamnese crucial:</strong> Besonders maternale Linie bei mtDNA-Syndromen</li>
+                        <li><strong>Laktat/Pyruvat-Ratio:</strong> <10 → PDH-Defekt, >20 → Atmungskettendefekt</li>
+                        <li><strong>Nicht invasive Biomarker:</strong> FGF21, GDF15 als Screening-Tools</li>
+                    </ul>
+                    
+                    <p><strong>💊 Therapeutische Prinzipien:</strong></p>
+                    <ul>
+                        <li><strong>Therapierbare Formen identifizieren:</strong> CoQ10-Mangel, Kreatin-Defekte sind heilbar!</li>
+                        <li><strong>Medikamenten-Sicherheit:</strong> Valproat absolut kontraindiziert</li>
+                        <li><strong>Multidisziplinäre Betreuung:</strong> Koordinierte Langzeitversorgung essentiell</li>
+                        <li><strong>Familienberatung:</strong> Genetische Beratung und psychosoziale Unterstützung</li>
+                    </ul>
+                    
+                    <p><strong>🚨 Notfallmanagement:</strong></p>
+                    <ul>
+                        <li><strong>Laktatazidose:</strong> Thiamin-Gabe bei PDH-Verdacht, vorsichtige Pufferung</li>
+                        <li><strong>Status epilepticus:</strong> Levetiracetam bevorzugen, Valproat vermeiden</li>
+                        <li><strong>Perioperativ:</strong> Fasten minimieren, Glukose-Substitution, Monitoring</li>
+                        <li><strong>24/7-Hotline:</strong> Erreichbarkeit des Stoffwechselzentrums sicherstellen</li>
+                    </ul>
+                    
+                    <p><strong>🔮 Prognostische Faktoren:</strong></p>
+                    <ul>
+                        <li><strong>Frühe Diagnose = bessere Prognose:</strong> Vor irreversiblen Organschäden</li>
+                        <li><strong>Therapie-Response entscheidend:</strong> Besonders bei CoQ10- und Kreatin-Defekten</li>
+                        <li><strong>Lebensqualität im Fokus:</strong> Funktionelle Ziele, nicht nur Überleben</li>
+                        <li><strong>Transition vorbereiten:</strong> Strukturierter Übergang in Erwachsenenmedizin</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 3rem; padding: 3rem; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: var(--border-radius-lg); border: 3px solid var(--success-color); box-shadow: var(--shadow-lg);">
+                    <h3 style="color: #166534; margin-bottom: 1.5rem; font-size: 2rem;">🎓 Herzlichen Glückwunsch!</h3>
+                    <div class="completion-badge">Mitochondriopathien-Experte</div>
+                    <p style="color: #166534; margin: 1.5rem 0; font-size: 1.2rem; font-weight: 500;">Sie haben alle drei Teile der umfassenden Mitochondriopathien-Lerneinheit erfolgreich abgeschlossen!</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 2rem 0; text-align: left;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 2px solid #22c55e;">
+                            <h4 style="color: #166534; margin-bottom: 1rem;">📚 Teil 1 Mastered</h4>
+                            <ul style="color: #166534; font-size: 0.9rem;">
+                                <li>Grundlagen & Biochemie</li>
+                                <li>Atmungskettendefekte</li>
+                                <li>Diagnostische Prinzipien</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 2px solid #22c55e;">
+                            <h4 style="color: #166534; margin-bottom: 1rem;">🧬 Teil 2 Mastered</h4>
+                            <ul style="color: #166534; font-size: 0.9rem;">
+                                <li>mtDNA-Syndrome</li>
+                                <li>PDH-Defekte</li>
+                                <li>Kreatinstoffwechsel</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 2px solid #22c55e;">
+                            <h4 style="color: #166534; margin-bottom: 1rem;">🔬 Teil 3 Mastered</h4>
+                            <ul style="color: #166534; font-size: 0.9rem;">
+                                <li>Komplexe Fallbeispiele</li>
+                                <li>Differentialdiagnosen</li>
+                                <li>Praxisalgorithmen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid #e2e8f0;">
+                        <h4 style="color: #166534; margin-bottom: 1rem;">🎯 Ihre erworbenen Kompetenzen</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left;">
+                            <div>
+                                <p style="color: #166534; font-weight: 600; margin-bottom: 0.5rem;">Diagnostik:</p>
+                                <ul style="color: #166534; font-size: 0.9rem;">
+                                    <li>Verdachtsdiagnose stellen</li>
+                                    <li>Zielgerichtete Diagnostik</li>
+                                    <li>Differentialdiagnosen abwägen</li>
+                                    <li>Genetische Beratung</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="color: #166534; font-weight: 600; margin-bottom: 0.5rem;">Therapie:</p>
+                                <ul style="color: #166534; font-size: 0.9rem;">
+                                    <li>Therapierbare Formen erkennen</li>
+                                    <li>Notfallmanagement</li>
+                                    <li>Langzeitbetreuung planen</li>
+                                    <li>Prognose einschätzen</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p style="color: #166534; margin: 1.5rem 0; font-style: italic;">Mit diesem Expertenwissen können Sie Mitochondriopathien sicher diagnostizieren, optimal behandeln und betroffene Familien kompetent betreuen.</p>
+                    
+                    <div style="margin-top: 2rem;">
+                        <button class="next-btn" style="background: linear-gradient(135deg, #22c55e, #16a34a);">🔄 Lerneinheit wiederholen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 0;
+        const sections = ['fallbeispiele', 'differentialdiagnosen', 'lernkontrolle', 'zusammenfassung'];
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Highlight active nav button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function selectAnswer(element, isCorrect) {
+            // Disable all options in this question
+            const container = element.closest('.quiz-container');
+            const options = container.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.classList.add('disabled');
+                if (option === element) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            // Show explanation
+            const explanation = container.querySelector('.quiz-explanation');
+            if (explanation) {
+                explanation.classList.add('show');
+            }
+        }
+        
+        function revealStep(stepNumber) {
+            const step = document.getElementById('step' + stepNumber);
+            if (step.style.display === 'none' || step.style.display === '') {
+                step.style.display = 'block';
+            } else {
+                step.style.display = 'none';
+            }
+        }
+        
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

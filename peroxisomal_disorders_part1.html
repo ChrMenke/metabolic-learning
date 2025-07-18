@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peroxisomale Erkrankungen - Teil 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --peroxisome-color: #e84393;
+            --zellweger-color: #6c5ce7;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--peroxisome-color), var(--zellweger-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--peroxisome-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            color: white;
+            border-color: var(--peroxisome-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--peroxisome-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--peroxisome-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Peroxisome boxes */
+        .peroxisome-box {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border: 2px solid var(--peroxisome-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .peroxisome-box h4 {
+            color: #be185d;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .peroxisome-box p, .peroxisome-box ul, .peroxisome-box li {
+            color: #be185d;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--peroxisome-color), var(--zellweger-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Diagnostic flow */
+        .diagnostic-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--peroxisome-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-width: 320px;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--peroxisome-color);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Peroxisomale Erkrankungen</h1>
+            <p>Teil 1: Grundlagen & Zellweger-Spektrum</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 1</h3>
+            <p>Dieser erste Teil behandelt die Grundlagen der Peroxisomenbiologie, Peroxisom-Biogenese-Disorders (PBD) und das Zellweger-Spektrum mit praktischen Diagnosealgorithmen.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('peroxisomenbiologie')">2. Peroxisomenbiologie</button>
+            <button class="nav-btn" onclick="showSection('zellweger')">3. Zellweger-Spektrum</button>
+            <button class="nav-btn" onclick="showSection('diagnostik')">4. Diagnostik PBD</button>
+        </div>
+
+        <!-- Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen peroxisomaler Erkrankungen</h2>
+
+            <div class="subsection">
+                <h3>Definition und Überblick</h3>
+                <p>Peroxisomale Erkrankungen sind angeborene Stoffwechseldefekte, die die Biogenese oder spezifische Funktionen der Peroxisomen betreffen. Sie gehören zu den schwersten angeborenen Stoffwechselerkrankungen mit oft multisystemischem Befall.</p>
+
+                <div class="peroxisome-box">
+                    <h4>🧬 Klassifikation peroxisomaler Erkrankungen</h4>
+                    <p><strong>Gruppe 1: Peroxisom-Biogenese-Disorders (PBD)</strong></p>
+                    <ul>
+                        <li>Zellweger-Spektrum (ZSS): Zellweger-Syndrom, NALD, IRD</li>
+                        <li>Rhizomelia chondrodysplasia punctata Typ 1 (RCDP1)</li>
+                        <li>Gestörte Peroxisomenbiogenese</li>
+                    </ul>
+                    
+                    <p><strong>Gruppe 2: Einzelenzymdefekte</strong></p>
+                    <ul>
+                        <li>X-linked Adrenoleukodystrophie (X-ALD)</li>
+                        <li>Acyl-CoA-Oxidase-Mangel</li>
+                        <li>D-Bifunktionelles Protein-Defekt</li>
+                        <li>2-Methylacyl-CoA-Racemase-Mangel</li>
+                        <li>Katalase-Mangel</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Epidemiologie und Genetik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Inzidenz</th>
+                            <th>Vererbung</th>
+                            <th>Gene (Auswahl)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Zellweger-Spektrum</strong></td>
+                            <td>1:50.000 - 1:100.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>PEX1, PEX6, PEX26, PEX10</td>
+                        </tr>
+                        <tr>
+                            <td><strong>X-ALD</strong></td>
+                            <td>1:15.000 (Männer)</td>
+                            <td>X-chromosomal</td>
+                            <td>ABCD1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP Typ 1</strong></td>
+                            <td>1:100.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>PEX7</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Acyl-CoA-Oxidase-Mangel</strong></td>
+                            <td>sehr selten (&lt;50 Fälle)</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>ACOX1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathophysiologie - Überblick</h3>
+                <div class="pathway-diagram">
+                    <h4>Zwei Hauptmechanismen der Erkrankungsentstehung</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">⚡ Strukturdefekte</h5>
+                            <p style="color: #dc2626;">Fehlende/gestörte Peroxisomen</p>
+                            <div class="arrow" style="color: #dc2626;">↓</div>
+                            <p style="color: #dc2626;">Multisystemische Entwicklungsstörungen</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">☢️ Funktionsdefekte</h5>
+                            <p style="color: #ea580c;">Akkumulation toxischer Substrate</p>
+                            <div class="arrow" style="color: #ea580c;">↓</div>
+                            <p style="color: #ea580c;">Organspezifische Schädigung</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Leitsymptome</h3>
+                <div class="highlight-box">
+                    <h4>Red Flags für peroxisomale Erkrankungen</h4>
+                    <p><strong>Neurologische Auffälligkeiten:</strong></p>
+                    <ul>
+                        <li>Schwere Hypotonie vom Neugeborenenalter</li>
+                        <li>Krampfanfälle, schwer behandelbar</li>
+                        <li>Entwicklungsrückstand/-stillstand</li>
+                        <li>Progrediente Leukenzephalopathie</li>
+                    </ul>
+                    
+                    <p><strong>Dysmorphe Zeichen:</strong></p>
+                    <ul>
+                        <li>Charakteristische Fazies (hohe Stirn, Hypertelorismus)</li>
+                        <li>Fontanellenvergrößerung</li>
+                        <li>Katarakt (kongenital)</li>
+                        <li>Hepatomegalie</li>
+                    </ul>
+                    
+                    <p><strong>Skelettauffälligkeiten:</strong></p>
+                    <ul>
+                        <li>Chondrodysplasia punctata</li>
+                        <li>Stippled epiphyses im Röntgen</li>
+                        <li>Verkürzung proximaler Extremitäten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('peroxisomenbiologie')">Weiter zur Peroxisomenbiologie →</button>
+            </div>
+        </div>
+
+        <!-- Peroxisomenbiologie -->
+        <div class="content-section" id="peroxisomenbiologie">
+            <h2 class="section-title">🔬 Peroxisomenbiologie</h2>
+
+            <div class="subsection">
+                <h3>Struktur und Lokalisation</h3>
+                <div class="pathway-diagram">
+                    <h4>Peroxisom: Struktur und Kompartimente</h4>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 15px 0; border: 1px solid #e2e8f0;">
+                        <p><strong>Struktur:</strong></p>
+                        <ul>
+                            <li><strong>Größe:</strong> 0,1-1,0 μm Durchmesser</li>
+                            <li><strong>Membran:</strong> Einzelmembran (im Gegensatz zu Mitochondrien)</li>
+                            <li><strong>Matrix:</strong> Dichte, proteinreiche Struktur</li>
+                            <li><strong>Anzahl:</strong> 50-1000 pro Zelle (gewebeabhängig)</li>
+                        </ul>
+                        
+                        <p><strong>Gewebe-spezifische Verteilung:</strong></p>
+                        <ul>
+                            <li><strong>Leber:</strong> 1-2% des Zellvolumens (Entgiftung)</li>
+                            <li><strong>Niere:</strong> Hohe Dichte (proximale Tubuli)</li>
+                            <li><strong>Gehirn:</strong> Oligodendrozyten, Astrozyten</li>
+                            <li><strong>Nebenniere:</strong> Steroidhormonsynthese</li>
+                            <li><strong>Fibroblasten:</strong> Diagnostisch wichtig!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Peroxisomale Stoffwechselwege</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Stoffwechselweg</th>
+                            <th>Schlüsselenzyme</th>
+                            <th>Substrate/Produkte</th>
+                            <th>Klinische Relevanz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>β-Oxidation</strong></td>
+                            <td>Acyl-CoA-Oxidase, D-bifunktionelles Protein</td>
+                            <td>VLCFA → Acetyl-CoA</td>
+                            <td>VLCFA-Akkumulation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>α-Oxidation</strong></td>
+                            <td>2-Hydroxyacyl-CoA-Lyase</td>
+                            <td>Phytansäure → Pristansäure</td>
+                            <td>Phytansäure-Speicherung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gallensäure-Synthese</strong></td>
+                            <td>AMACR, D-bifunktionelles Protein</td>
+                            <td>Cholesterol → Gallensäuren</td>
+                            <td>Cholestase</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plasmalogene</strong></td>
+                            <td>DHAP-AT, Alkyl-DHAP-Synthase</td>
+                            <td>DHAP → Etherphospholipide</td>
+                            <td>Membranfunktion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>H₂O₂-Metabolismus</strong></td>
+                            <td>Katalase</td>
+                            <td>H₂O₂ → H₂O + O₂</td>
+                            <td>Oxidativer Stress</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Peroxisomen-Biogenese</h3>
+                <div class="pathway-diagram">
+                    <h4>Der komplexe Prozess der Peroxisomenbildung</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">ER-Membran</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Prä-Peroxisom</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Peroxisom-Vesikeln</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: Membranbiogenese aus dem ER</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">PTS1-Proteine</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">PEX5 (Rezeptor)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Docking-Komplex</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Protein-Import (PTS1-Weg)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">PTS2-Proteine</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">PEX7 (Rezeptor)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Matrix-Lokalisation</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Protein-Import (PTS2-Weg)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Reifes Peroxisom</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Teilung</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Neue Peroxisomen</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 4: Peroxisomen-Proliferation</div>
+                    </div>
+                </div>
+
+                <div class="peroxisome-box">
+                    <h4>PEX-Gene und ihre Funktionen</h4>
+                    <p><strong>PTS1-Importmaschinerie (häufigste Defekte):</strong></p>
+                    <ul>
+                        <li><strong>PEX1:</strong> AAA-ATPase, Rezeptor-Recycling (60% der ZSS-Fälle)</li>
+                        <li><strong>PEX6:</strong> AAA-ATPase, Rezeptor-Recycling (15% der ZSS-Fälle)</li>
+                        <li><strong>PEX5:</strong> PTS1-Rezeptor (SKL-Erkennungssequenz)</li>
+                        <li><strong>PEX10:</strong> Docking-Komplex, Ubiquitinierung</li>
+                    </ul>
+                    
+                    <p><strong>PTS2-Importmaschinerie:</strong></p>
+                    <ul>
+                        <li><strong>PEX7:</strong> PTS2-Rezeptor (RCDP Typ 1)</li>
+                        <li><strong>PEX26:</strong> Membran-Anker für PEX1/6</li>
+                    </ul>
+                    
+                    <p><strong>Membranbiogenese:</strong></p>
+                    <ul>
+                        <li><strong>PEX3, PEX16, PEX19:</strong> Membranprotein-Insertion</li>
+                        <li><strong>PEX11:</strong> Peroxisomen-Teilung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Peroxisomale Targeting-Signale</h3>
+                <div class="highlight-box">
+                    <h4>Protein-Import-Mechanismen</h4>
+                    <p><strong>PTS1 (Peroxisomal Targeting Signal 1):</strong></p>
+                    <ul>
+                        <li><strong>Sequenz:</strong> SKL (Ser-Lys-Leu) am C-Terminus</li>
+                        <li><strong>Varianten:</strong> AKL, ARL, SKI (konservierte Variationen)</li>
+                        <li><strong>Rezeptor:</strong> PEX5 (Importfaktor)</li>
+                        <li><strong>Zielproteine:</strong> Katalase, Acyl-CoA-Oxidase, D-bifunktionelles Protein</li>
+                    </ul>
+                    
+                    <p><strong>PTS2 (Peroxisomal Targeting Signal 2):</strong></p>
+                    <ul>
+                        <li><strong>Sequenz:</strong> RLx₅HL (Arg-Leu-x-x-x-x-x-His-Leu) am N-Terminus</li>
+                        <li><strong>Rezeptor:</strong> PEX7 (bei RCDP1 defekt)</li>
+                        <li><strong>Zielproteine:</strong> 3-Ketoacyl-CoA-Thiolase, Alkyl-DHAP-Synthase</li>
+                    </ul>
+                    
+                    <p><strong>Membranproteine:</strong></p>
+                    <ul>
+                        <li><strong>mPTS:</strong> Membran-Peroxisomal Targeting Signal</li>
+                        <li><strong>Beispiele:</strong> PEX3, ABCD1 (ALD-Protein)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemische Marker</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Marker</th>
+                            <th>Normal</th>
+                            <th>PBD (Biogenese-Defekt)</th>
+                            <th>Einzelenzymdefekt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>VLCFA (C26:0)</strong></td>
+                            <td>&lt;1,0 μg/ml</td>
+                            <td>↑↑↑ (5-20x)</td>
+                            <td>↑↑ (X-ALD)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phytansäure</strong></td>
+                            <td>&lt;20 μmol/l</td>
+                            <td>↑↑ (2-10x)</td>
+                            <td>↑↑↑ (Refsum)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pristansäure</strong></td>
+                            <td>&lt;5 μmol/l</td>
+                            <td>↑↑ (2-5x)</td>
+                            <td>Variable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plasmalogene</strong></td>
+                            <td>Normal</td>
+                            <td>↓↓ (50-90% Reduktion)</td>
+                            <td>Normal (außer RCDP)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gallensäure-Intermediäre</strong></td>
+                            <td>Nicht nachweisbar</td>
+                            <td>↑↑ (THCA, DHCA)</td>
+                            <td>Spezifische Muster</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('zellweger')">Weiter zum Zellweger-Spektrum →</button>
+            </div>
+        </div>
+
+        <!-- Zellweger-Spektrum -->
+        <div class="content-section" id="zellweger">
+            <h2 class="section-title">🧬 Zellweger-Spektrum (PBD-ZSS)</h2>
+
+            <div class="subsection">
+                <h3>Klinische Spektrum</h3>
+                <div class="peroxisome-box">
+                    <h4>Drei Schweregrade innerhalb des Kontinuums</h4>
+                    <p><strong>1. Zellweger-Syndrom (ZS) - Schweregrad 1:</strong></p>
+                    <ul>
+                        <li>Schwerste Form, meist letal im ersten Lebensjahr</li>
+                        <li>Keine Peroxisomen in Hepatozyten und Nierenzellen</li>
+                        <li>Maximale biochemische Auffälligkeiten</li>
+                    </ul>
+                    
+                    <p><strong>2. Neonatale Adrenoleukodystrophie (NALD) - Schweregrad 2:</strong></p>
+                    <ul>
+                        <li>Intermediate Form, Überleben bis Kindheit möglich</li>
+                        <li>Reduzierte Peroxisomenzahl</li>
+                        <li>Mäßige bis schwere Entwicklungsstörung</li>
+                    </ul>
+                    
+                    <p><strong>3. Infantile Refsum-Erkrankung (IRD) - Schweregrad 3:</strong></p>
+                    <ul>
+                        <li>Mildeste Form, Überleben bis Adoleszenz/Erwachsenenalter</li>
+                        <li>Deutlich reduzierte Peroxisomenfunktion</li>
+                        <li>Progrediente Retinopathie und Hörverlust</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Präsentation nach Alter</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Alter</th>
+                            <th>Zellweger-Syndrom</th>
+                            <th>NALD</th>
+                            <th>IRD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Neonatal</strong></td>
+                            <td>Schwere Hypotonie, Krampfanfälle, charakteristische Fazies</td>
+                            <td>Hypotonie, Hepatomegalie, milde Fazies</td>
+                            <td>Oft unauffällig oder milde Symptome</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Säugling</strong></td>
+                            <td>Gedeihstörung, keine Entwicklung, früher Tod</td>
+                            <td>Entwicklungsrückstand, Hepatopathie</td>
+                            <td>Verzögerte Entwicklung, Hörverlust</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kleinkind</strong></td>
+                            <td>-</td>
+                            <td>Progrediente Verschlechterung, Tod in Kindheit</td>
+                            <td>Retinopathie, Ataxie, Neuropathie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erwachsener</strong></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Sensorineurale Taubheit, Blindheit möglich</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Charakteristische Fazies und dysmorphe Zeichen</h3>
+                <div class="case-study">
+                    <h4>🔍 Klinische Untersuchung: Worauf achten?</h4>
+                    <p><strong>Kraniofaziale Auffälligkeiten:</strong></p>
+                    <ul>
+                        <li><strong>Hohe Stirn:</strong> Mit großen Fontanellen</li>
+                        <li><strong>Hypertelorismus:</strong> Weiter Augenabstand</li>
+                        <li><strong>Epikanthus:</strong> Hautfalte am inneren Augenwinkel</li>
+                        <li><strong>Flache Nasenwurzel:</strong> Mit antivertierten Nasenlöchern</li>
+                        <li><strong>Mikrognathie:</strong> Unterentwickelter Unterkiefer</li>
+                    </ul>
+                    
+                    <p><strong>Ophthalmologische Befunde:</strong></p>
+                    <ul>
+                        <li><strong>Katarakt:</strong> Bereits neonatal (bis 85%)</li>
+                        <li><strong>Glaukom:</strong> Kann sich entwickeln</li>
+                        <li><strong>Retinopathie:</strong> Pigmentdegeneration (bei IRD)</li>
+                        <li><strong>Corneatrübung:</strong> Seltener, bei schweren Formen</li>
+                    </ul>
+                    
+                    <p><strong>Weitere körperliche Befunde:</strong></p>
+                    <ul>
+                        <li><strong>Hepatomegalie:</strong> Meist vorhanden, progredient</li>
+                        <li><strong>Kontrakturen:</strong> Große Gelenke</li>
+                        <li><strong>Chondrodysplasia punctata:</strong> Punktförmige Kalzifikationen</li>
+                        <li><strong>Nierenzysten:</strong> Möglich, meist asymptomatisch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neurologische Manifestationen</h3>
+                <div class="pathway-diagram">
+                    <h4>Neurologische Progression beim Zellweger-Spektrum</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🧠 Neonatal</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Schwere generalisierte Hypotonie</li>
+                                <li>Schwache Primitive Reflexe</li>
+                                <li>Krampfanfälle (oft schwer behandelbar)</li>
+                                <li>Schluckstörungen</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">👶 Säuglingsalter</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Keine/minimale Entwicklungsfortschritte</li>
+                                <li>Persistierende Hypotonie</li>
+                                <li>Sensorineuraler Hörverlust</li>
+                                <li>Retinopathie</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🧒 Kindheit (IRD)</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Progrediente Ataxie</li>
+                                <li>Periphere Neuropathie</li>
+                                <li>Intellektuelle Behinderung</li>
+                                <li>Verhaltensstörungen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>MRT-Befunde beim Zellweger-Spektrum</h4>
+                    <p><strong>Charakteristische ZNS-Veränderungen:</strong></p>
+                    <ul>
+                        <li><strong>Migrationsstörungen:</strong> Pachygyrie, Polymikrogyrie</li>
+                        <li><strong>Myelinisierungsdefekt:</strong> Verzögerte/gestörte Myelinbildung</li>
+                        <li><strong>Gertrude-Zysten:</strong> Subependymäre Zysten</li>
+                        <li><strong>Kleinhirn-Hypoplasie:</strong> Vermis und Hemisphären</li>
+                        <li><strong>Ventrikulomegalie:</strong> Kompensatorisch bei Atrophie</li>
+                    </ul>
+                    
+                    <p><strong>Prognostische Bedeutung:</strong></p>
+                    <ul>
+                        <li>Schwere Migrationsstörungen = schlechte Prognose</li>
+                        <li>Myelinisierungsgrad korreliert mit Entwicklungspotential</li>
+                        <li>Serielle MRT zeigt Progression</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Hepatische und systemische Manifestationen</h3>
+                <div class="case-study">
+                    <h4>🔬 Multisystemische Beteiligung</h4>
+                    <p><strong>Hepatische Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>Hepatomegalie:</strong> Praktisch immer vorhanden</li>
+                        <li><strong>Cholestase:</strong> Durch gestörte Gallensäuresynthese</li>
+                        <li><strong>Hepatische Fibrose:</strong> Progredient, kann zu Zirrhose führen</li>
+                        <li><strong>Hyperbilirubinämie:</strong> Vorwiegend konjugiert</li>
+                        <li><strong>Steatose:</strong> Durch gestörte Fettsäureoxidation</li>
+                    </ul>
+                    
+                    <p><strong>Renale Beteiligung:</strong></p>
+                    <ul>
+                        <li><strong>Nierenzysten:</strong> Meist kortikal, asymptomatisch</li>
+                        <li><strong>Nephrokalzinose:</strong> Selten</li>
+                        <li><strong>Funktionsstörungen:</strong> Meist mild</li>
+                    </ul>
+                    
+                    <p><strong>Endokrine Störungen:</strong></p>
+                    <ul>
+                        <li><strong>Nebennieren-Dysfunktion:</strong> Cortisol-Synthese gestört</li>
+                        <li><strong>Schilddrüsen-Anomalien:</strong> Gelegentlich</li>
+                        <li><strong>Gedeihstörung:</strong> Multifaktoriell bedingt</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Genotyp-Phänotyp-Korrelationen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Gen</th>
+                            <th>Häufigkeit</th>
+                            <th>Typischer Phänotyp</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PEX1</strong></td>
+                            <td>60% aller ZSS-Fälle</td>
+                            <td>Gesamtes Spektrum möglich</td>
+                            <td>c.2528G>A häufigste Mutation (G843D)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEX6</strong></td>
+                            <td>15% aller ZSS-Fälle</td>
+                            <td>Meist schwere Formen (ZS, NALD)</td>
+                            <td>Komplexe Rearrangements häufig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEX26</strong></td>
+                            <td>5% aller ZSS-Fälle</td>
+                            <td>Schwere Formen (ZS)</td>
+                            <td>Founder-Mutationen in bestimmten Populationen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEX10</strong></td>
+                            <td>3% aller ZSS-Fälle</td>
+                            <td>Variable, oft mildere Formen möglich</td>
+                            <td>Seltene, aber gut charakterisierte Fälle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEX5</strong></td>
+                            <td>1% aller ZSS-Fälle</td>
+                            <td>Meist schwer (ZS)</td>
+                            <td>PTS1-Import komplett blockiert</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('diagnostik')">Weiter zur Diagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Diagnostik PBD -->
+        <div class="content-section" id="diagnostik">
+            <h2 class="section-title">🔬 Diagnostik der Peroxisom-Biogenese-Disorders</h2>
+
+            <div class="subsection">
+                <h3>Diagnostischer Algorithmus</h3>
+                <div class="diagnostic-flow">
+                    <div class="flow-step">
+                        <strong>Klinischer Verdacht</strong><br>
+                        Charakteristische Fazies + Hypotonie<br>
+                        + Hepatomegalie + Entwicklungsrückstand
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Biochemisches Screening</strong><br>
+                        VLCFA, Phytansäure, Pristansäure<br>
+                        Plasmalogene (Erythrozyten)
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Peroxisomen-Mikroskopie</strong><br>
+                        Fibroblasten: Katalase-Immunfluoreszenz<br>
+                        Peroxisomenzahl und -morphologie
+                    </div>
+                    <div class="flow-arrow"></div>
+                    
+                    <div class="flow-step">
+                        <strong>Molekulargenetik</strong><br>
+                        PEX-Gen-Panel oder WES<br>
+                        Bestätigung der Diagnose
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemische Marker im Detail</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Marker</th>
+                            <th>Probenmaterial</th>
+                            <th>Normwerte</th>
+                            <th>PBD-Befunde</th>
+                            <th>Sensitivität</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>VLCFA (C26:0)</strong></td>
+                            <td>Serum/Plasma</td>
+                            <td>&lt;1,0 μg/ml</td>
+                            <td>5-20 μg/ml</td>
+                            <td>98%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C26:0/C22:0 Ratio</strong></td>
+                            <td>Serum/Plasma</td>
+                            <td>&lt;0,02</td>
+                            <td>&gt;0,05</td>
+                            <td>99%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phytansäure</strong></td>
+                            <td>Serum/Plasma</td>
+                            <td>&lt;20 μmol/l</td>
+                            <td>50-500 μmol/l</td>
+                            <td>85%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pristansäure</strong></td>
+                            <td>Serum/Plasma</td>
+                            <td>&lt;5 μmol/l</td>
+                            <td>15-50 μmol/l</td>
+                            <td>80%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plasmalogene</strong></td>
+                            <td>Erythrozyten</td>
+                            <td>15-25% der Phospholipide</td>
+                            <td>1-8% (50-90% Reduktion)</td>
+                            <td>95%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DHCA, THCA</strong></td>
+                            <td>Urin</td>
+                            <td>Nicht nachweisbar</td>
+                            <td>Stark erhöht</td>
+                            <td>90%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Peroxisomen-Mikroskopie</h3>
+                <div class="peroxisome-box">
+                    <h4>🔬 Immunfluoreszenz-Untersuchung</h4>
+                    <p><strong>Prinzip:</strong></p>
+                    <ul>
+                        <li>Kultivierte Hausfibroblasten des Patienten</li>
+                        <li>Immunfärbung gegen Katalase (PTS1-Protein)</li>
+                        <li>Konfokale Mikroskopie zur Beurteilung</li>
+                    </ul>
+                    
+                    <p><strong>Normale Befunde:</strong></p>
+                    <ul>
+                        <li>100-1000 punktförmige Peroxisomen pro Zelle</li>
+                        <li>Gleichmäßige zytoplasmatische Verteilung</li>
+                        <li>Deutliche Katalase-Anreicherung in Peroxisomen</li>
+                    </ul>
+                    
+                    <p><strong>PBD-Befunde:</strong></p>
+                    <ul>
+                        <li><strong>ZS:</strong> Keine Peroxisomen, diffuse zytoplasmatische Katalase</li>
+                        <li><strong>NALD:</strong> Reduzierte Peroxisomenzahl (10-50% normal)</li>
+                        <li><strong>IRD:</strong> Normale Anzahl, aber reduzierte Katalase-Importeffizienz</li>
+                    </ul>
+                    
+                    <p><strong>Komplementationsgruppen:</strong></p>
+                    <ul>
+                        <li>Funktionelle Tests durch Zellfusion</li>
+                        <li>Bestimmung der PEX-Gen-Defekte</li>
+                        <li>Wichtig für genetische Beratung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetische Diagnostik</h3>
+                <div class="highlight-box">
+                    <h4>Genetic Testing Strategien</h4>
+                    <p><strong>Stufendiagnostik bei PBD:</strong></p>
+                    <ul>
+                        <li><strong>1. Stufe:</strong> PEX1 und PEX6 Sequenzierung (75% Detektionsrate)</li>
+                        <li><strong>2. Stufe:</strong> PEX-Panel (13 Gene): PEX1, PEX2, PEX3, PEX5, PEX6, PEX10, PEX12, PEX13, PEX14, PEX16, PEX19, PEX26, PEX28</li>
+                        <li><strong>3. Stufe:</strong> Whole Exome Sequencing (WES) bei negativem Panel</li>
+                    </ul>
+                    
+                    <p><strong>Häufigste Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>PEX1 c.2528G>A (G843D):</strong> 50% der PEX1-Allele</li>
+                        <li><strong>PEX1 c.2097_2098insT:</strong> Frameshift, häufig</li>
+                        <li><strong>PEX6 c.802G>A (G268R):</strong> Milde Form möglich</li>
+                        <li><strong>PEX26 c.292C>T (R98W):</strong> Founder-Mutation</li>
+                    </ul>
+                    
+                    <p><strong>Pränataldiagnostik:</strong></p>
+                    <ul>
+                        <li>Chorionzottenbiopsie ab 10.-12. SSW</li>
+                        <li>Amniozentese ab 15.-18. SSW</li>
+                        <li>VLCFA-Messung in Chorionzotten möglich</li>
+                        <li>Molekulargenetik bei bekannten Familienmutationen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Differentialdiagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>VLCFA</th>
+                            <th>Plasmalogene</th>
+                            <th>Peroxisomen</th>
+                            <th>Unterscheidungsmerkmale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Zellweger-Spektrum</strong></td>
+                            <td>↑↑↑</td>
+                            <td>↓↓↓</td>
+                            <td>Fehlend/reduziert</td>
+                            <td>Charakteristische Fazies, schwere Hypotonie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>X-ALD</strong></td>
+                            <td>↑↑</td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                            <td>X-chromosomal, spätere Manifestation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP Typ 1</strong></td>
+                            <td>Normal/↑</td>
+                            <td>↓↓↓</td>
+                            <td>Normal/reduziert</td>
+                            <td>Chondrodysplasia punctata, Rhizomelie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>D-bifunktioneller Protein-Mangel</strong></td>
+                            <td>↑↑</td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                            <td>Isolierte β-Oxidationsstörung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Refsum-Krankheit</strong></td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                            <td>Isolierte α-Oxidationsstörung</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <div class="case-study">
+                    <h4>🩸 Screening-Programme</h4>
+                    <p><strong>Aktueller Stand:</strong></p>
+                    <ul>
+                        <li><strong>Nicht routinemäßig:</strong> PBD nicht in Standard-Screening-Panels</li>
+                        <li><strong>Pilotprogramme:</strong> Einzelne Zentren testen VLCFA-Screening</li>
+                        <li><strong>Technische Machbarkeit:</strong> Tandem-MS-Methoden verfügbar</li>
+                    </ul>
+                    
+                    <p><strong>Screening-Marker:</strong></p>
+                    <ul>
+                        <li><strong>C26:0-Lysocarnitin:</strong> Experimenteller Marker</li>
+                        <li><strong>Lysoplasmalogene:</strong> Alternative Marker</li>
+                        <li><strong>Kombinationsansätze:</strong> Mehrere Marker gleichzeitig</li>
+                    </ul>
+                    
+                    <p><strong>Herausforderungen:</strong></p>
+                    <ul>
+                        <li><strong>Falsch-positive Rate:</strong> Noch zu hoch</li>
+                        <li><strong>Grenzwerte:</strong> Alters- und populationsabhängig</li>
+                        <li><strong>Kosten-Nutzen:</strong> Bei seltenen Erkrankungen problematisch</li>
+                        <li><strong>Therapierbarkeit:</strong> Begrenzte Behandlungsoptionen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen der Peroxisomen und das Zellweger-Spektrum erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit X-linked Adrenoleukodystrophie</p>
+                    <button class="next-btn">Weiter zu Teil 2 - X-ALD →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'peroxisomenbiologie', 'zellweger', 'diagnostik'];
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Highlight active nav button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lysosomale Speicherkrankheiten - Teil 2</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Therapeutic boxes */
+        .therapy-box {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+            border: 2px solid #a855f7;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .therapy-box::before {
+            content: '💊';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .therapy-box h4 {
+            color: #7c3aed;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: var(--spacing-sm);
+        }
+        
+        .therapy-box p, .therapy-box ul, .therapy-box li {
+            color: #7c3aed;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Lysosomale Speicherkrankheiten</h1>
+            <p>Teil 2: Sphingolipidosen & Morbus Pompe</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 2</h3>
+            <p>Dieser zweite Teil behandelt die Sphingolipidosen, Morbus Pompe sowie moderne therapeutische Ansätze bei lysosomalen Speicherkrankheiten.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('sphingolipidosen')">1. Sphingolipidosen</button>
+            <button class="nav-btn" onclick="showSection('pompe')">2. Morbus Pompe</button>
+            <button class="nav-btn" onclick="showSection('therapie')">3. Therapeutische Optionen</button>
+            <button class="nav-btn" onclick="showSection('monitoring')">4. Monitoring & Prognose</button>
+        </div>
+
+        <!-- Sphingolipidosen -->
+        <div class="content-section active" id="sphingolipidosen">
+            <h2 class="section-title">🧠 Sphingolipidosen</h2>
+
+            <div class="subsection">
+                <h3>Übersicht und Biochemie</h3>
+                <div class="pathway-diagram">
+                    <h4>Sphingolipid-Stoffwechsel</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Sphingosin</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Ceramid</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Sphingomyelin</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Sphingomyelin-Pathway (Niemann-Pick)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Ceramid</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Glukosylceramid</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Ganglioside</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Glykolipid-Pathway (GM1/GM2-Gangliosidosen)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Glukosylceramid</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">β-Glukozerebrosidase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Ceramid + Glukose</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Gaucher-Krankheit (häufigste Sphingolipidose)</div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Enzymdefekt</th>
+                            <th>Speichersubstrat</th>
+                            <th>Häufigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Morbus Gaucher</strong></td>
+                            <td>β-Glukozerebrosidase</td>
+                            <td>Glukosylceramid</td>
+                            <td>1:40.000 - 1:100.000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Niemann-Pick A/B</strong></td>
+                            <td>Saure Sphingomyelinase</td>
+                            <td>Sphingomyelin</td>
+                            <td>1:250.000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Niemann-Pick C</strong></td>
+                            <td>NPC1/NPC2-Protein</td>
+                            <td>Cholesterol, Ganglioside</td>
+                            <td>1:120.000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tay-Sachs</strong></td>
+                            <td>Hexosaminidase A</td>
+                            <td>GM2-Gangliosid</td>
+                            <td>1:320.000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Morbus Fabry</strong></td>
+                            <td>α-Galaktosidase A</td>
+                            <td>Globotriaosylceramid</td>
+                            <td>1:40.000 - 1:80.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Morbus Gaucher (GBA-Defekt)</h3>
+                <div class="case-study">
+                    <h4>🩺 Klinische Typen</h4>
+                    
+                    <p><strong>Typ 1 (Non-neuronopathische Form) - 95% der Fälle:</strong></p>
+                    <ul>
+                        <li><strong>ZNS:</strong> Nicht betroffen</li>
+                        <li><strong>Manifestation:</strong> Splenomegalie, Thrombozytopenie, Knochenschmerzen</li>
+                        <li><strong>Verlauf:</strong> Chronisch, variabel schwer</li>
+                        <li><strong>Prognose:</strong> Normal bis leicht reduziert</li>
+                        <li><strong>Ethnische Häufung:</strong> Ashkenazi-Juden (1:450 Trägerfrequenz)</li>
+                    </ul>
+                    
+                    <p><strong>Typ 2 (Akute neuronopathische Form):</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Frühe Kindheit (&lt;2 Jahre)</li>
+                        <li><strong>ZNS:</strong> Schwere Neurodegeneration</li>
+                        <li><strong>Prognose:</strong> Tod meist vor 2. Lebensjahr</li>
+                        <li><strong>Besonderheiten:</strong> Keine ERT verfügbar (ZNS-Penetration)</li>
+                    </ul>
+                    
+                    <p><strong>Typ 3 (Chronische neuronopathische Form):</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Kindheit bis Adoleszenz</li>
+                        <li><strong>ZNS:</strong> Langsam progrediente Symptome</li>
+                        <li><strong>Besonderheit:</strong> Horizontale Blickparese charakteristisch</li>
+                        <li><strong>Verlauf:</strong> Überleben bis ins Erwachsenenalter möglich</li>
+                    </ul>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Therapieoptionen Gaucher Typ 1</h4>
+                    
+                    <p><strong>Enzymersatztherapie (ERT):</strong></p>
+                    <ul>
+                        <li><strong>Imiglucerase (Cerezyme):</strong> 15-60 U/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Velaglucerase alfa (VPRIV):</strong> 60 U/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Taliglucerase alfa (Elelyso):</strong> 60 U/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Wirksamkeit:</strong> Organomegalie ↓, Hämatologie ↑, Knochen ↑</li>
+                    </ul>
+                    
+                    <p><strong>Substrat-Reduktions-Therapie (SRT):</strong></p>
+                    <ul>
+                        <li><strong>Miglustat (Zavesca):</strong> 100 mg 3x täglich p.o.</li>
+                        <li><strong>Eliglustat (Cerdelga):</strong> 84 mg 2x täglich p.o.</li>
+                        <li><strong>Vorteil:</strong> Oral verfügbar</li>
+                        <li><strong>Indikation:</strong> Alternative bei ERT-Intoleranz</li>
+                    </ul>
+                    
+                    <p><strong>Therapieziele (bei Typ 1):</strong></p>
+                    <ul>
+                        <li>Hämoglobin >11 g/dl (Frauen), >12 g/dl (Männer)</li>
+                        <li>Thrombozyten >60.000-120.000/μl</li>
+                        <li>Milzvolumen <10x normal (bei Splenektomie: Lebervolumen <1,5x normal)</li>
+                        <li>Keine Knochenschmerzen, normale Knochendichte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Niemann-Pick Krankheit</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th>Gendefekt</th>
+                            <th>Pathomechanismus</th>
+                            <th>Klinische Charakteristika</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>NPA</strong></td>
+                            <td>SMPD1 (schwer)</td>
+                            <td>Sphingomyelinase-Mangel</td>
+                            <td>Hepatosplenomegalie + frühe ZNS-Degeneration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NPB</strong></td>
+                            <td>SMPD1 (mild)</td>
+                            <td>Partielle Sphingomyelinase</td>
+                            <td>Viszerale Symptome, ZNS meist verschont</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NPC1</strong></td>
+                            <td>NPC1 (95%)</td>
+                            <td>Cholesterol-Transport gestört</td>
+                            <td>Vertikale Blickparese, Ataxie, Demenz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NPC2</strong></td>
+                            <td>NPC2 (5%)</td>
+                            <td>Cholesterol-Transport gestört</td>
+                            <td>Ähnlich NPC1, oft schwerer</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Niemann-Pick C: Besondere Merkmale</h4>
+                    
+                    <p><strong>Diagnostische Marker:</strong></p>
+                    <ul>
+                        <li><strong>Filipin-Test:</strong> Charakteristische Cholesterol-Akkumulation in Fibroblasten</li>
+                        <li><strong>Chitotriosidase:</strong> Stark erhöht (unspezifisch)</li>
+                        <li><strong>Oxysterole:</strong> Cholestan-3β,5α,6β-triol erhöht (neuer Biomarker)</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Progression (5 Stadien):</strong></p>
+                    <ul>
+                        <li><strong>Stadium 0:</strong> Prolongierter Neugeborenengelbsucht</li>
+                        <li><strong>Stadium 1:</strong> Hepatosplenomegalie</li>
+                        <li><strong>Stadium 2:</strong> Vertikale Blickparese (pathognomonisch!)</li>
+                        <li><strong>Stadium 3:</strong> Dysarthrie, Dysphagie, Ataxie</li>
+                        <li><strong>Stadium 4:</strong> Dystonie, Demenz, Dysphagie</li>
+                    </ul>
+                    
+                    <p><strong>Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Miglustat:</strong> Einzige zugelassene Therapie</li>
+                        <li><strong>Dosierung:</strong> 200 mg 3x täglich (Erwachsene)</li>
+                        <li><strong>Wirkung:</strong> Verlangsamung der neurologischen Progression</li>
+                        <li><strong>Nebenwirkungen:</strong> Durchfall, Gewichtsverlust, Tremor</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>GM2-Gangliosidosen (Tay-Sachs, Sandhoff)</h3>
+                <div class="pathway-diagram">
+                    <h4>Hexosaminidase-System</h4>
+                    <div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #fca5a5;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">Tay-Sachs (HEXA-Defekt)</h5>
+                                <div class="enzyme-box defect" style="margin: 5px 0; width: 100%; text-align: center;">Hexosaminidase A fehlt</div>
+                                <p style="color: #dc2626; font-size: 0.9em;">GM2-Gangliosid akkumuliert</p>
+                                <p style="color: #dc2626; font-size: 0.9em;">Ashkenazi-Juden 1:25 Träger</p>
+                            </div>
+                            
+                            <div>
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">Sandhoff (HEXB-Defekt)</h5>
+                                <div class="enzyme-box defect" style="margin: 5px 0; width: 100%; text-align: center;">Hexosaminidase A + B fehlen</div>
+                                <p style="color: #dc2626; font-size: 0.9em;">GM2 + Globosid akkumulieren</p>
+                                <p style="color: #dc2626; font-size: 0.9em;">Alle Ethnien betroffen</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 15px;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">Gemeinsame klinische Endstrecke</h5>
+                            <p style="color: #dc2626;">Progressive Neurodegeneration → Makrozephalus → Kirschroter Fleck → Tod</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧠 Verlaufsformen</h4>
+                    
+                    <p><strong>Infantile Form (klassisch):</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> 3-6 Monate</li>
+                        <li><strong>Verlauf:</strong> Regression motorischer Fähigkeiten</li>
+                        <li><strong>Ophthalmologie:</strong> Kirschroter Fleck (90%)</li>
+                        <li><strong>Neurologie:</strong> Hyperakusis, Makrozephalus, Krampfanfälle</li>
+                        <li><strong>Prognose:</strong> Tod bis 4. Lebensjahr</li>
+                    </ul>
+                    
+                    <p><strong>Juvenile Form:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> 2-10 Jahre</li>
+                        <li><strong>Symptome:</strong> Ataxie, Dysarthrie, kognitive Verschlechterung</li>
+                        <li><strong>Verlauf:</strong> Langsamer als infantile Form</li>
+                    </ul>
+                    
+                    <p><strong>Adult-onset Form:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> >15 Jahre</li>
+                        <li><strong>Symptome:</strong> Psychiatrische Symptome, spinozerebellare Ataxie</li>
+                        <li><strong>Besonderheit:</strong> Keine Organomegalie</li>
+                    </ul>
+                    
+                    <p><strong>Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Keine kausale Therapie verfügbar</strong></li>
+                        <li><strong>Symptomatisch:</strong> Antikonvulsiva, Physiotherapie</li>
+                        <li><strong>Experimentell:</strong> Gentherapie, Chaperone</li>
+                        <li><strong>Palliativ:</strong> Ernährungssonde, Atemunterstützung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Morbus Fabry (α-Galaktosidase A-Defekt)</h3>
+                <div class="therapy-box">
+                    <h4>X-chromosomale Multisystemerkrankung</h4>
+                    
+                    <p><strong>Männliche Patienten (hemizygot):</strong></p>
+                    <ul>
+                        <li><strong>Kindheit:</strong> Akroparästhesien, Angiokeratome, Hypohidrose</li>
+                        <li><strong>Adoleszenz:</strong> Cornea verticillata, Proteinurie</li>
+                        <li><strong>Erwachsene:</strong> Progressive Nephropathie, Kardiomyopathie, Schlaganfall</li>
+                        <li><strong>Lebenserwartung:</strong> Reduziert um 15-20 Jahre</li>
+                    </ul>
+                    
+                    <p><strong>Weibliche Patienten (heterozygot):</strong></p>
+                    <ul>
+                        <li><strong>X-Inaktivierung:</strong> Variable Symptomatik</li>
+                        <li><strong>Häufig:</strong> Spätmanifestationen (Kardiomyopathie, Schlaganfall)</li>
+                        <li><strong>Screening:</strong> Bei familiärer Belastung wichtig</li>
+                    </ul>
+                    
+                    <p><strong>Enzymersatztherapie:</strong></p>
+                    <ul>
+                        <li><strong>Agalsidase alfa (Replagal):</strong> 0,2 mg/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Agalsidase beta (Fabrazyme):</strong> 1,0 mg/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Indikation:</strong> Männer ab Symptombeginn, Frauen bei Organbeteiligung</li>
+                        <li><strong>Monitoring:</strong> Nephrologisch, kardiologisch, neurologisch</li>
+                    </ul>
+                    
+                    <p><strong>Chaperone-Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Migalastat (Galafold):</strong> 123 mg jeden 2. Tag p.o.</li>
+                        <li><strong>Indikation:</strong> Amenable Mutationen (ca. 35-50%)</li>
+                        <li><strong>Vorteil:</strong> Oral, bessere ZNS-Penetration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('pompe')">Zu Morbus Pompe →</button>
+            </div>
+        </div>
+
+        <!-- Morbus Pompe -->
+        <div class="content-section" id="pompe">
+            <h2 class="section-title">💪 Morbus Pompe (Glykogenose Typ II)</h2>
+
+            <div class="subsection">
+                <h3>Pathophysiologie und Genetik</h3>
+                <div class="pathway-diagram">
+                    <h4>Lysosomaler Glykogenabbau</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Glykogen (lysosomal)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">α-1,4-Glukosidase (GAA)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Glukose + Maltose</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Defekt → Lysosomale Glykogenakkumulation</div>
+                        
+                        <div style="background: #fef2f2; padding: 15px; border-radius: 8px; margin: 15px 0; border: 2px solid #ef4444; width: 100%;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px; text-align: center;">Sekundäre Pathomechanismen</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div style="text-align: center;">
+                                    <div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c); margin: 5px 0; width: 100%;">Autophagiedefekt</div>
+                                    <p style="color: #dc2626; font-size: 0.9em;">Lysosom-Autophagosom Fusion ↓</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c); margin: 5px 0; width: 100%;">Mitochondriale Dysfunktion</div>
+                                    <p style="color: #dc2626; font-size: 0.9em;">Energiestoffwechsel gestört</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧬 GAA-Gen und Mutationen</h4>
+                    
+                    <p><strong>Genetische Grundlagen:</strong></p>
+                    <ul>
+                        <li><strong>Lokalisation:</strong> Chromosom 17q25.3</li>
+                        <li><strong>Größe:</strong> 20 Exons, 2,3 kb mRNA</li>
+                        <li><strong>Protein:</strong> 952 Aminosäuren, 110 kDa</li>
+                        <li><strong>Vererbung:</strong> Autosomal-rezessiv</li>
+                    </ul>
+                    
+                    <p><strong>Häufige Mutationen (europäische Population):</strong></p>
+                    <ul>
+                        <li><strong>c.-32-13T>G:</strong> IVS1 Spleißmutation, häufigste bei LOPD</li>
+                        <li><strong>c.525delT:</strong> Frameshift, häufig bei IOPD</li>
+                        <li><strong>c.2560C>T (p.Arg854*):</strong> Nonsense-Mutation</li>
+                        <li><strong>c.1935C>A (p.Asp645Glu):</strong> Cross-reaktive immunologische Material (CRIM)-negativ</li>
+                    </ul>
+                    
+                    <p><strong>Genotyp-Phänotyp-Korrelation:</strong></p>
+                    <ul>
+                        <li><strong>Null-Mutationen:</strong> Infantile Form (IOPD), sehr schwer</li>
+                        <li><strong>Leaky-Mutationen:</strong> Late-onset Form (LOPD), milder</li>
+                        <li><strong>CRIM-Status:</strong> Wichtig für ERT-Response und Immunogenität</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Phänotypen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Merkmal</th>
+                            <th>Infantile Form (IOPD)</th>
+                            <th>Late-Onset Form (LOPD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Manifestationsalter</strong></td>
+                            <td>&lt;1 Jahr</td>
+                            <td>&gt;1 Jahr bis Erwachsenenalter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardiomyopathie</strong></td>
+                            <td>Immer vorhanden, hypertrophic</td>
+                            <td>Selten (&lt;5%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Muskelschwäche</strong></td>
+                            <td>Schwere Hypotonie</td>
+                            <td>Proximal betont, progredient</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ateminsuffizienz</strong></td>
+                            <td>Früh, oft beatmungspflichtig</td>
+                            <td>Spät, nächtliche Hypoventilation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Makroglossia</strong></td>
+                            <td>Charakteristisch</td>
+                            <td>Selten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hepatomegalie</strong></td>
+                            <td>Häufig</td>
+                            <td>Selten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CK-Werte</strong></td>
+                            <td>2-10x erhöht</td>
+                            <td>2-30x erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prognose unbehandelt</strong></td>
+                            <td>Tod &lt;2 Jahre</td>
+                            <td>Rollstuhlpflicht, respiratorische Insuffizienz</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik</h3>
+                <div class="highlight-box">
+                    <h4>Diagnostischer Algorithmus</h4>
+                    
+                    <p><strong>1. Klinischer Verdacht:</strong></p>
+                    <ul>
+                        <li>Hypertrophe Kardiomyopathie + Hypotonie (IOPD)</li>
+                        <li>Proximale Muskelschwäche + CK-Erhöhung (LOPD)</li>
+                        <li>Positive Familienanamnese</li>
+                    </ul>
+                    
+                    <p><strong>2. Biochemische Tests:</strong></p>
+                    <ul>
+                        <li><strong>Trockenblut (DBS):</strong> GAA-Aktivität, Screening-Methode</li>
+                        <li><strong>Lymphozyten:</strong> GAA-Aktivität, konfirmatorisch</li>
+                        <li><strong>Fibroblasten:</strong> Goldstandard, bei grenzwertigen Befunden</li>
+                        <li><strong>Urin-Glukosetetrasaccharid (Glc4):</strong> Biomarker für Therapiemonitoring</li>
+                    </ul>
+                    
+                    <p><strong>3. Genetische Analyse:</strong></p>
+                    <ul>
+                        <li><strong>GAA-Sequenzierung:</strong> Mutationsanalyse</li>
+                        <li><strong>CRIM-Status:</strong> Western Blot oder Immunfluoreszenz</li>
+                        <li><strong>Familienuntersuchung:</strong> Trägeridentifikation</li>
+                    </ul>
+                    
+                    <p><strong>4. Weiterführende Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Muskelbiopsie:</strong> Vakuoläre Myopathie, PAS-positive Vakuolen</li>
+                        <li><strong>Echokardiographie:</strong> Hypertrophie-Assessment</li>
+                        <li><strong>Lungenfunktion:</strong> Restriktive Ventilationsstörung</li>
+                        <li><strong>Polysomnographie:</strong> Schlafbezogene Atemstörungen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Enzymersatztherapie</h3>
+                <div class="therapy-box">
+                    <h4>Alglucosidase alfa (Myozyme/Lumizyme)</h4>
+                    
+                    <p><strong>Dosierung und Applikation:</strong></p>
+                    <ul>
+                        <li><strong>Standard:</strong> 20 mg/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Infusionsdauer:</strong> 4-6 Stunden</li>
+                        <li><strong>Prämedikation:</strong> Antihistaminika, ggf. Kortikosteroide</li>
+                        <li><strong>Überwachung:</strong> Vitalzeichen, allergische Reaktionen</li>
+                    </ul>
+                    
+                    <p><strong>Wirksamkeit IOPD:</strong></p>
+                    <ul>
+                        <li><strong>Überleben:</strong> Deutlich verlängert (>10 Jahre möglich)</li>
+                        <li><strong>Kardiomyopathie:</strong> Regression bei den meisten Patienten</li>
+                        <li><strong>Motorik:</strong> Bessere Outcomes bei frühem Therapiebeginn</li>
+                        <li><strong>Beatmung:</strong> Häufig noch erforderlich</li>
+                    </ul>
+                    
+                    <p><strong>Wirksamkeit LOPD:</strong></p>
+                    <ul>
+                        <li><strong>6-Minuten-Gehtest:</strong> Stabilisierung oder Verbesserung</li>
+                        <li><strong>Lungenfunktion:</strong> Verlangsamung des Verfalls</li>
+                        <li><strong>Muskelkraft:</strong> Variable Effekte</li>
+                        <li><strong>Lebensqualität:</strong> Signifikante Verbesserung</li>
+                    </ul>
+                    
+                    <p><strong>Nebenwirkungen und Komplikationen:</strong></p>
+                    <ul>
+                        <li><strong>Infusionsreaktionen:</strong> 20-50% der Patienten</li>
+                        <li><strong>Immunogenität:</strong> Anti-Drug-Antibodies (ADA) bei 80-90%</li>
+                        <li><strong>CRIM-negative Patienten:</strong> Höheres Risiko für Antikörper</li>
+                        <li><strong>Immunsuppression:</strong> Bei hohen Antikörpertitern erwägen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neue therapeutische Ansätze</h3>
+                <div class="case-study">
+                    <h4>🔬 Innovative Therapiekonzepte</h4>
+                    
+                    <p><strong>Avalglucosidase alfa (Nexviazyme®) - 2. Generation ERT:</strong></p>
+                    <ul>
+                        <li><strong>Verbessertes Targeting:</strong> Optimierte M6P-Rezeptor-Bindung</li>
+                        <li><strong>Zulassung:</strong> 2021 für LOPD zugelassen</li>
+                        <li><strong>Dosierung:</strong> 20 mg/kg alle 2 Wochen i.v.</li>
+                        <li><strong>Vorteile:</strong> Bessere muskuläre Aufnahme</li>
+                    </ul>
+                    
+                    <p><strong>Chaperone-Therapie:</strong></p>
+                    <ul>
+                        <li><strong>AT2221 (Cipaglucosidase alfa + Miglustat):</strong> Phase 3 Studien</li>
+                        <li><strong>Konzept:</strong> Pharmacological Chaperone stabilisiert Enzym</li>
+                        <li><strong>Vorteil:</strong> Verbesserte lysosomale Lokalisation</li>
+                    </ul>
+                    
+                    <p><strong>Gentherapie:</strong></p>
+                    <ul>
+                        <li><strong>AT845 (rAAV9-DES-hGAA):</strong> Adeno-assoziierte Viren</li>
+                        <li><strong>Zielgewebe:</strong> Diaphragma und Skelettmuskel</li>
+                        <li><strong>Status:</strong> Präklinische Entwicklung</li>
+                        <li><strong>Potenzial:</strong> One-time Treatment</li>
+                    </ul>
+                    
+                    <p><strong>Substrate Reduction Therapy:</strong></p>
+                    <ul>
+                        <li><strong>Konzept:</strong> Reduzierung der Glykogen-Synthese</li>
+                        <li><strong>Targets:</strong> Glykogen-Synthase-Inhibitoren</li>
+                        <li><strong>Status:</strong> Präklinische Evaluation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <div class="highlight-box">
+                    <h4>NGS für Morbus Pompe - International</h4>
+                    
+                    <p><strong>Implementierte Programme:</strong></p>
+                    <ul>
+                        <li><strong>USA:</strong> Flächendeckend seit 2015</li>
+                        <li><strong>Taiwan:</strong> Seit 2005, weltweit erstes Programm</li>
+                        <li><strong>Italien:</strong> Seit 2015 in mehreren Regionen</li>
+                        <li><strong>Österreich:</strong> Pilotprojekt abgeschlossen</li>
+                    </ul>
+                    
+                    <p><strong>Methodik:</strong></p>
+                    <ul>
+                        <li><strong>GAA-Aktivität:</strong> Fluorimetrie oder MS/MS aus DBS</li>
+                        <li><strong>Cut-off:</strong> Abhängig von Methode und Population</li>
+                        <li><strong>Bestätigung:</strong> Lymphozyten-Assay + Genetik</li>
+                    </ul>
+                    
+                    <p><strong>Outcomes:</strong></p>
+                    <ul>
+                        <li><strong>Frühe Therapie:</strong> Signifikant bessere Prognose bei IOPD</li>
+                        <li><strong>Präsymptomatische LOPD:</strong> Kontroverse Behandlungsindikation</li>
+                        <li><strong>Falsch-Positive Rate:</strong> 0,03-0,08%</li>
+                    </ul>
+                    
+                    <p><strong>Deutschland - Perspektive:</strong></p>
+                    <ul>
+                        <li>Diskussion über Aufnahme ins Regel-NGS</li>
+                        <li>Pilotprojekte in Planung</li>
+                        <li>Herausforderung: Ethische Aspekte bei LOPD</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('therapie')">Zu den therapeutischen Optionen →</button>
+            </div>
+        </div>
+
+        <!-- Therapeutische Optionen -->
+        <div class="content-section" id="therapie">
+            <h2 class="section-title">💊 Therapeutische Optionen</h2>
+
+            <div class="subsection">
+                <h3>Enzymersatztherapie (ERT) - Überblick</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Präparat</th>
+                            <th>Dosierung</th>
+                            <th>Zulassungsstatus</th>
+                            <th>Hauptwirkungen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MPS I</strong></td>
+                            <td>Laronidase (Aldurazyme)</td>
+                            <td>0,58 mg/kg wöchentlich</td>
+                            <td>Zugelassen</td>
+                            <td>Organomegalie ↓, Lungenfunktion ↑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS II</strong></td>
+                            <td>Idursulfase (Elaprase)</td>
+                            <td>0,5 mg/kg wöchentlich</td>
+                            <td>Zugelassen</td>
+                            <td>6-min-Gehtest ↑, Organomegalie ↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS IVA</strong></td>
+                            <td>Elosulfase alfa (Vimizim)</td>
+                            <td>2 mg/kg wöchentlich</td>
+                            <td>Zugelassen</td>
+                            <td>Ausdauer ↑, Treppensteigen ↑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS VI</strong></td>
+                            <td>Galsulfase (Naglazyme)</td>
+                            <td>1 mg/kg alle 2 Wochen</td>
+                            <td>Zugelassen</td>
+                            <td>Lungenfunktion ↑, Ausdauer ↑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gaucher I</strong></td>
+                            <td>Imiglucerase (Cerezyme)</td>
+                            <td>15-60 U/kg alle 2 Wochen</td>
+                            <td>Zugelassen</td>
+                            <td>Hämatologie ↑, Organomegalie ↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fabry</strong></td>
+                            <td>Agalsidase beta (Fabrazyme)</td>
+                            <td>1 mg/kg alle 2 Wochen</td>
+                            <td>Zugelassen</td>
+                            <td>Nierenfunktion ↑, Schmerzen ↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pompe</strong></td>
+                            <td>Alglucosidase alfa (Myozyme)</td>
+                            <td>20 mg/kg alle 2 Wochen</td>
+                            <td>Zugelassen</td>
+                            <td>Muskelkraft ↑, Überleben ↑</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Substrat-Reduktions-Therapie (SRT)</h3>
+                <div class="therapy-box">
+                    <h4>Konzept und Anwendungen</h4>
+                    
+                    <p><strong>Grundprinzip:</strong></p>
+                    <ul>
+                        <li>Reduktion der Substratproduktion statt Enzymersatz</li>
+                        <li>Hemmung von Schlüsselenzymen der Biosynthese</li>
+                        <li>Erreichen eines neuen Gleichgewichts bei partiellem Enzymdefekt</li>
+                    </ul>
+                    
+                    <p><strong>Miglustat (Zavesca) - Glukosylceramid-Synthase-Inhibitor:</strong></p>
+                    <ul>
+                        <li><strong>Indikationen:</strong> Gaucher Typ 1, Niemann-Pick C</li>
+                        <li><strong>Dosierung:</strong> 100 mg 3x täglich p.o.</li>
+                        <li><strong>Nebenwirkungen:</strong> Durchfall, Gewichtsverlust, Tremor</li>
+                        <li><strong>Kontraindikation:</strong> Schwangerschaft, Niereninsuffizienz</li>
+                    </ul>
+                    
+                    <p><strong>Eliglustat (Cerdelga) - selektiver Glukosylceramid-Synthase-Inhibitor:</strong></p>
+                    <ul>
+                        <li><strong>Indikation:</strong> Gaucher Typ 1 (Erstlinientherapie)</li>
+                        <li><strong>Dosierung:</strong> 84 mg 2x täglich p.o.</li>
+                        <li><strong>Vorteile:</strong> Weniger Nebenwirkungen als Miglustat</li>
+                        <li><strong>Pharmakokinetik:</strong> CYP2D6-abhängig → Genotypisierung</li>
+                    </ul>
+                    
+                    <p><strong>Lucerastat (in Entwicklung):</strong></p>
+                    <ul>
+                        <li><strong>Indikationen:</strong> Fabry, Gaucher</li>
+                        <li><strong>Status:</strong> Phase 3 Studien</li>
+                        <li><strong>Vorteil:</strong> Bessere ZNS-Penetration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Pharmakologische Chaperone</h3>
+                <div class="case-study">
+                    <h4>🔬 Chaperone-Therapie</h4>
+                    
+                    <p><strong>Konzept:</strong></p>
+                    <ul>
+                        <li>Kleine Moleküle stabilisieren mutierte Enzyme</li>
+                        <li>Verbesserung von Faltung, Transport und Aktivität</li>
+                        <li>Nur bei amenable (responsiven) Mutationen wirksam</li>
+                    </ul>
+                    
+                    <p><strong>Migalastat (Galafold) - α-Galaktosidase A Chaperone:</strong></p>
+                    <ul>
+                        <li><strong>Indikation:</strong> Morbus Fabry mit amenable Mutationen</li>
+                        <li><strong>Dosierung:</strong> 123 mg jeden 2. Tag p.o.</li>
+                        <li><strong>Amenable Mutationen:</strong> ~35-50% aller Fabry-Mutationen</li>
+                        <li><strong>Vorteile:</strong> Oral, bessere Gewebepenetration</li>
+                        <li><strong>Testing:</strong> In-vitro Assay zur Responsivitäts-Bestimmung</li>
+                    </ul>
+                    
+                    <p><strong>AT2221 (Cipaglucosidase alfa + Miglustat) - Pompe:</strong></p>
+                    <ul>
+                        <li><strong>Kombination:</strong> Modifizierte ERT + pharmakologisches Chaperone</li>
+                        <li><strong>Status:</strong> Phase 3 abgeschlossen</li>
+                        <li><strong>Wirkung:</strong> Verbesserte lysosomale Lokalisation</li>
+                    </ul>
+                    
+                    <p><strong>Andere Chaperone in Entwicklung:</strong></p>
+                    <ul>
+                        <li><strong>Isofagomin:</strong> β-Glukozerebrosidase (Gaucher)</li>
+                        <li><strong>Pyrimethamine:</strong> α-Galaktosidase A (Fabry)</li>
+                        <li><strong>Ambroxol:</strong> β-Glukozerebrosidase (off-label)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Hämatopoetische Stammzelltransplantation (HSCT)</h3>
+                <div class="highlight-box">
+                    <h4>HSCT bei lysosomalen Speicherkrankheiten</h4>
+                    
+                    <p><strong>Prinzip:</strong></p>
+                    <ul>
+                        <li>Donor-Zellen produzieren funktionsfähiges Enzym</li>
+                        <li>Cross-correction: Enzym-Transfer zwischen Zellen</li>
+                        <li>Mikroglia-Ersatz im ZNS durch Donor-Makrophagen</li>
+                    </ul>
+                    
+                    <p><strong>Etablierte Indikationen:</strong></p>
+                    <ul>
+                        <li><strong>MPS IH (Hurler):</strong> Standard bei &lt;2 Jahren</li>
+                        <li><strong>MPS VI:</strong> Bei schweren Verläufen</li>
+                        <li><strong>Metachromatic Leukodystrophy:</strong> Präsymptomatisch</li>
+                        <li><strong>X-linked Adrenoleukodystrophy:</strong> Bei cerebraler Form</li>
+                    </ul>
+                    
+                    <p><strong>Outcomes MPS IH:</strong></p>
+                    <ul>
+                        <li><strong>ZNS-Schutz:</strong> Stopp der kognitiven Verschlechterung</li>
+                        <li><strong>Somatische Symptome:</strong> Teilweise Verbesserung</li>
+                        <li><strong>Timing crucial:</strong> Vor 2. Lebensjahr optimal</li>
+                        <li><strong>Langzeit-Überleben:</strong> >90% bei früher HSCT</li>
+                    </ul>
+                    
+                    <p><strong>Limitationen:</strong></p>
+                    <ul>
+                        <li><strong>Morbidität:</strong> GvHD, Infektionen, sekundäre Malignome</li>
+                        <li><strong>Knochen/Augen:</strong> Wenig Effekt</li>
+                        <li><strong>Konditionierung:</strong> Toxizität bei kranken Kindern</li>
+                        <li><strong>HLA-kompatibler Spender:</strong> Nicht immer verfügbar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Gentherapie und innovative Ansätze</h3>
+                <div class="therapy-box">
+                    <h4>Gentherapeutische Strategien</h4>
+                    
+                    <p><strong>Adeno-assoziierte Virus (AAV) Vektoren:</strong></p>
+                    <ul>
+                        <li><strong>Vorteile:</strong> Nicht-pathogen, lange Expression, gewebs-spezifisch</li>
+                        <li><strong>Serotypen:</strong> AAV9 (ZNS), AAV1/8 (Muskel), AAV5 (Auge)</li>
+                        <li><strong>Herausforderungen:</strong> Immunogenität, limitierte Packungskapazität</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Programme:</strong></p>
+                    <ul>
+                        <li><strong>MPS IIIA:</strong> AAV9-SGSH intrathekale Applikation</li>
+                        <li><strong>MPS IIIB:</strong> AAV9-NAGLU intrathekale Applikation</li>
+                        <li><strong>Pompe:</strong> AAV9-GAA intramuskuläre/intravenöse Applikation</li>
+                        <li><strong>CLN2:</strong> AAV2-TPP1 intraventrikuläre Applikation (zugelassen)</li>
+                    </ul>
+                    
+                    <p><strong>Lentivirale Gentherapie:</strong></p>
+                    <ul>
+                        <li><strong>Prinzip:</strong> Ex-vivo Transduktion von Patientenzellen</li>
+                        <li><strong>Anwendung:</strong> MLD, ALD in klinischen Studien</li>
+                        <li><strong>Vorteil:</strong> Keine Immunreaktion gegen Vektor</li>
+                    </ul>
+                    
+                    <p><strong>In-vivo Gene Editing:</strong></p>
+                    <ul>
+                        <li><strong>CRISPR/Cas:</strong> Noch präklinische Entwicklung</li>
+                        <li><strong>Base Editing:</strong> Korrektur von Punktmutationen</li>
+                        <li><strong>Prime Editing:</strong> Präzise Insertionen/Deletionen</li>
+                    </ul>
+                    
+                    <p><strong>Herausforderungen:</strong></p>
+                    <ul>
+                        <li><strong>ZNS-Delivery:</strong> Blut-Hirn-Schranke überwinden</li>
+                        <li><strong>Immunogenität:</strong> Neutralisierende Antikörper</li>
+                        <li><strong>Dosisfindung:</strong> Optimale Enzymspiegel</li>
+                        <li><strong>Kosten:</strong> Sehr hohe Entwicklungs- und Produktionskosten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('monitoring')">Zu Monitoring & Prognose →</button>
+            </div>
+        </div>
+
+        <!-- Monitoring & Prognose -->
+        <div class="content-section" id="monitoring">
+            <h2 class="section-title">📊 Monitoring & Prognose</h2>
+
+            <div class="subsection">
+                <h3>Biomarker für Therapiemonitoring</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Primärer Biomarker</th>
+                            <th>Sekundäre Biomarker</th>
+                            <th>Therapiemonitoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Gaucher</strong></td>
+                            <td>Chitotriosidase</td>
+                            <td>CCL18, Glucosylsphingosine</td>
+                            <td>Alle 6 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fabry</strong></td>
+                            <td>Globotriaosylceramide (Gb3)</td>
+                            <td>Lyso-Gb3, Nierenfunktion</td>
+                            <td>Alle 6-12 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pompe</strong></td>
+                            <td>CK, Urin-Glc4</td>
+                            <td>Muskelkraft, Lungenfunktion</td>
+                            <td>Alle 3-6 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MPS I/II</strong></td>
+                            <td>Urin-GAGs</td>
+                            <td>6-min-Gehtest, Echokardiographie</td>
+                            <td>Alle 6-12 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Niemann-Pick C</strong></td>
+                            <td>Oxysterole (Cholestan-3β,5α,6β-triol)</td>
+                            <td>Chitotriosidase, klinische Scores</td>
+                            <td>Alle 6-12 Monate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Funktionelle Assessments</h3>
+                <div class="case-study">
+                    <h4>📏 Standardisierte Outcome-Measures</h4>
+                    
+                    <p><strong>Kardiopulmonale Funktion:</strong></p>
+                    <ul>
+                        <li><strong>6-Minuten-Gehtest:</strong> Primärer Endpunkt bei MPS-Studien</li>
+                        <li><strong>Lungenfunktion:</strong> FVC, FEV1 für respiratorische Beteiligung</li>
+                        <li><strong>Echokardiographie:</strong> Myokardmasse, diastolische Funktion</li>
+                        <li><strong>Belastungs-EKG:</strong> Kardiale Leistungsreserve</li>
+                    </ul>
+                    
+                    <p><strong>Neurologische Assessments:</strong></p>
+                    <ul>
+                        <li><strong>SARA (Scale for Assessment and Rating of Ataxia):</strong> Niemann-Pick C</li>
+                        <li><strong>Bayley-III:</strong> Entwicklungsscreening bei Kindern</li>
+                        <li><strong>MMSE/MoCA:</strong> Kognitive Funktionen</li>
+                        <li><strong>Bewegungsanalyse:</strong> Gangmuster, Koordination</li>
+                    </ul>
+                    
+                    <p><strong>Muskuläre Funktion (Pompe):</strong></p>
+                    <ul>
+                        <li><strong>Manual Muscle Testing (MMT):</strong> Muskelkraft-Assessment</li>
+                        <li><strong>Timed Function Tests:</strong> 10-Meter-Lauf, Treppensteigen</li>
+                        <li><strong>GSGC (Gross Motor Function Measure):</strong> Motorische Fähigkeiten</li>
+                        <li><strong>Quick Motor Function Test (QMFT):</strong> Pompe-spezifisch</li>
+                    </ul>
+                    
+                    <p><strong>Lebensqualität:</strong></p>
+                    <ul>
+                        <li><strong>SF-36/PROMIS:</strong> Generische Health-related QoL</li>
+                        <li><strong>Disease-specific Tools:</strong> MPS-HAQ, Fabry-spezifische Scores</li>
+                        <li><strong>Aktivitäten des täglichen Lebens:</strong> Barthel-Index, FIM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Immunogenität und Antikörper-Monitoring</h3>
+                <div class="highlight-box">
+                    <h4>ERT-assoziierte Immunantworten</h4>
+                    
+                    <p><strong>Anti-Drug Antibodies (ADA) - Häufigkeit:</strong></p>
+                    <ul>
+                        <li><strong>Pompe (CRIM-positiv):</strong> 70-80%</li>
+                        <li><strong>Pompe (CRIM-negativ):</strong> 90-100%</li>
+                        <li><strong>Fabry:</strong> 50-70% (Männer > Frauen)</li>
+                        <li><strong>MPS I:</strong> 90% entwickeln ADA</li>
+                        <li><strong>Gaucher:</strong> &lt;15% (niedrigste Rate)</li>
+                    </ul>
+                    
+                    <p><strong>Risikofaktoren für Immunogenität:</strong></p>
+                    <ul>
+                        <li><strong>Null-Mutationen:</strong> Keine endogene Enzymproduktion</li>
+                        <li><strong>Früher Therapiebeginn:</strong> Unreifes Immunsystem</li>
+                        <li><strong>Infusionsreaktionen:</strong> Immunaktivierung</li>
+                        <li><strong>Genetic Background:</strong> HLA-Polymorphismen</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Konsequenzen:</strong></p>
+                    <ul>
+                        <li><strong>Neutralisierende ADA:</strong> Reduzierte Therapieeffektivität</li>
+                        <li><strong>Non-neutralisierende ADA:</strong> Meist ohne klinische Relevanz</li>
+                        <li><strong>Infusionsreaktionen:</strong> Verlängerte Infusionszeiten</li>
+                        <li><strong>Cross-Reaktivität:</strong> Problem bei Präparatewechsel</li>
+                    </ul>
+                    
+                    <p><strong>Management-Strategien:</strong></p>
+                    <ul>
+                        <li><strong>Immunsuppression:</strong> Methotrexat, Rituximab bei CRIM-neg Pompe</li>
+                        <li><strong>Dosisanpassung:</strong> Erhöhung bei neutralisierenden ADA</li>
+                        <li><strong>Prämedikation:</strong> Antihistaminika, Kortikosteroide</li>
+                        <li><strong>Alternative Therapien:</strong> SRT, Chaperone erwägen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Langzeit-Outcomes und Prognosefaktoren</h3>
+                <div class="pathway-diagram">
+                    <h4>Prognostische Faktoren bei ERT</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🎯 Günstige Faktoren</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Früher Therapiebeginn</li>
+                                <li>Milder Genotyp</li>
+                                <li>Keine neutralisierenden ADA</li>
+                                <li>Gute Compliance</li>
+                                <li>Präsymptomatische Behandlung</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">⚠️ Ungünstige Faktoren</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Späte Diagnose/Therapie</li>
+                                <li>Schwere Mutationen</li>
+                                <li>Bereits irreversible Organschäden</li>
+                                <li>Hohe neutralisierende ADA</li>
+                                <li>Non-Compliance</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🔄 Variable Faktoren</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Alter bei Therapiebeginn</li>
+                                <li>Krankheitsstadium</li>
+                                <li>Ko-Morbiditäten</li>
+                                <li>Ethnische Herkunft</li>
+                                <li>Geschlecht (bei X-linked)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Real-World Evidence und Registry-Daten</h3>
+                <div class="case-study">
+                    <h4>📈 Langzeit-Outcome-Daten</h4>
+                    
+                    <p><strong>Gaucher Registry (>6000 Patienten, >25 Jahre Follow-up):</strong></p>
+                    <ul>
+                        <li><strong>Organomegalie:</strong> 60-80% Reduktion nach 5 Jahren ERT</li>
+                        <li><strong>Hämatologie:</strong> Normalisierung bei 90% der Patienten</li>
+                        <li><strong>Knochenkrisen:</strong> 85% Reduktion der Häufigkeit</li>
+                        <li><strong>Lebenserwartung:</strong> Nahezu normal bei Typ 1</li>
+                    </ul>
+                    
+                    <p><strong>MPS I Registry (>2000 Patienten):</strong></p>
+                    <ul>
+                        <li><strong>HSCT vs. ERT:</strong> HSCT überlegen bei ZNS-Beteiligung</li>
+                        <li><strong>Kombinierte Therapie:</strong> Bessere Outcomes bei sequenzieller ERT→HSCT</li>
+                        <li><strong>Langzeit-Überleben:</strong> >95% bei früh behandelten Patienten</li>
+                    </ul>
+                    
+                    <p><strong>Pompe Registry (>3000 Patienten):</strong></p>
+                    <ul>
+                        <li><strong>IOPD Überleben:</strong> 90% nach 5 Jahren (vs. historical &lt;10%)</li>
+                        <li><strong>LOPD Outcomes:</strong> Stabilisierung bei 70%, Verbesserung bei 30%</li>
+                        <li><strong>Beatmungsfreiheit:</strong> 60% der IOPD-Patienten erreichen walking milestone</li>
+                    </ul>
+                    
+                    <p><strong>Fabry Registry (>12000 Patienten):</strong></p>
+                    <ul>
+                        <li><strong>Nierenfunktion:</strong> Stabilisierung bei eGFR >60 ml/min</li>
+                        <li><strong>Kardiale Events:</strong> 50% Reduktion bei früher ERT</li>
+                        <li><strong>Weibliche Patienten:</strong> Signifikante Symptomverbesserung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Transition ins Erwachsenenalter</h3>
+                <div class="therapy-box">
+                    <h4>Strukturierte Transitionsprogramme</h4>
+                    
+                    <p><strong>Vorbereitung (ab 14-16 Jahren):</strong></p>
+                    <ul>
+                        <li><strong>Krankheitsverständnis:</strong> Edukation über Pathophysiologie</li>
+                        <li><strong>Selbstmanagement:</strong> Medikamentenadhärenz, Symptomerkennung</li>
+                        <li><strong>Notfallmanagement:</strong> Eigenverantwortliche Krisenintervention</li>
+                        <li><strong>Berufswahl:</strong> Karriereberatung unter Berücksichtigung der Erkrankung</li>
+                    </ul>
+                    
+                    <p><strong>Transition (16-18 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Überleitungsgespräche:</strong> Pädiatrie und Erwachsenenmedizin</li>
+                        <li><strong>Dokumententransfer:</strong> Vollständige Krankengeschichte</li>
+                        <li><strong>Notfallausweis:</strong> Aktualisierung für Erwachsenenalter</li>
+                        <li><strong>Sozialrechtliche Beratung:</strong> Schwerbehinderung, Versicherung</li>
+                    </ul>
+                    
+                    <p><strong>Erwachsenenbetreuung - Besonderheiten:</strong></p>
+                    <ul>
+                        <li><strong>Familienplanung:</strong> Genetische Beratung, Pränatale Diagnostik</li>
+                        <li><strong>Reproduktion:</strong> Schwangerschaftsmanagement bei maternalen Erkrankungen</li>
+                        <li><strong>Berufliche Integration:</strong> Arbeitsplatzanpassung, Schichtdienst</li>
+                        <li><strong>Compliance-Herausforderungen:</strong> Autonomie vs. medizinische Notwendigkeit</li>
+                    </ul>
+                    
+                    <p><strong>Schwangerschaftsmanagement:</strong></p>
+                    <ul>
+                        <li><strong>ERT in der Schwangerschaft:</strong> Meist Fortsetzung empfohlen</li>
+                        <li><strong>Fabry-Schwangerschaft:</strong> Engmaschige kardio-renale Überwachung</li>
+                        <li><strong>Pompe-Schwangerschaft:</strong> Atemfunktionsmonitoring, Anästhesieplanung</li>
+                        <li><strong>MPS-Schwangerschaft:</strong> Multidisziplinäre Betreuung, Sectio-Planung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kosteneffektivität und Health Economics</h3>
+                <div class="highlight-box">
+                    <h4>Ökonomische Aspekte der ERT</h4>
+                    
+                    <p><strong>Therapiekosten (jährlich):</strong></p>
+                    <ul>
+                        <li><strong>Gaucher ERT:</strong> €200.000-600.000 je nach Dosierung</li>
+                        <li><strong>Fabry ERT:</strong> €300.000-400.000</li>
+                        <li><strong>Pompe ERT:</strong> €500.000-700.000</li>
+                        <li><strong>MPS ERT:</strong> €400.000-800.000 je nach Typ</li>
+                    </ul>
+                    
+                    <p><strong>Kosteneffektivitäts-Analysen:</strong></p>
+                    <ul>
+                        <li><strong>QALY-Gewinn:</strong> Hochvariabel je nach Erkrankung und Therapiezeitpunkt</li>
+                        <li><strong>Gaucher:</strong> Cost-effective bei symptomatischen Patienten</li>
+                        <li><strong>Pompe IOPD:</strong> Hoher QALY-Gewinn durch Überlebensvorteil</li>
+                        <li><strong>Seltene Erkrankungen:</strong> Spezielle Health Technology Assessment</li>
+                    </ul>
+                    
+                    <p><strong>Einflussfaktoren auf Kosteneffektivität:</strong></p>
+                    <ul>
+                        <li><strong>Frühe Diagnose:</strong> Bessere Outcomes, höhere Kosteneffektivität</li>
+                        <li><strong>Biomarker-gesteuertes Monitoring:</strong> Optimierte Dosierung</li>
+                        <li><strong>Personalisierte Medizin:</strong> Therapie nach Genotyp/Phänotyp</li>
+                        <li><strong>Generika/Biosimilars:</strong> Zukünftige Kostensenkung möglich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 2 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben Sphingolipidosen, Morbus Pompe und therapeutische Optionen erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 3 mit Mukolipidosen, Fallbeispielen und abschließender Lernkontrolle</p>
+                    <button class="next-btn">Weiter zu Teil 3 →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['sphingolipidosen', 'pompe', 'therapie', 'monitoring'];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

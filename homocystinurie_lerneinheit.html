@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homocystinurie - Lerneinheit</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Diagnostic flow */
+        .diagnostic-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-width: 320px;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--info-color);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Homocystinurie</h1>
+            <p>Angeborene Störungen des Methionin-Stoffwechsels</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Expertenwissen Homocystinurie</h3>
+            <p>Umfassende Lerneinheit zu angeborenen Defekten des Methionin-Zyklus für Stoffwechselspezialisten</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('biochemie')">2. Biochemie</button>
+            <button class="nav-btn" onclick="showSection('klinik')">3. Klinisches Bild</button>
+            <button class="nav-btn" onclick="showSection('diagnostik')">4. Diagnostik</button>
+        </div>
+
+        <!-- Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen der Homocystinurie</h2>
+            
+            <div class="subsection">
+                <h3>Definition und Klassifikation</h3>
+                <p>Homocystinurie umfasst eine heterogene Gruppe angeborener Stoffwechseldefekte, die zu erhöhten Homocystein- oder Homocystin-Spiegeln im Plasma und Urin führen. Die Erkrankungen betreffen verschiedene Enzyme und Cofaktoren des Methionin-Zyklus und der Transsulfurierung.</p>
+                
+                <div class="highlight-box">
+                    <h4>Hauptformen der Homocystinurie</h4>
+                    <ul>
+                        <li><strong>CBS-Mangel</strong> - Cystathionin-β-Synthase-Defekt (häufigste Form)</li>
+                        <li><strong>Remethylierungsdefekte</strong> - MTHFR, MTR, MTRR, MMADHC</li>
+                        <li><strong>Cofaktormängel</strong> - Folsäure-, Cobalamin-abhängige Formen</li>
+                        <li><strong>Sekundäre Formen</strong> - Medikamentös, nutritiv, renal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Epidemiologie</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Form</th>
+                            <th>Inzidenz</th>
+                            <th>Vererbung</th>
+                            <th>Hauptgen</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CBS-Mangel</strong></td>
+                            <td>1:200.000 - 1:335.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>CBS</td>
+                            <td>Höhere Prävalenz in Irland</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTHFR-Mangel</strong></td>
+                            <td>1:200.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>MTHFR</td>
+                            <td>Schwere Thermolabilität</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblC-Defekt</strong></td>
+                            <td>1:100.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>MMACHC</td>
+                            <td>Häufigster Cbl-Defekt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblG-Defekt</strong></td>
+                            <td>1:500.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>MTR</td>
+                            <td>Methionin-Synthase-Defekt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Historischer Hintergrund</h3>
+                <div class="case-study">
+                    <h4>🏛️ Meilensteine der Homocystinurie-Forschung</h4>
+                    <p><strong>1962:</strong> Carson und Neill - Erstbeschreibung der Homocystinurie</p>
+                    <p><strong>1964:</strong> Gerritsen - Identifikation als CBS-Mangel</p>
+                    <p><strong>1970er:</strong> Entdeckung der B6-responsiven Formen</p>
+                    <p><strong>1985:</strong> Erste Beschreibung der Remethylierungsdefekte</p>
+                    <p><strong>1990er:</strong> Molekulargenetische Charakterisierung</p>
+                    <p><strong>2000er:</strong> Etablierung des Neugeborenenscreenings (MS/MS)</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathophysiologische Grundprinzipien</h3>
+                <div class="pathway-diagram">
+                    <h4>Zwei Hauptmechanismen der Krankheitsentstehung</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">⚡ Toxische Akkumulation</h5>
+                            <p style="color: #dc2626;">Homocystein/Homocystin-Anstau</p>
+                            <div class="arrow" style="color: #dc2626;">↓</div>
+                            <p style="color: #dc2626;">Endothelschädigung, Thrombosen</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">☢️ Substratmangel</h5>
+                            <p style="color: #ea580c;">Cystin/Methionin-Defizit</p>
+                            <div class="arrow" style="color: #ea580c;">↓</div>
+                            <p style="color: #ea580c;">Bindegewebsschwäche, ZNS-Störungen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Spektren nach Defekttyp</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Defekttyp</th>
+                            <th>Homocystein</th>
+                            <th>Methionin</th>
+                            <th>Hauptsymptome</th>
+                            <th>Therapieansatz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CBS-Mangel</strong></td>
+                            <td>↑↑↑ (>100 μmol/l)</td>
+                            <td>↑↑ (>400 μmol/l)</td>
+                            <td>Marfanoid, Linsenektopie, MR</td>
+                            <td>B6, Met-Restriktion, Betain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTHFR-Mangel</strong></td>
+                            <td>↑↑ (50-100 μmol/l)</td>
+                            <td>↓ (<15 μmol/l)</td>
+                            <td>Mikrozephalie, Krampfanfälle</td>
+                            <td>Folsäure, Betain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblC-Defekt</strong></td>
+                            <td>↑↑ (40-200 μmol/l)</td>
+                            <td>↓ (<15 μmol/l)</td>
+                            <td>Megaloblastäre Anämie, Retinopathie</td>
+                            <td>OH-Cbl, Betain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblG-Defekt</strong></td>
+                            <td>↑ (30-80 μmol/l)</td>
+                            <td>↓ (<10 μmol/l)</td>
+                            <td>Megaloblastäre Anämie, ZNS</td>
+                            <td>Me-Cbl, Betain</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('biochemie')">Weiter zur Biochemie →</button>
+            </div>
+        </div>
+
+        <!-- Biochemie -->
+        <div class="content-section" id="biochemie">
+            <h2 class="section-title">⚗️ Biochemische Grundlagen</h2>
+            
+            <div class="subsection">
+                <h3>Der Methionin-Zyklus im Detail</h3>
+                <div class="pathway-diagram">
+                    <h4>Zentraler Stoffwechselweg: Ein-Kohlenstoff-Metabolismus</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Methionin</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">MAT</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">S-Adenosylmethionin (SAM)</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: Aktivierung zu universeller Methylgruppen-Donator</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">SAM</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Methyltransferasen</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">S-Adenosylhomocystein (SAH)</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Methylierung von DNA, Proteinen, Neurotransmittern</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">SAH</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">SAHH</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Homocystein</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Irreversible Hydrolyse zu Homocystein</div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Kritische Punkte des Methionin-Zyklus</h4>
+                    <ul>
+                        <li><strong>SAM/SAH-Ratio:</strong> Entscheidend für Methylierungskapazität</li>
+                        <li><strong>SAHH-Reaktion:</strong> Thermodynamisch ungünstig, benötigt Homocystein-Clearance</li>
+                        <li><strong>Homocystein-Knotenpunkt:</strong> Remethylierung vs. Transsulfurierung</li>
+                        <li><strong>Redox-Balance:</strong> Homocystein ⇌ Homocystin-Gleichgewicht</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Homocystein-Metabolismus: Zwei Entsorgungswege</h3>
+                <div class="pathway-diagram">
+                    <h4>Remethylierung vs. Transsulfurierung</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🔄 Remethylierung (Recycling)</h5>
+                            <div style="text-align: center; margin: 10px 0;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d); margin: 5px auto;">Homocystein</div>
+                                <div class="arrow" style="color: #16a34a;">↓</div>
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d); margin: 5px auto;">MTHFR/MTR</div>
+                                <div class="arrow" style="color: #16a34a;">↓</div>
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d); margin: 5px auto;">Methionin</div>
+                            </div>
+                            <p style="color: #16a34a; font-size: 0.9em; text-align: center;"><strong>Cofaktoren:</strong> Folat, B12</p>
+                        </div>
+                        
+                        <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🚪 Transsulfurierung (Abbau)</h5>
+                            <div style="text-align: center; margin: 10px 0;">
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); margin: 5px auto;">Homocystein</div>
+                                <div class="arrow" style="color: #2563eb;">↓</div>
+                                <div class="enzyme-box defect" style="margin: 5px auto;">CBS</div>
+                                <div class="arrow" style="color: #2563eb;">↓</div>
+                                <div class="enzyme-box" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); margin: 5px auto;">Cystin</div>
+                            </div>
+                            <p style="color: #2563eb; font-size: 0.9em; text-align: center;"><strong>Cofaktoren:</strong> B6 (PLP)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>CBS-Mangel: Molekulare Pathophysiologie</h3>
+                <div class="case-study">
+                    <h4>🔬 Cystathionin-β-Synthase im Detail</h4>
+                    <p><strong>Enzym-Eigenschaften:</strong></p>
+                    <ul>
+                        <li><strong>Lokalisation:</strong> Cytosol, besonders Leber, Niere, Gehirn</li>
+                        <li><strong>Cofaktor:</strong> Pyridoxal-5'-Phosphat (PLP/Vitamin B6)</li>
+                        <li><strong>Reaktion:</strong> Homocystein + Serin → Cystathionin + H₂O</li>
+                        <li><strong>Regulation:</strong> Allosterisch durch S-Adenosylmethionin</li>
+                    </ul>
+                    
+                    <p><strong>B6-Responsivität:</strong></p>
+                    <ul>
+                        <li><strong>Responsive Formen (~50%):</strong> Partielle Aktivität, bessere Prognose</li>
+                        <li><strong>Non-responsive Formen:</strong> Schwere Mutationen, kompletter Aktivitätsverlust</li>
+                        <li><strong>Testdosis:</strong> 100-500 mg B6/Tag über 6 Wochen</li>
+                        <li><strong>Response-Kriterium:</strong> >20% Homocystein-Reduktion</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Mutation-Typ</th>
+                            <th>Residuale Aktivität</th>
+                            <th>B6-Response</th>
+                            <th>Klinischer Phänotyp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Null-Mutationen</strong></td>
+                            <td>0-5%</td>
+                            <td>Nein</td>
+                            <td>Schwer, frühe Manifestation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Missense (schwer)</strong></td>
+                            <td>5-15%</td>
+                            <td>Selten</td>
+                            <td>Schwer bis moderat</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Missense (mild)</strong></td>
+                            <td>15-30%</td>
+                            <td>Häufig</td>
+                            <td>Moderat, später Beginn</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Splice-Varianten</strong></td>
+                            <td>Variable</td>
+                            <td>Möglich</td>
+                            <td>Sehr variabel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Remethylierungsdefekte: Folat- und B12-Stoffwechsel</h3>
+                <div class="pathway-diagram">
+                    <h4>Ein-Kohlenstoff-Folat-Zyklus</h4>
+                    <div style="background: linear-gradient(90deg, #f3f4f6 50%, #e5e7eb 50%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <span style="margin-right: 50px; font-weight: bold;">Folat-Zyklus</span>
+                            <span style="font-weight: bold;">Methionin-Synthase</span>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">5,10-MTHF</div>
+                            <span class="arrow" style="margin: 0 10px;">MTHFR→</span>
+                            <div class="enzyme-box defect">5-MTHF</div>
+                        </div>
+                        
+                        <div style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+                            ⬇️ <strong>B12-abhängige Remethylierung</strong> ⬇️
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">5-MTHF + Hcy</div>
+                            <span class="arrow" style="margin: 0 10px;">MTR+B12→</span>
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d);">THF + Methionin</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Cobalamin-Cofaktor-Defekte (Cbl-Defekte)</h4>
+                    <p><strong>Biochemische Klassifikation:</strong></p>
+                    <ul>
+                        <li><strong>CblA, CblB:</strong> Adenosylcobalamin-Synthese → Methylmalonsäure ↑</li>
+                        <li><strong>CblC, CblD:</strong> Beide Cbl-Formen → MMA ↑ + Homocystein ↑</li>
+                        <li><strong>CblE, CblG:</strong> Methylcobalamin-Synthese → nur Homocystein ↑</li>
+                        <li><strong>CblF:</strong> Lysosomaler Cbl-Export → kombinierter Defekt</li>
+                    </ul>
+                    
+                    <p><strong>CblC-Defekt (häufigster):</strong></p>
+                    <ul>
+                        <li><strong>Frühe Form:</strong> Pränataler Beginn, schwere Retinopathie</li>
+                        <li><strong>Späte Form:</strong> Jugend/Erwachsenenalter, ZNS-Symptome</li>
+                        <li><strong>Therapie:</strong> Hydroxocobalamin + Betain + Folsäure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemische Folgen der Homocystein-Akkumulation</h3>
+                <div class="pathway-diagram">
+                    <h4>Toxische Mechanismen im Detail</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">💔 Vaskuläre Toxizität</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Endothel-Dysfunktion</li>
+                                <li>NO-Inaktivierung</li>
+                                <li>Oxidativer Stress</li>
+                                <li>Thrombose-Neigung ↑</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🧠 Neurotoxizität</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>NMDA-Rezeptor-Aktivierung</li>
+                                <li>Exzitotoxizität</li>
+                                <li>Myelinisierungs-Störungen</li>
+                                <li>DNA-Hypomethylierung</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🔗 Kollagen-Defekte</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Cross-linking gestört</li>
+                                <li>Bindegewebsschwäche</li>
+                                <li>Linsen-Zonula-Defekte</li>
+                                <li>Skelett-Anomalien</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">⚖️ Methylierungs-Störung</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>SAM/SAH-Imbalance</li>
+                                <li>DNA-Methylierung ↓</li>
+                                <li>Neurotransmitter-Synthese ↓</li>
+                                <li>Epigenetische Dysregulation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Labordiagnostische Biomarker</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Analyt</th>
+                            <th>Normbereich</th>
+                            <th>CBS-Mangel</th>
+                            <th>Remethylierungs-Defekt</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Total Homocystein</strong></td>
+                            <td>5-15 μmol/l</td>
+                            <td>100-500 μmol/l</td>
+                            <td>30-200 μmol/l</td>
+                            <td>Hauptmarker, Therapiemonitoring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Methionin</strong></td>
+                            <td>15-40 μmol/l</td>
+                            <td>200-2000 μmol/l</td>
+                            <td>5-15 μmol/l</td>
+                            <td>Differentialdiagnose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cystathionin</strong></td>
+                            <td><10 μmol/l</td>
+                            <td>↓↓ oder n.n.</td>
+                            <td>Normal</td>
+                            <td>CBS-Aktivitätsmarker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Methylmalonsäure</strong></td>
+                            <td><0,3 μmol/mmol Krea</td>
+                            <td>Normal</td>
+                            <td>↑↑ (CblC, CblF)</td>
+                            <td>Cbl-Stoffwechsel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SAM/SAH-Ratio</strong></td>
+                            <td>>2,5</td>
+                            <td><1,5</td>
+                            <td><1,0</td>
+                            <td>Methylierungs-Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('klinik')">Weiter zum klinischen Bild →</button>
+            </div>
+        </div>
+
+        <!-- Klinisches Bild -->
+        <div class="content-section" id="klinik">
+            <h2 class="section-title">🏥 Klinisches Bild</h2>
+            
+            <div class="subsection">
+                <h3>CBS-Mangel: Klassische Homocystinurie</h3>
+                <div class="case-study">
+                    <h4>📋 Typische Manifestationen nach Organsystem</h4>
+                    <p><strong>Ophthalmologisch (90% der Patienten):</strong></p>
+                    <ul>
+                        <li><strong>Linsenektopie:</strong> Nach unten-innen (vs. Marfan: oben-außen)</li>
+                        <li><strong>Myopie:</strong> Häufig hochgradig (-10 bis -20 dpt)</li>
+                        <li><strong>Iridodonesis:</strong> Schlottern der Iris bei Pupillenbewegung</li>
+                        <li><strong>Glaukom:</strong> Sekundär durch Linsenluxation</li>
+                        <li><strong>Retinale Ablösung:</strong> Bei schwerem Myopie</li>
+                    </ul>
+                    
+                    <p><strong>Skelettale Anomalien (80-90%):</strong></p>
+                    <ul>
+                        <li><strong>Marfanoider Habitus:</strong> Hochwuchs, Arachnodaktylie</li>
+                        <li><strong>Wirbelsäule:</strong> Skoliose, Pectus-Deformität</li>
+                        <li><strong>Osteoporose:</strong> Frühzeitig, erhöhte Frakturneigung</li>
+                        <li><strong>Arthropathie:</strong> Gelenksteifigkeit, Kontrakturen</li>
+                        <li><strong>Genu valgum:</strong> X-Bein-Deformität häufig</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organsystem</th>
+                            <th>Häufigkeit</th>
+                            <th>Hauptmanifestationen</th>
+                            <th>Altersabhängigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Augen</strong></td>
+                            <td>90-95%</td>
+                            <td>Linsenektopie, Myopie, Glaukom</td>
+                            <td>Meist vor 10. Lebensjahr</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skelett</strong></td>
+                            <td>80-90%</td>
+                            <td>Marfanoider Habitus, Osteoporose</td>
+                            <td>Progressiv ab Kleinkindalter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>50-65%</td>
+                            <td>Intelligenzminderung, Krampfanfälle</td>
+                            <td>Frühe Diagnose entscheidend</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gefäße</strong></td>
+                            <td>25-50%</td>
+                            <td>Thromboembolien, Schlaganfall</td>
+                            <td>Risiko steigt mit Alter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Haut/Haare</strong></td>
+                            <td>20-30%</td>
+                            <td>Dünnes Haar, Hypopigmentierung</td>
+                            <td>Variable Ausprägung</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Neurologische und psychiatrische Manifestationen</h3>
+                <div class="highlight-box">
+                    <h4>ZNS-Beteiligung bei CBS-Mangel</h4>
+                    <p><strong>Kognitive Beeinträchtigung:</strong></p>
+                    <ul>
+                        <li><strong>IQ-Spektrum:</strong> 30-130, Median ~65 (unbehandelt)</li>
+                        <li><strong>Lernbehinderung:</strong> 65% der Patienten</li>
+                        <li><strong>Aufmerksamkeits-Defizit:</strong> ADHS-ähnliche Symptome</li>
+                        <li><strong>Sprachentwicklung:</strong> Oft verzögert</li>
+                    </ul>
+                    
+                    <p><strong>Neurologische Symptome:</strong></p>
+                    <ul>
+                        <li><strong>Krampfanfälle:</strong> 20-25%, meist generalisiert</li>
+                        <li><strong>Bewegungsstörungen:</strong> Dystonie, Tremor</li>
+                        <li><strong>Spastik:</strong> Bei schweren Formen</li>
+                        <li><strong>Migräne:</strong> Häufiger als in Normalbevölkerung</li>
+                    </ul>
+                    
+                    <p><strong>Psychiatrische Auffälligkeiten:</strong></p>
+                    <ul>
+                        <li><strong>Depression:</strong> 30-40% der Erwachsenen</li>
+                        <li><strong>Angststörungen:</strong> Soziale Phobie häufig</li>
+                        <li><strong>Persönlichkeitsstörungen:</strong> Zwanghafte Züge</li>
+                        <li><strong>Psychosen:</strong> Selten, meist bei Late-onset</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Vaskuläre Komplikationen</h3>
+                <div class="case-study">
+                    <h4>⚡ Thromboembolische Ereignisse</h4>
+                    <p><strong>Arteriell (häufiger):</strong></p>
+                    <ul>
+                        <li><strong>Zerebrale Ischämie:</strong> Schlaganfall bereits im Kindesalter</li>
+                        <li><strong>Koronare Herzkrankheit:</strong> Frühe Atherosklerose</li>
+                        <li><strong>Periphere arterielle Verschlüsse:</strong> Claudicatio intermittens</li>
+                        <li><strong>Retinale Arterienverschlüsse:</strong> Visusverlust</li>
+                    </ul>
+                    
+                    <p><strong>Venös (seltener):</strong></p>
+                    <ul>
+                        <li><strong>Tiefe Beinvenenthrombose:</strong> Besonders post-operativ</li>
+                        <li><strong>Pulmonalembolie:</strong> Lebensbedrohlich</li>
+                        <li><strong>Zerebrale Sinusthrombose:</strong> Kopfschmerzen, Krampfanfälle</li>
+                        <li><strong>Portale Hypertension:</strong> Bei Leberthrombosen</li>
+                    </ul>
+                    
+                    <p><strong>Risikofaktoren für Thrombosen:</strong></p>
+                    <ul>
+                        <li><strong>Homocystein-Spiegel >100 μmol/l</strong></li>
+                        <li><strong>B6-non-responsive Formen</strong></li>
+                        <li><strong>Schlechte Therapiecompliance</strong></li>
+                        <li><strong>Zusätzliche Risikofaktoren:</strong> Rauchen, OAK, Immobilisation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Remethylierungsdefekte: Unterschiedliche Phänotypen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Defekt</th>
+                            <th>Manifestationsalter</th>
+                            <th>Hauptsymptome</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MTHFR-Mangel</strong></td>
+                            <td>Säuglingsalter</td>
+                            <td>Mikrozephalie, Krampfanfälle, Apnoen</td>
+                            <td>Oft letal, schwere Behinderung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblC (früh)</strong></td>
+                            <td>Neonatal</td>
+                            <td>Retinopathie, Megaloblastäre Anämie</td>
+                            <td>Gut bei früher Therapie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblC (spät)</strong></td>
+                            <td>Jugend/Erwachsene</td>
+                            <td>Psychiatrische Symptome, Myelopathie</td>
+                            <td>Variable, oft progressiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblG-Defekt</strong></td>
+                            <td>Variable</td>
+                            <td>Megaloblastäre Anämie, ZNS-Symptome</td>
+                            <td>Gut bei adäquater B12-Therapie</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>CblC-Defekt: Frühe vs. späte Form</h3>
+                <div class="pathway-diagram">
+                    <h4>Altersabhängige Manifestationen</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">👶 Frühe Form (0-2 Jahre)</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li><strong>Hämatologisch:</strong> Megaloblastäre Anämie</li>
+                                <li><strong>Ophthalmologisch:</strong> Bull's eye Makulopathie</li>
+                                <li><strong>Renal:</strong> Tubulopathie</li>
+                                <li><strong>ZNS:</strong> Entwicklungsrückstand mild</li>
+                                <li><strong>Prognose:</strong> Gut bei früher Therapie</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🧑 Späte Form (>2 Jahre)</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li><strong>Neurologisch:</strong> Myelopathie, Neuropathie</li>
+                                <li><strong>Psychiatrisch:</strong> Depression, Psychose</li>
+                                <li><strong>Kognition:</strong> Demenz-ähnliche Symptome</li>
+                                <li><strong>Hämatologie:</strong> Oft normal</li>
+                                <li><strong>Prognose:</strong> Variable, oft progressiv</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Bull's Eye Makulopathie bei CblC</h4>
+                    <p><strong>Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Aussehen:</strong> Zentrale Atrophie mit erhaltener perimakulärer Zone</li>
+                        <li><strong>Häufigkeit:</strong> 85% der frühen Form, 20% der späten Form</li>
+                        <li><strong>Progression:</strong> Meist stabil nach Therapiebeginn</li>
+                        <li><strong>Funktionell:</strong> Zentrale Skotome, Photophobie</li>
+                        <li><strong>Monitoring:</strong> Regelmäßige ophthalmologische Kontrollen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Phenotyp-Genotyp-Korrelationen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Gen</th>
+                            <th>Häufige Mutationen</th>
+                            <th>Phänotyp</th>
+                            <th>B6/B12-Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CBS</strong></td>
+                            <td>p.I278T (responsive)<br>p.G307S (non-responsive)</td>
+                            <td>Klassische Homocystinurie</td>
+                            <td>50% B6-responsiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTHFR</strong></td>
+                            <td>p.R594Q, p.E204K</td>
+                            <td>Schwere frühe Enzephalopathie</td>
+                            <td>Folsäure-responsiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MMACHC</strong></td>
+                            <td>c.271dupA (früh)<br>c.482G>A (spät)</td>
+                            <td>CblC-Defekt</td>
+                            <td>OH-Cbl erforderlich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTR</strong></td>
+                            <td>p.P1173L, p.D919G</td>
+                            <td>CblG-Defekt</td>
+                            <td>Me-Cbl-responsiv</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('diagnostik')">Weiter zur Diagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Diagnostik -->
+        <div class="content-section" id="diagnostik">
+            <h2 class="section-title">🔬 Diagnostik und Management</h2>
+            
+            <div class="subsection">
+                <h3>Diagnostisches Vorgehen</h3>
+                <div class="diagnostic-flow">
+                    <div class="flow-step">
+                        <strong>Klinischer Verdacht</strong><br>
+                        Marfanoid, Linsenektopie?<br>
+                        Thrombosen? ZNS-Symptome?
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-step">
+                        <strong>Basis-Screening</strong><br>
+                        Homocystein (nüchtern)<br>
+                        Methionin, Folat, B12
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-step">
+                        <strong>Erweiterte Diagnostik</strong><br>
+                        Methylmalonsäure (Urin)<br>
+                        Aminosäuren-Chromatographie
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-step">
+                        <strong>Genetische Bestätigung</strong><br>
+                        Sequenzierung<br>
+                        Funktionelle Tests
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Labordiagnostik im Detail</h3>
+                <div class="highlight-box">
+                    <h4>Homocystein-Bestimmung: Methodische Aspekte</h4>
+                    <p><strong>Präanalytik (kritisch!):</strong></p>
+                    <ul>
+                        <li><strong>Nüchternblutentnahme:</strong> 12h Nahrungskarenz</li>
+                        <li><strong>EDTA-Plasma:</strong> Sofortige Zentrifugation bei 4°C</li>
+                        <li><strong>Versand:</strong> Tiefgefroren, Trockeneisversand</li>
+                        <li><strong>Störfaktoren:</strong> Hämolyse, Methionin-Belastung</li>
+                    </ul>
+                    
+                    <p><strong>Referenzbereiche (altersabhängig):</strong></p>
+                    <ul>
+                        <li><strong>Neugeborene:</strong> 3-8 μmol/l</li>
+                        <li><strong>Kinder (1-15 J):</strong> 5-12 μmol/l</li>
+                        <li><strong>Erwachsene:</strong> 5-15 μmol/l</li>
+                        <li><strong>Therapieziel:</strong> <30 μmol/l (CBS), <15 μmol/l (andere)</li>
+                    </ul>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Analyt</th>
+                            <th>Material</th>
+                            <th>Methode</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Homocystein</strong></td>
+                            <td>EDTA-Plasma</td>
+                            <td>HPLC, LC-MS/MS</td>
+                            <td>Reduktion mit TCEP nötig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aminosäuren</strong></td>
+                            <td>Plasma/Urin</td>
+                            <td>Ionenaustausch-Chromatographie</td>
+                            <td>Methionin-Pattern diagnostisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Methylmalonsäure</strong></td>
+                            <td>Urin</td>
+                            <td>GC-MS, LC-MS/MS</td>
+                            <td>Kreatinin-adjustiert</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CBS-Aktivität</strong></td>
+                            <td>Kultivierte Fibroblasten</td>
+                            <td>Radioaktiver Assay</td>
+                            <td>Goldstandard für CBS-Mangel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Differentialdiagnostische Algorithmen</h3>
+                <div class="pathway-diagram">
+                    <h4>Homocystein-erhöht: Systematisches Vorgehen</h4>
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Homocystein ↑ (>20 μmol/l)</div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+                            <div style="text-align: center; padding: 15px; background: #fef2f2; border-radius: 8px; border: 2px solid #fca5a5;">
+                                <h5 style="color: #dc2626;">Methionin ↑↑</h5>
+                                <p style="color: #dc2626; font-size: 0.9em;">CBS-Mangel</p>
+                                <div style="margin: 10px 0;">
+                                    <div class="metabolite-box" style="font-size: 0.8em;">B6-Test</div>
+                                    <div class="metabolite-box" style="font-size: 0.8em;">CBS-Sequenzierung</div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; padding: 15px; background: #fff7ed; border-radius: 8px; border: 2px solid #fed7aa;">
+                                <h5 style="color: #ea580c;">Methionin ↓, MMA ↑</h5>
+                                <p style="color: #ea580c; font-size: 0.9em;">CblC/CblF-Defekt</p>
+                                <div style="margin: 10px 0;">
+                                    <div class="metabolite-box" style="font-size: 0.8em;">MMACHC-Sequenzierung</div>
+                                    <div class="metabolite-box" style="font-size: 0.8em;">OH-Cbl-Test</div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 2px solid #bbf7d0;">
+                                <h5 style="color: #16a34a;">Methionin ↓, MMA normal</h5>
+                                <p style="color: #16a34a; font-size: 0.9em;">MTHFR/MTR-Defekt</p>
+                                <div style="margin: 10px 0;">
+                                    <div class="metabolite-box" style="font-size: 0.8em;">Folat/B12 messen</div>
+                                    <div class="metabolite-box" style="font-size: 0.8em;">Gensequenzierung</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Funktionelle Tests</h3>
+                <div class="case-study">
+                    <h4>🧪 B6-Responsivitäts-Test bei CBS-Mangel</h4>
+                    <p><strong>Indikation:</strong> Alle Patienten mit gesichertem CBS-Mangel</p>
+                    
+                    <p><strong>Protokoll:</strong></p>
+                    <ul>
+                        <li><strong>Baseline:</strong> Homocystein 3x bestimmen (Mittelwert)</li>
+                        <li><strong>Testdosis:</strong> Pyridoxin 100-500 mg/d p.o. für 6 Wochen</li>
+                        <li><strong>Kontrolle:</strong> Homocystein nach 6 Wochen</li>
+                        <li><strong>Bewertung:</strong> >20% Reduktion = responsiv</li>
+                    </ul>
+                    
+                    <p><strong>Vorsichtsmaßnahmen:</strong></p>
+                    <ul>
+                        <li><strong>Maximaldosis:</strong> 500 mg/d (Neuropathie-Risiko)</li>
+                        <li><strong>Kontrolle:</strong> Neurologische Untersuchung</li>
+                        <li><strong>Begleittherapie:</strong> Keine Änderung während Test</li>
+                    </ul>
+                    
+                    <p><strong>Interpretation:</strong></p>
+                    <ul>
+                        <li><strong>Responder:</strong> Lebenslange B6-Therapie ausreichend</li>
+                        <li><strong>Non-Responder:</strong> Komplexe Therapie mit Diät + Betain</li>
+                        <li><strong>Partial-Responder:</strong> Kombinationstherapie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetische Diagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Gen</th>
+                            <th>Chromosom</th>
+                            <th>Exons</th>
+                            <th>Häufige Mutationen</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CBS</strong></td>
+                            <td>21q22.3</td>
+                            <td>17</td>
+                            <td>p.I278T (28%), p.G307S (12%)</td>
+                            <td>B6-Response korreliert mit Mutation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTHFR</strong></td>
+                            <td>1p36.22</td>
+                            <td>11</td>
+                            <td>p.R594Q, p.E204K</td>
+                            <td>Thermolabilitäts-Test möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MMACHC</strong></td>
+                            <td>1p34.1</td>
+                            <td>4</td>
+                            <td>c.271dupA, c.482G>A</td>
+                            <td>Mutation korreliert mit Phänotyp</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTR</strong></td>
+                            <td>1q43</td>
+                            <td>33</td>
+                            <td>p.P1173L, p.D919G</td>
+                            <td>Große Genduplikationen möglich</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <div class="highlight-box">
+                    <h4>MS/MS-basiertes Screening</h4>
+                    <p><strong>Analyten:</strong></p>
+                    <ul>
+                        <li><strong>Methionin:</strong> Primärmarker für CBS-Mangel</li>
+                        <li><strong>Methionin/Phenylalanin-Ratio:</strong> Verbesserter Marker</li>
+                        <li><strong>Homocystein:</strong> Direktmessung möglich, aber aufwendig</li>
+                    </ul>
+                    
+                    <p><strong>Screening-Performance:</strong></p>
+                    <ul>
+                        <li><strong>Sensitivität:</strong> 95% für CBS-Mangel</li>
+                        <li><strong>Spezifität:</strong> 99,5% bei optimierten Cut-offs</li>
+                        <li><strong>PPV:</strong> Variabel je nach Prävalenz (5-20%)</li>
+                        <li><strong>Limitation:</strong> B6-responsive Formen oft übersehen</li>
+                    </ul>
+                    
+                    <p><strong>Follow-up bei positivem Screening:</strong></p>
+                    <ul>
+                        <li><strong>Sofort:</strong> Homocystein + Methionin bestimmen</li>
+                        <li><strong>Within 48h:</strong> Vollständige Aminosäuren-Analyse</li>
+                        <li><strong>Therapiebeginn:</strong> Bei bestätigtem Befund umgehend</li>
+                        <li><strong>Genetik:</strong> Familiäre Mutationsanalyse</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapiestrategien nach Defekttyp</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Defekt</th>
+                            <th>Erste Wahl</th>
+                            <th>Zusatztherapie</th>
+                            <th>Therapieziel</th>
+                            <th>Monitoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CBS (B6-resp.)</strong></td>
+                            <td>Pyridoxin 100-500 mg/d</td>
+                            <td>Folsäure 5-10 mg/d</td>
+                            <td>Homocystein <50 μmol/l</td>
+                            <td>Alle 3-6 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CBS (Non-resp.)</strong></td>
+                            <td>Met-Restriktion + Betain</td>
+                            <td>Cystin-Substitution</td>
+                            <td>Homocystein <100 μmol/l</td>
+                            <td>Monatlich initial</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MTHFR</strong></td>
+                            <td>Folinsäure 50-100 mg/d</td>
+                            <td>Betain 6-9 g/d</td>
+                            <td>Homocystein <30 μmol/l</td>
+                            <td>Alle 1-3 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CblC/CblG</strong></td>
+                            <td>OH-/Me-Cobalamin</td>
+                            <td>Betain + Folsäure</td>
+                            <td>Homocystein <20 μmol/l</td>
+                            <td>Alle 2-4 Monate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diätmanagement bei CBS-Mangel</h3>
+                <div class="case-study">
+                    <h4>🍽️ Methionin-restringierte Diät</h4>
+                    <p><strong>Indikation:</strong> B6-non-responsive CBS-Mangel</p>
+                    
+                    <p><strong>Diätprinzipien:</strong></p>
+                    <ul>
+                        <li><strong>Methionin-Zufuhr:</strong> 10-15 mg/kg/d (Normal: 45 mg/kg/d)</li>
+                        <li><strong>Protein-Restriktion:</strong> 0,8-1,2 g/kg/d (vs. 1,5 g/kg normal)</li>
+                        <li><strong>Methionin-freie Aminosäuren-Mischung:</strong> Zur Protein-Ergänzung</li>
+                        <li><strong>Cystin-Supplementation:</strong> 100-200 mg/kg/d</li>
+                    </ul>
+                    
+                    <p><strong>Erlaubte/verbotene Lebensmittel:</strong></p>
+                    <ul>
+                        <li><strong>Sehr eingeschränkt:</strong> Fleisch, Fisch, Eier, Milchprodukte, Nüsse</li>
+                        <li><strong>Mäßig erlaubt:</strong> Brot, Getreide (spezielle Produkte)</li>
+                        <li><strong>Frei:</strong> Obst, Gemüse (meiste), Fette, Zucker</li>
+                        <li><strong>Spezial-Produkte:</strong> Methionin-arme Mehle, Pasta</li>
+                    </ul>
+                    
+                    <p><strong>Praktische Umsetzung:</strong></p>
+                    <ul>
+                        <li><strong>Ernährungsberatung:</strong> Spezialisierte Diätassistentin erforderlich</li>
+                        <li><strong>Nährwert-Berechnung:</strong> Software-gestützte Planung</li>
+                        <li><strong>Kontrollen:</strong> Gewicht, Längenwachstum, Albumin</li>
+                        <li><strong>Compliance:</strong> Regelmäßige Schulungen, Rezeptsammlungen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Langzeit-Monitoring und Komplikationen</h3>
+                <div class="highlight-box">
+                    <h4>Strukturiertes Follow-up-Programm</h4>
+                    <p><strong>Biochemisch (alle 3-6 Monate):</strong></p>
+                    <ul>
+                        <li><strong>Homocystein:</strong> Therapie-Monitoring</li>
+                        <li><strong>Methionin:</strong> Bei Diät-Patienten</li>
+                        <li><strong>Vitamin-Status:</strong> B6, B12, Folsäure</li>
+                        <li><strong>Ernährungsstatus:</strong> Albumin, Prealbumin</li>
+                    </ul>
+                    
+                    <p><strong>Ophthalmologisch (jährlich):</strong></p>
+                    <ul>
+                        <li><strong>Visus:</strong> Refraktionsbestimmung</li>
+                        <li><strong>Spaltlampe:</strong> Linsenposition, Glaukom</li>
+                        <li><strong>Funduskopie:</strong> Bei CblC: Makulopathie</li>
+                        <li><strong>Gesichtsfeld:</strong> Bei symptomatischen Patienten</li>
+                    </ul>
+                    
+                    <p><strong>Kardiovaskulär (altersabhängig):</strong></p>
+                    <ul>
+                        <li><strong>Blutdruck:</strong> Regelmäßige Kontrollen</li>
+                        <li><strong>Lipidstatus:</strong> Bei Erwachsenen jährlich</li>
+                        <li><strong>Echo/EKG:</strong> Bei kardiovaskulären Risikofaktoren</li>
+                        <li><strong>Thrombophilie-Diagnostik:</strong> Bei Thrombose-Anamnese</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Lerneinheit abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die wichtigsten Aspekte der Homocystinurie erfolgreich durchgearbeitet.</p>
+                    <div class="completion-badge">Expertenwissen Homocystinurie zertifiziert</div>
+                    <p style="color: var(--text-secondary); margin-top: 1.5

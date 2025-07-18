@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmationsdiagnostik bei Stoffwechselerkrankungen - Grundlagen</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pathway-diagram {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .diagnostic-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-width: 320px;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flow-step:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--info-color);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .page-number {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-md);
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-number">Seite 1/4</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Konfirmationsdiagnostik bei Stoffwechselerkrankungen</h1>
+            <p class="subtitle">Leitlinienbasiertes Vorgehen beim Verdacht auf angeborene Stoffwechseldefekte aus dem Neugeborenenscreening</p>
+            <p style="color: var(--text-secondary); font-style: italic;">Für ärztliche Experten der Stoffwechselmedizin</p>
+        </div>
+
+        <div class="subsection">
+            <h3>Einführung und Zielsetzung</h3>
+            <p>Das Neugeborenenscreening ist ein wichtiges Instrument zur Früherkennung angeborener Stoffwechseldefekte. <strong>Grundsätzlich muss jedoch jede aus dem Trockenblut gestellte Verdachtsdiagnose durch zusätzliche Untersuchungen bestätigt werden.</strong></p>
+            
+            <div class="highlight-box">
+                <h4>Wichtiger Grundsatz</h4>
+                <p>Das Ergebnis einer Wiederholungsuntersuchung aus Trockenblut kann <strong>nicht</strong> als abschließende Bestätigung der Verdachtsdiagnose gewertet werden.</p>
+            </div>
+
+            <p>Die vorliegende Leitlinie definiert die Konfirmationsdiagnostik für die 13 eingeschlossenen angeborenen Störungen des Intermediärstoffwechsels nach internationalen Standards.</p>
+        </div>
+
+        <div class="subsection">
+            <h3>Im Neugeborenenscreening erfasste Stoffwechselkrankheiten</h3>
+            
+            <table class="clinical-table">
+                <thead>
+                    <tr>
+                        <th>Verdachtsdiagnose</th>
+                        <th>Kurzbezeichnung</th>
+                        <th>Zuweisung zum Stoffwechselzentrum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Biotinidasemangel</strong></td>
+                        <td>BIO</td>
+                        <td>Kontakt nächster Werktag, Vorstellung ambulant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Klassische Galaktosämie</strong></td>
+                        <td>GALT</td>
+                        <td>Vorstellung sofort stationär</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phenylketonurie</strong></td>
+                        <td>PKU</td>
+                        <td>Vorstellung nächster Werktag, ambulant oder stationär</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Milde Hyperphenylalaninämie</strong></td>
+                        <td>MHP</td>
+                        <td>Kontakt nächster Werktag, Vorstellung ambulant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ahornsirupkrankheit (MSUD)</strong></td>
+                        <td>MSUD</td>
+                        <td>Vorstellung sofort stationär</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MCAD-Mangel</strong></td>
+                        <td>MCAD</td>
+                        <td>Kontakt nächster Werktag</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VLCAD-Mangel</strong></td>
+                        <td>VLCAD</td>
+                        <td>Kontakt nächster Werktag</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LCHAD-Mangel</strong></td>
+                        <td>LCHAD</td>
+                        <td>Kontakt nächster Werktag</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pathway-diagram">
+            <h4>Allgemeiner Algorithmus der Konfirmationsdiagnostik</h4>
+            
+            <div class="diagnostic-flow">
+                <div class="flow-step">
+                    <strong>Start Verdachtsdiagnose</strong><br>
+                    Beispiel: Metabolitenkonstellation im NGS
+                </div>
+                
+                <div class="flow-arrow"></div>
+                
+                <div class="flow-step">
+                    <strong>Maßnahme, gefordert</strong><br>
+                    Sofortige Kontaktaufnahme mit Stoffwechselzentrum
+                </div>
+                
+                <div class="flow-arrow"></div>
+                
+                <div class="flow-step">
+                    <strong>Entscheidung</strong><br>
+                    Parallel oder alternative Diagnostik?
+                </div>
+                
+                <div class="flow-arrow"></div>
+                
+                <div class="flow-step">
+                    <strong>Konfirmationsdiagnostik</strong><br>
+                    Spezifische Untersuchungen je nach Verdachtsdiagnose
+                </div>
+            </div>
+        </div>
+
+        <div class="subsection">
+            <h3>Prinzipien der Konfirmationsdiagnostik</h3>
+            <p>Die Algorithmen der Konfirmationsdiagnostik unterscheiden sich von Krankheit zu Krankheit in der Abfolge empfohlener Untersuchungen. Im Rahmen dieser Leitlinie wurde versucht, primär die <strong>am breitesten verfügbare Methode mit sicherer Diskrimination zwischen krank und gesund</strong> zu wählen.</p>
+            
+            <p>Aufgrund lokaler Gegebenheiten in den Behandlungs- und Diagnostikzentren ist es möglich, dass eine andere als die hier vorgeschlagene Untersuchungsmethode schneller und/oder kostengünstiger ist.</p>
+            
+            <div class="highlight-box">
+                <h4>Praktischer Hinweis</h4>
+                <p>Untersuchungen, die ausschließlich zu einer genaueren prognostischen Einordnung einer Screeningkrankheit dienen, wurden nur dann in den Algorithmus aufgenommen, wenn sie nach Kenntnis der Autoren in den meisten Zentren durchgeführt werden.</p>
+            </div>
+        </div>
+
+        <div class="next-step">
+            <button class="next-btn" onclick="goToNextPage()">Weiter zu Seite 2: Diagnostische Ebenen →</button>
+        </div>
+    </div>
+
+    <script>
+        function goToNextPage() {
+            alert('In der vollständigen Implementierung würde hier Seite 2 geladen werden.\n\nSeite 2 behandelt die drei diagnostischen Ebenen:\n• Metabolitennachweis\n• Enzymaktivität\n• Molekulargenetik');
+        }
+
+        // Smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.subsection');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

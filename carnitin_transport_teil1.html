@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnitintransporter-Defekte - Teil 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--success-color), #00f2fe);
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--primary-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+color: white;
+border-color: var(--primary-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Pathway diagrams */
+.pathway-diagram {
+background: var(--bg-white);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.pathway-diagram h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+text-align: center;
+}
+
+.pathway-diagram h5 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+.pathway-diagram p {
+color: var(--text-secondary);
+}
+
+/* Enzyme boxes */
+.enzyme-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: 12px 20px;
+margin: 6px;
+border-radius: 12px;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.enzyme-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+.enzyme-box.defect {
+background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+0%, 100% {
+transform: scale(1);
+box-shadow: var(--shadow-sm);
+}
+50% {
+transform: scale(1.02);
+box-shadow: var(--shadow-md);
+}
+}
+
+.arrow {
+display: inline-block;
+margin: 0 var(--spacing-sm);
+font-size: 1.8rem;
+color: var(--primary-color);
+transition: all 0.3s ease;
+}
+
+.arrow:hover {
+transform: scale(1.2);
+color: var(--accent-color);
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Metabolite boxes */
+.metabolite-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+color: white;
+padding: 10px 16px;
+margin: 4px;
+border-radius: 8px;
+font-size: 0.9rem;
+font-weight: 500;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.metabolite-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🧬 Carnitintransporter-Defekte</h1>
+<p>Teil 1: Grundlagen & Diagnostik</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>📚 Lerneinheit Teil 1</h3>
+<p>Dieser erste Teil behandelt die Grundlagen, Biochemie, klinisches Bild und Diagnostik aller Carnitintransporter-Defekte.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+<button class="nav-btn" onclick="showSection('biochemie')">2. Biochemie</button>
+<button class="nav-btn" onclick="showSection('klinik')">3. Klinisches Bild</button>
+<button class="nav-btn" onclick="showSection('diagnostik')">4. Diagnostik</button>
+</div>
+
+<!-- Grundlagen -->
+<div class="content-section active" id="grundlagen">
+<h2 class="section-title">🎯 Grundlagen der Carnitintransporter-Defekte</h2>
+
+<div class="subsection">
+<h3>Definition und Überblick</h3>
+<p>Carnitintransporter-Defekte sind angeborene Störungen des Carnitin-Transportsystems, das für die mitochondriale β-Oxidation langkettiger Fettsäuren essentiell ist. Sie umfassen Defekte des cellulären Carnitin-Transports sowie der enzymatischen Schritte des Carnitin-Shuttles.</p>
+
+<div class="highlight-box">
+<h4>Die sechs Hauptdefekte des Carnitin-Systems</h4>
+<ul>
+<li><strong>Primärer Carnitinmangel (CDSP)</strong> - OCTN2-Transporter-Defekt</li>
+<li><strong>CPT1A-Defekt</strong> - Hepatische Carnitin-Palmitoyltransferase I</li>
+<li><strong>CPT1B-Defekt</strong> - Muskuläre Carnitin-Palmitoyltransferase I</li>
+<li><strong>CPT1C-Defekt</strong> - Zerebrale Carnitin-Palmitoyltransferase I</li>
+<li><strong>CACT-Defekt</strong> - Carnitin/Acylcarnitin-Translocase</li>
+<li><strong>CPT2-Defekt</strong> - Carnitin-Palmitoyltransferase II</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Epidemiologie und Vererbung</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Inzidenz</th>
+<th>Vererbung</th>
+<th>Gen</th>
+<th>Häufigste Region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primärer Carnitinmangel</strong></td>
+<td>1:100.000 (global)<br>1:300 (Färöer)</td>
+<td>autosomal-rezessiv</td>
+<td>SLC22A5</td>
+<td>Färöer, Japan, China</td>
+</tr>
+<tr>
+<td><strong>CPT1A-Defekt</strong></td>
+<td>1:4.000 (Inuit)<br>sehr selten (andere)</td>
+<td>autosomal-rezessiv</td>
+<td>CPT1A</td>
+<td>Alaska, Kanada (Inuit)</td>
+</tr>
+<tr>
+<td><strong>CACT-Defekt</strong></td>
+<td>1:100.000-1:500.000</td>
+<td>autosomal-rezessiv</td>
+<td>SLC25A20</td>
+<td>weltweit sporadisch</td>
+</tr>
+<tr>
+<td><strong>CPT2-Defekt</strong></td>
+<td>1:200.000-1:500.000</td>
+<td>autosomal-rezessiv</td>
+<td>CPT2</td>
+<td>alle Ethnien</td>
+</tr>
+<tr>
+<td><strong>CPT1B-Defekt</strong></td>
+<td>sehr selten</td>
+<td>autosomal-rezessiv</td>
+<td>CPT1B</td>
+<td>Einzelfälle</td>
+</tr>
+<tr>
+<td><strong>CPT1C-Defekt</strong></td>
+<td>extrem selten</td>
+<td>autosomal-rezessiv</td>
+<td>CPT1C</td>
+<td>wenige Familien</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Pathophysiologische Grundprinzipien</h3>
+<div class="pathway-diagram">
+<h4>Zwei Hauptmechanismen der Krankheitsentstehung</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+<h5 style="color: #dc2626; margin-bottom: 15px;">⚡ Energiedefizit</h5>
+<p style="color: #dc2626;">Gestörte mitochondriale β-Oxidation</p>
+<div class="arrow" style="color: #dc2626;">↓</div>
+<p style="color: #dc2626;">Hypoketotische Hypoglykämie</p>
+</div>
+<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+<h5 style="color: #ea580c; margin-bottom: 15px;">🔄 Carnitin-Dysregulation</h5>
+<p style="color: #ea580c;">Gestörter Carnitin-Haushalt</p>
+<div class="arrow" style="color: #ea580c;">↓</div>
+<p style="color: #ea580c;">Sekundäre Komplikationen</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Klinische Bedeutung und Prognose-Überblick</h3>
+<div class="case-study">
+<h4>💡 Prognostische Einordnung</h4>
+<p><strong>Exzellente Prognose bei rechtzeitiger Therapie:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Vollständig reversibel bei L-Carnitin-Supplementation</li>
+<li><strong>CPT1A-Defekt:</strong> Meist milde Verläufe, normale Lebenserwartung</li>
+</ul>
+
+<p><strong>Variable bis schwere Verläufe:</strong></p>
+<ul>
+<li><strong>CPT2-Defekt:</strong> Abhängig von Residualaktivität (neonatal vs. adult-onset)</li>
+<li><strong>CACT-Defekt:</strong> Schwere neonatale Formen mit hoher Mortalität</li>
+</ul>
+
+<p><strong>Gemeinsame Erfolgsfaktoren:</strong></p>
+<ul>
+<li>Neugeborenenscreening ermöglicht präsymptomatische Therapie</li>
+<li>Frühe Diagnose verhindert irreversible Organschäden</li>
+<li>Adäquate Diättherapie und Carnitin-Supplementation</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('biochemie')">Weiter zur Biochemie →</button>
+</div>
+</div>
+
+<!-- Biochemie -->
+<div class="content-section" id="biochemie">
+<h2 class="section-title">⚗️ Biochemische Grundlagen - Der Carnitin-Shuttle</h2>
+
+<div class="subsection">
+<h3>1. Der normale Carnitin-Shuttle Mechanismus</h3>
+<div class="pathway-diagram">
+<h4>Das Carnitin-Transportsystem im Detail</h4>
+<div style="background: linear-gradient(90deg, #f3f4f6 50%, #e5e7eb 50%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+<div style="text-align: center; margin-bottom: 15px;">
+<span style="margin-right: 100px; font-weight: bold;">Cytosol</span>
+<span style="font-weight: bold;">Mitochondrium</span>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="enzyme-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">Acyl-CoA (C16-C18)</div>
+<span style="margin: 0 5px;">+</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d);">Carnitin</div>
+<span class="arrow" style="margin: 0 10px;">CPT1→</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">Acylcarnitin</div>
+<span style="margin: 0 5px;">+</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #6b7280, #4b5563);">CoA</div>
+</div>
+
+<div style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+<div class="enzyme-box defect">CACT-Transporter</div><br>
+⬇️ <strong>Transport durch innere Mitochondrienmembran</strong> ⬇️
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="enzyme-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">Acylcarnitin</div>
+<span style="margin: 0 5px;">+</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #6b7280, #4b5563);">CoA</div>
+<span class="arrow" style="margin: 0 10px;">CPT2→</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">Acyl-CoA</div>
+<span style="margin: 0 5px;">+</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d);">Carnitin</div>
+</div>
+
+<div style="text-align: center; margin-top: 15px;">
+<span class="arrow">↓</span><br>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">β-Oxidation</div>
+</div>
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>Kritische Erkenntnisse für die Klinik</h4>
+<ul>
+<li><strong>CPT1 ist der rate-limiting step:</strong> Regulation der β-Oxidation</li>
+<li><strong>Gewebe-spezifische Isoformen:</strong> CPT1A (Leber), CPT1B (Muskel), CPT1C (Gehirn)</li>
+<li><strong>CACT ist der Flaschenhals:</strong> Defekte führen zu schwerem Phänotyp</li>
+<li><strong>CPT2 ist essentiell:</strong> Letzte Barriere vor β-Oxidation</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>2. Primärer Carnitinmangel - OCTN2-Defekt</h3>
+<div class="pathway-diagram">
+<h4>Der OCTN2-Transporter und seine Funktion</h4>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #e2e8f0;">
+<p><strong>OCTN2 (SLC22A5) Funktion:</strong></p>
+<ul>
+<li><strong>Hochaffiner Na⁺-abhängiger Carnitin-Transporter</strong></li>
+<li><strong>Primäre Expression:</strong> Niere (Rückresorption), Darm (Absorption), Muskel, Herz</li>
+<li><strong>Km für Carnitin:</strong> ~5 μM (sehr hochaffin)</li>
+<li><strong>Physiologische Rolle:</strong> Carnitin-Homöostase des Körpers</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Normalzustand</th>
+<th>OCTN2-Defekt</th>
+<th>Konsequenzen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Carnitin-Rückresorption</strong><br>99% in der Niere</td>
+<td>Massive renale Verluste<br>Clearance ↑↑</td>
+<td>Plasma-Carnitin ↓↓↓</td>
+</tr>
+<tr>
+<td><strong>Intestinale Absorption</strong><br>80-90% aus Nahrung</td>
+<td>Gestörte Aufnahme<br>Absorption ↓↓</td>
+<td>Orale Substitution ineffektiv</td>
+</tr>
+<tr>
+<td><strong>Zelluläre Aufnahme</strong><br>Gewebe-Carnitin normal</td>
+<td>Eingeschränkter Transport<br>Intrazellulärer Mangel</td>
+<td>Organmanifestationen</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="case-study">
+<h4>🔬 Biochemische Marker beim primären Carnitinmangel</h4>
+<p><strong>Charakteristisches Labormuster:</strong></p>
+<ul>
+<li><strong>Freies Carnitin:</strong> <5 μmol/l (Normal: 25-50 μmol/l)</li>
+<li><strong>Gesamtcarnitin:</strong> <10 μmol/l (Normal: 40-60 μmol/l)</li>
+<li><strong>Acylcarnitin/freies Carnitin Ratio:</strong> Variable</li>
+<li><strong>Renale Carnitin-Clearance:</strong> >95% (Normal: <2%)</li>
+</ul>
+
+<p><strong>Sekundäre Veränderungen:</strong></p>
+<ul>
+<li><strong>Acylcarnitin-Profil:</strong> Erniedrigt oder normal</li>
+<li><strong>Freie Fettsäuren:</strong> Erhöht bei Fasten</li>
+<li><strong>Ketonkörper:</strong> Erniedrigt (Hypoketonurie)</li>
+<li><strong>Muskel-Carnitin:</strong> <10% der Norm (Biopsie)</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>3. CPT1-Defekte - Gewebespezifische Formen</h3>
+<div class="pathway-diagram">
+<h4>CPT1-Isoformen und ihre Verteilung</h4>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Isoform</th>
+<th>Gen</th>
+<th>Primäre Expression</th>
+<th>Besonderheiten</th>
+<th>Defekt-Phänotyp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPT1A</strong></td>
+<td>CPT1A</td>
+<td>Leber, Niere, Darm</td>
+<td>Malonyl-CoA-sensitiv</td>
+<td>Hepatische Hypoglykämie</td>
+</tr>
+<tr>
+<td><strong>CPT1B</strong></td>
+<td>CPT1B</td>
+<td>Muskel, Herz, Fettgewebe</td>
+<td>Weniger Malonyl-CoA-sensitiv</td>
+<td>Muskuläre Manifestationen</td>
+</tr>
+<tr>
+<td><strong>CPT1C</strong></td>
+<td>CPT1C</td>
+<td>Gehirn, Testis</td>
+<td>Katalytisch inaktiv (?)</td>
+<td>Neurologische Entwicklung</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="highlight-box">
+<h4>CPT1A-Defekt: Besonderheiten der Inuit-Population</h4>
+<p><strong>P479L-Mutation (c.1436C>T):</strong></p>
+<ul>
+<li><strong>Allel-Frequenz:</strong> 67% bei Inuit-Populationen</li>
+<li><strong>Heterozygoten-Vorteil:</strong> Möglicherweise adaptive Mutation</li>
+<li><strong>Thermogenese:</strong> Bessere Kälteanpassung durch gesteigerte Ketonkörperproduktion</li>
+<li><strong>Residualaktivität:</strong> 20-25% der Norm (erklärt milden Phänotyp)</li>
+</ul>
+
+<p><strong>Klinische Konsequenzen:</strong></p>
+<ul>
+<li><strong>Meist asymptomatisch</strong> bei normaler Ernährung</li>
+<li><strong>Hypoglykämie</strong> nur bei prolongiertem Fasten</li>
+<li><strong>Hepatomegalie</strong> durch Triglyzerid-Akkumulation</li>
+<li><strong>Hypoketonämie</strong> pathognomonisch</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>4. CACT-Defekt - Der kritische Transporter</h3>
+<div class="pathway-diagram">
+<h4>CACT-Funktion und Pathophysiologie</h4>
+<div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #fca5a5;">
+<div style="text-align: center; margin-bottom: 20px;">
+<div class="enzyme-box defect" style="font-size: 1.2em;">CACT-Defekt (SLC25A20)</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<div>
+<h5 style="color: #dc2626; margin-bottom: 10px;">🔒 Biochemische Konsequenzen</h5>
+<ul style="color: #dc2626;">
+<li>Acylcarnitin-Stau im Cytosol</li>
+<li>Freies Carnitin-Depletion</li>
+<li>Kompletter β-Oxidations-Block</li>
+<li>Schwere Hypoketonämie</li>
+</ul>
+</div>
+<div>
+<h5 style="color: #dc2626; margin-bottom: 10px;">⚡ Klinische Manifestation</h5>
+<ul style="color: #dc2626;">
+<li>Schwere neonatale Krisen</li>
+<li>Kardiomyopathie häufig</li>
+<li>Arrhythmien (plötzlicher Tod)</li>
+<li>Hepatomegalie mit Steatose</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="case-study">
+<h4>🔬 Diagnostische Marker bei CACT-Defekt</h4>
+<p><strong>Charakteristisches Acylcarnitin-Profil:</strong></p>
+<ul>
+<li><strong>C16-Carnitin:</strong> Stark erhöht (>5 μmol/l)</li>
+<li><strong>C18-Carnitin:</strong> Stark erhöht (>3 μmol/l)</li>
+<li><strong>C18:1-Carnitin:</strong> Stark erhöht (>4 μmol/l)</li>
+<li><strong>Freies Carnitin:</strong> Stark erniedrigt (<5 μmol/l)</li>
+</ul>
+
+<p><strong>Besonderheit gegenüber CPT2:</strong></p>
+<ul>
+<li><strong>CACT:</strong> Langkettige Acylcarnitine extrem hoch</li>
+<li><strong>CPT2:</strong> Moderate Erhöhung, abhängig von Residualaktivität</li>
+<li><strong>C0/(C16+C18):</strong> <0,01 bei CACT (diagnostisch)</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>5. CPT2-Defekt - Drei klinische Formen</h3>
+<div class="pathway-diagram">
+<h4>CPT2-Defekt: Genotyp-Phänotyp-Korrelation</h4>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Form</th>
+<th>Enzymaktivität</th>
+<th>Häufigste Mutationen</th>
+<th>Manifestationsalter</th>
+<th>Hauptsymptome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Neonatal schwer</strong></td>
+<td><5%</td>
+<td>Null-Mutationen<br>(Deletionen, Nonsense)</td>
+<td>0-3 Monate</td>
+<td>Kardiomyopathie, Koma, Tod</td>
+</tr>
+<tr>
+<td><strong>Infantil hepatisch</strong></td>
+<td>10-25%</td>
+<td>Missense-Mutationen<br>(p.Phe383Tyr häufig)</td>
+<td>3-18 Monate</td>
+<td>Hepatomegalie, Hypoglykämie</td>
+</tr>
+<tr>
+<td><strong>Adult myopathisch</strong></td>
+<td>25-50%</td>
+<td>p.Ser113Leu (häufigste)<br>p.Pro50His</td>
+<td>Adoleszenz/Erwachsene</td>
+<td>Exercise-induzierte Myopathie</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="highlight-box">
+<h4>CPT2-Defekt: Molekulare Grundlagen der Phänotyp-Variabilität</h4>
+<p><strong>Struktur-Funktions-Beziehungen:</strong></p>
+<ul>
+<li><strong>Katalytisches Zentrum:</strong> Mutationen → kompletter Funktionsverlust</li>
+<li><strong>Substratbindungsstelle:</strong> Mutationen → reduzierte Affinität</li>
+<li><strong>Protein-Stabilität:</strong> Thermolabile Varianten bei milder Form</li>
+</ul>
+
+<p><strong>Adult-Form Besonderheiten:</strong></p>
+<ul>
+<li><strong>Tissue-spezifische Expression:</strong> Hauptsächlich Muskel betroffen</li>
+<li><strong>Stress-induzierte Dekompensation:</strong> Fasten, Fieber, Kälte, Exercise</li>
+<li><strong>Temperatur-Sensitivität:</strong> Enzyme-Aktivität bei 37°C reduziert</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>6. Sekundäre Carnitin-Depletion bei Transport-Defekten</h3>
+<div class="case-study">
+<h4>💡 Der Teufelskreis der Carnitin-Verarmung</h4>
+<p><strong>Mechanismus bei CACT/CPT2-Defekten:</strong></p>
+<ul>
+<li><strong>1. Enzymdefekt:</strong> Acyl-CoA kann nicht prozessiert werden</li>
+<li><strong>2. Kompensatorische CPT1-Aktivität:</strong> Vermehrte Acylcarnitin-Bildung</li>
+<li><strong>3. Acylcarnitin-Akkumulation:</strong> Carnitin wird "gefangen"</li>
+<li><strong>4. Freies Carnitin ↓:</strong> Weniger verfügbar für Transport</li>
+<li><strong>5. Renale Verluste:</strong> Acylcarnitine werden ausgeschieden</li>
+<li><strong>6. Verschlechterung:</strong> Weniger Carnitin → schlechterer Transport</li>
+</ul>
+
+<p><strong>Therapeutische Konsequenz:</strong></p>
+<ul>
+<li><strong>L-Carnitin-Supplementation essentiell</strong> bei allen Transport-Defekten</li>
+<li><strong>Höhere Dosierung:</strong> 100-300 mg/kg/d vs. 50-100 mg/kg/d bei primärem Mangel</li>
+<li><strong>Monitoring:</strong> Freies Carnitin als Therapieziel (>20 μmol/l)</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('klinik')">Weiter zum klinischen Bild →</button>
+</div>
+</div>
+
+<!-- Klinisches Bild -->
+<div class="content-section" id="klinik">
+<h2 class="section-title">🏥 Klinisches Bild der Carnitintransporter-Defekte</h2>
+
+<div class="subsection">
+<h3>Primärer Carnitinmangel - Klinische Präsentation</h3>
+<div class="case-study">
+<h4>📋 Altersabhängige Manifestationen</h4>
+<p><strong>Säuglingsalter (3-24 Monate):</strong></p>
+<ul>
+<li><strong>Kardiomyopathie (60-80%):</strong> Dilatativ oder hypertrophisch</li>
+<li><strong>Hypoglykämie:</strong> Fasten-induziert, hypoketotisch</li>
+<li><strong>Hepatomegalie:</strong> Durch Triglyzerid-Akkumulation</li>
+<li><strong>Muskelhypotonie:</strong> Generalisiert, feeding difficulties</li>
+<li><strong>Gedeihstörung:</strong> Failure to thrive</li>
+</ul>
+
+<p><strong>Erwachsenenalter (meist Mütter betroffener Kinder):</strong></p>
+<ul>
+<li><strong>Progressive Myopathie:</strong> Proximale Muskelschwäche</li>
+<li><strong>Kardiomyopathie:</strong> Kann erst im Erwachsenenalter manifest werden</li>
+<li><strong>Fatigue-Syndrom:</strong> Chronische Erschöpfung</li>
+<li><strong>Exercise Intolerance:</strong> Belastungsdyspnoe, Myalgien</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Organsystem</th>
+<th>Häufigkeit (%)</th>
+<th>Manifestation</th>
+<th>Reversibilität unter Therapie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kardial</strong></td>
+<td>60-80</td>
+<td>Dilatative/hypertrophe Kardiomyopathie</td>
+<td>Vollständig (bei früher Therapie)</td>
+</tr>
+<tr>
+<td><strong>Muskulär</strong></td>
+<td>70-90</td>
+<td>Proximale Myopathie, Hypotonie</td>
+<td>Weitgehend</td>
+</tr>
+<tr>
+<td><strong>Hepatisch</strong></td>
+<td>40-60</td>
+<td>Hepatomegalie, Steatose</td>
+<td>Vollständig</td>
+</tr>
+<tr>
+<td><strong>Metabolisch</strong></td>
+<td>80-100</td>
+<td>Hypoketotische Hypoglykämie</td>
+<td>Vollständig</td>
+</tr>
+<tr>
+<td><strong>ZNS</strong></td>
+<td>20-40</td>
+<td>Entwicklungsverzögerung, Koma</td>
+<td>Teilweise (bei früher Therapie)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>CPT1A-Defekt - Der milde Phänotyp</h3>
+<div class="highlight-box">
+<h4>Warum ist CPT1A-Defekt meist mild?</h4>
+<p><strong>Biochemische Gründe:</strong></p>
+<ul>
+<li><strong>Residual-Aktivität:</strong> 20-25% bei häufigster Mutation (P479L)</li>
+<li><strong>Kompensation:</strong> CPT1B kann teilweise übernehmen</li>
+<li><strong>Ketogenese erhalten:</strong> Geringe Mengen reichen für Ketonkörper-Produktion</li>
+</ul>
+
+<p><strong>Epidemiologische Besonderheit:</strong></p>
+<ul>
+<li><strong>Inuit-Populationen:</strong> Hohe Allel-Frequenz (evolutionärer Vorteil?)</li>
+<li><strong>Kälteanpassung:</strong> Verbesserte Thermogenese</li>
+<li><strong>Traditionelle Ernährung:</strong> Hoher Fettanteil, seltenes Fasten</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🌡️ Manifeste Symptome bei CPT1A-Defekt</h4>
+<p><strong>Auslösende Faktoren:</strong></p>
+<ul>
+<li><strong>Prolongiertes Fasten:</strong> >12-16 Stunden</li>
+<li><strong>Interkurrente Erkrankungen:</strong> Fieber, Gastroenteritis</li>
+<li><strong>Medikamente:</strong> Valproinsäure verstärkt Symptome</li>
+</ul>
+
+<p><strong>Klinische Manifestation:</strong></p>
+<ul>
+<li><strong>Hypoketotische Hypoglykämie:</strong> Pathognomonisch</li>
+<li><strong>Hepatomegalie:</strong> Durch mikrovesikuläre Steatose</li>
+<li><strong>Milde Hyperammonämie:</strong> Sekundär zur Leberdysfunktion</li>
+<li><strong>Meist keine Kardiomyopathie:</strong> Im Gegensatz zu primärem Carnitinmangel</li>
+</ul>
+
+<p><strong>Langzeitprognose:</strong></p>
+<ul>
+<li><strong>Exzellent bei adäquater Diät</strong></li>
+<li><strong>Normale Lebenserwartung</strong></li>
+<li><strong>Keine neurologischen Spätfolgen</strong></li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CACT-Defekt - Der schwere neonatale Phänotyp</h3>
+<div class="pathway-diagram">
+<h4>CACT-Defekt: Schwere vs. milde Form</h4>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Form</th>
+<th>Manifestationsalter</th>
+<th>Kardiomyopathie</th>
+<th>Hepatomegalie</th>
+<th>Hypoglykämie</th>
+<th>Prognose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schwer (80%)</strong></td>
+<td>Neonatal (0-3 Monate)</td>
+<td>+++<br>Dilatativ, schwer</td>
+<td>+++<br>Massive Steatose</td>
+<td>+++<br>Persistent, schwer</td>
+<td>Schlecht<br>Mortalität 50-70%</td>
+</tr>
+<tr>
+<td><strong>Mild (20%)</strong></td>
+<td>Säugling (6-18 Monate)</td>
+<td>+/-<br>Gering oder fehlend</td>
+<td>++<br>Mäßig</td>
+<td>++<br>Episodisch</td>
+<td>Gut bei früher Therapie</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="case-study">
+<h4>🚨 Schwere neonatale Form - Klinischer Verlauf</h4>
+<p><strong>Erstmanifestation (meist Tage 2-7):</strong></p>
+<ul>
+<li><strong>Trinkschwäche:</strong> Poor feeding, Lethargie</li>
+<li><strong>Kardiorespiratorische Insuffizienz:</strong> Tachykardie, Dyspnoe</li>
+<li><strong>Hepatomegalie:</strong> Rapid progressive liver enlargement</li>
+<li><strong>Hypoglykämie:</strong> Persistierend trotz Glukose-Infusion</li>
+</ul>
+
+<p><strong>Progression (Tage bis Wochen):</strong></p>
+<ul>
+<li><strong>Kardiomyopathie:</strong> Dilatativ, LVEF <30%</li>
+<li><strong>Arrhythmien:</strong> Ventrikuläre Tachykardien, Kammerflimmern</li>
+<li><strong>Leberversagen:</strong> Transaminasen ↑↑, Koagulopathie</li>
+<li><strong>Multiorganversagen:</strong> Niereninsuffizienz, ZNS-Dysfunktion</li>
+</ul>
+
+<p><strong>Komplikationen und Mortalität:</strong></p>
+<ul>
+<li><strong>Plötzlicher Herztod:</strong> Häufigste Todesursache</li>
+<li><strong>Kardiogener Schock:</strong> Therapierefraktär</li>
+<li><strong>Überlebende:</strong> Oft schwere Kardiomyopathie persistierend</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CPT2-Defekt - Drei distinkte Phänotypen</h3>
+<div class="pathway-diagram">
+<h4>CPT2-Defekt: Altersabhängige Manifestationen</h4>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+<div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+<h5 style="color: #dc2626; margin-bottom: 10px;">👶 Neonatale Form</h5>
+<ul style="font-size: 0.9em; color: #dc2626;">
+<li><strong>Alter:</strong> 0-3 Monate</li>
+<li><strong>Enzymaktivität:</strong> <5%</li>
+<li><strong>Hauptsymptome:</strong>
+<ul>
+<li>Schwere Kardiomyopathie</li>
+<li>Nierenzysten (häufig)</li>
+<li>Hepatomegalie</li>
+<li>Hypoglykämie</li>
+</ul>
+</li>
+<li><strong>Prognose:</strong> Sehr schlecht</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+<h5 style="color: #ea580c; margin-bottom: 10px;">🍼 Infantile Form</h5>
+<ul style="font-size: 0.9em; color: #ea580c;">
+<li><strong>Alter:</strong> 3-18 Monate</li>
+<li><strong>Enzymaktivität:</strong> 10-25%</li>
+<li><strong>Hauptsymptome:</strong>
+<ul>
+<li>Hepatomegalie prominent</li>
+<li>Hypoketotische Hypoglykämie</li>
+<li>Kardiomyopathie variabel</li>
+<li>Gedeihstörung</li>
+</ul>
+</li>
+<li><strong>Prognose:</strong> Mäßig bis gut</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+<h5 style="color: #16a34a; margin-bottom: 10px;">🏃 Adult-myopathische Form</h5>
+<ul style="font-size: 0.9em; color: #16a34a;">
+<li><strong>Alter:</strong> Adoleszenz/Erwachsene</li>
+<li><strong>Enzymaktivität:</strong> 25-50%</li>
+<li><strong>Hauptsymptome:</strong>
+<ul>
+<li>Exercise-induzierte Myopathie</li>
+<li>Rhabdomyolyse-Episoden</li>
+<li>Myoglobinurie</li>
+<li>Normale Herzfunktion</li>
+</ul>
+</li>
+<li><strong>Prognose:</strong> Gut</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>Adult-myopathische Form: Klinische Besonderheiten</h4>
+<p><strong>Klassische Trigger-Faktoren:</strong></p>
+<ul>
+<li><strong>Prolongierte Belastung:</strong> >30 Minuten moderater bis intensiver Exercise</li>
+<li><strong>Fasten + Exercise:</strong> Besonders kritische Kombination</li>
+<li><strong>Kälteexposition:</strong> Vermehrter Energiebedarf</li>
+<li><strong>Fieberhafte Infekte:</strong> Erhöhter Muskel-Turnover</li>
+<li><strong>Allgemeinanästhesie:</strong> Stress + Fasten</li>
+</ul>
+
+<p><strong>Rhabdomyolyse-Episoden:</strong></p>
+<ul>
+<li><strong>CK-Anstieg:</strong> Bis zu 100.000 U/l möglich</li>
+<li><strong>Myoglobinurie:</strong> Dunkler/rötlicher Urin</li>
+<li><strong>Niereninsuffizienz:</strong> Bei schweren Episoden (selten)</li>
+<li><strong>Recovery:</strong> Meist vollständig bei adäquater Therapie</li>
+</ul>
+
+<p><strong>Differentialdiagnose:</strong></p>
+<ul>
+<li><strong>McArdle-Krankheit:</strong> Exercise-induziert, aber Second-wind-Phänomen</li>
+<li><strong>Andere Glykogenosen:</strong> Meist andere Trigger</li>
+<li><strong>Maligne Hyperthermie:</strong> Anästhesie-assoziiert</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Genotyp-Phänotyp-Korrelationen</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Mild/asymptomatisch</th>
+<th>Moderat</th>
+<th>Schwer</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primärer Carnitinmangel</strong></td>
+<td>Späte Diagnose durch Screening</td>
+<td>Kardiomyopathie/Myopathie</td>
+<td>Neonatales Koma</td>
+<td>Vollständig reversibel</td>
+</tr>
+<tr>
+<td><strong>CPT1A-Defekt</strong></td>
+<td>Häufig (Inuit-Populationen)</td>
+<td>Fasten-induzierte Hypoglykämie</td>
+<td>Selten</td>
+<td>Meist benigne</td>
+</tr>
+<tr>
+<td><strong>CACT-Defekt</strong></td>
+<td>20% (Missense-Mutationen)</td>
+<td>Infantile hepatische Form</td>
+<td>80% (neonatal letal)</td>
+<td>Höchste Mortalität</td>
+</tr>
+<tr>
+<td><strong>CPT2-Defekt</strong></td>
+<td>Adult-myopathische Form</td>
+<td>Infantile hepatische Form</td>
+<td>Neonatale Form + Nierenzysten</td>
+<td>Drei distinkte Phänotypen</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('diagnostik')">Weiter zur Diagnostik →</button>
+</div>
+</div>
+
+<!-- Diagnostik -->
+<div class="content-section" id="diagnostik">
+<h2 class="section-title">🔬 Diagnostik der Carnitintransporter-Defekte</h2>
+
+<div class="subsection">
+<h3>Stufendiagnostik - Systematisches Vorgehen</h3>
+<div class="pathway-diagram">
+<h4>Diagnostischer Algorithmus bei Verdacht auf Carnitintransporter-Defekt</h4>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+<div style="background: var(--bg-white); border: 2px solid var(--info-color); border-radius: var(--border-radius); padding: var(--spacing-md); max-width: 320px; text-align: center; box-shadow: var(--shadow-sm);">
+<strong>Schritt 1: Basis-Screening</strong><br>
+Freies + Gesamtcarnitin<br>
+Acylcarnitin-Profil (Tandem-MS)
+</div>
+<div style="width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid var(--info-color);"></div>
+
+<div style="background: var(--bg-white); border: 2px solid var(--info-color); border-radius: var(--border-radius); padding: var(--spacing-md); max-width: 320px; text-align: center; box-shadow: var(--shadow-sm);">
+<strong>Schritt 2: Erweiterte Analytik</strong><br>
+Urin-Acylcarnitine<br>
+Organische Säuren<br>
+Carnitin-Loading-Test
+</div>
+<div style="width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid var(--info-color);"></div>
+
+<div style="background: var(--bg-white); border: 2px solid var(--info-color); border-radius: var(--border-radius); padding: var(--spacing-md); max-width: 320px; text-align: center; box-shadow: var(--shadow-sm);">
+<strong>Schritt 3: Funktionsdiagnostik</strong><br>
+Enzymaktivitätsmessung<br>
+Fibroblast-Untersuchungen
+</div>
+<div style="width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid var(--info-color);"></div>
+
+<div style="background: var(--bg-white); border: 2px solid var(--info-color); border-radius: var(--border-radius); padding: var(--spacing-md); max-width: 320px; text-align: center; box-shadow: var(--shadow-sm);">
+<strong>Schritt 4: Molekulargenetik</strong><br>
+Gezielte Sequenzierung<br>
+Panel-Diagnostik
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Acylcarnitin-Profile - Differentialdiagnostik</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Freies Carnitin</th>
+<th>C16-Carnitin</th>
+<th>C18-Carnitin</th>
+<th>C18:1-Carnitin</th>
+<th>Diagnostische Ratios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primärer Carnitinmangel</strong></td>
+<td>↓↓↓ (<5 μmol/l)</td>
+<td>→/↓</td>
+<td>→/↓</td>
+<td>→/↓</td>
+<td>C0 massiv erniedrigt</td>
+</tr>
+<tr>
+<td><strong>CPT1A-Defekt</strong></td>
+<td>→/↑</td>
+<td>→</td>
+<td>→</td>
+<td>→</td>
+<td>Normale Acylcarnitine</td>
+</tr>
+<tr>
+<td><strong>CACT-Defekt</strong></td>
+<td>↓↓ (<10 μmol/l)</td>
+<td>↑↑↑ (>5 μmol/l)</td>
+<td>↑↑↑ (>3 μmol/l)</td>
+<td>↑↑↑ (>4 μmol/l)</td>
+<td>C0/(C16+C18) <0,01</td>
+</tr>
+<tr>
+<td><strong>CPT2-Defekt neonatal</strong></td>
+<td>↓↓ (<15 μmol/l)</td>
+<td>↑↑ (2-5 μmol/l)</td>
+<td>↑↑ (1-3 μmol/l)</td>
+<td>↑↑ (2-4 μmol/l)</td>
+<td>(C16+C18:1)/C2 >0,4</td>
+</tr>
+<tr>
+<td><strong>CPT2-Defekt adult</strong></td>
+<td>→/↓</td>
+<td>→/↑</td>
+<td>→/↑</td>
+<td>→/↑</td>
+<td>Oft nur bei Stress ↑</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Wichtige diagnostische Hinweise</h4>
+<p><strong>Pathognomonische Befunde:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Freies Carnitin <5 μmol/l + normale Acylcarnitine</li>
+<li><strong>CPT1A-Defekt:</strong> Hypoketonämie + normale Acylcarnitine</li>
+<li><strong>CACT-Defekt:</strong> Massive langkettige Acylcarnitin-Erhöhung</li>
+</ul>
+
+<p><strong>Häufige Fallstricke:</strong></p>
+<ul>
+<li><strong>Adult CPT2:</strong> Normale Werte zwischen Episoden</li>
+<li><strong>Mild CACT:</strong> Moderate Erhöhungen können übersehen werden</li>
+<li><strong>Heterozygote:</strong> Gelegentlich grenzwertige Befunde</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Funktionsdiagnostik - Carnitin-Loading-Test</h3>
+<div class="case-study">
+<h4>🧪 Carnitin-Loading-Test - Protokoll und Interpretation</h4>
+<p><strong>Indikation:</strong></p>
+<ul>
+<li><strong>Verdacht auf primären Carnitinmangel</strong> mit grenzwertigen Werten</li>
+<li><strong>Differenzierung</strong> primärer vs. sekundärer Carnitin-Mangel</li>
+<li><strong>Therapie-Monitoring</strong> bei bekannten Patienten</li>
+</ul>
+
+<p><strong>Protokoll:</strong></p>
+<ul>
+<li><strong>Baseline:</strong> Freies Carnitin, Gesamtcarnitin, Kreatinin</li>
+<li><strong>L-Carnitin oral:</strong> 100 mg/kg (max. 3g)</li>
+<li><strong>Urinsammlung:</strong> 8 Stunden nach Gabe</li>
+<li><strong>Plasma-Kontrolle:</strong> 3-4 Stunden nach Gabe</li>
+</ul>
+
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Renale Clearance >95%</li>
+<li><strong>Sekundärer Mangel:</strong> Renale Clearance <20%</li>
+<li><strong>Heterozygote OCTN2-Defekt:</strong> Clearance 20-80%</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Normale</th>
+<th>Primärer Carnitinmangel</th>
+<th>Sekundärer Mangel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Baseline Carnitin</strong></td>
+<td>25-50 μmol/l</td>
+<td><5 μmol/l</td>
+<td>5-20 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Peak Carnitin (3-4h)</strong></td>
+<td>80-150 μmol/l</td>
+<td>15-40 μmol/l</td>
+<td>40-100 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Renale Clearance</strong></td>
+<td><2%</td>
+<td>>95%</td>
+<td>2-20%</td>
+</tr>
+<tr>
+<td><strong>Urin-Carnitin (8h)</strong></td>
+<td><5% der Dosis</td>
+<td>>80% der Dosis</td>
+<td>10-30% der Dosis</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Enzymaktivitäts-Messungen</h3>
+<div class="pathway-diagram">
+<h4>Gewebe-spezifische Enzymdiagnostik</h4>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Enzym</th>
+<th>Probenmaterial</th>
+<th>Normale Aktivität</th>
+<th>Defekt (% der Norm)</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPT1A</strong></td>
+<td>Leukozyten<br>Fibroblasten</td>
+<td>15-40 nmol/min/mg</td>
+<td><20%</td>
+<td>Malonyl-CoA-Hemmtest</td>
+</tr>
+<tr>
+<td><strong>CPT1B</strong></td>
+<td>Muskelbiopsie<br>Fibroblasten</td>
+<td>25-60 nmol/min/mg</td>
+<td><25%</td>
+<td>Muskel-spezifisch</td>
+</tr>
+<tr>
+<td><strong>CACT</strong></td>
+<td>Fibroblasten<br>Muskelbiopsie</td>
+<td>80-200 pmol/min/mg</td>
+<td><10%</td>
+<td>Transport-Assay</td>
+</tr>
+<tr>
+<td><strong>CPT2</strong></td>
+<td>Fibroblasten<br>Leukozyten<br>Muskelbiopsie</td>
+<td>40-120 nmol/min/mg</td>
+<td>5-50% (je nach Form)</td>
+<td>Temperatur-Sensitivität</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="highlight-box">
+<h4>Interpretationshilfen Enzymaktivität</h4>
+<p><strong>CPT2-Defekt besondere Aspekte:</strong></p>
+<ul>
+<li><strong>Temperatur-abhängige Aktivität:</strong> Bei 37°C reduziert (adult Form)</li>
+<li><strong>Substrat-abhängig:</strong> Verschiedene Acyl-CoA-Längen testen</li>
+<li><strong>pH-Optimum:</strong> Verändert bei bestimmten Mutationen</li>
+</ul>
+
+<p><strong>CACT-Defekt Diagnostik:</strong></p>
+<ul>
+<li><strong>Transport-Assay essentiell:</strong> Enzymaktivität normal</li>
+<li><strong>Acylcarnitin-Uptake reduziert:</strong> In Fibroblasten</li>
+<li><strong>Palmitinsäure-Oxidation:</strong> Komplett gehemmt</li>
+</ul>
+
+<p><strong>Limitations:</strong></p>
+<ul>
+<li><strong>Heterozygote:</strong> 50% Aktivität, meist asymptomatisch</li>
+<li><strong>Pseudodefizienzen:</strong> Polymorphismen ohne klinische Relevanz</li>
+<li><strong>Artefakte:</strong> Probentransport, Lagerung kritisch</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Molekulargenetische Diagnostik</h3>
+<div class="case-study">
+<h4>🧬 Gen-spezifische Besonderheiten</h4>
+<p><strong>SLC22A5 (OCTN2) - Primärer Carnitinmangel:</strong></p>
+<ul>
+<li><strong>Häufige Mutationen:</strong> 
+<ul>
+<li>c.95A>G (p.Asn32Ser) - häufig in Japan</li>
+<li>c.1400C>G (p.Ser467Cys) - Färöer-Mutation</li>
+<li>c.760C>T (p.Arg254*) - Nonsense-Mutation</li>
+</ul>
+</li>
+<li><strong>Founder-Effekte:</strong> Bestimmte Populationen stark betroffen</li>
+<li><strong>Splice-site Mutationen:</strong> Häufig, führen zu instabiler mRNA</li>
+</ul>
+
+<p><strong>CPT1A - Inuit-spezifische Mutation:</strong></p>
+<ul>
+<li><strong>c.1436C>T (p.Pro479Leu):</strong> 
+<ul>
+<li>Allelfrequenz 67% bei Inuit</li>
+<li>Evolutionärer Vorteil vermutet</li>
+<li>Residualaktivität 20-25%</li>
+</ul>
+</li>
+<li><strong>Andere Mutationen:</strong> Extrem selten in anderen Populationen</li>
+</ul>
+
+<p><strong>CPT2 - Allelfrequenzen:</strong></p>
+<ul>
+<li><strong>c.338C>T (p.Ser113Leu):</strong> Häufigste adult-Form (60%)</li>
+<li><strong>c.149C>T (p.Pro50His):</strong> Zweithäufigste adult-Form</li>
+<li><strong>c.1148T>A (p.Phe383Tyr):</strong> Häufig bei infantiler Form</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Gen</th>
+<th>Exons</th>
+<th>Besonderheiten</th>
+<th>Diagnostischer Ansatz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SLC22A5</strong></td>
+<td>10</td>
+<td>Founder-Effekte, Pseudogene</td>
+<td>Gezielte Sequenzierung</td>
+</tr>
+<tr>
+<td><strong>CPT1A</strong></td>
+<td>19</td>
+<td>Eine häufige Mutation (Inuit)</td>
+<td>Gezielte Mutation + Sequenzierung</td>
+</tr>
+<tr>
+<td><strong>SLC25A20</strong></td>
+<td>9</td>
+<td>Kleine Gengröße</td>
+<td>Vollständige Sequenzierung</td>
+</tr>
+<tr>
+<td><strong>CPT2</strong></td>
+<td>5</td>
+<td>Hotspot-Mutationen</td>
+<td>Hotspot-Panel + Sequenzierung</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Neugeborenenscreening - Früherkennung</h3>
+<div class="highlight-box">
+<h4>Screening-Programme weltweit</h4>
+<p><strong>Erfasste Defekte:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Niedrige C0-Werte</li>
+<li><strong>CPT1A-Defekt:</strong> Nicht sicher erfassbar (normale Acylcarnitine)</li>
+<li><strong>CACT-Defekt:</strong> Erhöhte C16, C18, C18:1</li>
+<li><strong>CPT2-Defekt:</strong> Erhöhte langkettige Acylcarnitine</li>
+</ul>
+
+<p><strong>Screening-Algorithmen:</strong></p>
+<ul>
+<li><strong>C0 <10 μmol/l:</strong> Verdacht auf primären Carnitinmangel</li>
+<li><strong>(C16+C18:1)/C2 >0,35:</strong> Verdacht auf CPT2/CACT</li>
+<li><strong>C0/(C16+C18) <0,01:</strong> Spezifisch für CACT</li>
+</ul>
+
+<p><strong>Screening-Erfolg:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Exzellente Sensitivität (>95%)</li>
+<li><strong>CACT/CPT2:</strong> Moderate Sensitivität (70-85%)</li>
+<li><strong>False-positive Rate:</strong> <0,1% bei optimierten Cut-offs</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen und Diagnostik der Carnitintransporter-Defekte erfolgreich durchgearbeitet.</p>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit Therapie, Prognose, Fallbeispielen und Lernkontrolle</p>
+<button class="next-btn">Weiter zu Teil 2 →</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['grundlagen', 'biochemie', 'klinik', 'diagnostik'];
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+event.target.classList.add('active');
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '25%';
+</script>
+
+</body>
+</html>

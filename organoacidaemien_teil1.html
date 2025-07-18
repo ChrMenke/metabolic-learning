@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organoacidämien - Teil 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #f59e0b;
+            --accent-color: #ec4899;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f9fafb;
+            --bg-lighter: #f3f4f6;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e5e7eb;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e5e7eb;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f9fafb;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #065f46;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #065f46;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color), #f97316);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Organoacidämien</h1>
+            <p>Teil 1: Grundlagen & Biochemie</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 1</h3>
+            <p>Dieser erste Teil behandelt die Grundlagen, Biochemie, Pathophysiologie und klinischen Manifestationen der fünf wichtigsten Organoacidämien.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('biochemie')">2. Biochemie</button>
+            <button class="nav-btn" onclick="showSection('pathophysiologie')">3. Pathophysiologie</button>
+            <button class="nav-btn" onclick="showSection('klinik')">4. Klinische Manifestationen</button>
+        </div>
+
+        <!-- Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen der Organoacidämien</h2>
+            
+            <div class="subsection">
+                <h3>Definition und Klassifikation</h3>
+                <p>Organoacidämien sind angeborene Stoffwechseldefekte organischer Säuren, die durch Enzymdefekte in den Abbauwegen verzweigtkettiger Aminosäuren und anderen metabolischen Pathways entstehen.</p>
+                
+                <div class="highlight-box">
+                    <h4>Die "Big Five" Organoacidämien</h4>
+                    <ul>
+                        <li><strong>Methylmalonacidämie (MMA)</strong> - Häufigste und schwerste Form</li>
+                        <li><strong>Propionacidämie (PA)</strong> - Zweithäufigste, ähnlich schwer wie MMA</li>
+                        <li><strong>Isovalerianacidämie (IVA)</strong> - Erste beschriebene Organoacidämie</li>
+                        <li><strong>Glutaracidämie Typ I (GA-I)</strong> - Bewegungsstörungen im Vordergrund</li>
+                        <li><strong>3-Methylcrotonyl-CoA-Carboxylase-Mangel (3-MCC)</strong> - Mildeste Form</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Epidemiologie und Genetik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Inzidenz</th>
+                            <th>Vererbung</th>
+                            <th>Hauptgene</th>
+                            <th>Screening seit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Methylmalonacidämie</strong></td>
+                            <td>1:25.000 - 1:50.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>MUT, MMAA, MMAB, MMADHC</td>
+                            <td>2005 (Deutschland)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>1:50.000 - 1:100.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>PCCA, PCCB</td>
+                            <td>2005 (Deutschland)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isovalerianacidämie</strong></td>
+                            <td>1:100.000 - 1:250.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>IVD</td>
+                            <td>2005 (Deutschland)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutaracidämie Typ I</strong></td>
+                            <td>1:100.000 (1:300 in Amish)</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>GCDH</td>
+                            <td>2005 (Deutschland)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-MCC-Mangel</strong></td>
+                            <td>1:50.000 (häufigste im Screening)</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>MCCC1, MCCC2</td>
+                            <td>2005 (Deutschland)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Gemeinsame pathophysiologische Prinzipien</h3>
+                <div class="pathway-diagram">
+                    <h4>Vier Hauptmechanismen der Pathogenese</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">💣 Toxische Akkumulation</h5>
+                            <p style="color: #dc2626;">Anstau organischer Säuren</p>
+                            <div class="arrow" style="color: #dc2626;">↓</div>
+                            <p style="color: #dc2626;">Azidose, Organschädigung</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">⚡ Energiedefizit</h5>
+                            <p style="color: #ea580c;">Gestörte Glukoneogenese</p>
+                            <div class="arrow" style="color: #ea580c;">↓</div>
+                            <p style="color: #ea580c;">Hypoglykämie</p>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 12px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 15px;">🧠 Neurotoxizität</h5>
+                            <p style="color: #2563eb;">Organische Säuren passieren BHS</p>
+                            <div class="arrow" style="color: #2563eb;">↓</div>
+                            <p style="color: #2563eb;">Direkte ZNS-Schädigung</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 12px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🔄 Sekundäre Effekte</h5>
+                            <p style="color: #16a34a;">Hyperammonämie</p>
+                            <div class="arrow" style="color: #16a34a;">↓</div>
+                            <p style="color: #16a34a;">Komplikationen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Newborn Screening: Revolutionäre Früherkennung</h3>
+                <div class="case-study">
+                    <h4>🏥 Screening-Erfolg in Deutschland seit 2005</h4>
+                    <p><strong>Tandem-MS ermöglicht simultane Detektion:</strong></p>
+                    <ul>
+                        <li>C3 (Propionyl-CoA) für Propionacidämie und MMA</li>
+                        <li>C5 (Isovaleryl-CoA) für Isovalerianacidämie</li>
+                        <li>3-OH-Isovaleryl-CoA für 3-MCC-Mangel</li>
+                        <li>Glutaryl-CoA für Glutaracidämie (zusätzlich)</li>
+                    </ul>
+                    
+                    <p><strong>Screening-Impact:</strong></p>
+                    <ul>
+                        <li><strong>Präsymptomatische Diagnose:</strong> 85-90% aller Fälle</li>
+                        <li><strong>Mortalitätsreduktion:</strong> Von 40% auf <10% (schwere Formen)</li>
+                        <li><strong>Neurologische Outcome:</strong> Drastische Verbesserung bei GA-I</li>
+                        <li><strong>Falsch-positive Rate:</strong> <0,1% (sehr spezifisch)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('biochemie')">Weiter zur Biochemie →</button>
+            </div>
+        </div>
+
+        <!-- Biochemie -->
+        <div class="content-section" id="biochemie">
+            <h2 class="section-title">⚗️ Biochemische Pathways - Detailwissen</h2>
+            
+            <div class="subsection">
+                <h3>1. Methylmalonacidämie: Propionyl-CoA-Pathway</h3>
+                <div class="pathway-diagram">
+                    <h4>Der Propionyl-CoA zu Succinyl-CoA Weg</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Propionyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Propionyl-CoA-Carboxylase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Methylmalonyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: Carboxylierung (Biotin-abhängig)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Methylmalonyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Methylmalonyl-CoA-Racemase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">(S)-Methylmalonyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Stereoisomerie-Umwandlung</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">(S)-Methylmalonyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">Methylmalonyl-CoA-Mutase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Succinyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Umlagerung (Cobalamin-abhängig) ← DEFEKT</div>
+                    </div>
+                    
+                    <p style="text-align: center; font-weight: bold; margin-top: 1rem;"><strong>Succinyl-CoA</strong> → Eintritt in Citratzyklus (Energiegewinnung)</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Cobalamin-Stoffwechsel: Der Schlüssel zu MMA</h4>
+                    <p><strong>Zwei Cobalamin-abhängige Enzyme:</strong></p>
+                    <ul>
+                        <li><strong>Methylmalonyl-CoA-Mutase:</strong> Benötigt Adenosylcobalamin (AdoCbl)</li>
+                        <li><strong>Methionin-Synthase:</strong> Benötigt Methylcobalamin (MeCbl)</li>
+                    </ul>
+                    
+                    <p><strong>MMA-Klassifikation nach Cobalamin-Responsivität:</strong></p>
+                    <ul>
+                        <li><strong>mut0:</strong> Kompletter Mutase-Defekt, nicht B12-responsiv</li>
+                        <li><strong>mut-:</strong> Partieller Mutase-Defekt, teilweise B12-responsiv</li>
+                        <li><strong>cblA, cblB:</strong> AdoCbl-Synthesedefekte, B12-responsiv</li>
+                        <li><strong>cblC, cblD:</strong> Kombinierte Defekte (MMA + Homocystinurie)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>2. Propionacidämie: Biotinabhängige Carboxylierung</h3>
+                <div class="pathway-diagram">
+                    <h4>Propionyl-CoA-Carboxylase (PCC) Reaktion</h4>
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #e2e8f0;">
+                        <p><strong>Reaktion:</strong> Propionyl-CoA + CO₂ + ATP → Methylmalonyl-CoA + ADP + Pi</p>
+                        <div style="font-family: monospace; font-size: 1.1em; margin: 10px 0; text-align: center;">
+                            <span style="color: #dc2626;">CH₃-CH₂-CO-SCoA</span> + 
+                            <span style="color: #2563eb;">CO₂</span> + 
+                            <span style="color: #16a34a;">ATP</span>
+                            <br>↓ PCC (Biotin)
+                            <br><span style="color: #8b5cf6;">CH₃-CH(COOH)-CO-SCoA</span> + 
+                            <span style="color: #f59e0b;">ADP + Pi</span>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🔥 Substratquellen für Propionyl-CoA</h5>
+                            <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">Valin, Isoleucin (BCAA)</div>
+                            <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">Threonin, Methionin</div>
+                            <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">Odd-chain Fettsäuren</div>
+                            <div class="metabolite-box" style="margin: 5px 0; width: 100%; text-align: center;">Cholesterol Seitenkette</div>
+                        </div>
+                        <div>
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">⚡ PCC-Struktur</h5>
+                            <div class="enzyme-box" style="margin: 5px 0; width: 100%; text-align: center;">α-Untereinheit (PCCA)</div>
+                            <div class="enzyme-box" style="margin: 5px 0; width: 100%; text-align: center;">β-Untereinheit (PCCB)</div>
+                            <div class="enzyme-box" style="margin: 5px 0; width: 100%; text-align: center;">Biotin-Cofaktor</div>
+                            <div class="enzyme-box" style="margin: 5px 0; width: 100%; text-align: center;">Mg²⁺/Mn²⁺-abhängig</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>3. Isovalerianacidämie: Leucin-Abbauweg</h3>
+                <div class="pathway-diagram">
+                    <h4>Leucin-Katabolismus - Der erste Schritt</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Leucin</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">BCAA-Transaminase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">α-Ketoisocaproat</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: Transaminierung (reversibel)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">α-Ketoisocaproat</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">BCKD-Komplex</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Isovaleryl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Oxidative Decarboxylierung (irreversibel)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Isovaleryl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">Isovaleryl-CoA-DH</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Methylcrotonyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Dehydrierung (FAD-abhängig) ← DEFEKT</div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>🔬 "Sweaty Feet Odor" - Charakteristisches Symptom</h4>
+                    <p><strong>Biochemische Grundlage des Geruchs:</strong></p>
+                    <ul>
+                        <li><strong>Isovaleryl-CoA akkumuliert</strong> → Hydrolyse zu Isovaleriansäure</li>
+                        <li><strong>Isovaleriansäure = "Schweiß"-Geruch</strong> (erkennbar bei 1-2 μmol/l)</li>
+                        <li><strong>Isovalerylglycin-Bildung</strong> als Detoxifikationsweg</li>
+                        <li><strong>Diagnostischer Marker:</strong> Isovalerylglycin im Urin (GC-MS)</li>
+                    </ul>
+                    
+                    <p><strong>Alternative Abbauwege:</strong></p>
+                    <ul>
+                        <li>Konjugation mit Glycin → Isovalerylglycin (Hauptweg)</li>
+                        <li>Konjugation mit Carnitin → Isovalerylcarnitin</li>
+                        <li>Hydroxylierung → 3-Hydroxyisovaleriansäure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>4. Glutaracidämie Typ I: Lysin/Tryptophan-Degradation</h3>
+                <div class="pathway-diagram">
+                    <h4>Glutaryl-CoA-Dehydrogenase Reaktion</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <h5 style="color: #8b5cf6; margin-bottom: 15px;">📍 Lysin-Pathway</h5>
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                <div class="metabolite-box">Lysin</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">Saccharopin</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">α-Aminoadipat</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">Glutaryl-CoA</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 style="color: #f59e0b; margin-bottom: 15px;">🔄 Tryptophan-Pathway</h5>
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                <div class="metabolite-box">Tryptophan</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">Kynurenin</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">2-Aminoadipat</div>
+                                <div class="arrow" style="transform: rotate(90deg);">↓</div>
+                                <div class="metabolite-box">Glutaryl-CoA</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                        <div class="enzyme-box defect" style="font-size: 1.2em;">Glutaryl-CoA-Dehydrogenase (GCDH) ← DEFEKT</div>
+                        <div class="arrow" style="margin: 15px 0; color: #dc2626;">↓ BLOCKADE</div>
+                        <div style="color: #dc2626; font-weight: bold;">Glutaryl-CoA + 3-Hydroxyglutarsäure akkumulieren</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Striatal Vulnerability: Warum die Basalganglien?</h4>
+                    <p><strong>Selektive Neurotoxizität erklärt sich durch:</strong></p>
+                    <ul>
+                        <li><strong>Hohe GCDH-Expression im Striatum</strong> physiologisch</li>
+                        <li><strong>Glutarsäure wirkt als NMDA-Agonist</strong> → Excitotoxizität</li>
+                        <li><strong>Unreife Blut-Hirn-Schranke</strong> bei Säuglingen durchlässiger</li>
+                        <li><strong>Energiedefizit</strong> besonders in metabolisch aktiven Neuronen</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Konsequenz:</strong></p>
+                    <ul>
+                        <li><strong>Akute Encephalopathic Crisis</strong> führt zu irreversiblem Striatumschaden</li>
+                        <li><strong>Prävention durch Lysinarme Diät</strong> reduziert Substratanfall</li>
+                        <li><strong>Frühe Diagnose entscheidend</strong> (Fenster bis ~2 Jahre)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>5. 3-Methylcrotonyl-CoA-Carboxylase-Mangel: Leucin-Zweitzschritt</h3>
+                <div class="pathway-diagram">
+                    <h4>Leucin-Abbau nach Isovaleryl-CoA-DH</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">3-Methylcrotonyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">3-Methylcrotonyl-CoA-Carboxylase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Methylglutaconyl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 4 Leucin-Abbau: Carboxylierung (Biotin-abhängig) ← DEFEKT</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">3-Methylglutaconyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Methylglutaconyl-CoA-Hydratase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">3-Hydroxy-3-Methylglutaryl-CoA</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 5: Hydratisierung (normal)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">HMG-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">HMG-CoA-Lyase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Acetoacetyl-CoA + Acetat</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 6: Spaltung → Ketogene Endprodukte</div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>💡 3-MCC: Paradigma der "milden" Organoacidämie</h4>
+                    <p><strong>Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Häufigste Organoacidämie im Screening</strong> (1:50.000)</li>
+                        <li><strong>Meist asymptomatisch</strong> oder sehr milde Symptome</li>
+                        <li><strong>Biotin-responsiv</strong> in etwa 50% der Fälle</li>
+                        <li><strong>Alternative Abbauwege effektiv:</strong> 3-Hydroxyisovaleriansäure</li>
+                    </ul>
+                    
+                    <p><strong>Screening-Marker:</strong></p>
+                    <ul>
+                        <li><strong>3-Hydroxyisovaleryl-Carnitin (C5-OH)</strong> im Blut erhöht</li>
+                        <li><strong>3-Hydroxyisovaleriansäure</strong> im Urin (GC-MS)</li>
+                        <li><strong>3-Methylcrotonylglycin</strong> (weniger spezifisch)</li>
+                    </ul>
+                    
+                    <p><strong>Management-Kontroverse:</strong></p>
+                    <ul>
+                        <li><strong>Behandlungsbedürftigkeit umstritten</strong> bei asymptomatischen</li>
+                        <li><strong>Präventive Biotin-Gabe</strong> oft empfohlen (harmlos)</li>
+                        <li><strong>Stress-Situationen überwachen</strong> (Infekte, Operationen)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('pathophysiologie')">Weiter zur Pathophysiologie →</button>
+            </div>
+        </div>
+
+        <!-- Pathophysiologie -->
+        <div class="content-section" id="pathophysiologie">
+            <h2 class="section-title">🧠 Pathophysiologie - Mechanismen der Schädigung</h2>
+            
+            <div class="subsection">
+                <h3>Toxische Mechanismen organischer Säuren</h3>
+                <div class="pathway-diagram">
+                    <h4>Zelluläre Schädigungsmechanismen</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🔥 Mitochondriale Toxizität</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>CoA-Sequestration → Energiemangel</li>
+                                <li>Elektronentransportketten-Hemmung</li>
+                                <li>Oxidativer Stress ↑</li>
+                                <li>Apoptose-Induktion</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">⚖️ Metabolische Azidose</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Akkumulation organischer Säuren</li>
+                                <li>Lactat-Anstieg (sekundär)</li>
+                                <li>Ketose-Hemmung</li>
+                                <li>Elektrolytverschiebungen</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🧬 Epigenetische Effekte</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Histon-Deacetylase-Hemmung</li>
+                                <li>Genexpression verändert</li>
+                                <li>Entwicklungsstörungen</li>
+                                <li>Langzeitfolgen</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🧠 Neurotransmitter-Störung</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>GABA/Glutamat Imbalance</li>
+                                <li>Dopamin-Synthese ↓</li>
+                                <li>Synaptic pruning gestört</li>
+                                <li>Myelination verzögert</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Hyperammonämie: Der gemeinsame Endpunkt</h3>
+                <div class="highlight-box">
+                    <h4>Mechanismen der Ammoniak-Akkumulation bei Organoacidämien</h4>
+                    <p><strong>1. Direkte Harnstoffzyklus-Hemmung:</strong></p>
+                    <ul>
+                        <li><strong>N-Acetylglutamat-Synthase Inhibition</strong> durch Propionyl-CoA</li>
+                        <li><strong>CPS1-Aktivität ↓</strong> (N-Acetylglutamat = allosterischer Aktivator)</li>
+                        <li><strong>Argininosuccinat-Synthetase Hemmung</strong> durch organische Säuren</li>
+                    </ul>
+
+                    <p><strong>2. Sekundäre metabolische Effekte:</strong></p>
+                    <ul>
+                        <li><strong>ATP-Verbrauch ↑</strong> durch Detoxifikation → Energiemangel</li>
+                        <li><strong>Aspartat-Mangel</strong> durch gestörte Glukoneogenese</li>
+                        <li><strong>Glutamin-Synthese kompensatorisch ↑</strong> → Hirnödem</li>
+                    </ul>
+
+                    <p><strong>3. Hepatische Toxizität:</strong></p>
+                    <ul>
+                        <li><strong>Hepatozyten-Schädigung</strong> durch organische Säuren direkt</li>
+                        <li><strong>Mikrozirkulationsstörungen</strong></li>
+                        <li><strong>Proteinsynthese ↓</strong> (einschließlich Harnstoffzyklus-Enzyme)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Erkrankungsspezifische Pathomechanismen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Haupttoxin</th>
+                            <th>Pathomechanismus</th>
+                            <th>Zielorgan</th>
+                            <th>Spezifische Folgen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Methylmalonacidämie</strong></td>
+                            <td>Methylmalonsäure, Propionsäure</td>
+                            <td>Mitochondriale Dysfunktion, CoA-Sequestration</td>
+                            <td>Niere, ZNS, Herz</td>
+                            <td>Tubulopathie, Enzephalopathie, Kardiomyopathie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>Propionsäure, 3-OH-Propionsäure</td>
+                            <td>Mitochondriale Toxizität, Pankreatitis</td>
+                            <td>Pankreas, ZNS, Herz</td>
+                            <td>Pankreatitis, Basalganglien-Infarkte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isovalerianacidämie</strong></td>
+                            <td>Isovaleriansäure</td>
+                            <td>Milde mitochondriale Störung</td>
+                            <td>ZNS (gering)</td>
+                            <td>Meist milde neurologische Symptome</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutaracidämie I</strong></td>
+                            <td>Glutarsäure, 3-OH-Glutarsäure</td>
+                            <td>NMDA-Rezeptor-Aktivierung, Excitotoxizität</td>
+                            <td>Striatum</td>
+                            <td>Dystonie, choreoathetöse Bewegungen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-MCC-Mangel</strong></td>
+                            <td>3-Methylcrotonsäure</td>
+                            <td>Sehr milde Toxizität</td>
+                            <td>Minimal</td>
+                            <td>Meist asymptomatisch</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Entwicklungsspezifische Vulnerabilität</h3>
+                <div class="case-study">
+                    <h4>🧠 Das unreife Gehirn - Warum Säuglinge besonders betroffen sind</h4>
+                    <p><strong>Anatomische Faktoren:</strong></p>
+                    <ul>
+                        <li><strong>Unreife Blut-Hirn-Schranke</strong> → erhöhte Permeabilität für Toxine</li>
+                        <li><strong>Hohe Zellteilungsrate</strong> → besonders vulnerabel für metabolische Störungen</li>
+                        <li><strong>Myelinisierung unvollständig</strong> → gestörte Signalübertragung</li>
+                        <li><strong>Energiebedarf relativ hoch</strong> → Energiedefizit besonders kritisch</li>
+                    </ul>
+
+                    <p><strong>Metabolische Faktoren:</strong></p>
+                    <ul>
+                        <li><strong>Enzyme-Reifung unvollständig</strong> → schlechtere Detoxifikation</li>
+                        <li><strong>Glykogenspeicher gering</strong> → schnellere Hypoglykämie</li>
+                        <li><strong>Proteinumsatz hoch</strong> → mehr toxische Metaboliten</li>
+                        <li><strong>Kompensationsmechanismen unreif</strong></li>
+                    </ul>
+
+                    <p><strong>Klinische Konsequenzen:</strong></p>
+                    <ul>
+                        <li><strong>Kritische Phasen:</strong> 1. Lebenswoche, 6-24 Monate</li>
+                        <li><strong>Irreversible Schäden</strong> oft schon bei erster Dekompensation</li>
+                        <li><strong>Frühe Diagnose essentiell</strong> → Newborn Screening revolutionär</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulare Pathologie: Von Enzymdefekt zu klinischem Phänotyp</h3>
+                <div class="pathway-diagram">
+                    <h4>Die Kaskade von der Mutation zum klinischen Bild</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fefce8, #fef3c7); padding: 15px; border-radius: 12px; border: 2px solid #f59e0b; width: 100%; text-align: center;">
+                            <h5 style="color: #92400e; margin-bottom: 10px;">🧬 Genetische Ebene</h5>
+                            <p style="color: #92400e;">Mutation → reduzierte/fehlende Enzymaktivität</p>
+                        </div>
+                        <div class="arrow" style="transform: rotate(90deg); color: #f59e0b;">↓</div>
+                        
+                        <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); padding: 15px; border-radius: 12px; border: 2px solid #22c55e; width: 100%; text-align: center;">
+                            <h5 style="color: #065f46; margin-bottom: 10px;">⚗️ Biochemische Ebene</h5>
+                            <p style="color: #065f46;">Substrat-Akkumulation + Produkt-Mangel</p>
+                        </div>
+                        <div class="arrow" style="transform: rotate(90deg); color: #22c55e;">↓</div>
+                        
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 12px; border: 2px solid #3b82f6; width: 100%; text-align: center;">
+                            <h5 style="color: #1e40af; margin-bottom: 10px;">🔬 Zelluläre Ebene</h5>
+                            <p style="color: #1e40af;">Mitochondriale Dysfunktion + oxidativer Stress</p>
+                        </div>
+                        <div class="arrow" style="transform: rotate(90deg); color: #3b82f6;">↓</div>
+                        
+                        <div style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); padding: 15px; border-radius: 12px; border: 2px solid #ec4899; width: 100%; text-align: center;">
+                            <h5 style="color: #be185d; margin-bottom: 10px;">🧠 Organebene</h5>
+                            <p style="color: #be185d;">Gewebsschädigung (ZNS, Leber, Niere, Herz)</p>
+                        </div>
+                        <div class="arrow" style="transform: rotate(90deg); color: #ec4899;">↓</div>
+                        
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 12px; border: 2px solid #ef4444; width: 100%; text-align: center;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🏥 Klinische Ebene</h5>
+                            <p style="color: #dc2626;">Symptome: Azidose, Hypoglykämie, Hyperammonämie, neurologische Defizite</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('klinik')">Weiter zu den klinischen Manifestationen →</button>
+            </div>
+        </div>
+
+        <!-- Klinische Manifestationen -->
+        <div class="content-section" id="klinik">
+            <h2 class="section-title">🏥 Klinische Manifestationen</h2>
+            
+            <div class="subsection">
+                <h3>Altersabhängige Präsentationsmuster</h3>
+                <div class="pathway-diagram">
+                    <h4>Drei Hauptmanifestationsformen</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 20px; border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">👶 Neonatale Form (0-28 Tage)</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li><strong>Schwere metabolische Azidose</strong></li>
+                                <li><strong>Hyperammonämie >300 μmol/l</strong></li>
+                                <li><strong>Bewusstseinstrübung bis Koma</strong></li>
+                                <li><strong>Apnoe-Episoden</strong></li>
+                                <li><strong>Trinkschwäche</strong></li>
+                                <li><strong>Mortalität: 30-50% unbehandelt</strong></li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 20px; border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">🍼 Infantile Form (1-12 Monate)</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li><strong>Gedeihstörung, FTT</strong></li>
+                                <li><strong>Entwicklungsverzögerung</strong></li>
+                                <li><strong>Rezidivierende Krisen</strong></li>
+                                <li><strong>Hepatomegalie</strong></li>
+                                <li><strong>Anfallsleiden möglich</strong></li>
+                                <li><strong>Prognose variabel</strong></li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 20px; border-radius: 12px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🧒 Späte/Partielle Form (>1 Jahr)</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li><strong>Milde Entwicklungsverzögerung</strong></li>
+                                <li><strong>Stress-induzierte Krisen</strong></li>
+                                <li><strong>Chronische Probleme</strong></li>
+                                <li><strong>Protein-Intoleranz</strong></li>
+                                <li><strong>Normale Intelligenz möglich</strong></li>
+                                <li><strong>Beste Prognose</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Erkrankungsspezifische klinische Profile</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organoacidämie</th>
+                            <th>Typisches Erstmanifestationsalter</th>
+                            <th>Charakteristische Symptome</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Methylmalonacidämie</strong></td>
+                            <td>1. Lebenswoche bis 6 Monate</td>
+                            <td>Schwere Azidose, Hyperammonämie, Nierenprobleme</td>
+                            <td>B12-Responsivität bei cbl-Formen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>1. Lebenswoche bis 3 Monate</td>
+                            <td>Schwere Azidose, Pankreatitis, Kardiomyopathie</td>
+                            <td>Oddor (süßlich), Basalganglien-Infarkte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isovalerianacidämie</strong></td>
+                            <td>1. Lebenswoche oder 6-24 Monate</td>
+                            <td>"Sweaty feet" Geruch, milde Azidose</td>
+                            <td>Charakteristischer Geruch diagnostisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutaracidämie I</strong></td>
+                            <td>6-18 Monate (encephalopathic crisis)</td>
+                            <td>Akute Dystonie, Makrozephalie</td>
+                            <td>Striatal-Schäden irreversibel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-MCC-Mangel</strong></td>
+                            <td>Oft asymptomatisch</td>
+                            <td>Milde Entwicklungsverzögerung (wenn überhaupt)</td>
+                            <td>Häufigste im Screening, fragliche Pathogenität</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Acute Dekompensation: Das klinische Notfallbild</h3>
+                <div class="highlight-box">
+                    <h4>Klassische Trias der akuten Krise</h4>
+                    <p><strong>1. Metabolische Azidose mit erhöhter Anionenlücke:</strong></p>
+                    <ul>
+                        <li><strong>pH <7,20, BE <-15 mmol/l</strong></li>
+                        <li><strong>Anionenlücke >20 mmol/l</strong> (organische Säuren)</li>
+                        <li><strong>Kompensatorische Hyperventilation</strong></li>
+                        <li><strong>Kussmaul-Atmung bei schweren Fällen</strong></li>
+                    </ul>
+
+                    <p><strong>2. Hyperammonämie:</strong></p>
+                    <ul>
+                        <li><strong>Moderant: 150-300 μmol/l</strong> (sekundär)</li>
+                        <li><strong>Schwer: >300 μmol/l</strong> (Prognose↓)</li>
+                        <li><strong>Neurologische Symptome ab 100-150 μmol/l</strong></li>
+                        <li><strong>Hirnödem-Risiko ab 300 μmol/l</strong></li>
+                    </ul>
+
+                    <p><strong>3. Bewusstseinsstörung progredient:</strong></p>
+                    <ul>
+                        <li><strong>Lethargie → Somnolenz → Sopor → Koma</strong></li>
+                        <li><strong>Krampfanfälle (20-30% der Krisen)</strong></li>
+                        <li><strong>Fokale neurologische Ausfälle</strong> (besonders PA)</li>
+                        <li><strong>Ateminsuffizienz als Endstadium</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Systemspezifische Manifestationen</h3>
+                <div class="case-study">
+                    <h4>🫀 Kardiale Beteiligung</h4>
+                    <p><strong>Häufigkeit und Pattern:</strong></p>
+                    <ul>
+                        <li><strong>Propionacidämie:</strong> 10-15% entwickeln Kardiomyopathie</li>
+                        <li><strong>Methylmalonacidämie:</strong> 5-10%, meist bei mut0-Form</li>
+                        <li><strong>Typ:</strong> Dilatative > hypertrophe Kardiomyopathie</li>
+                        <li><strong>Reversibilität:</strong> Oft irreversibel, Tx-Indikation</li>
+                    </ul>
+
+                    <p><strong>Pathophysiologie:</strong></p>
+                    <ul>
+                        <li><strong>Direkte Toxizität</strong> organischer Säuren auf Myozyten</li>
+                        <li><strong>Mitochondriale Dysfunktion</strong> → Energiemangel</li>
+                        <li><strong>Oxidativer Stress</strong> → Fibrose</li>
+                        <li><strong>Sekundäre Elektrolytverschiebungen</strong></li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧠 Neurologische Spätfolgen</h4>
+                    <p><strong>Bewegungsstörungen (besonders GA-I und PA):</strong></p>
+                    <ul>
+                        <li><strong>Dystonie:</strong> Häufigste chronische Manifestation</li>
+                        <li><strong>Choreoathetose:</strong> Bei Basalganglien-Schäden</li>
+                        <li><strong>Spastik:</strong> Bei diffuser Hirnschädigung</li>
+                        <li><strong>Ataxie:</strong> Seltener, bei Kleinhirn-Beteiligung</li>
+                    </ul>
+
+                    <p><strong>Kognitive Entwicklung:</strong></p>
+                    <ul>
+                        <li><strong>IQ-Bereich:</strong> 50-120 (sehr variabel)</li>
+                        <li><strong>Faktoren:</strong> Anzahl der Krisen, Hyperammonämie-Schwere</li>
+                        <li><strong>Lernstörungen:</strong> Häufig auch bei milden Verläufen</li>
+                        <li><strong>Aufmerksamkeitsdefizite:</strong> ADHS-ähnliche Symptome</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🩸 Hämatologische Auffälligkeiten</h4>
+                    <p><strong>Neutropenie (häufig bei PA und MMA):</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 30-50% der Patienten</li>
+                        <li><strong>Mechanismus:</strong> Knochenmark-Toxizität durch organische Säuren</li>
+                        <li><strong>Klinik:</strong> Erhöhte Infektanfälligkeit</li>
+                        <li><strong>Management:</strong> G-CSF bei schwerer Neutropenie</li>
+                    </ul>
+
+                    <p><strong>Megaloblastäre Anämie (MMA mit B12-Mangel):</strong></p>
+                    <ul>
+                        <li><strong>Bei cblC, cblD:</strong> Kombinierte MMA + Homocystinurie</li>
+                        <li><strong>Mechanismus:</strong> Gestörte B12-Utilisation</li>
+                        <li><strong>Therapie:</strong> Hydroxocobalamin hochdosiert</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Trigger-Faktoren für akute Dekompensation</h3>
+                <div class="pathway-diagram">
+                    <h4>Die häufigsten Auslöser - Präventionsansätze</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🦠 Infektionen (60%)</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Gastroenteritis mit Erbrechen</li>
+                                <li>Fieberhafte Infekte</li>
+                                <li>Reduktion der Proteinzufuhr</li>
+                                <li><strong>Prävention:</strong> Sick-day management</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🍽️ Diätfehler (20%)</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Protein-Exzess</li>
+                                <li>Fasten >12h</li>
+                                <li>Non-Compliance</li>
+                                <li><strong>Prävention:</strong> Diätschulung</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">⚕️ Medizinische Eingriffe (10%)</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Narkosen</li>
+                                <li>Operationen</li>
+                                <li>Kontrastmittel-Gabe</li>
+                                <li><strong>Prävention:</strong> Prämedikation</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🎂 Wachstumsschübe (5%)</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>Erhöhter Protein-Turnover</li>
+                                <li>Pubertät besonders kritisch</li>
+                                <li>Schwangerschaft (bei Frauen)</li>
+                                <li><strong>Prävention:</strong> Anpassung der Therapie</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #ede9fe, #ddd6fe); border-radius: var(--border-radius); border: 2px solid var(--primary-color);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen, Biochemie, Pathophysiologie und klinischen Manifestationen der Organoacidämien erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit Diagnostik, Therapie und Notfallmanagement</p>
+                    <button class="next-btn">Weiter zu Teil 2 →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'biochemie', 'pathophysiologie', 'klinik'];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

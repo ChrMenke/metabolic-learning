@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmationsdiagnostik - Spezifische Algorithmen I</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --purple-color: #8b5cf6;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .algorithm-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .algorithm-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .algorithm-header {
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
+            position: relative;
+        }
+
+        .algorithm-header.pku {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .algorithm-header.mcad {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .algorithm-header.msud {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .algorithm-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .disease-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .epidemiology {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-top: var(--spacing-md);
+        }
+
+        .algorithm-content {
+            padding: var(--spacing-lg);
+        }
+
+        .flowchart {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flow-step.start {
+            border-color: var(--info-color);
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+        }
+
+        .flow-step.action {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+
+        .flow-step.decision {
+            border-color: var(--warning-color);
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            clip-path: polygon(0 20%, 20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%);
+            padding: var(--spacing-lg);
+        }
+
+        .flow-step.result {
+            border-color: var(--success-color);
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        }
+
+        .flow-step.emergency {
+            border-color: var(--danger-color);
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .flow-step:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid var(--primary-color);
+            position: relative;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            top: -23px;
+            left: -12px;
+            width: 4px;
+            height: 20px;
+            background: var(--primary-color);
+        }
+
+        .parallel-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+            transform: scale(1.01);
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+
+        .emergency-box {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid var(--danger-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .emergency-box::before {
+            content: '🚨';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--danger-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .emergency-box h4 {
+            color: #dc2626;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .emergency-box p, .emergency-box ul, .emergency-box li {
+            color: #dc2626;
+        }
+
+        .key-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .value-box {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-box:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .value-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .value-unit {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .page-number {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-xl);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-md);
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .parallel-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .key-values {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-number">Seite 3/4</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Spezifische Diagnostische Algorithmen I</h1>
+            <p class="subtitle">Detaillierte Konfirmationsdiagnostik für PKU, MCAD und MSUD</p>
+        </div>
+
+        <div class="algorithm-grid">
+            <!-- PKU/MHP Algorithm -->
+            <div class="algorithm-card">
+                <div class="algorithm-header pku">
+                    <div class="algorithm-title">
+                        🧬 Hyperphenylalaninämien
+                        <span class="disease-badge">PKU / MHP</span>
+                    </div>
+                    <div class="epidemiology">
+                        <strong>Epidemiologie:</strong> 1:5.300 (inkl. MHP) | Behandlungsbedürftige PKU: 1:10.000 | 
+                        <strong>Vererbung:</strong> Autosomal-rezessiv (PAH-Gen, 12q24)
+                    </div>
+                </div>
+                
+                <div class="algorithm-content">
+                    <div class="flowchart">
+                        <h4 style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--purple-color);">
+                            Diagnostischer Algorithmus Hyperphenylalaninämien
+                        </h4>
+                        
+                        <div class="flow-container">
+                            <div class="flow-step start">
+                                <strong>NGS: Phe erhöht</strong><br>
+                                Phe im Trockenblut > cut-off<br>
+                                Phe/Tyr-Ratio > cut-off
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step action">
+                                <strong>Plasma-Aminosäuren</strong><br>
+                                Bestätigung erhöhtes Phe<br>
+                                Ausschluss andere AA-Störungen
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step decision">
+                                <strong>Phe erhöht?</strong>
+                            </div>
+                            
+                            <div class="parallel-flow">
+                                <div class="flow-step action">
+                                    <strong>Pterine im Trockenblut</strong><br>
+                                    (oder Urin)
+                                </div>
+                                
+                                <div class="flow-step action">
+                                    <strong>DHPR im Trockenblut</strong>
+                                </div>
+                                
+                                <div class="flow-step action">
+                                    <strong>BH₄-Belastung¹</strong><br>
+                                    (fakultativ)
+                                </div>
+                                
+                                <div class="flow-step action">
+                                    <strong>Genetische Analyse</strong><br>
+                                    PAH-Gen
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step decision">
+                                <strong>Pterine und DHPR normal?</strong>
+                            </div>
+                            
+                            <div class="parallel-flow">
+                                <div class="flow-step result">
+                                    <strong>PAH-defiziente PKU</strong><br>
+                                    (Phe max > 10 mg/dl)
+                                </div>
+                                
+                                <div class="flow-step result">
+                                    <strong>PAH-defiziente MHP</strong><br>
+                                    (Phe max < 10mg/dl)
+                                </div>
+                                
+                                <div class="flow-step emergency">
+                                    <strong>Kofaktorsynthese- oder<br>-recyclingdefekt</strong><br>
+                                    → Sofortige spezielle Diagnostik
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>Wichtige Differentialdiagnose: BH₄-Kofaktordefekte</h4>
+                        <p><strong>Kritisch:</strong> 1-2% aller Hyperphenylalaninämien sind BH₄-Kofaktordefekte</p>
+                        <ul>
+                            <li><strong>Frühe Symptome:</strong> Temperaturregulationsstörung, neurologische Auffälligkeiten</li>
+                            <li><strong>Pathophysiologie:</strong> BH₄ ist auch Kofaktor für Tyrosin- und Tryptophanhydroxylase</li>
+                            <li><strong>Folge:</strong> Beeinträchtigung der Neurotransmittersynthese</li>
+                            <li><strong>Prognose:</strong> Deutlich besser bei sehr frühem Behandlungsbeginn</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-values">
+                        <div class="value-box">
+                            <div class="value-label">PKU Grenzwert</div>
+                            <div class="value-number">10 <span class="value-unit">mg/dl</span></div>
+                        </div>
+                        <div class="value-box">
+                            <div class="value-label">Behandlungsziel</div>
+                            <div class="value-number">2-6 <span class="value-unit">mg/dl</span></div>
+                        </div>
+                        <div class="value-box">
+                            <div class="value-label">BH₄-responsiv</div>
+                            <div class="value-number">20-30 <span class="value-unit">%</span></div>
+                        </div>
+                        <div class="value-box">
+                            <div class="value-label">Kofaktordefekte</div>
+                            <div class="value-number">1-2 <span class="value-unit">%</span></div>
+                        </div>
+                    </div>
+
+                    <div class="case-study">
+                        <h4>💡 Praktischer Hinweis: Kontrollen im ersten Lebensjahr</h4>
+                        <p>Da die Phenylalaninkonzentration postnatal langsam ansteigt und Proben bereits in der 36.-48. Lebensstunde entnommen werden, muss bei initial "nicht behandlungsbedürftigen" Werten durch <strong>wiederholte Kontrollen im ersten bis zweiten Lebensjahr</strong> sichergestellt werden, dass eine behandlungsbedürftige PKU nicht übersehen wird.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MCAD Algorithm -->
+            <div class="algorithm-card">
+                <div class="algorithm-header mcad">
+                    <div class="algorithm-title">
+                        ⚗️ MCAD-Mangel
+                        <span class="disease-badge">Medium-Chain Acyl-CoA DH</span>
+                    </div>
+                    <div class="epidemiology">
+                        <strong>Epidemiologie:</strong> 1:10.000 | <strong>Häufigste</strong> Fettsäureoxidationsstörung | 
+                        <strong>Vererbung:</strong> Autosomal-rezessiv (ACADM-Gen, 1p31)
+                    </div>
+                </div>
+                
+                <div class="algorithm-content">
+                    <div class="flowchart">
+                        <h4 style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--success-color);">
+                            Diagnostischer Algorithmus MCAD-Mangel
+                        </h4>
+                        
+                        <div class="flow-container">
+                            <div class="flow-step start">
+                                <strong>NGS: C8-Carnitin erhöht</strong><br>
+                                C8, C10, C10:1 > cut-off<br>
+                                Charakteristische Ratios
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step action">
+                                <strong>Acylcarnitin-Profil</strong><br>
+                                (Tandem-MS aus Plasma/Serum)<br>
+                                + Freies Carnitin
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="parallel-flow">
+                                <div class="flow-step action">
+                                    <strong>Organische Säuren</strong><br>
+                                    Urin: Suberat, Adipat<br>
+                                    (Dicarboxylsäuren)
+                                </div>
+                                
+                                <div class="flow-step action">
+                                    <strong>Molekulargenetik</strong><br>
+                                    ACADM-Gen<br>
+                                    c.985A>G Screening
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step result">
+                                <strong>MCAD-Mangel bestätigt</strong><br>
+                                Therapie: Fasten-Vermeidung<br>
+                                L-Carnitin-Substitution
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="clinical-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>MCAD-typische Befunde</th>
+                                <th>Normwerte</th>
+                                <th>Interpretation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>C8-Carnitin</strong></td>
+                                <td>>3 μmol/l</td>
+                                <td><0,4 μmol/l</td>
+                                <td>Pathognomonisch</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C10-Carnitin</strong></td>
+                                <td>>1,5 μmol/l</td>
+                                <td><0,3 μmol/l</td>
+                                <td>Unterstützend</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C8/C10-Ratio</strong></td>
+                                <td>Meist <4</td>
+                                <td>-</td>
+                                <td>Differentialdiagnose</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Freies Carnitin</strong></td>
+                                <td>Erniedrigt</td>
+                                <td>25-50 μmol/l</td>
+                                <td>Sekundärer Mangel</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Suberat (Urin)</strong></td>
+                                <td>Stark erhöht</td>
+                                <td>Spuren</td>
+                                <td>ω-Oxidation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="highlight-box">
+                        <h4>Häufigste Mutation: c.985A>G (p.Lys329Glu)</h4>
+                        <p><strong>Nordeuropäische Population:</strong> 70% aller MCAD-Allele</p>
+                        <ul>
+                            <li><strong>Homozygotie:</strong> Klassischer schwerer Phänotyp</li>
+                            <li><strong>Compound heterozygot:</strong> Variable Klinik</li>
+                            <li><strong>Diagnostischer Vorteil:</strong> Schnelle molekulargenetische Bestätigung</li>
+                            <li><strong>Familienplanung:</strong> Pränataldiagnostik möglich</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-box">
+                        <h4>Notfalltherapie bei akuter Dekompensation</h4>
+                        <ul>
+                            <li><strong>Sofort:</strong> Glukose 10% i.v. (2 ml/kg als Bolus)</li>
+                            <li><strong>Erhaltung:</strong> Glukose-Dauerinfusion 8-10 mg/kg/min</li>
+                            <li><strong>L-Carnitin:</strong> 150-200 mg/kg/d i.v. (dann oral)</li>
+                            <li><strong>Monitoring:</strong> BZ engmaschig, CK, Laktat</li>
+                            <li><strong>Ziel:</strong> BZ >4,0 mmol/l (70 mg/dl)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MSUD Algorithm -->
+            <div class="algorithm-card">
+                <div class="algorithm-header msud">
+                    <div class="algorithm-title">
+                        🍁 Ahornsirupkrankheit
+                        <span class="disease-badge">MSUD</span>
+                    </div>
+                    <div class="epidemiology">
+                        <strong>Epidemiologie:</strong> 1:150.000 (Deutschland) | Extreme Varianz: 1:350 (Mennoniten) bis 1:290.000 | 
+                        <strong>Vererbung:</strong> Autosomal-rezessiv (4 Gene)
+                    </div>
+                </div>
+                
+                <div class="algorithm-content">
+                    <div class="flowchart">
+                        <h4 style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--warning-color);">
+                            Diagnostischer Algorithmus MSUD
+                        </h4>
+                        
+                        <div class="flow-container">
+                            <div class="flow-step start">
+                                <strong>NGS: Xle erhöht</strong><br>
+                                Leu + Ile + allo-Ile + OH-Pro<br>
+                                (Valin initial oft noch normal)
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step action">
+                                <strong>Aminosäuren im Plasma</strong><br>
+                                Quantitative Bestimmung<br>
+                                Leu, Ile, Val, allo-Ile
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step decision">
+                                <strong>Leu/Ile/Val erhöht?</strong><br>
+                                BCKA erhöht?
+                            </div>
+                            
+                            <div class="parallel-flow">
+                                <div class="flow-step action">
+                                    <strong>Organische Säuren</strong><br>
+                                    Urin: BCKA-Derivate<br>
+                                    (kann initial normal sein)
+                                </div>
+                                
+                                <div class="flow-step action">
+                                    <strong>Molekulargenetik</strong><br>
+                                    BCKDHA, BCKDHB<br>
+                                    DBT, DLD Gene
+                                </div>
+                            </div>
+                            
+                            <div class="flow-arrow"></div>
+                            
+                            <div class="flow-step emergency">
+                                <strong>MSUD bestätigt</strong><br>
+                                SOFORTIGE Therapie!<br>
+                                Protein-Restriktion + Dialyse
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-box">
+                        <h4>LEBENSGEFAHR! Sofortige stationäre Aufnahme</h4>
+                        <p><strong>Klassische Form:</strong> Lebensbedrohliche Symptome in der Neonatalperiode</p>
+                        <ul>
+                            <li><strong>Neurologisch:</strong> Lethargie, Krampfanfälle, Koma</li>
+                            <li><strong>Metabolisch:</strong> Ketoazidose, Hypoglykämie</li>
+                            <li><strong>Charakteristisch:</strong> Ahornsirupgeruch im Urin</li>
+                            <li><strong>Soforttherapie:</strong> Protein-STOPP, Dialyse bei Leu >400 μmol/l</li>
+                        </ul>
+                    </div>
+
+                    <table class="clinical-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Klassische MSUD</th>
+                                <th>Intermediäre Form</th>
+                                <th>Normwerte</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Leucin (μmol/l)</strong></td>
+                                <td>>1000 (Notfall!)</td>
+                                <td>200-600</td>
+                                <td>70-170</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Isoleucin (μmol/l)</strong></td>
+                                <td>>300</td>
+                                <td>100-200</td>
+                                <td>30-90</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Valin (μmol/l)</strong></td>
+                                <td>>500</td>
+                                <td>200-400</td>
+                                <td>110-320</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enzymrestaktivität</strong></td>
+                                <td>0-2%</td>
+                                <td>3-30%</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Klinische Manifestation</strong></td>
+                                <td>Neonatal</td>
+                                <td>Variable/intermittierend</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="highlight-box">
+                        <h4>Genetische Komplexität: 4 betroffene Gene</h4>
+                        <ul>
+                            <li><strong>BCKDHA (19q13.2):</strong> E1α-Untereinheit</li>
+                            <li><strong>BCKDHB (6q14.1):</strong> E1β-Untereinheit</li>
+                            <li><strong>DBT (1p21.1):</strong> E2-Untereinheit</li>
+                            <li><strong>DLD (7q31.1):</strong> E3-Untereinheit (= MSUD Typ III)</li>
+                        </ul>
+                        <p><strong>Besonderheit DLD:</strong> Betrifft auch Pyruvat- und α-Ketoglutarat-Dehydrogenase → schwereres biochemisches Profil mit Laktaterhöhung</p>
+                    </div>
+
+                    <div class="case-study">
+                        <h4>💡 Therapie-Essentials</h4>
+                        <ul>
+                            <li><strong>Akut:</strong> Leucin-freie Aminosäuremischung, Insulin-Glukose-Infusion</li>
+                            <li><strong>Langzeit:</strong> Protein-beschränkte Diät (0,5-1,5 g/kg/d)</li>
+                            <li><strong>Monitoring:</strong> Leu-Zielspiegel 70-170 μmol/l</li>
+                            <li><strong>Notfall:</strong> Bei Infekten sofortige Protein-Karenz</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="goToPreviousPage()">← Zurück zu Seite 2</button>
+            <button class="next-btn" onclick="goToNextPage()">Weiter zu Seite 4: Spezifische Algorithmen II →</button>
+        </div>
+    </div>
+
+    <script>
+        function goToPreviousPage() {
+            alert('In der vollständigen Implementierung würde hier zu Seite 2 zurück gewechselt werden.');
+        }
+
+        function goToNextPage() {
+            alert('In der vollständigen Implementierung würde hier Seite 4 geladen werden.\n\nSeite 4 behandelt:\n• Weitere Fettsäureoxidationsstörungen (VLCAD, LCHAD)\n• Galaktosämie und Biotinidasemangel\n• Fallbeispiele und interaktive Quizzes\n• Zusammenfassung und Praxistipps');
+        }
+
+        // Enhanced animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate algorithm cards on scroll
+            const cards = document.querySelectorAll('.algorithm-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Interactive flow steps
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    // Add pulse animation
+                    this.style.animation = 'pulse 0.6s ease-out';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 600);
+                });
+            });
+
+            // Value boxes animation
+            const valueBoxes = document.querySelectorAll('.value-box');
+            valueBoxes.forEach((box, index) => {
+                setTimeout(() => {
+                    box.style.opacity = '1';
+                    box.style.transform = 'scale(1)';
+                }, index * 100);
+                
+                box.style.opacity = '0';
+                box.style.transform = 'scale(0.8)';
+                box.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            });
+
+            // Table row hover effects
+            const tableRows = document.querySelectorAll('.clinical-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f0f9ff';
+                    this.style.borderLeft = '4px solid var(--primary-color)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                    this.style.borderLeft = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

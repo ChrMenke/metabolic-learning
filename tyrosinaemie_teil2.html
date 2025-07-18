@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hepatorenale Tyrosinämie - Teil 2</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            margin: var(--spacing-lg) auto 0;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            width: 0%;
+        }
+
+        /* Part info */
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .part-info p {
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeInStagger {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--bg-white);
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box h4 {
+            color: var(--warning-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .alert-box {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid var(--danger-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--bg-white);
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .alert-box h4 {
+            color: var(--danger-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .success-box::before {
+            content: '✅';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--bg-white);
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .success-box h4 {
+            color: var(--success-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        /* Pathway diagram */
+        .pathway-diagram {
+            background: var(--bg-lighter);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .enzyme-box {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .enzyme-box:hover {
+            transform: scale(1.05);
+        }
+
+        .metabolite-box {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            text-align: center;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Dosing calculator */
+        .dosing-calculator {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        .dosing-calculator h4 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .input-group {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            min-width: 120px;
+        }
+
+        .input-group input {
+            padding: var(--spacing-sm);
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 120px;
+        }
+
+        .calc-result {
+            background: var(--bg-white);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-top: var(--spacing-md);
+            border-left: 4px solid var(--success-color);
+        }
+
+        /* Next/Previous buttons */
+        .navigation-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .nav-btn-large {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn-large:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-btn-large.secondary {
+            background: linear-gradient(135deg, var(--text-muted), var(--text-secondary));
+        }
+
+        /* Quiz styles */
+        .quiz-question {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .quiz-options {
+            margin-top: var(--spacing-md);
+        }
+
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .quiz-option.selected {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: transparent;
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border-color: transparent;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-color: transparent;
+        }
+
+        .quiz-feedback {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #22c55e;
+            color: #15803d;
+        }
+
+        .quiz-feedback.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 1px solid #ef4444;
+            color: #dc2626;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: var(--spacing-md);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .subsection {
+                padding: var(--spacing-md);
+            }
+
+            .navigation-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Hepatorenale Tyrosinämie</h1>
+            <p>Teil 2: Diagnostik, Therapie & Monitoring</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>🔬 Lerneinheit Teil 2</h3>
+            <p>Dieser zweite Teil behandelt Diagnostik, pharmakologische und diätetische Therapie sowie das langfristige Monitoring von Patienten mit HT1.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('diagnostik')">1. Diagnostik</button>
+            <button class="nav-btn" onclick="showSection('therapie')">2. Therapie</button>
+            <button class="nav-btn" onclick="showSection('monitoring')">3. Monitoring</button>
+            <button class="nav-btn" onclick="showSection('fallbeispiel')">4. Fallbeispiel</button>
+        </div>
+
+        <!-- Diagnostik Section -->
+        <div class="content-section active" id="diagnostik">
+            <h2 class="section-title">Diagnostik</h2>
+            
+            <div class="subsection">
+                <h3>Neugeborenenscreening</h3>
+                <p>Das erweiterte Neugeborenenscreening ist essentiell für die frühe Diagnose von HT1, da klinische Symptome oft erst nach Wochen bis Monaten auftreten.</p>
+                
+                <div class="success-box">
+                    <h4>🎯 Screeningparameter</h4>
+                    <p><strong>Primärparameter:</strong> Sukzinylazeton (SA) im Trockenblut</p>
+                    <p><strong>Sekundärparameter:</strong> Erhöhtes Tyrosin (oft normal bei Neugeborenen!)</p>
+                    <p><strong>Sensitivität:</strong> >95% bei SA-Bestimmung</p>
+                    <p><strong>Timing:</strong> 36-72 Stunden postnatal</p>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Grenzwert</th>
+                            <th>Einheit</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sukzinylazeton</strong></td>
+                            <td>>5,5</td>
+                            <td>μmol/L</td>
+                            <td>Hochspezifisch für HT1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tyrosin</strong></td>
+                            <td>>200</td>
+                            <td>μmol/L</td>
+                            <td>Oft normal bei Neugeborenen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Methionin</strong></td>
+                            <td>>100</td>
+                            <td>μmol/L</td>
+                            <td>Sekundär erhöht</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Konfirmationsdiagnostik</h3>
+                <p>Bei positivem Screening ist eine sofortige Konfirmationsdiagnostik erforderlich.</p>
+                
+                <div class="pathway-diagram">
+                    <h4>🔄 Diagnostischer Algorithmus</h4>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Positives Screening</div>
+                            <div style="margin: 10px 0;">↓</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Sofortige Kontaktaufnahme</div>
+                            <div style="margin: 10px 0;">↓</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="enzyme-box">SA-Bestätigung (Urin/Blut)</div>
+                            <div style="margin: 10px 0;">↓</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="metabolite-box">Aminosäurenanalyse</div>
+                            <div style="margin: 10px 0;">↓</div>
+                        </div>
+                        <br>
+                        <div style="display: inline-block; margin: 10px;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">Genetische Diagnostik</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <h4>⚡ Notfallprotokoll bei positivem Screening</h4>
+                    <ul>
+                        <li><strong>Sofort:</strong> Kontaktaufnahme mit Stoffwechselzentrum (innerhalb 24h)</li>
+                        <li><strong>Innerhalb 48h:</strong> Konfirmationsdiagnostik (SA in Urin/Blut)</li>
+                        <li><strong>Bei Bestätigung:</strong> Sofortiger Therapiebeginn mit Nitisinon</li>
+                        <li><strong>Parallel:</strong> Genetische Diagnostik einleiten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Labordiagnostik bei klinischem Verdacht</h3>
+                <p>Bei später Manifestation ohne Screening oder unklaren klinischen Zeichen.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Untersuchung</th>
+                            <th>Material</th>
+                            <th>Pathologische Befunde</th>
+                            <th>Diagnostische Wertigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sukzinylazeton</strong></td>
+                            <td>Urin, Blut</td>
+                            <td>>5,5 μmol/L (Blut), >2 mmol/mol Kreatinin (Urin)</td>
+                            <td>Pathognomonisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aminosäuren</strong></td>
+                            <td>Plasma</td>
+                            <td>Tyrosin ↑↑, Methionin ↑, Phenylalanin ↑</td>
+                            <td>Hinweisend</td>
+                        </tr>
+                        <tr>
+                            <td><strong>α-Fetoprotein</strong></td>
+                            <td>Serum</td>
+                            <td>Stark erhöht (>400 ng/ml)</td>
+                            <td>Monitoring HCC-Risiko</td>
+                        </tr>
+                        <tr>
+                            <td><strong>δ-Aminolävulinsäure</strong></td>
+                            <td>Urin</td>
+                            <td>Erhöht bei Porphyrie-Krisen</td>
+                            <td>Komplikationserkennung</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Genetische Diagnostik</h3>
+                <p>Molekulargenetische Untersuchung des FAH-Gens bestätigt die Diagnose und ermöglicht Familienscreening.</p>
+                
+                <div class="highlight-box">
+                    <h4>🧬 FAH-Gen (15q25.1)</h4>
+                    <p><strong>Vererbung:</strong> Autosomal-rezessiv</p>
+                    <p><strong>Mutationen:</strong> >80 verschiedene Varianten beschrieben</p>
+                    <p><strong>Häufige Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>Quebec:</strong> c.1062+5G>A (IVS12+5G>A) - 88% der Allele</li>
+                        <li><strong>Europa:</strong> c.786G>A, c.554-1G>T, c.837+1G>A</li>
+                        <li><strong>Türkei:</strong> c.1021C>T (p.Gln341*)</li>
+                    </ul>
+                </div>
+
+                <p><strong>Genotyp-Phänotyp-Korrelation:</strong> Der Schweregrad korreliert mit der FAH-Restaktivität. Null-Mutationen führen zur schweren frühen Form, während Missense-Mutationen mildere Verläufe bedingen können.</p>
+            </div>
+        </div>
+
+        <!-- Therapie Section -->
+        <div class="content-section" id="therapie">
+            <h2 class="section-title">Therapie</h2>
+            
+            <div class="subsection">
+                <h3>Nitisinon (NTBC) - Pharmakologische Therapie</h3>
+                <p>Nitisinon ist die Grundlage der HT1-Therapie durch Substratreduktion. Es hemmt die 4-Hydroxyphenylpyruvat-Dioxygenase und verhindert die Bildung toxischer Metabolite.</p>
+                
+                <div class="success-box">
+                    <h4>🎯 Wirkmechanismus</h4>
+                    <p><strong>Hemmung:</strong> 4-Hydroxyphenylpyruvat-Dioxygenase</p>
+                    <p><strong>Effekt:</strong> Reduktion von Fumarylacetoacetat und Sukzinylazeton</p>
+                    <p><strong>Folge:</strong> Akkumulation von Tyrosin und 4-Hydroxyphenylpyruvat</p>
+                    <p><strong>Zulassung:</strong> 2005 als Orphan Drug (EMA)</p>
+                </div>
+
+                <div class="dosing-calculator">
+                    <h4>💊 Dosierungsrechner</h4>
+                    <div class="input-group">
+                        <label for="weight">Körpergewicht:</label>
+                        <input type="number" id="weight" placeholder="kg" min="1" max="100">
+                        <span>kg</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="age">Alter:</label>
+                        <input type="number" id="age" placeholder="Jahre" min="0" max="100">
+                        <span>Jahre</span>
+                    </div>
+                    <button onclick="calculateDose()" style="background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Dosis berechnen</button>
+                    <div class="calc-result" id="doseResult" style="display: none;">
+                        <strong>Empfohlene Dosierung:</strong>
+                        <div id="doseOutput"></div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Initial</th>
+                            <th>Erhaltung</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Initialdosis</strong></td>
+                            <td>1-2 mg/kg/Tag</td>
+                            <td>0,5-1 mg/kg/Tag</td>
+                            <td>Aufgeteilt in 2 Dosen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Darreichung</strong></td>
+                            <td>Suspension (Kleinkinder)</td>
+                            <td>Hartkapseln (>20 kg)</td>
+                            <td>Einnahme nüchtern</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoring</strong></td>
+                            <td>SA wöchentlich</td>
+                            <td>SA alle 3 Monate</td>
+                            <td>Ziel: SA nicht nachweisbar</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adjustierung</strong></td>
+                            <td>Nach SA-Werten</td>
+                            <td>Minimale wirksame Dosis</td>
+                            <td>Keine automatische KG-Anpassung</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Nebenwirkungen und Kontraindikationen</h3>
+                <div class="alert-box">
+                    <h4>⚠️ Wichtige Nebenwirkungen</h4>
+                    <p><strong>Okuläre Komplikationen:</strong> Keratopathie, Konjunktivitis (durch Tyrosinakkumulation)</p>
+                    <p><strong>Hämatologisch:</strong> Thrombozytopenie (selten)</p>
+                    <p><strong>Neurologisch:</strong> Selten Entwicklungsauffälligkeiten</p>
+                    <p><strong>Interaktionen:</strong> CYP2C9-Inhibition (Warfarin, Phenytoin)</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🚫 Absolute Kontraindikationen</h4>
+                    <ul>
+                        <li><strong>Plötzliches Absetzen:</strong> Risiko für Porphyrie-Krisen</li>
+                        <li><strong>Schwangerschaft:</strong> Fortsetzung erforderlich (Nutzen > Risiko)</li>
+                        <li><strong>Stillen:</strong> Fortsetzung unter Überwachung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Ernährungstherapie</h3>
+                <p>Die diätetische Behandlung zielt auf die Reduktion von Tyrosin und Phenylalanin ab, um okuläre Komplikationen zu vermeiden.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Alter</th>
+                            <th>Tyrosin-Zielwerte</th>
+                            <th>Phenylalanin-Zielwerte</th>
+                            <th>Diätetische Maßnahmen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0-2 Jahre</strong></td>
+                            <td>200-400 μmol/L</td>
+                            <td>120-360 μmol/L</td>
+                            <td>Spezialnahrung, eingeschränkte Beikost</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2-10 Jahre</strong></td>
+                            <td>200-500 μmol/L</td>
+                            <td>120-360 μmol/L</td>
+                            <td>Eiweißarme Diät, Aminosäurenmischung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>>10 Jahre</strong></td>
+                            <td>200-500 μmol/L</td>
+                            <td>120-360 μmol/L</td>
+                            <td>Moderat protein-reduziert</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pathway-diagram">
+                    <h4>🍽️ Diätetische Prinzipien</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 1px solid #22c55e;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">✅ Erlaubt</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                Kohlenhydrate<br>
+                                Fette<br>
+                                Obst (begrenzt)<br>
+                                Gemüse (begrenzt)
+                            </p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fff7ed; border-radius: 8px; border: 1px solid #f97316;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">⚠️ Begrenzt</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                Getreide<br>
+                                Hülsenfrüchte<br>
+                                Nüsse<br>
+                                Milchprodukte
+                            </p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fef2f2; border-radius: 8px; border: 1px solid #ef4444;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">❌ Verboten</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                Fleisch<br>
+                                Fisch<br>
+                                Eier<br>
+                                Käse (hoch-protein)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lebertransplantation</h3>
+                <p>Die Lebertransplantation bleibt eine wichtige Therapieoption bei bestimmten Indikationen.</p>
+                
+                <div class="highlight-box">
+                    <h4>🏥 Indikationen zur Lebertransplantation</h4>
+                    <ul>
+                        <li><strong>Primär:</strong> Hepatozelluläres Karzinom (HCC)</li>
+                        <li><strong>Sekundär:</strong> Dekompensierte Leberzirrhose</li>
+                        <li><strong>Relativ:</strong> Therapieresistenz, schwere Nebenwirkungen</li>
+                        <li><strong>Präventiv:</strong> Nicht empfohlen (Nitisinon-Therapie effektiv)</li>
+                    </ul>
+                </div>
+
+                <p><strong>Besonderheiten nach Transplantation:</strong> Nach erfolgreicher Lebertransplantation kann Nitisinon abgesetzt werden, da die transplantierte Leber normale FAH-Aktivität besitzt. Die Diät kann liberalisiert werden.</p>
+            </div>
+        </div>
+
+        <!-- Monitoring Section -->
+        <div class="content-section" id="monitoring">
+            <h2 class="section-title">Langzeit-Monitoring</h2>
+            
+            <div class="subsection">
+                <h3>Laborparameter</h3>
+                <p>Regelmäßige Laborkontrollen sind essentiell für die optimale Therapiesteuerung und Komplikationserkennung.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Häufigkeit</th>
+                            <th>Zielwerte</th>
+                            <th>Klinische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sukzinylazeton</strong></td>
+                            <td>Alle 3 Monate</td>
+                            <td>Nicht nachweisbar</td>
+                            <td>Therapieeffektivität</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tyrosin</strong></td>
+                            <td>Alle 3 Monate</td>
+                            <td>200-500 μmol/L</td>
+                            <td>Diätkontrolle, okuläre Komplikationen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>α-Fetoprotein</strong></td>
+                            <td>Alle 3-6 Monate</td>
+                            <td><50 ng/ml</td>
+                            <td>HCC-Früherkennung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leberfunktion</strong></td>
+                            <td>Alle 3 Monate</td>
+                            <td>Normbereich</td>
+                            <td>Leberstatus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nierenfunktion</strong></td>
+                            <td>Alle 6 Monate</td>
+                            <td>Normbereich</td>
+                            <td>Tubulopathie-Monitoring</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>HCC-Screening</h3>
+                <p>Das Risiko für hepatozelluläre Karzinome bleibt auch unter Nitisinon-Therapie erhöht, besonders bei später Therapieeinleitung.</p>
+                
+                <div class="alert-box">
+                    <h4>🎯 HCC-Überwachung</h4>
+                    <p><strong>α-Fetoprotein:</strong> Alle 3-6 Monate (Ziel: <50 ng/ml)</p>
+                    <p><strong>Bildgebung:</strong> Abdomen-Sonographie alle 6 Monate</p>
+                    <p><strong>Bei Auffälligkeiten:</strong> MRT/CT Abdomen mit Kontrastmittel</p>
+                    <p><strong>Risikofaktoren:</strong> Später Therapiebeginn, schlechte Stoffwechselkontrolle</p>
+                </div>
+
+                <div class="pathway-diagram">
+                    <h4>📈 HCC-Risiko nach Therapiebeginn</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 1px solid #22c55e;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">Therapie <2 Monate</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">HCC-Risiko: <2%</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fff7ed; border-radius: 8px; border: 1px solid #f97316;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">Therapie 2-6 Monate</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">HCC-Risiko: 10-15%</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fef2f2; border-radius: 8px; border: 1px solid #ef4444;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Therapie >2 Jahre</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">HCC-Risiko: 40-60%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Ophthalmologische Überwachung</h3>
+                <p>Regelmäßige augenärztliche Kontrollen sind wegen des Risikos tyrosin-bedingter Keratopathie erforderlich.</p>
+                
+                <div class="highlight-box">
+                    <h4>👁️ Augenärztliche Kontrollen</h4>
+                    <p><strong>Häufigkeit:</strong> Alle 6-12 Monate</p>
+                    <p><strong>Untersuchungen:</strong> Spaltlampenuntersuchung, Fundusskopie</p>
+                    <p><strong>Komplikationen:</strong> Keratopathie, Konjunktivitis, Photophobie</p>
+                    <p><strong>Management:</strong> Lokale Therapie, Diätanpassung</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neurokognitive Entwicklung</h3>
+                <p>Regelmäßige Entwicklungskontrollen sind wichtig, da HT1-Patienten ein erhöhtes Risiko für neurokognitive Defizite haben.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Alter</th>
+                            <th>Untersuchung</th>
+                            <th>Häufigkeit</th>
+                            <th>Fokus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0-3 Jahre</strong></td>
+                            <td>Entwicklungsscreening</td>
+                            <td>Alle 6 Monate</td>
+                            <td>Motorik, Sprache</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3-6 Jahre</strong></td>
+                            <td>Psychologische Testung</td>
+                            <td>Jährlich</td>
+                            <td>Kognition, Verhalten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schulalter</strong></td>
+                            <td>Neuropsychologie</td>
+                            <td>Alle 2 Jahre</td>
+                            <td>Exekutive Funktionen, Aufmerksamkeit</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erwachsene</strong></td>
+                            <td>Bei Bedarf</td>
+                            <td>Individuell</td>
+                            <td>Berufliche Integration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Transition und Erwachsenenbetreuung</h3>
+                <p>Der Übergang von der pädiatrischen zur Erwachsenenbetreuung erfordert strukturierte Planung.</p>
+                
+                <div class="success-box">
+                    <h4>🔄 Transition-Checkliste</h4>
+                    <ul>
+                        <li><strong>Selbstmanagement:</strong> Eigenverantwortliche Medikamenteneinnahme</li>
+                        <li><strong>Krankheitsverständnis:</strong> Wissen über HT1 und Therapie</li>
+                        <li><strong>Notfallmanagement:</strong> Umgang mit Porphyrie-Krisen</li>
+                        <li><strong>Familienplanung:</strong> Genetische Beratung</li>
+                        <li><strong>Berufswahl:</strong> Berücksichtigung der Erkrankung</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fallbeispiel Section -->
+        <div class="content-section" id="fallbeispiel">
+            <h2 class="section-title">Interaktives Fallbeispiel</h2>
+            
+            <div class="subsection">
+                <h3>Fall: Neugeborenes mit positivem Screening</h3>
+                <p><strong>Anamnese:</strong> Neugeborenes, 3 Tage alt, erweitertes Neugeborenenscreening zeigt erhöhtes Sukzinylazeton (8,2 μmol/L, Norm <5,5). Das Kind ist bisher klinisch unauffällig, trinkt gut und nimmt normal zu.</p>
+                
+                <div class="quiz-question">
+                    <h4>Frage 1: Was ist der nächste diagnostische Schritt?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            A) Kontrollmessung in 1 Woche
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            B) Aminosäurenanalyse im Plasma
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            C) Sofortige Kontaktaufnahme mit Stoffwechselzentrum
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            D) Genetische Diagnostik
+                        </div>
+                    </div>
+                    <div class="quiz-feedback">
+                        <strong>Korrekt!</strong> Bei positivem Sukzinylazeton-Screening ist eine sofortige Kontaktaufnahme mit einem Stoffwechselzentrum innerhalb von 24 Stunden erforderlich, da HT1 unbehandelt rasch progredient verlaufen kann.
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fallverlauf: Bestätigungsdiagnostik</h3>
+                <p><strong>Weitere Diagnostik:</strong> Sukzinylazeton im Urin stark erhöht (15 mmol/mol Kreatinin, Norm <2), Tyrosin im Plasma 280 μmol/L (grenzwertig), α-Fetoprotein 850 ng/ml (stark erhöht).</p>
+                
+                <div class="quiz-question">
+                    <h4>Frage 2: Wann sollte die Nitisinon-Therapie begonnen werden?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            A) Nach Vorliegen der genetischen Diagnostik
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            B) Sofort bei bestätigtem Sukzinylazeton-Nachweis
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            C) Erst bei klinischen Symptomen
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            D) Nach 1 Woche Bedenkzeit
+                        </div>
+                    </div>
+                    <div class="quiz-feedback">
+                        <strong>Richtig!</strong> Die Nitisinon-Therapie sollte sofort bei bestätigtem Sukzinylazeton-Nachweis begonnen werden, auch ohne genetische Bestätigung, da früher Therapiebeginn prognostisch entscheidend ist.
+                    </div>
+                </div>
+
+                <div class="dosing-calculator">
+                    <h4>💊 Berechnen Sie die Initialdosis</h4>
+                    <p><strong>Patientendaten:</strong> 3,2 kg schweres Neugeborenes</p>
+                    <div class="calc-result" style="display: block;">
+                        <strong>Initialdosis Nitisinon:</strong><br>
+                        1-2 mg/kg/Tag = 3,2-6,4 mg/Tag<br>
+                        <strong>Empfehlung:</strong> 3,2 mg/Tag aufgeteilt in 2 Dosen (1,6 mg alle 12h)
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Langzeitverlauf</h3>
+                <p><strong>Nach 6 Monaten Therapie:</strong> Sukzinylazeton nicht mehr nachweisbar, Tyrosin 350 μmol/L, α-Fetoprotein 45 ng/ml, normale Leberfunktion, altersgerechte Entwicklung.</p>
+                
+                <div class="quiz-question">
+                    <h4>Frage 3: Wie ist das weitere Monitoring zu gestalten?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            A) Laborkontrollen alle 6 Monate
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            B) Laborkontrollen alle 3 Monate, Sonographie alle 6 Monate
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            C) Nur bei klinischen Auffälligkeiten
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            D) Monatliche Kontrollen lebenslang
+                        </div>
+                    </div>
+                    <div class="quiz-feedback">
+                        <strong>Korrekt!</strong> Standardmonitoring umfasst Laborkontrollen alle 3 Monate (SA, Tyrosin, AFP, Leberwerte) und Abdomen-Sonographie alle 6 Monate zur HCC-Früherkennung.
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h4>✅ Erfolgsfaktoren in diesem Fall</h4>
+                    <ul>
+                        <li><strong>Frühdiagnose:</strong> Durch Neugeborenenscreening</li>
+                        <li><strong>Schneller Therapiebeginn:</strong> Innerhalb der ersten Lebenswoche</li>
+                        <li><strong>Gute Stoffwechselkontrolle:</strong> SA nicht nachweisbar</li>
+                        <li><strong>Regelmäßiges Monitoring:</strong> Früherkennung von Komplikationen</li>
+                        <li><strong>Multidisziplinäre Betreuung:</strong> Stoffwechsel, Ernährung, Entwicklung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lernziele erreicht? 🎯</h3>
+                <div class="pathway-diagram">
+                    <h4>📚 Zusammenfassung der Kernpunkte</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center; padding: 15px; background: #f0f9ff; border-radius: 8px; border: 1px solid #3b82f6;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">🔬 Diagnostik</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                Sukzinylazeton = Biomarker<br>
+                                Neugeborenenscreening essentiell<br>
+                                Sofortige Konfirmation nötig
+                            </p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f0fdf4; border-radius: 8px; border: 1px solid #22c55e;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">💊 Therapie</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                Nitisinon = Substratreduktion<br>
+                                Früher Beginn entscheidend<br>
+                                + Diätetische Behandlung
+                            </p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fff7ed; border-radius: 8px; border: 1px solid #f97316;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #f97316, #ea580c);">📊 Monitoring</div>
+                            <p style="font-size: 0.9em; margin: 10px 0;">
+                                SA-Kontrolle alle 3 Mon.<br>
+                                HCC-Screening lebenslang<br>
+                                Multiorgane Überwachung
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-section">
+            <a href="#" class="nav-btn-large secondary" onclick="alert('Zurück zu Teil 1: Grundlagen & Pathophysiologie')">
+                ⬅️ Zurück zu Teil 1
+            </a>
+            <a href="#" class="nav-btn-large" onclick="alert('Herzlichen Glückwunsch! Sie haben das Lernmodul zur hepatorenalen Tyrosinämie erfolgreich abgeschlossen.')">
+                🎓 Lernmodul abschließen
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let currentProgress = 0;
+        const totalSections = 4;
+        
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update navigation
+            event.target.classList.add('active');
+            
+            // Update progress
+            const sectionOrder = ['diagnostik', 'therapie', 'monitoring', 'fallbeispiel'];
+            currentProgress = (sectionOrder.indexOf(sectionName) + 1) / totalSections * 100;
+            document.getElementById('progressBar').style.width = currentProgress + '%';
+            
+            // Trigger animations
+            setTimeout(() => {
+                const activeSection = document.querySelector('.content-section.active');
+                const subsections = activeSection.querySelectorAll('.subsection');
+                subsections.forEach((subsection, index) => {
+                    subsection.style.animationDelay = (index * 0.1) + 's';
+                });
+            }, 100);
+        }
+
+        function calculateDose() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseFloat(document.getElementById('age').value);
+            
+            if (!weight || weight <= 0) {
+                alert('Bitte geben Sie ein gültiges Körpergewicht ein.');
+                return;
+            }
+            
+            let initialDose = weight * 1; // 1 mg/kg as starting dose
+            let maxDose = weight * 2; // 2 mg/kg as maximum initial dose
+            let maintenanceDose = weight * 0.75; // 0.75 mg/kg for maintenance
+            
+            let recommendation = '';
+            if (age < 2) {
+                recommendation = 'Suspension verwenden, aufgeteilt in 2 Dosen';
+            } else if (weight >= 20) {
+                recommendation = 'Hartkapseln möglich, evtl. Einzeldosis täglich';
+            } else {
+                recommendation = 'Suspension, aufgeteilt in 2 Dosen';
+            }
+            
+            document.getElementById('doseResult').style.display = 'block';
+            document.getElementById('doseOutput').innerHTML = `
+                <strong>Initialdosis:</strong> ${initialDose.toFixed(1)} - ${maxDose.toFixed(1)} mg/Tag<br>
+                <strong>Erhaltungsdosis:</strong> ${maintenanceDose.toFixed(1)} mg/Tag<br>
+                <strong>Empfehlung:</strong> ${recommendation}
+            `;
+        }
+
+        function selectOption(element, isCorrect) {
+            // Remove previous selections
+            const options = element.parentNode.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected option
+            element.classList.add('selected');
+            
+            // Show correct/incorrect styling
+            setTimeout(() => {
+                options.forEach(opt => {
+                    if (opt === element) {
+                        opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                });
+                
+                // Show feedback
+                const feedback = element.parentNode.parentNode.querySelector('.quiz-feedback');
+                feedback.classList.add('show');
+                feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }, 500);
+        }
+
+        // Initialize progress
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('diagnostik');
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const sections = ['diagnostik', 'therapie', 'monitoring', 'fallbeispiel'];
+            const currentIndex = sections.findIndex(section => 
+                document.getElementById(section).classList.contains('active')
+            );
+            
+            if (e.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+                const nextButton = document.querySelector(`.nav-btn[onclick*="${sections[currentIndex + 1]}"]`);
+                nextButton.click();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                const prevButton = document.querySelector(`.nav-btn[onclick*="${sections[currentIndex - 1]}"]`);
+                prevButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

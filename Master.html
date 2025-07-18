@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 Stoffwechselstörungen - Lernzentrum</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="dark"] {
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #a0aec0;
+            --bg-white: #1a202c;
+            --bg-light: #2d3748;
+            --bg-lighter: #4a5568;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            background: none;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Search Bar */
+        .search-container {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 18px 60px 18px 24px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+        
+        .filter-tag {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .filter-tag:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .filter-tag.active {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+        }
+        
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .stat-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Module Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .category-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .category-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--bg-lighter);
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .category-count {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .module-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .module-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .module-item:hover {
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .module-info {
+            flex: 1;
+        }
+        
+        .module-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        
+        .module-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .module-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .notes-btn {
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+        }
+        
+        .progress-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Notes Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--bg-lighter);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+        }
+        
+        .notes-editor {
+            width: 100%;
+            min-height: 300px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            background: var(--bg-light);
+            color: var(--text-primary);
+        }
+        
+        .notes-editor:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .notes-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Export Section */
+        .export-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .export-section h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Progress tracking */
+        .progress-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #e2e8f0;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-indicator.completed {
+            background: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .progress-indicator.in-progress {
+            background: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filter-tags {
+                justify-content: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: var(--spacing-lg);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-lg);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Animation for search results */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+            <h1>🧬 Stoffwechselstörungen</h1>
+            <p>Interaktives Lernzentrum für angeborene Stoffwechseldefekte</p>
+        </div>
+
+
+        <!-- Search Container -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Module, Inhalte oder Kategorien durchsuchen..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="filter-tags">
+                <button class="filter-tag active" data-category="all">Alle Module</button>
+                <button class="filter-tag" data-category="aminosaeurien">Aminosäuredefekte</button>
+                <button class="filter-tag" data-category="carnitin">Carnitin-Transport</button>
+                <button class="filter-tag" data-category="cholesterol">Cholesterol/Steroid</button>
+                <button class="filter-tag" data-category="fabry">Fabry-Krankheit</button>
+                <button class="filter-tag" data-category="lysosomal">Lysosomale Störungen</button>
+                <button class="filter-tag" data-category="mitochondrial">Mitochondriopathien</button>
+                <button class="filter-tag" data-category="neurotransmitter">Neurotransmitter</button>
+                <button class="filter-tag" data-category="organoacid">Organoazidurien</button>
+                <button class="filter-tag" data-category="peroxisomal">Peroxisomale Störungen</button>
+                <button class="filter-tag" data-category="ucd">Harnstoffzyklus</button>
+            </div>
+        </div>
+
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalModules">42</div>
+                <div class="stat-label">Gesamt Module</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedModules">0</div>
+                <div class="stat-label">Abgeschlossen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="notesCount">0</div>
+                <div class="stat-label">Notizen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="progressPercent">0%</div>
+                <div class="stat-label">Fortschritt</div>
+            </div>
+        </div>
+
+
+        <!-- Modules Grid -->
+        <div class="modules-grid" id="modulesGrid">
+            <!-- Categories will be populated by JavaScript -->
+        </div>
+
+
+        <!-- Export Section -->
+        <div class="export-section">
+            <h3>📄 Notizen Export</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Exportiere alle deine Notizen als strukturierte Datei</p>
+            <button class="export-btn" onclick="exportAllNotes()">Alle Notizen exportieren</button>
+        </div>
+    </div>
+
+
+    <!-- Notes Modal -->
+    <div class="modal" id="notesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Notizen</h3>
+                <button class="close-btn" onclick="closeNotesModal()">&times;</button>
+            </div>
+            <textarea class="notes-editor" id="notesEditor" placeholder="Hier kannst du deine Notizen zu diesem Modul eingeben..."></textarea>
+            <div class="notes-actions">
+                <button class="btn btn-primary" onclick="saveNotes()">💾 Speichern</button>
+                <button class="btn btn-secondary" onclick="closeNotesModal()">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Module Data Structure
+        const modules = {
+            aminosaeurien: {
+                title: "🧬 Aminosäuredefekte",
+                icon: "🧬",
+                modules: [
+                    { file: "aminosaeurien_teil1.html", title: "Aminosäuredefekte - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
+                    { file: "aminosaeurien_teil2.html", title: "Aminosäuredefekte - Teil 2", subtitle: "Diagnostik & Therapie" }
+                ]
+            },
+            carnitin: {
+                title: "🚛 Carnitin-Transport",
+                icon: "🚛",
+                modules: [
+                    { file: "carnitin_transport_teil1.html", title: "Carnitin-Transport - Teil 1", subtitle: "Biochemie & Defekte" },
+                    { file: "carnitin_transport_teil2.html", title: "Carnitin-Transport - Teil 2", subtitle: "Klinik & Management" }
+                ]
+            },
+            cholesterol: {
+                title: "⚙️ Cholesterol/Steroid-Biosynthese",
+                icon: "⚙️",
+                modules: [
+                    { file: "cholesterol_steroid_biosynthesis_part1.html", title: "Cholesterol-Biosynthese - Teil 1", subtitle: "Grundlagen" },
+                    { file: "cholesterol_steroid_biosynthesis_part2.html", title: "Cholesterol-Biosynthese - Teil 2", subtitle: "Pathophysiologie" },
+                    { file: "cholesterol_steroid_biosynthesis_part2a.html", title: "Cholesterol-Biosynthese - Teil 2a", subtitle: "Spezielle Aspekte" },
+                    { file: "cholesterol_steroid_biosynthesis_part2b.html", title: "Cholesterol-Biosynthese - Teil 2b", subtitle: "Erweiterte Konzepte" },
+                    { file: "cholesterol_steroid_biosynthesis_part3.html", title: "Cholesterol-Biosynthese - Teil 3", subtitle: "Therapeutische Ansätze" }
+                ]
+            },
+            fabry: {
+                title: "💎 Fabry-Krankheit",
+                icon: "💎",
+                modules: [
+                    { file: "fabry_lernmodul_teil1.html", title: "Fabry-Krankheit - Teil 1", subtitle: "Grundlagen & Genetik" },
+                    { file: "fabry_lernmodul_teil2.html", title: "Fabry-Krankheit - Teil 2", subtitle: "Klinische Manifestationen" },
+                    { file: "fabry_lernmodul_teil3.html", title: "Fabry-Krankheit - Teil 3", subtitle: "Diagnostik" },
+                    { file: "fabry_lernmodul_teil4.html", title: "Fabry-Krankheit - Teil 4", subtitle: "Therapie & Prognose" }
+                ]
+            },
+            glutarazid: {
+                title: "🔬 Glutarazidämie",
+                icon: "🔬",
+                modules: [
+                    { file: "glutarazid_modul_1.html", title: "Glutarazidämie - Kompaktmodul", subtitle: "Übersicht & Management" }
+                ]
+            },
+            homocystin: {
+                title: "🧪 Homocystinurie",
+                icon: "🧪",
+                modules: [
+                    { file: "homocystinurie_lerneinheit.html", title: "Homocystinurie - Lerneinheit", subtitle: "Vollständiger Überblick" }
+                ]
+            },
+            konfirmation: {
+                title: "📋 Konfirmationsdiagnostik",
+                icon: "📋",
+                modules: [
+                    { file: "konfirmationsdiagnostik_seite1.html", title: "Konfirmationsdiagnostik - Seite 1", subtitle: "Grundprinzipien" },
+                    { file: "konfirmationsdiagnostik_seite2.html", title: "Konfirmationsdiagnostik - Seite 2", subtitle: "Methoden" },
+                    { file: "konfirmationsdiagnostik_seite3.html", title: "Konfirmationsdiagnostik - Seite 3", subtitle: "Interpretation" },
+                    { file: "konfirmationsdiagnostik_seite4.html", title: "Konfirmationsdiagnostik - Seite 4", subtitle: "Qualitätssicherung" }
+                ]
+            },
+            lysosomal: {
+                title: "📦 Lysosomale Speicherkrankheiten",
+                icon: "📦",
+                modules: [
+                    { file: "lysosomal_storage_part1.html", title: "Lysosomale Speicherkrankheiten - Teil 1", subtitle: "Grundlagen" },
+                    { file: "lysosomal_storage_part2.html", title: "Lysosomale Speicherkrankheiten - Teil 2", subtitle: "Klassifikation" },
+                    { file: "lysosomal_storage_part3.html", title: "Lysosomale Speicherkrankheiten - Teil 3", subtitle: "Therapieansätze" }
+                ]
+            },
+            mitochondrial: {
+                title: "⚡ Mitochondriopathien",
+                icon: "⚡",
+                modules: [
+                    { file: "mitochondriopathien_teil1.html", title: "Mitochondriopathien - Teil 1", subtitle: "Grundlagen & Biochemie" },
+                    { file: "mitochondriopathien_teil2.html", title: "Mitochondriopathien - Teil 2", subtitle: "Klinische Syndrome" },
+                    { file: "mitochondriopathien_teil3.html", title: "Mitochondriopathien - Teil 3", subtitle: "Diagnostik & Therapie" }
+                ]
+            },
+            neurotransmitter: {
+                title: "🧠 Neurotransmitter-Defekte",
+                icon: "🧠",
+                modules: [
+                    { file: "neurotransmitter_teil1.html", title: "Neurotransmitter-Defekte - Teil 1", subtitle: "Biosynthese & Stoffwechsel" },
+                    { file: "neurotransmitter_teil2.html", title: "Neurotransmitter-Defekte - Teil 2", subtitle: "Klinische Präsentation" },
+                    { file: "neurotransmitter_teil3.html", title: "Neurotransmitter-Defekte - Teil 3", subtitle: "Diagnostik & Behandlung" }
+                ]
+            },
+            organoacid: {
+                title: "⚗️ Organoazidurien",
+                icon: "⚗️",
+                modules: [
+                    { file: "organoacidaemien_teil1.html", title: "Organoazidurien - Teil 1", subtitle: "Grundlagen & Klassifikation" },
+                    { file: "organoacidaemien_teil2.html", title: "Organoazidurien - Teil 2", subtitle: "Wichtige Einzelerkrankungen" },
+                    { file: "organoacidaemien_teil3.html", title: "Organoazidurien - Teil 3", subtitle: "Management & Therapie" }
+                ]
+            },
+            peroxisomal: {
+                title: "🔄 Peroxisomale Störungen",
+                icon: "🔄",
+                modules: [
+                    { file: "peroxisomal_disorders_part1.html", title: "Peroxisomale Störungen - Teil 1", subtitle: "Biogenese & Funktion" },
+                    { file: "peroxisomal_disorders_part2.html", title: "Peroxisomale Störungen - Teil 2", subtitle: "Einzeldefekte" },
+                    { file: "peroxisomal_disorders_part3.html", title: "Peroxisomale Störungen - Teil 3", subtitle: "Klinik & Therapie" }
+                ]
+            },
+            purin: {
+                title: "🧬 Purin/Pyrimidin-Stoffwechsel",
+                icon: "🧬",
+                modules: [
+                    { file: "purin_pyrimidin_lerneinheit.html", title: "Purin/Pyrimidin-Defekte", subtitle: "Kompakte Lerneinheit" }
+                ]
+            },
+            tyrosin: {
+                title: "🏭 Tyrosinämie",
+                icon: "🏭",
+                modules: [
+                    { file: "tyrosinaemie_teil1.html", title: "Tyrosinämie - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
+                    { file: "tyrosinaemie_teil2.html", title: "Tyrosinämie - Teil 2", subtitle: "Diagnostik & Therapie" }
+                ]
+            },
+            ucd: {
+                title: "♻️ Harnstoffzyklusstörungen",
+                icon: "♻️",
+                modules: [
+                    { file: "ucd_learning_module.html", title: "Harnstoffzyklusstörungen - Übersicht", subtitle: "Allgemeine Einführung" },
+                    { file: "ucd_learning_module_part1.html", title: "Harnstoffzyklusstörungen - Teil 1", subtitle: "Biochemie & Pathophysiologie" },
+                    { file: "ucd_learning_module_part2.html", title: "Harnstoffzyklusstörungen - Teil 2", subtitle: "Klinische Aspekte" },
+                    { file: "ucd_learning_module_part3.html", title: "Harnstoffzyklusstörungen - Teil 3", subtitle: "Diagnostik & Management" }
+                ]
+            },
+            vitamin: {
+                title: "💊 Vitamin-Cofaktor-Defekte",
+                icon: "💊",
+                modules: [
+                    { file: "vitamin_cofactor_defects.html", title: "Vitamin-Cofaktor-Defekte", subtitle: "Übersicht & Therapie" }
+                ]
+            }
+        };
+
+
+        // State Management
+        let currentFilter = 'all';
+        let searchTerm = '';
+        let currentNotesModule = null;
+
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            renderModules();
+            updateStats();
+            setupEventListeners();
+            loadTheme();
+        });
+
+
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchTerm = e.target.value.toLowerCase();
+                renderModules();
+            });
+
+
+            // Filter tags
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.category;
+                    renderModules();
+                });
+            });
+
+
+            // Close modal on outside click
+            document.getElementById('notesModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeNotesModal();
+                }
+            });
+        }
+
+
+        function renderModules() {
+            const grid = document.getElementById('modulesGrid');
+            grid.innerHTML = '';
+
+
+            Object.entries(modules).forEach(([categoryKey, category]) => {
+                if (currentFilter !== 'all' && currentFilter !== categoryKey) {
+                    return;
+                }
+
+
+                // Filter modules based on search term
+                const filteredModules = category.modules.filter(module => {
+                    return module.title.toLowerCase().includes(searchTerm) || 
+                           module.subtitle.toLowerCase().includes(searchTerm) ||
+                           category.title.toLowerCase().includes(searchTerm);
+                });
+
+
+                if (filteredModules.length === 0 && searchTerm) {
+                    return;
+                }
+
+
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section fade-in';
+                
+                categorySection.innerHTML = `
+                    <div class="category-header">
+                        <span class="category-icon">${category.icon}</span>
+                        <span class="category-title">${category.title}</span>
+                        <span class="category-count">${filteredModules.length}</span>
+                    </div>
+                    <div class="module-list">
+                        ${filteredModules.map(module => `
+                            <div class="module-item" onclick="openModule('${module.file}')">
+                                <div class="module-info">
+                                    <div class="module-title">${module.title}</div>
+                                    <div class="module-subtitle">${module.subtitle}</div>
+                                </div>
+                                <div class="module-actions">
+                                    <button class="action-btn notes-btn" onclick="event.stopPropagation(); openNotes('${module.file}', '${module.title}')" title="Notizen">📝</button>
+                                    <button class="action-btn progress-btn" onclick="event.stopPropagation(); toggleProgress('${module.file}')" title="Fortschritt">
+                                        <div class="progress-indicator ${getModuleProgress(module.file)}" id="progress-${module.file.replace('.html', '')}"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                grid.appendChild(categorySection);
+            });
+
+
+            if (grid.children.length === 0) {
+                grid.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted); grid-column: 1 / -1;">
+                        <h3>Keine Module gefunden</h3>
+                        <p>Versuche andere Suchbegriffe oder Filter</p>
+                    </div>
+                `;
+            }
+        }
+
+
+        function openModule(filename) {
+            // Track that user opened this module
+            markModuleAsInProgress(filename);
+            updateStats();
+            
+            // Open the HTML file
+            window.open(filename, '_blank');
+        }
+
+
+        function openNotes(filename, title) {
+            currentNotesModule = filename;
+            document.getElementById('modalTitle').textContent = `Notizen: ${title}`;
+            document.getElementById('notesEditor').value = getModuleNotes(filename);
+            document.getElementById('notesModal').classList.add('active');
+            document.getElementById('notesEditor').focus();
+        }
+
+
+        function closeNotesModal() {
+            document.getElementById('notesModal').classList.remove('active');
+            currentNotesModule = null;
+        }
+
+
+        function saveNotes() {
+            if (currentNotesModule) {
+                const notes = document.getElementById('notesEditor').value;
+                setModuleNotes(currentNotesModule, notes);
+                updateStats();
+                closeNotesModal();
+                
+                // Show success feedback
+                showNotification('Notizen gespeichert! 💾', 'success');
+            }
+        }
+
+
+        function toggleProgress(filename) {
+            const currentProgress = getModuleProgress(filename);
+            let newProgress;
+            
+            if (currentProgress === '') {
+                newProgress = 'in-progress';
+            } else if (currentProgress === 'in-progress') {
+                newProgress = 'completed';
+            } else {
+                newProgress = '';
+            }
+            
+            setModuleProgress(filename, newProgress);
+            updateStats();
+            renderModules();
+            
+            const statusMap = {
+                '': 'Nicht begonnen',
+                'in-progress': 'In Bearbeitung',
+                'completed': 'Abgeschlossen'
+            };
+            
+            showNotification(`Status geändert: ${statusMap[newProgress]} ✅`, 'info');
+        }
+
+
+        // Local Storage Functions
+        function getModuleNotes(filename) {
+            const notes = localStorage.getItem(`notes_${filename}`);
+            return notes || '';
+        }
+
+
+        function setModuleNotes(filename, notes) {
+            if (notes.trim()) {
+                localStorage.setItem(`notes_${filename}`, notes);
+            } else {
+                localStorage.removeItem(`notes_${filename}`);
+            }
+        }
+
+
+        function getModuleProgress(filename) {
+            return localStorage.getItem(`progress_${filename}`) || '';
+        }
+
+
+        function setModuleProgress(filename, progress) {
+            if (progress) {
+                localStorage.setItem(`progress_${filename}`, progress);
+            } else {
+                localStorage.removeItem(`progress_${filename}`);
+            }
+        }
+
+
+        function markModuleAsInProgress(filename) {
+            const currentProgress = getModuleProgress(filename);
+            if (!currentProgress) {
+                setModuleProgress(filename, 'in-progress');
+            }
+        }
+
+
+        function updateStats() {
+            let totalModules = 0;
+            let completedModules = 0;
+            let notesCount = 0;
+
+
+            Object.values(modules).forEach(category => {
+                totalModules += category.modules.length;
+                
+                category.modules.forEach(module => {
+                    if (getModuleProgress(module.file) === 'completed') {
+                        completedModules++;
+                    }
+                    if (getModuleNotes(module.file)) {
+                        notesCount++;
+                    }
+                });
+            });
+
+
+            const progressPercent = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+
+
+            document.getElementById('totalModules').textContent = totalModules;
+            document.getElementById('completedModules').textContent = completedModules;
+            document.getElementById('notesCount').textContent = notesCount;
+            document.getElementById('progressPercent').textContent = progressPercent + '%';
+        }
+
+
+        function exportAllNotes() {
+            let exportData = {
+                exportDate: new Date().toISOString(),
+                totalModules: 0,
+                notesData: {}
+            };
+
+
+            Object.values(modules).forEach(category => {
+                exportData.totalModules += category.modules.length;
+                
+                category.modules.forEach(module => {
+                    const notes = getModuleNotes(module.file);
+                    const progress = getModuleProgress(module.file);
+                    
+                    if (notes || progress) {
+                        exportData.notesData[module.file] = {
+                            title: module.title,
+                            subtitle: module.subtitle,
+                            category: category.title,
+                            notes: notes,
+                            progress: progress,
+                            lastModified: new Date().toISOString()
+                        };
+                    }
+                });
+            });
+
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `metabolic_notes_export_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Notizen erfolgreich exportiert! 📄', 'success');
+        }
+
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.textContent = newTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+        }
+
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.textContent = savedTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+        }
+
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4facfe' : type === 'error' ? '#ff6b6b' : '#74b9ff'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                z-index: 10000;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+                max-width: 300px;
+                font-weight: 500;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'k') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                } else if (e.key === 'e') {
+                    e.preventDefault();
+                    exportAllNotes();
+                }
+            }
+            
+            if (e.key === 'Escape') {
+                closeNotesModal();
+            }
+        });
+    </script>
+
+    <!-- PWA Scripts -->
+    <script src="simple-sync.js"></script>
+    <script>
+    // Service Worker Registration
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+        navigator.serviceWorker.register('simple-service-worker.js')
+            .then(reg => console.log('✅ Service Worker registriert'))
+            .catch(err => console.log('❌ Service Worker Fehler:', err));
+    }
+
+    // PWA Install Button
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        const installBtn = document.createElement('button');
+        installBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-weight: 600;
+        `;
+        installBtn.innerHTML = '📱 App installieren';
+        installBtn.onclick = async () => {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                installBtn.remove();
+            }
+            deferredPrompt = null;
+        };
+        document.body.appendChild(installBtn);
+    });
+
+    // Auto-load modules config (optional)
+    async function loadDynamicModules() {
+        try {
+            const response = await fetch('./modules-config.json?t=' + Date.now());
+            if (response.ok) {
+                const config = await response.json();
+                window.modules = config.modules;
+                if (typeof renderModules === 'function') {
+                    renderModules();
+                    updateStats();
+                }
+            }
+        } catch (error) {
+            console.log('Keine modules-config.json gefunden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadDynamicModules();
+    });
+    </script>
+</body>
+</html>

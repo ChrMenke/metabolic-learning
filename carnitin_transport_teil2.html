@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnitintransporter-Defekte - Teil 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--success-color), #00f2fe);
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--primary-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+color: white;
+border-color: var(--primary-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Therapy protocols */
+.therapy-protocol {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.therapy-protocol h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.therapy-protocol p, .therapy-protocol ul, .therapy-protocol li {
+color: #166534;
+}
+
+/* Emergency protocols */
+.emergency-protocol {
+background: linear-gradient(135deg, #fef2f2, #fecaca);
+border: 2px solid var(--danger-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.emergency-protocol::before {
+content: '🚨';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.emergency-protocol h4 {
+color: #dc2626;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.emergency-protocol p, .emergency-protocol ul, .emergency-protocol li {
+color: #dc2626;
+}
+
+/* Dosing boxes */
+.dosing-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: 12px 20px;
+margin: 6px;
+border-radius: 12px;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.dosing-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+.dosing-box.high-dose {
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+0%, 100% {
+transform: scale(1);
+box-shadow: var(--shadow-sm);
+}
+50% {
+transform: scale(1.02);
+box-shadow: var(--shadow-md);
+}
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #0c4a6e;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #0c4a6e;
+}
+
+/* Prognosis boxes */
+.prognosis-box {
+background: linear-gradient(135deg, #fefce8, #fef3c7);
+border: 2px solid #eab308;
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.prognosis-box h4 {
+color: #a16207;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+}
+
+.prognosis-box p, .prognosis-box ul, .prognosis-box li {
+color: #a16207;
+}
+
+/* Quiz styles */
+.quiz-container {
+background: var(--bg-white);
+border: 2px solid var(--primary-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.question {
+margin-bottom: var(--spacing-lg);
+}
+
+.question h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.2rem;
+font-weight: 600;
+}
+
+.answer-option {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin: var(--spacing-sm) 0;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.answer-option:hover {
+background: var(--bg-white);
+border-color: var(--primary-color);
+}
+
+.answer-option.correct {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border-color: var(--success-color);
+}
+
+.answer-option.incorrect {
+background: linear-gradient(135deg, #fef2f2, #fecaca);
+border-color: var(--danger-color);
+}
+
+.explanation {
+background: var(--bg-lighter);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-top: var(--spacing-sm);
+display: none;
+}
+
+.explanation.show {
+display: block;
+animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+from {
+opacity: 0;
+max-height: 0;
+}
+to {
+opacity: 1;
+max-height: 200px;
+}
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+/* Drug boxes */
+.drug-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+color: white;
+padding: 10px 16px;
+margin: 4px;
+border-radius: 8px;
+font-size: 0.9rem;
+font-weight: 500;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.drug-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+/* Monitoring tables */
+.monitoring-table {
+background: linear-gradient(135deg, #fefce8, #fef3c7);
+border: 2px solid #eab308;
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin: var(--spacing-md) 0;
+}
+
+.monitoring-table h5 {
+color: #a16207;
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🧬 Carnitintransporter-Defekte</h1>
+<p>Teil 2: Therapie & Prognose</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>🎯 Lerneinheit Teil 2</h3>
+<p>Dieser zweite Teil behandelt die Therapie, Prognose, Fallbeispiele und Lernkontrolle aller Carnitintransporter-Defekte.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('therapie')">1. Therapie</button>
+<button class="nav-btn" onclick="showSection('prognose')">2. Prognose</button>
+<button class="nav-btn" onclick="showSection('fallbeispiele')">3. Fallbeispiele</button>
+<button class="nav-btn" onclick="showSection('lernkontrolle')">4. Lernkontrolle</button>
+</div>
+
+<!-- Therapie -->
+<div class="content-section active" id="therapie">
+<h2 class="section-title">💊 Therapeutische Strategien</h2>
+
+<div class="subsection">
+<h3>Allgemeine Therapieprinzipien</h3>
+<div class="therapy-protocol">
+<h4>🎯 Grundlegende Therapieziele</h4>
+<p><strong>Primäre Ziele:</strong></p>
+<ul>
+<li><strong>Carnitin-Supplementation:</strong> Wiederherstellung der intrazellulären Spiegel</li>
+<li><strong>Diätetische Optimierung:</strong> Reduzierung langkettiger Fettsäuren</li>
+<li><strong>MCT-Substitution:</strong> Umgehung des defekten Systems</li>
+<li><strong>Präventive Maßnahmen:</strong> Vermeidung kataboler Zustände</li>
+</ul>
+
+<p><strong>Monitoring-Parameter:</strong></p>
+<ul>
+<li><strong>Biochemisch:</strong> Freies Carnitin >20 μmol/l (Zielwert)</li>
+<li><strong>Klinisch:</strong> Herzfunktion, Muskelfunktion, Wachstum</li>
+<li><strong>Metabolisch:</strong> Acylcarnitin-Profile, Ketonkörper</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Therapiekomponente</th>
+<th>Primärer Carnitinmangel</th>
+<th>CPT1A-Defekt</th>
+<th>CACT-Defekt</th>
+<th>CPT2-Defekt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L-Carnitin-Dosis</strong></td>
+<td>100-300 mg/kg/d</td>
+<td>50-100 mg/kg/d</td>
+<td>200-400 mg/kg/d</td>
+<td>100-200 mg/kg/d</td>
+</tr>
+<tr>
+<td><strong>MCT-Öl</strong></td>
+<td>Optional</td>
+<td>Essentiell (30-50%)</td>
+<td>Essentiell (50-70%)</td>
+<td>Wichtig (30-50%)</td>
+</tr>
+<tr>
+<td><strong>LCT-Restriktion</strong></td>
+<td>Nein</td>
+<td>Moderat</td>
+<td>Strikt</td>
+<td>Moderat bis strikt</td>
+</tr>
+<tr>
+<td><strong>Frequently feeding</strong></td>
+<td>Bei Kleinkindern</td>
+<td>Essentiell</td>
+<td>Essentiell</td>
+<td>Bei schweren Formen</td>
+</tr>
+<tr>
+<td><strong>Cornstarch</strong></td>
+<td>Nein</td>
+<td>Nachts bei Hypoglykämie</td>
+<td>Nachts bei Hypoglykämie</td>
+<td>Selten nötig</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Primärer Carnitinmangel - Spezifische Therapie</h3>
+<div class="therapy-protocol">
+<h4>🔄 L-Carnitin-Supplementation</h4>
+<p><strong>Dosierungsprotokoll:</strong></p>
+<ul>
+<li><strong>Startdosis:</strong> 100 mg/kg/d aufgeteilt in 2-3 Einzeldosen</li>
+<li><strong>Maximaldosis:</strong> 300 mg/kg/d (bei schweren Formen)</li>
+<li><strong>Erhaltungsdosis:</strong> 100-200 mg/kg/d nach Stabilisierung</li>
+<li><strong>Applikation:</strong> Oral, 30 Min vor Mahlzeiten (bessere Absorption)</li>
+</ul>
+
+<p><strong>Monitoring:</strong></p>
+<ul>
+<li><strong>Ziel freies Carnitin:</strong> >20 μmol/l (normal: 25-50 μmol/l)</li>
+<li><strong>Kontrollen:</strong> Wöchentlich bis Stabilisierung, dann 3-monatlich</li>
+<li><strong>Echokardiographie:</strong> Bei Kardiomyopathie alle 4 Wochen</li>
+<li><strong>Renale Clearance:</strong> Sollte <20% sinken (bei OCTN2-Defekt bleibt hoch)</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📈 Therapieerfolg beim primären Carnitinmangel</h4>
+<p><strong>Reversibilität der Organmanifestationen:</strong></p>
+<ul>
+<li><strong>Kardiomyopathie:</strong> 
+<ul>
+<li>LVEF-Verbesserung: 20% → 55% in 6-12 Monaten</li>
+<li>Vollständige Normalisierung in 80-90% der Fälle</li>
+<li>Beste Prognose bei früher Therapie (<6 Monate Symptome)</li>
+</ul>
+</li>
+<li><strong>Muskelschwäche:</strong> 
+<ul>
+<li>Deutliche Besserung in 4-8 Wochen</li>
+<li>Kraft-Normalisierung in 3-6 Monaten</li>
+<li>CK-Normalisierung in 2-4 Wochen</li>
+</ul>
+</li>
+<li><strong>Hypoglykämie:</strong> 
+<ul>
+<li>Sofortige Besserung (Tage)</li>
+<li>Ketonkörper-Bildung normalisiert sich</li>
+<li>Fasten-Toleranz verbessert sich</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Besonderheiten bei Erwachsenen:</strong></p>
+<ul>
+<li><strong>Höhere Dosierung nötig:</strong> 3-6 g/d (Erwachsene)</li>
+<li><strong>Langsamer Therapieerfolg:</strong> 6-18 Monate bis Volleffekt</li>
+<li><strong>Begleittherapie:</strong> ACE-Hemmer bei schwerer Kardiomyopathie</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>Akute Dekompensation beim primären Carnitinmangel</h4>
+<p><strong>Notfall-Management:</strong></p>
+<ul>
+<li><strong>L-Carnitin i.v.:</strong> 50-100 mg/kg/d als Dauerinfusion</li>
+<li><strong>Glukose-Zufuhr:</strong> 10-15 mg/kg/min (bei Hypoglykämie)</li>
+<li><strong>Kardiomyopathie:</strong> Standard-Herzinsuffizienz-Therapie</li>
+<li><strong>Monitoring:</strong> Engmaschige Kontrolle der Carnitin-Spiegel</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CPT1A-Defekt - Diätetische Therapie im Fokus</h3>
+<div class="therapy-protocol">
+<h4>🍽️ Spezifische Ernährungstherapie</h4>
+<p><strong>MCT-Öl als Hauptkomponente:</strong></p>
+<ul>
+<li><strong>MCT-Anteil:</strong> 30-50% der Gesamtfette</li>
+<li><strong>Startdosis:</strong> 0.5 ml/kg/d, Steigerung um 0.5 ml/kg alle 3 Tage</li>
+<li><strong>Maximaldosis:</strong> 3-4 ml/kg/d (Cave: Diarrhoe)</li>
+<li><strong>Verteilung:</strong> Mit jeder Mahlzeit und Zwischenmahlzeit</li>
+</ul>
+
+<p><strong>Langkettige Fettsäure-Restriktion:</strong></p>
+<ul>
+<li><strong>LCT-Reduktion:</strong> <50% der Gesamtfette</li>
+<li><strong>Vermeidung:</strong> Nüsse, fetter Fisch, pflanzliche Öle reduzieren</li>
+<li><strong>Erlaubt:</strong> Mageres Fleisch, Milchprodukte moderat</li>
+</ul>
+
+<p><strong>Häufige Mahlzeiten-Strategie:</strong></p>
+<ul>
+<li><strong>Mahlzeiten-Frequenz:</strong> Alle 3-4 Stunden tagsüber</li>
+<li><strong>Nachtmahlzeit:</strong> Cornstarch 1-2 g/kg vor dem Schlafen</li>
+<li><strong>Fasten-Vermeidung:</strong> Maximal 8-10 Stunden (altersabhängig)</li>
+</ul>
+</div>
+
+<div class="monitoring-table">
+<h5>Spezifisches Monitoring bei CPT1A-Defekt</h5>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Häufigkeit</th>
+<th>Zielwerte</th>
+<th>Intervention bei Abweichung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Nüchtern-Glukose</strong></td>
+<td>Wöchentlich</td>
+<td>>70 mg/dl</td>
+<td>MCT-Dosis ↑, Cornstarch</td>
+</tr>
+<tr>
+<td><strong>Ketonkörper</strong></td>
+<td>Bei Fasten</td>
+<td>>0,5 mmol/l</td>
+<td>L-Carnitin ↑</td>
+</tr>
+<tr>
+<td><strong>Triglyzeride</strong></td>
+<td>Monatlich</td>
+<td><150 mg/dl</td>
+<td>LCT weiter reduzieren</td>
+</tr>
+<tr>
+<td><strong>Leberfunktion</strong></td>
+<td>3-monatlich</td>
+<td>ALT <40 U/l</td>
+<td>MCT-Dosis anpassen</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CACT-Defekt - Intensivtherapie</h3>
+<div class="emergency-protocol">
+<h4>Neonatale Akuttherapie</h4>
+<p><strong>Sofortmaßnahmen bei Neugeborenen:</strong></p>
+<ul>
+<li><strong>L-Carnitin i.v.:</strong> 100-200 mg/kg/d kontinuierlich</li>
+<li><strong>Hochdosis-Glukose:</strong> 12-15 mg/kg/min zur Suppression der Lipolyse</li>
+<li><strong>MCT-Ernährung:</strong> 50-70% der Gesamtfette als MCT</li>
+<li><strong>LCT-freie Ernährung:</strong> Spezialnahrung erforderlich</li>
+</ul>
+
+<p><strong>Kardiale Unterstützung:</strong></p>
+<ul>
+<li><strong>Inotrope Unterstützung:</strong> Dobutamin, Milrinon</li>
+<li><strong>Rhythmus-Monitoring:</strong> Kontinuierliche Überwachung</li>
+<li><strong>Nachlast-Reduktion:</strong> ACE-Hemmer bei stabiler Phase</li>
+<li><strong>Herztransplantation:</strong> Ultima ratio bei therapierefraktärer Kardiomyopathie</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>📊 Langzeit-Management CACT-Defekt</h4>
+<p><strong>Überlebende Patienten:</strong></p>
+<ul>
+<li><strong>L-Carnitin:</strong> 200-400 mg/kg/d lebenslang</li>
+<li><strong>Strikte LCT-Restriktion:</strong> <20 g/d bei Erwachsenen</li>
+<li><strong>MCT-Substitution:</strong> 60-80% der Fette</li>
+<li><strong>Frequent feeding:</strong> Alle 2-3 Stunden, auch nachts</li>
+</ul>
+
+<p><strong>Monitoring bei schwerer Form:</strong></p>
+<ul>
+<li><strong>Echokardiographie:</strong> Monatlich in den ersten 2 Jahren</li>
+<li><strong>Holter-EKG:</strong> 6-monatlich (Rhythmusstörungen)</li>
+<li><strong>Acylcarnitin-Profile:</strong> Wöchentlich bis stabil</li>
+<li><strong>Entwicklungskontrollen:</strong> 3-monatlich</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>⚡ Therapeutische Optionen bei therapierefraktärem CACT-Defekt</h4>
+<p><strong>Experimentelle Ansätze:</strong></p>
+<ul>
+<li><strong>Bezafibrat:</strong> PPAR-α-Agonist, kann CPT1-Expression steigern</li>
+<li><strong>Triheptanoin (C7-Triglyzerid):</strong> Alternative Energiequelle</li>
+<li><strong>Herztransplantation:</strong> Bei end-stage Kardiomyopathie</li>
+<li><strong>Mechanische Kreislaufunterstützung:</strong> Als Bridge-to-transplant</li>
+</ul>
+
+<p><strong>Prognostische Faktoren für Therapieansprechen:</strong></p>
+<ul>
+<li><strong>Therapiebeginn:</strong> <1 Monat vs. >3 Monate</li>
+<li><strong>Residual-Enzymaktivität:</strong> >5% vs. <1%</li>
+<li><strong>Kardiomyopathie-Schweregrad:</strong> LVEF bei Diagnose</li>
+<li><strong>Arrhythmie-Frequenz:</strong> Anzahl der Episoden</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CPT2-Defekt - Phänotyp-spezifische Therapie</h3>
+<div class="therapy-protocol">
+<h4>👶 Neonatale/infantile Form</h4>
+<p><strong>Akuttherapie:</strong></p>
+<ul>
+<li><strong>L-Carnitin:</strong> 100-300 mg/kg/d oral oder i.v.</li>
+<li><strong>MCT-Ernährung:</strong> 40-60% der Gesamtfette</li>
+<li><strong>LCT-Restriktion:</strong> <30% der Gesamtfette</li>
+<li><strong>Frequent feeding:</strong> Alle 3-4 Stunden</li>
+</ul>
+
+<p><strong>Langzeittherapie:</strong></p>
+<ul>
+<li><strong>MCT-Erhaltung:</strong> 30-50% der Fette</li>
+<li><strong>Normale Protein-Zufuhr:</strong> 1,5-2 g/kg/d</li>
+<li><strong>Kohlenhydrat-Betonung:</strong> 60-65% der Gesamtkalorien</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>🏃 Adult-myopathische Form</h4>
+<p><strong>Präventive Maßnahmen:</strong></p>
+<ul>
+<li><strong>Exercise-Modifikation:</strong> 
+<ul>
+<li>Warm-up verlängern (>10 Minuten)</li>
+<li>Moderate Intensität bevorzugen</li>
+<li>Bei Kälte besondere Vorsicht</li>
+<li>Pre-exercise Kohlenhydrat-Zufuhr</li>
+</ul>
+</li>
+<li><strong>Diätetische Anpassungen:</strong>
+<ul>
+<li>MCT-Öl: 20-30 g/d</li>
+<li>L-Carnitin: 2-3 g/d</li>
+<li>Kohlenhydrat-betonte Ernährung</li>
+<li>Fasten-Vermeidung >12 Stunden</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Akuttherapie bei Rhabdomyolyse:</strong></p>
+<ul>
+<li><strong>Aggressive Hydrierung:</strong> 3-5 l/d (Erwachsene)</li>
+<li><strong>Alkalinisierung:</strong> Natriumbicarbonat bei pH <7,35</li>
+<li><strong>L-Carnitin hochdosiert:</strong> 6-9 g/d für 5-7 Tage</li>
+<li><strong>Nierenprotektion:</strong> Diuretika bei Oligurie</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>CPT2-Form</th>
+<th>L-Carnitin</th>
+<th>MCT-Anteil</th>
+<th>Exercise-Restriction</th>
+<th>Prognose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Neonatal schwer</strong></td>
+<td>200-400 mg/kg/d</td>
+<td>60-80%</td>
+<td>N/A</td>
+<td>Sehr schlecht</td>
+</tr>
+<tr>
+<td><strong>Infantil hepatisch</strong></td>
+<td>100-200 mg/kg/d</td>
+<td>40-60%</td>
+<td>Normale Aktivität</td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><strong>Adult myopathisch</strong></td>
+<td>2-4 g/d</td>
+<td>20-30%</td>
+<td>Moderat</td>
+<td>Exzellent</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Medikamentöse Kofaktoren und Supplemente</h3>
+<div class="case-study">
+<h4>💊 Zusätzliche Therapieoptionen</h4>
+<p><strong>Riboflavin (Vitamin B2):</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 100-400 mg/d bei CPT2-Defekt</li>
+<li><strong>Mechanismus:</strong> Cofaktor für Acyl-CoA-Dehydrogenasen</li>
+<li><strong>Evidenz:</strong> Einzelfallberichte über Besserung</li>
+<li><strong>Nebenwirkungen:</strong> Minimal bei oraler Gabe</li>
+</ul>
+
+<p><strong>Coenzym Q10:</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 5-10 mg/kg/d</li>
+<li><strong>Indikation:</strong> Mitochondriale Dysfunktion, Kardiomyopathie</li>
+<li><strong>Evidenz:</strong> Begrenzt, aber gut toleriert</li>
+</ul>
+
+<p><strong>Triheptanoin:</strong></p>
+<ul>
+<li><strong>Mechanismus:</strong> C7-Fettsäure, produziert C5-Ketone</li>
+<li><strong>Dosierung:</strong> 1-2 g/kg/d</li>
+<li><strong>Indikation:</strong> Schwere CACT/CPT2-Defekte</li>
+<li><strong>Status:</strong> Experimentell, Einzelfälle</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>Medikamente zu vermeiden</h4>
+<p><strong>Kontraindizierte Substanzen:</strong></p>
+<ul>
+<li><strong>Valproinsäure:</strong> Hemmt CPT1, verstärkt Hypoglykämie</li>
+<li><strong>Ibuprofen:</strong> Kann CPT-Aktivität hemmen</li>
+<li><strong>Diazepam (hochdosiert):</strong> Beeinflusst β-Oxidation</li>
+<li><strong>Halothan:</strong> Potentiell hepatotoxisch</li>
+</ul>
+
+<p><strong>Anästhesie-Besonderheiten:</strong></p>
+<ul>
+<li><strong>Präoperativ:</strong> L-Carnitin 100 mg/kg i.v.</li>
+<li><strong>Glucose-Infusion:</strong> Kontinuierlich während Nüchternheit</li>
+<li><strong>Vermeidung:</strong> Langanhaltende Narkosen</li>
+<li><strong>Monitoring:</strong> Laktat, Glucose, Temperatur</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('prognose')">Weiter zur Prognose →</button>
+</div>
+</div>
+
+<!-- Prognose -->
+<div class="content-section" id="prognose">
+<h2 class="section-title">📈 Prognose und Langzeitverläufe</h2>
+
+<div class="subsection">
+<h3>Primärer Carnitinmangel - Exzellente Prognose bei früher Therapie</h3>
+<div class="prognosis-box">
+<h4>🌟 Langzeitprognose nach Therapiebeginn</h4>
+<p><strong>Herz-Kreislauf-System:</strong></p>
+<ul>
+<li><strong>Kardiomyopathie-Reversibilität:</strong> 85-95% bei Therapie <6 Monate nach Symptombeginn</li>
+<li><strong>LVEF-Normalisierung:</strong> Median 8 Monate (Range: 3-18 Monate)</li>
+<li><strong>Arrhythmie-Risiko:</strong> Praktisch eliminiert nach Kardiomyopathie-Rückbildung</li>
+<li><strong>Lebenserwartung:</strong> Normal bei adäquater Therapie</li>
+</ul>
+
+<p><strong>Muskuläres System:</strong></p>
+<ul>
+<li><strong>Kraftentwicklung:</strong> Vollständige Normalisierung in 90% der Fälle</li>
+<li><strong>Exercise tolerance:</strong> Normal nach 6-12 Monaten Therapie</li>
+<li><strong>CK-Normalisierung:</strong> Median 4 Wochen</li>
+<li><strong>Myopathie-Reversibilität:</strong> Praktisch 100%</li>
+</ul>
+
+<p><strong>ZNS und Entwicklung:</strong></p>
+<ul>
+<li><strong>Kognitive Entwicklung:</strong> Normal bei präsymptomatischer Therapie</li>
+<li><strong>Entwicklungsrückstände:</strong> Teilweise reversibel bei früher Therapie</li>
+<li><strong>Schulleistungen:</strong> Normale Entwicklung erwartet</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Manifestation</th>
+<th>Reversibilität</th>
+<th>Zeitrahmen</th>
+<th>Prognosefaktoren</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kardiomyopathie</strong></td>
+<td>85-95%</td>
+<td>3-18 Monate</td>
+<td>Symptombeginn <6 Monate, LVEF >20%</td>
+</tr>
+<tr>
+<td><strong>Proximale Myopathie</strong></td>
+<td>95-100%</td>
+<td>4-12 Wochen</td>
+<td>Therapietreue, Carnitin-Spiegel</td>
+</tr>
+<tr>
+<td><strong>Hypoglykämie</strong></td>
+<td>100%</td>
+<td>Sofort-7 Tage</td>
+<td>Adäquate Dosierung</td>
+</tr>
+<tr>
+<td><strong>Hepatomegalie</strong></td>
+<td>100%</td>
+<td>2-8 Wochen</td>
+<td>Begleiterkrankungen</td>
+</tr>
+<tr>
+<td><strong>Entwicklungsrückstand</strong></td>
+<td>Teilweise</td>
+<td>6-24 Monate</td>
+<td>Alter bei Therapiebeginn</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>📊 20-Jahres-Follow-up-Daten (Neugeborenenscreening-Kohorten)</h4>
+<p><strong>Präsymptomatisch behandelte Patienten (n=89):</strong></p>
+<ul>
+<li><strong>Normale Herzfunktion:</strong> 100% (LVEF >50%)</li>
+<li><strong>Normale körperliche Leistungsfähigkeit:</strong> 97%</li>
+<li><strong>Schulabschluss:</strong> 95% normale Entwicklung</li>
+<li><strong>Lebensqualität:</strong> Nicht unterscheidbar von Kontrollen</li>
+</ul>
+
+<p><strong>Symptomatisch behandelte Patienten (n=156):</strong></p>
+<ul>
+<li><strong>Normale Herzfunktion:</strong> 82% (abhängig von Therapie-Zeitpunkt)</li>
+<li><strong>Residuale Kardiomyopathie:</strong> 18% (meist mild)</li>
+<li><strong>Normale Muskelfunktion:</strong> 88%</li>
+<li><strong>Kognitive Beeinträchtigung:</strong> 12% (schwere neonatale Formen)</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CPT1A-Defekt - Benigne Prognose</h3>
+<div class="prognosis-box">
+<h4>☀️ Langzeitprognose CPT1A-Defekt</h4>
+<p><strong>Inuit-Populationen (P479L-Mutation):</strong></p>
+<ul>
+<li><strong>Normale Lebenserwartung:</strong> Keine Reduktion in epidemiologischen Studien</li>
+<li><strong>Asymptomatische Verläufe:</strong> 60-80% der Homozygoten</li>
+<li><strong>Symptomatisch:</strong> Meist nur bei Stress-Situationen</li>
+<li><strong>Heterozygoten-Vorteil:</strong> Bessere Kälteanpassung</li>
+</ul>
+
+<p><strong>Seltene schwere Mutationen:</strong></p>
+<ul>
+<li><strong>Null-Mutationen:</strong> Schwerer Phänotyp, aber gute Prognose bei Therapie</li>
+<li><strong>Hepatomegalie:</strong> Vollständig reversibel</li>
+<li><strong>Hypoglykämie-Episoden:</strong> Vermeidbar durch adäquate Diät</li>
+<li><strong>Normale Entwicklung:</strong> Bei präventiven Maßnahmen</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🔍 Populationsgenetische Erkenntnisse</h4>
+<p><strong>Evolutionäre Aspekte der P479L-Mutation:</strong></p>
+<ul>
+<li><strong>Selective Advantage:</strong> Verbesserte Thermogenese in der Arktis</li>
+<li><strong>Metabolische Flexibilität:</strong> Bessere Ketonkörper-Produktion</li>
+<li><strong>Traditionelle Ernährung:</strong> Hoher Fettanteil kompensiert Defekt</li>
+<li><strong>Moderne Lebensweise:</strong> Gelegentlich Manifestation bei westlicher Diät</li>
+</ul>
+
+<p><strong>Präventionsstrategien für Risikopopulationen:</strong></p>
+<ul>
+<li><strong>Genetisches Screening:</strong> Bei geplanter Schwangerschaft</li>
+<li><strong>Ernährungsberatung:</strong> Traditionelle vs. westliche Ernährung</li>
+<li><strong>Stress-Situationen:</strong> Proaktive MCT-Supplementation</li>
+<li><strong>Aufklärung:</strong> Symptom-Erkennung und Erste Hilfe</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CACT-Defekt - Variable Prognose nach Schweregrad</h3>
+<div class="prognosis-box">
+<h4>⚡ Schwere neonatale Form</h4>
+<p><strong>Mortalität und Morbidität:</strong></p>
+<ul>
+<li><strong>Gesamtmortalität:</strong> 50-70% in den ersten 2 Lebensjahren</li>
+<li><strong>Todesursachen:</strong> 
+<ul>
+<li>Kardiogener Schock (40%)</li>
+<li>Plötzlicher Herztod/Arrhythmien (35%)</li>
+<li>Multiorganversagen (25%)</li>
+</ul>
+</li>
+<li><strong>Überlebende:</strong> Oft schwere Residual-Kardiomyopathie</li>
+<li><strong>Herztransplantation:</strong> 15-20% der Überlebenden</li>
+</ul>
+
+<p><strong>Prognosefaktoren für Überleben:</strong></p>
+<ul>
+<li><strong>Therapiebeginn:</strong> <2 Wochen vs. >4 Wochen</li>
+<li><strong>Initiale LVEF:</strong> >20% vs. <15%</li>
+<li><strong>Arrhythmie-Freiheit:</strong> Erste 3 Monate kritisch</li>
+<li><strong>Therapieansprechen:</strong> Carnitin-Normalisierung</li>
+</ul>
+</div>
+
+<div class="prognosis-box">
+<h4>🌱 Milde/späte Formen</h4>
+<p><strong>Deutlich bessere Prognose:</strong></p>
+<ul>
+<li><strong>Überlebensrate:</strong> >90% bei milden Formen</li>
+<li><strong>Normale Entwicklung:</strong> 80-85% der Patienten</li>
+<li><strong>Herzfunktion:</strong> Normalisierung in 60-70%</li>
+<li><strong>Lebensqualität:</strong> Eingeschränkt durch Diät-Restriktionen</li>
+</ul>
+
+<p><strong>Langzeitkomplikationen:</strong></p>
+<ul>
+<li><strong>Residuale Kardiomyopathie:</strong> 30-40% (meist mild)</li>
+<li><strong>Belastungseinschränkung:</strong> Moderate körperliche Aktivität</li>
+<li><strong>Psychosoziale Aspekte:</strong> Diät-bedingte Einschränkungen</li>
+<li><strong>Fertilität:</strong> Meist normal bei Frauen und Männern</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>CACT-Form</th>
+<th>5-Jahres-Überleben</th>
+<th>Normale Herzfunktion</th>
+<th>Normale Entwicklung</th>
+<th>Lebensqualität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schwer neonatal</strong></td>
+<td>30-50%</td>
+<td>20-30%</td>
+<td>40-60%</td>
+<td>Eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>Mild infantil</strong></td>
+<td>90-95%</td>
+<td>60-70%</td>
+<td>80-85%</td>
+<td>Leicht eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>Adult onset</strong></td>
+<td>>95%</td>
+<td>80-90%</td>
+<td>Normal</td>
+<td>Gut</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>CPT2-Defekt - Phänotyp-abhängige Langzeitprognose</h3>
+<div class="prognosis-box">
+<h4>🏃 Adult-myopathische Form</h4>
+<p><strong>Exzellente Langzeitprognose:</strong></p>
+<ul>
+<li><strong>Normale Lebenserwartung:</strong> Keine Reduktion bei adäquater Therapie</li>
+<li><strong>Rhabdomyolyse-Episoden:</strong> Vermeidbar durch Präventionsmaßnahmen</li>
+<li><strong>Berufsfähigkeit:</strong> 95% der Patienten vollzeit berufstätig</li>
+<li><strong>Sportliche Aktivität:</strong> Moderate Belastung gut toleriert</li>
+</ul>
+
+<p><strong>Episodenfrequenz unter Therapie:</strong></p>
+<ul>
+<li><strong>Ohne Therapie:</strong> 2-4 Episoden/Jahr</li>
+<li><strong>Mit Carnitin + MCT:</strong> 0,2-0,5 Episoden/Jahr</li>
+<li><strong>Mit optimaler Prävention:</strong> Episoden vermeidbar</li>
+<li><strong>Schwere Episoden:</strong> <1% bei adäquater Aufklärung</li>
+</ul>
+
+<p><strong>Lebensqualität:</strong></p>
+<ul>
+<li><strong>SF-36 Score:</strong> 85-90% des Normkollektivs</li>
+<li><strong>Haupteinschränkungen:</strong> Spontane sportliche Aktivität</li>
+<li><strong>Beruf und Familie:</strong> Keine signifikanten Einschränkungen</li>
+<li><strong>Soziale Teilhabe:</strong> Normal</li>
+</ul>
+</div>
+
+<div class="prognosis-box">
+<h4>👶 Neonatale/infantile Formen</h4>
+<p><strong>Schwere neonatale Form:</strong></p>
+<ul>
+<li><strong>Mortalität:</strong> 60-80% trotz optimaler Therapie</li>
+<li><strong>Nierenzysten:</strong> Pathognomonisch, oft progredient</li>
+<li><strong>Neurologische Entwicklung:</strong> Oft beeinträchtigt bei Überlebenden</li>
+<li><strong>Herztransplantation:</strong> Option bei isolierter Kardiomyopathie</li>
+</ul>
+
+<p><strong>Infantile hepatische Form:</strong></p>
+<ul>
+<li><strong>Prognose:</strong> Gut bis sehr gut bei früher Therapie</li>
+<li><strong>Normale Entwicklung:</strong> 80-90% der Patienten</li>
+<li><strong>Herzfunktion:</strong> Meist normal oder minimal eingeschränkt</li>
+<li><strong>Transition zur adult Form:</strong> Möglich im Adoleszentenalter</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📈 30-Jahres-Verlaufsstudie CPT2-Defekt</h4>
+<p><strong>Adult-myopathische Form (n=127 Patienten):</strong></p>
+<ul>
+<li><strong>Mortalität:</strong> Keine krankheitsbedingten Todesfälle</li>
+<li><strong>Niereninsuffizienz:</strong> 3 Patienten (2,4%) durch schwere Rhabdomyolyse</li>
+<li><strong>Normale Berufstätigkeit:</strong> 121 Patienten (95%)</li>
+<li><strong>Familienplanung:</strong> Normale Fertilität, keine Komplikationen</li>
+</ul>
+
+<p><strong>Infantile hepatische Form (n=45 Patienten):</strong></p>
+<ul>
+<li><strong>Normale Entwicklung:</strong> 38 Patienten (84%)</li>
+<li><strong>Milde kognitive Beeinträchtigung:</strong> 5 Patienten (11%)</li>
+<li><strong>Schwere Behinderung:</strong> 2 Patienten (4%)</li>
+<li><strong>Transition zu adult-Form:</strong> 15 Patienten (33%)</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Reproduktive Gesundheit und Familienplanung</h3>
+<div class="therapy-protocol">
+<h4>🤱 Schwangerschaft bei Carnitintransporter-Defekten</h4>
+<p><strong>Präkonzeptionelle Beratung:</strong></p>
+<ul>
+<li><strong>Genetische Beratung:</strong> 25% Wiederholungsrisiko bei Geschwistern</li>
+<li><strong>Pränataldiagnostik:</strong> Molekulargenetik ab 10. SSW möglich</li>
+<li><strong>Präimplantationsdiagnostik:</strong> Bei schweren Formen erwägen</li>
+<li><strong>Carnitin-Optimierung:</strong> Vor Konzeption normalisieren</li>
+</ul>
+
+<p><strong>Schwangerschaftsverlauf bei betroffenen Müttern:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Carnitin-Bedarf steigt auf 300-400 mg/kg/d</li>
+<li><strong>CPT-Defekte:</strong> Meist komplikationsloser Verlauf</li>
+<li><strong>Geburtsmodus:</strong> Vaginal möglich, Sectio bei kardialer Beteiligung</li>
+<li><strong>Stillen:</strong> Möglich und empfohlen bei stabiler Mutter</li>
+</ul>
+
+<p><strong>Neugeborenenversorgung:</strong></p>
+<ul>
+<li><strong>Sofortige Diagnostik:</strong> Bei Risiko-Neugeborenen</li>
+<li><strong>Prophylaktische Therapie:</strong> Bei hochgradiger Wahrscheinlichkeit</li>
+<li><strong>Ernährung:</strong> Spezialnahrung bei schweren Formen bereithalten</li>
+<li><strong>Monitoring:</strong> Engmaschige Kontrollen erste Lebenswochen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Transition von der Pädiatrie in die Erwachsenenmedizin</h3>
+<div class="case-study">
+<h4>🔄 Structured Transition Programme</h4>
+<p><strong>Vorbereitung (ab 14. Lebensjahr):</strong></p>
+<ul>
+<li><strong>Krankheitsverständnis:</strong> Eigenverantwortung fördern</li>
+<li><strong>Selbstmanagement:</strong> Therapietreue, Symptomerkennung</li>
+<li><strong>Notfallplan:</strong> Eigenständige Krisenintervention</li>
+<li><strong>Berufswahl:</strong> Belastungsgrenzen berücksichtigen</li>
+</ul>
+
+<p><strong>Transfer (16-18 Jahre):</strong></p>
+<ul>
+<li><strong>Strukturierte Übergabe:</strong> Pädiatrie → Innere Medizin/Kardiologie</li>
+<li><strong>Dokumentation:</strong> Vollständige Verlaufsberichte</li>
+<li><strong>Erste adult-Konsultation:</strong> Gemeinsam mit Pädiatern</li>
+<li><strong>Monitoring-Anpassung:</strong> Adult-spezifische Parameter</li>
+</ul>
+
+<p><strong>Adult follow-up (>18 Jahre):</strong></p>
+<ul>
+<li><strong>Jährliche Kontrollen:</strong> Kardiologie, Stoffwechsel</li>
+<li><strong>Präventionsmedizin:</strong> Kardiovaskuläre Risikofaktoren</li>
+<li><strong>Familienplanung:</strong> Genetische Beratung</li>
+<li><strong>Psychosoziale Unterstützung:</strong> Bei Bedarf</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('fallbeispiele')">Weiter zu den Fallbeispielen →</button>
+</div>
+</div>
+
+<!-- Fallbeispiele -->
+<div class="content-section" id="fallbeispiele">
+<h2 class="section-title">📋 Klinische Fallbeispiele</h2>
+
+<div class="subsection">
+<h3>Fall 1: Primärer Carnitinmangel - Kardiomyopathie bei 8-monatigem Säugling</h3>
+<div class="case-study">
+<h4>🏥 Anamnese und Befunde</h4>
+<p><strong>Patient:</strong> 8 Monate alter Junge, türkischer Migrationshintergrund</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li><strong>Aktuelle Symptome:</strong> Zunehmende Dyspnoe, Trinkschwäche seit 2 Wochen</li>
+<li><strong>Vorgeschichte:</strong> Gedeihstörung seit 4. Lebensmonat, häufige Müdigkeit</li>
+<li><strong>Familienanamnese:</strong> Konsanguinität der Eltern (Cousin/Cousine)</li>
+<li><strong>Neugeborenenscreening:</strong> Nicht durchgeführt (Geburt in der Türkei)</li>
+</ul>
+
+<p><strong>Klinische Untersuchung:</strong></p>
+<ul>
+<li><strong>Allgemein:</strong> Dystropher Säugling, 6. Perzentile Gewicht</li>
+<li><strong>Kardial:</strong> Tachykardie 180/min, 3/6 Systolikum, Hepatomegalie</li>
+<li><strong>Pulmonal:</strong> Feinblasige RG basal beidseits</li>
+<li><strong>Muskulär:</strong> Generalisierte Hypotonie, verminderte Kopfkontrolle</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>Labordiagnostik und Bildgebung</h4>
+<p><strong>Basis-Labor:</strong></p>
+<ul>
+<li><strong>BGA:</strong> pH 7,34, BE -3,2 mmol/l, Laktat 2,8 mmol/l</li>
+<li><strong>Glukose:</strong> 45 mg/dl (nüchtern seit 4h)</li>
+<li><strong>CK:</strong> 520 U/l, CK-MB 89 U/l, Troponin T 0,18 ng/ml</li>
+<li><strong>NT-proBNP:</strong> 8.500 ng/l (massiv erhöht)</li>
+</ul>
+
+<p><strong>Stoffwechsel-Diagnostik:</strong></p>
+<ul>
+<li><strong>Freies Carnitin:</strong> 3,2 μmol/l (↓↓↓ Normal: 25-50)</li>
+<li><strong>Gesamtcarnitin:</strong> 4,1 μmol/l (↓↓↓ Normal: 40-60)</li>
+<li><strong>Acylcarnitin-Profil:</strong> Alle Werte niedrig-normal</li>
+<li><strong>Ketonkörper:</strong> 0,1 mmol/l (↓ trotz Hypoglykämie)</li>
+</ul>
+
+<p><strong>Echokardiographie:</strong></p>
+<ul>
+<li><strong>LVEF:</strong> 22% (schwer reduziert)</li>
+<li><strong>LVEDD:</strong> 45 mm (Z-Score +4,2)</li>
+<li><strong>Mitralklappeninsuffizienz:</strong> Grad II-III</li>
+<li><strong>Diagnose:</strong> Dilatative Kardiomyopathie</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>🎯 Therapieentscheidung und Verlauf</h4>
+<p><strong>Soforttherapie:</strong></p>
+<ul>
+<li><strong>L-Carnitin i.v.:</strong> 150 mg/kg/d kontinuierlich</li>
+<li><strong>Glukose-Infusion:</strong> 8 mg/kg/min</li>
+<li><strong>Herzinsuffizienz-Therapie:</strong> Furosemid, ACE-Hemmer</li>
+<li><strong>Monitoring:</strong> Intensivstation, kontinuierliches EKG</li>
+</ul>
+
+<p><strong>Verlauf unter Therapie:</strong></p>
+<ul>
+<li><strong>Tag 3:</strong> Carnitin 18 μmol/l, Hypoglykämien sistiert</li>
+<li><strong>Woche 2:</strong> LVEF 35%, Trinkmenge verbessert</li>
+<li><strong>Monat 3:</strong> LVEF 48%, normale Gewichtszunahme</li>
+<li><strong>Monat 8:</strong> LVEF 58%, vollständige klinische Erholung</li>
+</ul>
+
+<p><strong>Langzeittherapie:</strong></p>
+<ul>
+<li><strong>L-Carnitin oral:</strong> 200 mg/kg/d aufgeteilt in 3 Dosen</li>
+<li><strong>Ziel freies Carnitin:</strong> >25 μmol/l erreicht</li>
+<li><strong>Herzinsuffizienz-Medikation:</strong> Schrittweise reduziert</li>
+<li><strong>Follow-up:</strong> 6-monatlich kardiologisch</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🧬 Molekulargenetische Bestätigung</h4>
+<p><strong>SLC22A5-Analyse:</strong></p>
+<ul>
+<li><strong>Mutation 1:</strong> c.760C>T (p.Arg254*) - paternell</li>
+<li><strong>Mutation 2:</strong> c.1195C>T (p.Leu399Phe) - maternell</li>
+<li><strong>Genotyp:</strong> Compound heterozygot</li>
+<li><strong>Prognose:</strong> Beide Mutationen schwer funktionseinschränkend</li>
+</ul>
+
+<p><strong>Familienscreening:</strong></p>
+<ul>
+<li><strong>Mutter:</strong> Freies Carnitin 12 μmol/l, asymptomatisch</li>
+<li><strong>Vater:</strong> Freies Carnitin 15 μmol/l, chronische Müdigkeit</li>
+<li><strong>Schwester (3 Jahre):</strong> Freies Carnitin 8 μmol/l, CK 180 U/l</li>
+<li><strong>Konsequenz:</strong> Therapiebeginn bei Mutter und Schwester</li>
+</ul>
+
+<p><strong>5-Jahres-Follow-up:</strong></p>
+<ul>
+<li><strong>Kardiale Funktion:</strong> LVEF 62%, normale Belastbarkeit</li>
+<li><strong>Entwicklung:</strong> Normale psychomotorische Entwicklung</li>
+<li><strong>Therapietreue:</strong> Excellent, Carnitin konstant >25 μmol/l</li>
+<li><strong>Lebensqualität:</strong> Altersgerecht, keine Einschränkungen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 2: CACT-Defekt - Neonatale Krise mit Arrhythmien</h3>
+<div class="case-study">
+<h4>👶 Neonatale Präsentation</h4>
+<p><strong>Patient:</strong> Neugeborenes Mädchen, 6 Tage alt</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li><strong>Schwangerschaft:</strong> Unauffällig bis 38. SSW</li>
+<li><strong>Geburt:</strong> Spontan, APGAR 8/9/10, 3.200g</li>
+<li><strong>Postnataler Verlauf:</strong> Initial unauffällig, gutes Trinken</li>
+<li><strong>Aktuell:</strong> Seit 12h zunehmend lethargisch, Trinkverweigerung</li>
+</ul>
+
+<p><strong>Klinischer Zustand bei Aufnahme:</strong></p>
+<ul>
+<li><strong>Bewusstsein:</strong> Somnolent, schwer erweckbar</li>
+<li><strong>Vitalzeichen:</strong> HF 220/min, RR 65/35 mmHg, T 35,8°C</li>
+<li><strong>Kardial:</strong> Tachykardie, schwache Pulse, verlängerte Rekapillarisierung</li>
+<li><strong>Hepatomegalie:</strong> Leber 4 cm unter Rippenbogen tastbar</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>Notfall-Diagnostik und Management</h4>
+<p><strong>Labor-Notfall-Profil:</strong></p>
+<ul>
+<li><strong>BGA:</strong> pH 7,15, BE -12 mmol/l, Laktat 8,2 mmol/l</li>
+<li><strong>Glukose:</strong> 28 mg/dl, keine Ketonkörper nachweisbar</li>
+<li><strong>CK:</strong> 2.400 U/l, CK-MB 380 U/l</li>
+<li><strong>Ammoniak:</strong> 180 μmol/l (↑)</li>
+</ul>
+
+<p><strong>Acylcarnitin-Profil (Trockenblut):</strong></p>
+<ul>
+<li><strong>Freies Carnitin (C0):</strong> 4,2 μmol/l (↓↓↓)</li>
+<li><strong>C16-Carnitin:</strong> 12,8 μmol/l (↑↑↑ Normal: <1,5)</li>
+<li><strong>C18-Carnitin:</strong> 8,4 μmol/l (↑↑↑ Normal: <1,0)</li>
+<li><strong>C18:1-Carnitin:</strong> 15,2 μmol/l (↑↑↑ Normal: <2,0)</li>
+<li><strong>Ratio C0/(C16+C18):</strong> 0,005 (diagnostisch für CACT)</li>
+</ul>
+
+<p><strong>EKG und Echokardiographie:</strong></p>
+<ul>
+<li><strong>EKG:</strong> Supraventrikuläre Tachykardie 220/min, ST-Senkungen</li>
+<li><strong>Echo:</strong> LVEF 18%, global hypokinetisch, LVEDD 28 mm</li>
+<li><strong>Arrhythmie:</strong> Mehrere VES, ein 6-Schlag-VT</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>⚡ Intensivtherapie und Verlauf</h4>
+<p><strong>Akuttherapie (Tag 1-3):</strong></p>
+<ul>
+<li><strong>L-Carnitin i.v.:</strong> 200 mg/kg/d kontinuierlich</li>
+<li><strong>Hochdosis-Glukose:</strong> 15 mg/kg/min + Insulin</li>
+<li><strong>Kardiale Unterstützung:</strong> Dobutamin 5-10 μg/kg/min</li>
+<li><strong>Anti-arrhythmisch:</strong> Amiodaron-Loading</li>
+</ul>
+
+<p><strong>Kritischer Verlauf (Tag 4-10):</strong></p>
+<ul>
+<li><strong>Tag 4:</strong> Ventrikuläre Tachykardie-Episode, Kardioversion</li>
+<li><strong>Tag 6:</strong> LVEF 12%, Überlegung ECMO</li>
+<li><strong>Tag 8:</strong> Erste Stabilisierung, LVEF 25%</li>
+<li><strong>Tag 10:</strong> Rhythmusstabil, Dobutamin reduziert</li>
+</ul>
+
+<p><strong>Ernährungstherapie:</strong></p>
+<ul>
+<li><strong>Spezialnahrung:</strong> LCT-frei, 70% MCT-Anteil</li>
+<li><strong>Energie:</strong> 120 kcal/kg/d ab Tag 3</li>
+<li><strong>Frequent feeding:</strong> Alle 2 Stunden</li>
+<li><strong>Monitoring:</strong> Acylcarnitine wöchentlich</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🧬 Diagnostische Bestätigung</h4>
+<p><strong>SLC25A20-Analyse:</strong></p>
+<ul>
+<li><strong>Mutation:</strong> c.199-10T>G homozygot (splice-site)</li>
+<li><strong>Funktionsanalyse:</strong> Komplett fehlendes funktionelles Protein</li>
+<li><strong>Prognose:</strong> Schwerste Form des CACT-Defekts</li>
+<li><strong>Familienanalyse:</strong> Beide Eltern heterozygot</li>
+</ul>
+
+<p><strong>18-Monats-Follow-up:</strong></p>
+<ul>
+<li><strong>Kardiale Funktion:</strong> LVEF 38%, mäßige Einschränkung</li>
+<li><strong>Arrhythmien:</strong> Sporadische VES, kein VT mehr</li>
+<li><strong>Entwicklung:</strong> Grobe Entwicklungsverzögerung</li>
+<li><strong>Ernährung:</strong> Ausschließlich über PEG-Sonde</li>
+<li><strong>Prognose:</strong> Weiterhin kritisch, Herztransplantation erwogen</li>
+</ul>
+
+<p><strong>Lernpunkte:</strong></p>
+<ul>
+<li><strong>Früherkennung:</strong> Neugeborenenscreening hätte Outcome verbessern können</li>
+<li><strong>Aggressive Therapie:</strong> Trotz optimaler Behandlung schlechte Prognose</li>
+<li><strong>Familienberatung:</strong> 25% Wiederholungsrisiko, PND angeboten</li>
+<li><strong>Supportive Care:</strong> Palliativmedizinische Mitbetreuung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 3: CPT2-Defekt adult-myopathische Form - Rhabdomyolyse beim Marathonläufer</h3>
+<div class="case-study">
+<h4>🏃 Anamnese und Erstmanifestation</h4>
+<p><strong>Patient:</strong> 28-jähriger ambitionierter Hobbyläufer</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li><strong>Sportliche Aktivität:</strong> Laufen seit 10 Jahren, 3-4x/Woche</li>
+<li><strong>Vorgeschichte:</strong> Gelegentliche Muskelkrämpfe nach langen Läufen</li>
+<li><strong>Familienanamnese:</strong> Mutter mit "Muskelschwäche", nie abgeklärt</li>
+<li><strong>Aktuelle Episode:</strong> Nach 30 km Halbmarathon bei 2°C Außentemperatur</li>
+</ul>
+
+<p><strong>Klinische Präsentation (6h post-exercise):</strong></p>
+<ul>
+<li><strong>Hauptsymptome:</strong> Schwere Myalgien, besonders Oberschenkel</li>
+<li><strong>Dunkler Urin:</strong> Rötlich-braune Verfärbung</li>
+<li><strong>Allgemeinzustand:</strong> Schwäche, Übelkeit, kein Fieber</li>
+<li><strong>Muskelstatus:</strong> Druckschmerzhafte, geschwollene Oberschenkel</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>Notfall-Diagnostik bei Rhabdomyolyse</h4>
+<p><strong>Labor bei Aufnahme:</strong></p>
+<ul>
+<li><strong>CK:</strong> 85.000 U/l (↑↑↑ Normal: <200)</li>
+<li><strong>CK-MB:</strong> 850 U/l, Myoglobin 12.000 ng/ml</li>
+<li><strong>Nierenfunktion:</strong> Kreatinin 1,8 mg/dl (↑)</li>
+<li><strong>Elektrolyte:</strong> K+ 5,2 mmol/l, PO4 2,1 mmol/l</li>
+</ul>
+
+<p><strong>Urinanalyse:</strong></p>
+<ul>
+<li><strong>Myoglobinurie:</strong> Stark positiv</li>
+<li><strong>Proteinurie:</strong> 3+ ohne Erythrozyten</li>
+<li><strong>Spezifisches Gewicht:</strong> 1.035 (konzentriert)</li>
+</ul>
+
+<p><strong>Acylcarnitin-Profil (während Krise):</strong></p>
+<ul>
+<li><strong>Freies Carnitin:</strong> 18 μmol/l (niedrig-normal)</li>
+<li><strong>C16-Carnitin:</strong> 3,2 μmol/l (↑ Normal: <1,5)</li>
+<li><strong>C18:1-Carnitin:</strong> 2,8 μmol/l (↑ Normal: <2,0)</li>
+<li><strong>Ratio (C16+C18:1)/C2:</strong> 0,52 (↑ Cut-off 0,4)</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>💧 Akuttherapie der Rhabdomyolyse</h4>
+<p><strong>Sofortmaßnahmen:</strong></p>
+<ul>
+<li><strong>Aggressive Hydrierung:</strong> 4-6 l/d physiologische Kochsalzlösung</li>
+<li><strong>Alkalinisierung:</strong> Natriumbicarbonat, Ziel-pH >7,45</li>
+<li><strong>Diurese-Förderung:</strong> Furosemid bei Oligurie</li>
+<li><strong>L-Carnitin hochdosiert:</strong> 6 g/d p.o. für 7 Tage</li>
+</ul>
+
+<p><strong>Verlauf:</strong></p>
+<ul>
+<li><strong>Tag 1-3:</strong> CK-Peak 125.000 U/l, stabile Nierenfunktion</li>
+<li><strong>Tag 4-7:</strong> CK-Abfall, Kreatinin normalisiert sich</li>
+<li><strong>Tag 8-14:</strong> Vollständige klinische Erholung</li>
+<li><strong>Tag 21:</strong> CK 180 U/l, normale Kraft</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🔬 Weiterführende Diagnostik</h4>
+<p><strong>Enzymaktivitätsmessung (Fibroblasten):</strong></p>
+<ul>
+<li><strong>CPT2-Aktivität:</strong> 35% der Norm (Normal: 100 ± 20%)</li>
+<li><strong>Temperatur-Sensitivität:</strong> Bei 37°C nur 18% der Norm</li>
+<li><strong>Palmitinsäure-Oxidation:</strong> 40% reduziert</li>
+</ul>
+
+<p><strong>Molekulargenetik:</strong></p>
+<ul>
+<li><strong>CPT2-Analyse:</strong> c.338C>T (p.Ser113Leu) homozygot</li>
+<li><strong>Häufigste Mutation:</strong> Adult-myopathische Form</li>
+<li><strong>Protein-Stabilität:</strong> Thermolabil bei Körpertemperatur</li>
+<li><strong>Penetranz:</strong> Variable Symptomausprägung</li>
+</ul>
+
+<p><strong>Familienscreening:</strong></p>
+<ul>
+<li><strong>Mutter (52 Jahre):</strong> Gleiche Mutation heterozygot, milde Myalgien</li>
+<li><strong>Vater:</strong> Unauffällig</li>
+<li><strong>Bruder (25 Jahre):</strong> Mutation homozygot, bisher asymptomatisch</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>🎯 Langzeitmanagement und Prävention</h4>
+<p><strong>Diätetische Anpassungen:</strong></p>
+<ul>
+<li><strong>MCT-Öl:</strong> 25 g/d, verteilt auf Mahlzeiten</li>
+<li><strong>L-Carnitin:</strong> 3 g/d kontinuierlich</li>
+<li><strong>Pre-exercise Kohlenhydrate:</strong> 30-50g vor längerem Sport</li>
+<li><strong>Fasten-Vermeidung:</strong> Keine Nüchternläufe</li>
+</ul>
+
+<p><strong>Exercise-Modifikation:</strong></p>
+<ul>
+<li><strong>Intensität:</strong> Moderate Belastung, Herzfrequenz <160/min</li>
+<li><strong>Dauer:</strong> <90 Minuten kontinuierliche Belastung</li>
+<li><strong>Umgebung:</strong> Vermeidung von Kälte und hoher Luftfeuchtigkeit</li>
+<li><strong>Warm-up:</strong> Mindestens 15 Minuten</li>
+</ul>
+
+<p><strong>5-Jahres-Follow-up:</strong></p>
+<ul>
+<li><strong>Episoden:</strong> Keine weitere Rhabdomyolyse</li>
+<li><strong>Sportliche Aktivität:</strong> Weiterhin regelmäßig, angepasst</li>
+<li><strong>Lebensqualität:</strong> Exzellent, keine Einschränkungen im Beruf</li>
+<li><strong>Familienplanung:</strong> Genetische Beratung vor Kinderwunsch</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 4: CPT1A-Defekt - Neugeborenenscreening-Auffälligkeit bei Inuit-Kind</h3>
+<div class="case-study">
+<h4>🌍 Populationsspezifische Präsentation</h4>
+<p><strong>Patient:</strong> 2 Wochen altes Mädchen, Inuit-Abstammung (Nunavut, Kanada)</p>
+<p><strong>Familienanamnese:</strong></p>
+<ul>
+<li><strong>Vater:</strong> Bekannter CPT1A-Defekt, asymptomatisch</li>
+<li><strong>Mutter:</strong> Inuit-Abstammung, Screening nie durchgeführt</li>
+<li><strong>Großeltern väterlich:</strong> Traditionelle Inuit-Ernährung</li>
+<li><strong>Geschwister:</strong> Zwei ältere Brüder, gesund</li>
+</ul>
+
+<p><strong>Neugeborenenscreening-Befund:</strong></p>
+<ul>
+<li><strong>Freies Carnitin:</strong> 25 μmol/l (niedrig-normal)</li>
+<li><strong>Acylcarnitin-Profil:</strong> Alle Werte im Normbereich</li>
+<li><strong>Besonderheit:</strong> Screening detektiert CPT1A-Defekt nicht zuverlässig</li>
+<li><strong>Familiäre Konstellation:</strong> Direkter Gentest aufgrund der Familienanamnese</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>🧬 Präventive genetische Diagnostik</h4>
+<p><strong>Molekulargenetische Analyse:</strong></p>
+<ul>
+<li><strong>CPT1A-Mutation:</strong> c.1436C>T (p.Pro479Leu) homozygot</li>
+<li><strong>Allel-Frequenz:</strong> 67% in der lokalen Inuit-Population</li>
+<li><strong>Residual-Aktivität:</strong> 20-25% der Norm (erklärt milden Phänotyp)</li>
+<li><strong>Evolutionärer Hintergrund:</strong> Selektionsvorteil in der Arktis</li>
+</ul>
+
+<p><strong>Funktionsanalyse:</strong></p>
+<ul>
+<li><strong>CPT1A-Aktivität:</strong> 22% der Norm in Leukozyten</li>
+<li><strong>Malonyl-CoA-Sensitivität:</strong> Erhöht (typisch für P479L)</li>
+<li><strong>Ketonkörper-Bildung:</strong> Reduziert aber ausreichend</li>
+<li><strong>Klinische Relevanz:</strong> Meist asymptomatisch</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🍽️ Kulturspezifische Ernährungsberatung</h4>
+<p><strong>Traditionelle Inuit-Ernährung (protektiv):</strong></p>
+<ul>
+<li><strong>Hoher Fettanteil:</strong> 50-60% der Gesamtkalorien</li>
+<li><strong>Marine Omega-3-Fettsäuren:</strong> Natürliche MCT-ähnliche Wirkung</li>
+<li><strong>Häufige Mahlzeiten:</strong> Traditionell alle 3-4 Stunden</li>
+<li><strong>Fasten selten:</strong> Kontinuierliche Nahrungsverfügbarkeit</li>
+</ul>
+
+<p><strong>Moderne westliche Ernährung (Risiko):</strong></p>
+<ul>
+<li><strong>Niedriger Fettanteil:</strong> 20-30% der Gesamtkalorien</li>
+<li><strong>Verarbeitete Kohlenhydrate:</strong> Erhöhtes Hypoglykämie-Risiko</li>
+<li><strong>Unregelmäßige Mahlzeiten:</strong> Längere Fastenperioden</li>
+<li><strong>Süßgetränke:</strong> Reaktive Hypoglykämie möglich</li>
+</ul>
+
+<p><strong>Angepasste Ernährungsempfehlungen:</strong></p>
+<ul>
+<li><strong>MCT-Öl:</strong> 20-30 g/d als Nahrungsergänzung</li>
+<li><strong>Häufige Mahlzeiten:</strong> Alle 3-4 Stunden</li>
+<li><strong>Cornstarch nachts:</strong> 1 g/kg vor dem Schlafen</li>
+<li><strong>Notfall-Glukose:</strong> Bei prolongiertem Fasten</li>
+</ul>
+</div>
+
+<div class="therapy-protocol">
+<h4>📅 Lebenslanger Überwachungsplan</h4>
+<p><strong>Erstes Lebensjahr:</strong></p>
+<ul>
+<li><strong>Kontrollen:</strong> Monatlich bis 6. Monat, dann 3-monatlich</li>
+<li><strong>Parameter:</strong> Gewichtszunahme, Hypoglykämie-Episoden</li>
+<li><strong>Ernährung:</strong> Stillen + MCT-reiche Beikost</li>
+<li><strong>Aufklärung:</strong> Eltern über Warnsymptome</li>
+</ul>
+
+<p><strong>Kleinkind- und Schulalter:</strong></p>
+<ul>
+<li><strong>Kontrollen:</strong> 6-monatlich</li>
+<li><strong>Schule:</strong> Aufklärung über Fasten-Vermeidung</li>
+<li><strong>Sport:</strong> Normale Teilnahme mit Vorsichtsmaßnahmen</li>
+<li><strong>Notfallplan:</strong> Für Lehrkräfte und Betreuer</li>
+</ul>
+
+<p><strong>Erwachsenenalter:</strong></p>
+<ul>
+<li><strong>Kontrollen:</strong> Jährlich</li>
+<li><strong>Berufswahl:</strong> Keine besonderen Einschränkungen</li>
+<li><strong>Familienplanung:</strong> Genetische Beratung</li>
+<li><strong>Aufklärung:</strong> Übertragung der Eigenverantwortung</li>
+</ul>
+
+<p><strong>8-Jahres-Follow-up:</strong></p>
+<ul>
+<li><strong>Klinischer Verlauf:</strong> Komplett asymptomatisch</li>
+<li><strong>Wachstum:</strong> Normal, 50. Perzentile</li>
+<li><strong>Hypoglykämie-Episoden:</strong> Keine dokumentiert</li>
+<li><strong>Lebensqualität:</strong> Uneingeschränkt</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('lernkontrolle')">Weiter zur Lernkontrolle →</button>
+</div>
+</div>
+
+<!-- Lernkontrolle -->
+<div class="content-section" id="lernkontrolle">
+<h2 class="section-title">🎓 Lernkontrolle und Advanced Quiz</h2>
+
+<div class="subsection">
+<h3>Fallbasierte Fragen - Expert Level</h3>
+
+<div class="quiz-container">
+<div class="question">
+<h4>Frage 1: Differentialdiagnostik Acylcarnitin-Profile</h4>
+<p>Ein 4 Monate alter Säugling zeigt folgende Werte: Freies Carnitin 8 μmol/l, C16-Carnitin 8,2 μmol/l, C18-Carnitin 5,1 μmol/l, C18:1-Carnitin 9,8 μmol/l. Die Ratio C0/(C16+C18) beträgt 0,04. Welche Diagnose ist am wahrscheinlichsten?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 1)">
+A) Primärer Carnitinmangel
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 1)">
+B) CPT1A-Defekt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 1)">
+C) CACT-Defekt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 1)">
+D) CPT2-Defekt adult-Form
+</div>
+
+<div class="explanation" id="explanation1">
+<p><strong>Korrekt: C) CACT-Defekt</strong></p>
+<p><strong>Begründung:</strong> Die Kombination aus stark erniedrigtem freiem Carnitin (<10 μmol/l) und massiv erhöhten langkettigen Acylcarnitinen (C16, C18, C18:1) ist pathognomonisch für CACT-Defekt. Die Ratio C0/(C16+C18) <0,01 ist diagnostisch. Bei primärem Carnitinmangel wären die Acylcarnitine normal/niedrig, bei CPT1A-Defekt sind Acylcarnitine typischerweise normal, und bei adult CPT2-Defekt sind die Erhöhungen meist geringer und intermittierend.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 2: Therapeutische Dosierung</h4>
+<p>Bei einem 8 kg schweren Säugling mit bestätigtem primärem Carnitinmangel und dilatativer Kardiomyopathie (LVEF 25%) wurde L-Carnitin-Therapie begonnen. Nach 4 Wochen beträgt das freie Carnitin 15 μmol/l bei einer Dosis von 100 mg/kg/d. Was ist die nächste therapeutische Maßnahme?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 2)">
+A) Dosis beibehalten, da Wert im unteren Normbereich
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 2)">
+B) Dosis auf 200 mg/kg/d erhöhen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 2)">
+C) Zusätzlich MCT-Öl beginnen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 2)">
+D) L-Carnitin i.v. umstellen
+</div>
+
+<div class="explanation" id="explanation2">
+<p><strong>Korrekt: B) Dosis auf 200 mg/kg/d erhöhen</strong></p>
+<p><strong>Begründung:</strong> Bei primärem Carnitinmangel mit Kardiomyopathie ist das Therapieziel freies Carnitin >20 μmol/l, optimal >25 μmol/l. Bei OCTN2-Defekt sind höhere Dosen (bis 300 mg/kg/d) oft nötig, da die renale Clearance sehr hoch bleibt (>95%). Die unvollständige Kardiomyopathie-Reversibilität zeigt, dass die Carnitin-Spiegel noch unzureichend sind. MCT-Öl ist beim primären Carnitinmangel nicht primär indiziert.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 3: Molekulargenetische Korrelation</h4>
+<p>Ein 25-jähriger Marathonläufer entwickelt nach einem Wettkampf eine Rhabdomyolyse (CK 45.000 U/l). Die Molekulargenetik zeigt CPT2 c.338C>T (p.Ser113Leu) heterozygot. Welche Aussage ist korrekt?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 3)">
+A) Diagnose CPT2-Defekt ist bestätigt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 3)">
+B) Weitere Mutationssuche erforderlich
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 3)">
+C) Heterozygotie schließt CPT2-Defekt aus
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 3)">
+D) Enzymaktivitätsmessung unnötig
+</div>
+
+<div class="explanation" id="explanation3">
+<p><strong>Korrekt: B) Weitere Mutationssuche erforderlich</strong></p>
+<p><strong>Begründung:</strong> CPT2-Defekt ist autosomal-rezessiv. Eine heterozygote Mutation erklärt nicht die schwere Rhabdomyolyse. Es muss nach einer zweiten Mutation gesucht werden (compound heterozygot) oder nach großen Deletionen/Insertionen. Alternativ könnte es sich um eine andere Ursache der Rhabdomyolyse handeln. Die Enzymaktivitätsmessung kann helfen, den funktionellen Defekt zu bestätigen und den Grad der Restaktivität zu bestimmen.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 4: Prognostische Einschätzung</h4>
+<p>Ein neugeborenes Kind mit schwerem CACT-Defekt (null-Mutation homozygot) zeigt unter optimaler Therapie folgende Parameter: LVEF 35%, keine Arrhythmien, Acylcarnitine trotz Therapie nur mäßig gebessert. Die Eltern fragen nach der Langzeitprognose. Welche Aussage ist am zutreffendsten?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 4)">
+A) Exzellente Prognose bei Therapietreue
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 4)">
+B) Guarded Prognose, Herztransplantation möglich
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 4)">
+C) Normale Lebenserwartung wahrscheinlich
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 4)">
+D) Prognose abhängig von Therapietreue
+</div>
+
+<div class="explanation" id="explanation4">
+<p><strong>Korrekt: B) Guarded Prognose, Herztransplantation möglich</strong></p>
+<p><strong>Begründung:</strong> Bei schweren CACT-Defekten (null-Mutationen) ist die Prognose trotz optimaler Therapie schlecht. Die 5-Jahres-Überlebensrate liegt bei 30-50%. Persistierende Kardiomyopathie und nur mäßiges Ansprechen der Biomarker auf Therapie sind prognostisch ungünstige Zeichen. Herztransplantation ist bei 15-20% der Überlebenden erforderlich. Eine realistische Aufklärung über die eingeschränkte Prognose ist wichtig für Therapieentscheidungen und Familienplanung.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 5: Advanced Monitoring</h4>
+<p>Bei einem 3-jährigen Kind mit CPT1A-Defekt (P479L homozygot) unter MCT-Therapie werden folgende Werte gemessen: Nüchtern-Glukose 68 mg/dl, Ketonkörper 0,3 mmol/l, Triglyzeride 220 mg/dl, ALT 45 U/l. Welche Maßnahme ist indiziert?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 5)">
+A) MCT-Dosis erhöhen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 5)">
+B) Cornstarch nachts hinzufügen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 5)">
+C) LCT weiter reduzieren
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 5)">
+D) L-Carnitin-Dosis erhöhen
+</div>
+
+<div class="explanation" id="explanation5">
+<p><strong>Korrekt: B) Cornstarch nachts hinzufügen</strong></p>
+<p><strong>Begründung:</strong> Die Nüchtern-Glukose von 68 mg/dl ist grenzwertig niedrig, und die Ketonkörper sind suppressiert (normal bei Fasten >0,5 mmol/l). Dies deutet auf unzureichende Glukoneogenese und β-Oxidation hin. Cornstarch (1-2 g/kg) vor dem Schlafen kann die nächtliche Glukosehomöostase stabilisieren. Die erhöhten Triglyzeride und ALT-Werte sprechen gegen eine weitere MCT-Erhöhung. LCT-Reduktion würde das Problem verschärfen.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Biochemische Interpretationsaufgaben</h3>
+
+<div class="quiz-container">
+<div class="question">
+<h4>Frage 6: Carnitin-Loading-Test Interpretation</h4>
+<p>Ein 15-jähriger Jugendlicher mit grenzwertig niedrigem freiem Carnitin (22 μmol/l) erhält einen Carnitin-Loading-Test. Die renale Carnitin-Clearance beträgt 45%. Urin-Carnitin 8 Stunden nach Loading: 35% der gegebenen Dosis. Wie ist der Befund zu interpretieren?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 6)">
+A) Normaler Befund
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 6)">
+B) Heterozygoter OCTN2-Defekt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 6)">
+C) Sekundärer Carnitinmangel
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 6)">
+D) Primärer Carnitinmangel
+</div>
+
+<div class="explanation" id="explanation6">
+<p><strong>Korrekt: B) Heterozygoter OCTN2-Defekt</strong></p>
+<p><strong>Begründung:</strong> Die renale Clearance von 45% liegt zwischen normal (<2%) und homozygot betroffenen Patienten (>95%). Dies ist typisch für heterozygote OCTN2-Defekte. Der erhöhte Urin-Carnitin-Verlust (35% vs. normal <5%) bestätigt eine partielle Transporterstörung. Sekundärer Carnitinmangel würde niedrigere Clearance zeigen (<20%), und ein primärer Carnitinmangel hätte Clearance >95%.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 7: Enzymkinetik bei CPT2-Defekt</h4>
+<p>Die Enzymaktivitätsmessung bei einem Patienten mit verdächtigem CPT2-Defekt zeigt: 37°C: 28% der Norm, 30°C: 55% der Norm, 25°C: 78% der Norm. Welche Mutation ist am wahrscheinlichsten?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, true, 7)">
+A) p.Ser113Leu (thermolabile Variante)
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 7)">
+B) p.Phe383Tyr (schwere infantile Form)
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 7)">
+C) Null-Mutation (neonatale Form)
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 7)">
+D) p.Pro50His (milde adult Form)
+</div>
+
+<div class="explanation" id="explanation7">
+<p><strong>Korrekt: A) p.Ser113Leu (thermolabile Variante)</strong></p>
+<p><strong>Begründung:</strong> Die ausgeprägte Temperaturabhängigkeit der Enzymaktivität ist charakteristisch für die thermolabile p.Ser113Leu-Mutation (häufigste Mutation der adult-myopathischen Form). Bei Körpertemperatur ist die Aktivität stark reduziert, was die exercise-induzierten Symptome erklärt. Schwere Mutationen zeigen bei allen Temperaturen niedrige Aktivität, während andere milde Formen weniger temperaturabhängig sind.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 8: Neugeborenenscreening-Algorithmus</h4>
+<p>Im Neugeborenenscreening werden folgende Cut-off-Werte verwendet: C0 <10 μmol/l, (C16+C18:1)/C2 >0,35, C0/(C16+C18) <0,01. Ein Neugeborenes hat: C0 6 μmol/l, C16 0,8 μmol/l, C18:1 1,2 μmol/l, C2 15 μmol/l. Welcher Verdacht ergibt sich?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, true, 8)">
+A) Primärer Carnitinmangel
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 8)">
+B) CACT-Defekt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 8)">
+C) CPT2-Defekt
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 8)">
+D) Unauffälliger Befund
+</div>
+
+<div class="explanation" id="explanation8">
+<p><strong>Korrekt: A) Primärer Carnitinmangel</strong></p>
+<p><strong>Begründung:</strong> C0 <10 μmol/l erfüllt das Kriterium für primären Carnitinmangel. Die Ratios (C16+C18:1)/C2 = 0,13 (<0,35) und C0/(C16+C18) = 3,0 (>0,01) sprechen gegen CACT oder CPT2-Defekt. Bei primärem Carnitinmangel sind charakteristischerweise alle Carnitin-Werte niedrig, während die Acylcarnitine relativ normal bleiben. Dies ist der häufigste Screening-positive Befund.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Klinische Entscheidungsfindung</h3>
+
+<div class="quiz-container">
+<div class="question">
+<h4>Frage 9: Familienplanung und genetische Beratung</h4>
+<p>Ein Paar möchte Kinder. Die Frau hat primären Carnitinmangel (SLC22A5 c.760C>T homozygot), der Mann ist gesund. Wie hoch ist das Risiko für betroffene Kinder, und welche Maßnahmen sind sinnvoll?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, false, 9)">
+A) 25% Risiko, Pränataldiagnostik empfohlen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 9)">
+B) 50% Risiko, Präimplantationsdiagnostik erwägen
+</div>
+<div class="answer-option" onclick="checkAnswer(this, true, 9)">
+C) 0% Risiko für Erkrankung, Partner-Screening sinnvoll
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 9)">
+D) Unbekanntes Risiko, molekulargenetische Familienanalyse nötig
+</div>
+
+<div class="explanation" id="explanation9">
+<p><strong>Korrekt: C) 0% Risiko für Erkrankung, Partner-Screening sinnvoll</strong></p>
+<p><strong>Begründung:</strong> Bei autosomal-rezessiver Vererbung sind alle Kinder obligat heterozygot (wenn Partner nicht Träger ist). Das Risiko für Erkrankung ist praktisch 0%, außer der Partner ist ebenfalls Träger. Partner-Screening ist sinnvoll, besonders bei consanguinen Beziehungen oder in Populationen mit hoher Trägerfrequenz. Bei negativem Partner-Screening ist Pränataldiagnostik nicht erforderlich. Alle Kinder sollten jedoch im Neugeborenenscreening erfasst werden.</p>
+</div>
+</div>
+
+<div class="question">
+<h4>Frage 10: Notfallmanagement</h4>
+<p>Ein 8-jähriges Kind mit bekanntem CACT-Defekt wird bewusstlos in die Notaufnahme gebracht. Die Eltern berichten von 2 Tagen Gastroenteritis mit Erbrechen. BZ 35 mg/dl, keine Ketonkörper. Welches ist die wichtigste Sofortmaßnahme?</p>
+
+<div class="answer-option" onclick="checkAnswer(this, true, 10)">
+A) Hochdosis-Glukose i.v. + L-Carnitin-Bolus
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 10)">
+B) MCT-Öl per Magensonde
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 10)">
+C) Intubation und Beatmung
+</div>
+<div class="answer-option" onclick="checkAnswer(this, false, 10)">
+D) Antiemetika und orale Rehydrierung
+</div>
+
+<div class="explanation" id="explanation10">
+<p><strong>Korrekt: A) Hochdosis-Glukose i.v. + L-Carnitin-Bolus</strong></p>
+<p><strong>Begründung:</strong> Bei CACT-Defekt mit Hypoglykämie und Hypoketonämie liegt eine Notfallsituation vor. Die β-Oxidation ist blockiert, daher können keine Ketonkörper als alternative Energiequelle gebildet werden. Hochdosis-Glukose (10-15 mg/kg/min) suppressiert zusätzlich die Lipolyse und reduziert die Akkumulation toxischer Acylcarnitine. L-Carnitin-Bolus (100-200 mg/kg i.v.) kann helfen, das System zu stabilisieren. MCT-Öl ist bei bewusstlosem Kind kontraindiziert.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Zusammenfassung und Lernziele-Überprüfung</h3>
+
+<div class="case-study">
+<h4>🎯 Erreichte Lernziele - Selbsteinschätzung</h4>
+<p><strong>Nach Abschluss dieser Lerneinheit sollten Sie in der Lage sein:</strong></p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+<div>
+<h5 style="color: #166534; margin-bottom: 10px;">✅ Diagnostische Kompetenz</h5>
+<ul style="color: #166534; font-size: 0.95em;">
+<li>Acylcarnitin-Profile expert-level interpretieren</li>
+<li>Differentialdiagnostik der 6 Hauptdefekte</li>
+<li>Carnitin-Loading-Test durchführen und bewerten</li>
+<li>Neugeborenenscreening-Befunde einordnen</li>
+<li>Molekulargenetische Befunde korrelieren</li>
+</ul>
+</div>
+
+<div>
+<h5 style="color: #166534; margin-bottom: 10px;">💊 Therapeutische Expertise</h5>
+<ul style="color: #166534; font-size: 0.95em;">
+<li>Individualisierte Therapiepläne erstellen</li>
+<li>Notfallmanagement sicher beherrschen</li>
+<li>Langzeit-Monitoring optimieren</li>
+<li>Dosierungen defekt-spezifisch anpassen</li>
+<li>Prognose realistisch einschätzen</li>
+</ul>
+</div>
+</div>
+
+<div style="background: linear-gradient(135deg, #fef9e7, #fef3c7); padding: 15px; border-radius: 8px; margin: 15px 0; border: 2px solid #f59e0b;">
+<h5 style="color: #92400e; margin-bottom: 10px;">📊 Advanced Klinische Skills</h5>
+<ul style="color: #92400e; font-size: 0.95em;">
+<li><strong>Population-spezifische Besonderheiten</strong> (Inuit CPT1A, Färöer OCTN2)</li>
+<li><strong>Genotyp-Phänotyp-Korrelationen</strong> für Prognoseeinschätzung</li>
+<li><strong>Transition Pädiatrie → Erwachsenenmedizin</strong> strukturiert gestalten</li>
+<li><strong>Familienplanung und genetische Beratung</strong> professionell durchführen</li>
+<li><strong>Komplexe Fälle multidisziplinär</strong> managen</li>
+</ul>
+</div>
+</div>
+
+<div class="therapy-protocol">
+<h4>📚 Weiterführende Ressourcen für Experten</h4>
+<p><strong>Leitlinien und Konsensus-Statements:</strong></p>
+<ul>
+<li><strong>ACMG/SIMD Guidelines:</strong> Fatty acid oxidation disorders management</li>
+<li><strong>European Consensus:</strong> Carnitine transporter deficiency diagnosis</li>
+<li><strong>SSIEM Guidelines:</strong> Emergency protocols for FAODs</li>
+</ul>
+
+<p><strong>Zentrale Referenzen:</strong></p>
+<ul>
+<li><strong>Rasmussen et al. (2023):</strong> Long-term outcomes primary carnitine deficiency</li>
+<li><strong>Ferdinandusse et al. (2022):</strong> CACT deficiency therapeutic advances</li>
+<li><strong>Stanley et al. (2023):</strong> CPT2 deficiency genotype-phenotype correlations</li>
+</ul>
+
+<p><strong>Spezialisierte Zentren:</strong></p>
+<ul>
+<li><strong>Deutschland:</strong> Universitätskliniken mit Stoffwechselzentren</li>
+<li><strong>Europa:</strong> SSIEM-Mitgliedszentren für FAODs</li>
+<li><strong>International:</strong> Fatty Acid Oxidation Disorders Family Support Group</li>
+</ul>
+</div>
+
+<div class="emergency-protocol">
+<h4>🚨 Take-Home Messages für die Praxis</h4>
+<p><strong>Kritische Erkenntnisse:</strong></p>
+<ul>
+<li><strong>Primärer Carnitinmangel:</strong> Vollständig reversibel - Therapie niemals zu spät!</li>
+<li><strong>CACT-Defekt:</strong> Höchste Mortalität - aggressive Frühtherapie entscheidend</li>
+<li><strong>CPT1A-Defekt:</strong> Meist benigne - Aufklärung verhindert Über-Therapie</li>
+<li><strong>CPT2-Defekt adult:</strong> Prävention key - Patienten-Empowerment zentral</li>
+<li><strong>Neugeborenenscreening:</strong> Paradigmenwechsel - präsymptomatische Therapie</li>
+</ul>
+
+<p><strong>Häufige Fehlerquellen vermeiden:</strong></p>
+<ul>
+<li><strong>Falsch-negative Screening:</strong> CPT1A wird oft übersehen</li>
+<li><strong>Unterdosierung L-Carnitin:</strong> Bei OCTN2-Defekt höhere Dosen nötig</li>
+<li><strong>Prognose-Fehleinschätzung:</strong> CACT schwer ≠ CPT2 adult mild</li>
+<li><strong>Anästhesie-Risiken:</strong> Perioperative Protokolle essentiell</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: var(--border-radius); border: 2px solid var(--success-color);">
+<h3 style="color: #166534; margin-bottom: 1rem;">🎉 Herzlichen Glückwunsch!</h3>
+<p style="color: #166534; margin-bottom: 1.5rem;">Sie haben die komplette Advanced-Level Lerneinheit zu Carnitintransporter-Defekten erfolgreich abgeschlossen.</p>
+<p style="color: #166534; margin-bottom: 1.5rem; font-weight: 600;">Quiz-Score: <span id="quizScore">0/10</span> | Empfehlung: Wiederholung bei <70% Richtige</p>
+<p style="color: #16a34a; font-size: 1.1rem;"><strong>Sie sind nun expert-level vorbereitet für das Management aller Carnitintransporter-Defekte in der klinischen Praxis!</strong></p>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['therapie', 'prognose', 'fallbeispiele', 'lernkontrolle'];
+let correctAnswers = 0;
+let totalQuestions = 10;
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+event.target.classList.add('active');
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+function checkAnswer(element, isCorrect, questionNum) {
+// Remove previous selections
+const question = element.parentNode;
+const options = question.querySelectorAll('.answer-option');
+options.forEach(option => {
+option.classList.remove('correct', 'incorrect');
+option.style.pointerEvents = 'none';
+});
+
+// Mark selected answer
+if (isCorrect) {
+element.classList.add('correct');
+correctAnswers++;
+} else {
+element.classList.add('incorrect');
+// Also highlight the correct answer
+options.forEach(option => {
+if (option.getAttribute('onclick').includes('true')) {
+option.classList.add('correct');
+}
+});
+}
+
+// Show explanation
+const explanation = document.getElementById('explanation' + questionNum);
+explanation.classList.add('show');
+
+// Update score
+document.getElementById('quizScore').textContent = correctAnswers + '/' + totalQuestions;
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '25%';
+</script>
+
+</body>
+</html>

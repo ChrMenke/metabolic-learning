@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harnstoffzyklusstörungen - Teil 3</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #1f2937;
+            --border-radius: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-top: var(--spacing-lg);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            border-radius: 4px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        .pathway-diagram h4 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .enzyme-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 8px;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metabolite-box {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 8px;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--info-color);
+            text-align: center;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .flow-arrow::after {
+            content: '↓';
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+
+        /* Critical/emergency boxes */
+        .critical-box {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid var(--error-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .critical-box::before {
+            content: '🚨';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: linear-gradient(135deg, var(--error-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .critical-box h4 {
+            color: #dc2626;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .critical-box p, .critical-box ul, .critical-box li {
+            color: #dc2626;
+        }
+
+        /* Therapy boxes */
+        .therapy-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .therapy-box::before {
+            content: '💊';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .therapy-box h4 {
+            color: #1e40af;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .therapy-box p, .therapy-box ul, .therapy-box li {
+            color: #1e40af;
+        }
+
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .part-info p {
+            color: var(--text-secondary);
+        }
+
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: var(--spacing-md);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+        .subsection:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Harnstoffzyklusstörungen</h1>
+            <p>Teil 3: Spezifische Enzymdefekte II & Therapiekonzepte</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>🎯 Lerneinheit Teil 3</h3>
+            <p>Abschluss der Enzymdefekte mit ASL, ARG1 und HHH-Syndrom sowie umfassende Therapiekonzepte und praxisnahe Fallbeispiele.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('asl')">1. ASL-Defizienz</button>
+            <button class="nav-btn" onclick="showSection('arg1')">2. ARG1-Defizienz</button>
+            <button class="nav-btn" onclick="showSection('hhh')">3. HHH-Syndrom</button>
+            <button class="nav-btn" onclick="showSection('therapie')">4. Therapiekonzepte</button>
+            <button class="nav-btn" onclick="showSection('fallbeispiele')">5. Fallbeispiele</button>
+            <button class="nav-btn" onclick="showSection('quiz')">6. Abschlusstest</button>
+        </div>
+
+        <!-- ASL Section -->
+        <div id="asl" class="content-section active">
+            <h2 class="section-title">ASL-Defizienz (Argininosuccinaturie)</h2>
+            
+            <div class="subsection">
+                <h3>Besonderheit: NO-Produktion und erweiterte Phänotyp</h3>
+                <div class="pathway-diagram">
+                    <h4>🔬 Argininosuccinat-Lyase (ASL) - Mehr als nur Harnstoffsynthese</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="enzyme-box">ASL</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Viertes Enzym des Harnstoffzyklus</p>
+                            <div class="metabolite-box" style="margin: 5px auto;">Argininosuccinat → Arginin + Fumarat</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">NO-Synthese</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Systemische NO-Produktion</p>
+                            <div class="metabolite-box" style="margin: 5px auto; background: linear-gradient(135deg, #dc2626, #b91c1c);">Arginin → NO + Citrullin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Einzigartiger erweiterter Phänotyp</h4>
+                    <p><strong>NO-Mangel:</strong> ASL ist essentiell für systemische NO-Produktion</p>
+                    <p><strong>Arterielle Hypertension:</strong> Häufiger als bei anderen UCDs</p>
+                    <p><strong>Kognitive Defizite:</strong> Auch ohne hyperammonämische Krisen</p>
+                    <p><strong>Kontinuierliche Verschlechterung:</strong> Auch bei prospektiv behandelten Patienten</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Charakteristische Labordiagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Befund</th>
+                            <th>Diagnostische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Argininosuccinat</strong></td>
+                            <td>↑↑↑ in Plasma und Urin</td>
+                            <td>Pathognomonisch - keine Differentialdiagnose bekannt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Citrullin</strong></td>
+                            <td>↑↑ (10-20x normal)</td>
+                            <td>Weniger stark erhöht als bei ASS-Defizienz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arginin</strong></td>
+                            <td>Niedrig-normal</td>
+                            <td>Trotz Restenzymaktivität oft nicht hoch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orotat</strong></td>
+                            <td>↑ (moderat)</td>
+                            <td>Nicht so stark wie bei OTC-Defizienz</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Argininosuccinat als eindeutiger Marker</h4>
+                    <p><strong>Einzigartig:</strong> Kein anderer Defekt führt zu Argininosuccinat-Erhöhung</p>
+                    <p><strong>Nachweis:</strong> In Plasma und Urin möglich</p>
+                    <p><strong>Quantität:</strong> Korreliert oft mit Restenzymaktivität</p>
+                    <p><strong>Monitoring:</strong> Einige Zentren reduzieren Protein bei >400-500 μmol/L</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Spezielle Therapieaspekte</h3>
+                <div class="critical-box">
+                    <h4>Vorsicht bei hochdosierter Arginin-Therapie!</h4>
+                    <p><strong>Traditionell:</strong> Arginin-Monotherapie (500 mg/kg/d) wurde empfohlen</p>
+                    <p><strong>Neue Erkenntnisse:</strong> Hochdosis-Arginin kann schädlich sein</p>
+                    <p><strong>Mechanismen:</strong> Argininosuccinat akkumuliert (Trikarbonsäure), trapped im Gehirn</p>
+                    <p><strong>Nebenwirkungen:</strong> AST/ALT-Anstieg, neurologische Verschlechterung</p>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Aktuelle Therapieempfehlung</h4>
+                    <p><strong>Niedrigdosis-Arginin:</strong> 100 mg/kg/d (wie bei anderen UCDs)</p>
+                    <p><strong>Kombinationstherapie:</strong> + Phenylbutyrat 500 mg/kg/d</p>
+                    <p><strong>Sicherheitsgrenze:</strong> Plasma-Arginin < 200 μmol/L</p>
+                    <p><strong>Zusätzlich:</strong> Proteinrestriktion und andere UCD-Standardtherapie</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>🩺 Spezielle Monitoring-Aspekte</h4>
+                    <p><strong>Blutdruck:</strong> Regelmäßige RR-Kontrollen wegen Hypertonie-Risiko</p>
+                    <p><strong>Leberfunktion:</strong> Transaminasen, Gerinnung überwachen</p>
+                    <p><strong>Triglyzeride:</strong> Können erhöht sein, Hepatomegalie möglich</p>
+                    <p><strong>NO-Studie:</strong> Isosorbiddinitrat zeigte in Einzelfall Verbesserung</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARG1 Section -->
+        <div id="arg1" class="content-section">
+            <h2 class="section-title">ARG1-Defizienz (Hyperargininämie)</h2>
+            
+            <div class="subsection">
+                <h3>Besonderheiten der Spätmanifestation</h3>
+                <div class="pathway-diagram">
+                    <h4>🧠 Neurologischer Phänotyp im Vordergrund</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">⏰ Typisches Manifestationsalter</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>2-4 Jahre (nicht neonatal!)</li>
+                                <li>Progressive Spastik</li>
+                                <li>Seltene Hyperammonämie</li>
+                                <li>Oft Fehldiagnose "Zerebralparese"</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🧬 Biochemie</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Arginin ↑↑↑ (20-100x)</li>
+                                <li>Orotat oft erhöht</li>
+                                <li>Guanidin-Verbindungen ↑</li>
+                                <li>Harnstoff-Bildung reduziert</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Unterschied zu anderen UCDs</h4>
+                    <p><strong>Weniger Hyperammonämie:</strong> Aber trotzdem möglich (auch neonatal)</p>
+                    <p><strong>Neurologische Progression:</strong> Auch ohne metabolische Krisen</p>
+                    <p><strong>Späte Diagnose:</strong> Oft erst bei fortgeschrittener Spastik</p>
+                    <p><strong>Fehldiagnosen:</strong> Zerebralparese, hereditäre Spastik</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinischer Verlauf</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Altersgruppe</th>
+                            <th>Hauptsymptome</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kleinkind (2-4 J.)</strong></td>
+                            <td>Entwicklungsverzögerung, Gangstörung</td>
+                            <td>Erste Anzeichen von Spastik</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schulkind</strong></td>
+                            <td>Progressive spastische Paraparese</td>
+                            <td>Lernprobleme, Epilepsie möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erwachsene</strong></td>
+                            <td>Rollstuhlpflichtigkeit, Kontrakturen</td>
+                            <td>Kognitive Beeinträchtigung variabel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik</h3>
+                <div class="case-study">
+                    <h4>📋 Diagnostisches Vorgehen</h4>
+                    <p><strong>1. Verdacht:</strong> Progressive Spastik + erhöhtes Arginin</p>
+                    <p><strong>2. Bestätigung:</strong> Arginase-Aktivität in Erythrozyten (einfach!)</p>
+                    <p><strong>3. Genetik:</strong> ARG1-Gen-Analyse</p>
+                    <p><strong>Wichtig:</strong> Arginin kann unter Therapie nur leicht erhöht sein</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Enzymatik als Goldstandard</h4>
+                    <p><strong>Erythrozyten:</strong> Einfache, kostengünstige Diagnostik</p>
+                    <p><strong>Vorteile:</strong> Schneller als Genetik, weniger invasiv als Leberbiopsie</p>
+                    <p><strong>Zuverlässig:</strong> Direkter Nachweis des Enzymdefekts</p>
+                    <p><strong>Verfügbarkeit:</strong> In spezialisierten Laboren etabliert</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie und Prognose</h3>
+                <div class="therapy-box">
+                    <h4>Spezielle Therapieaspekte</h4>
+                    <p><strong>Proteinrestriktion:</strong> Ziel Arginin < 200 μmol/L (sehr schwer erreichbar!)</p>
+                    <p><strong>Stickstoff-Scavenger:</strong> Wie bei anderen UCDs (ohne Arginin-Substitution)</p>
+                    <p><strong>Essentielle Aminosäuren:</strong> Supplementation notwendig</p>
+                    <p><strong>Realität:</strong> Strict adherence schwierig, Effekt auf Spastik unklar</p>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Prognostische Faktoren</h4>
+                    <p><strong>Frühe Diagnose:</strong> Kann Progression verlangsamen</p>
+                    <p><strong>Therapie-Adhärenz:</strong> Schwierig über lange Zeit</p>
+                    <p><strong>Bestehende Spastik:</strong> Meist irreversibel</p>
+                    <p><strong>Genetik:</strong> Keine klare Genotyp-Phänotyp-Korrelation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HHH Section -->
+        <div id="hhh" class="content-section">
+            <h2 class="section-title">HHH-Syndrom</h2>
+            
+            <div class="subsection">
+                <h3>Pathophysiologie des Ornithin-Transporters</h3>
+                <div class="pathway-diagram">
+                    <h4>🚪 ORNT1-Transporter-Defekt</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #7c2d12, #92400e);">ORNT1</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Mitochondrialer Ornithin-Transporter</p>
+                            <div class="metabolite-box" style="margin: 5px auto; background: linear-gradient(135deg, #7c2d12, #92400e);">SLC25A15-Gen</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Defekt</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Ornithin-Akkumulation</p>
+                            <div class="metabolite-box" style="margin: 5px auto; background: linear-gradient(135deg, #dc2626, #b91c1c);">Homocitrullin ↑</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Namensgebende Trias</h4>
+                    <p><strong>H:</strong> Hyperornithinämie - Ornithin im Plasma erhöht</p>
+                    <p><strong>H:</strong> Hyperammonämie - Meist mäßig ausgeprägt</p>
+                    <p><strong>H:</strong> Homocitrullinurie - Spezifischer Marker im Urin</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Charakteristische Labordiagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Befund</th>
+                            <th>Diagnostische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ornithin (Plasma)</strong></td>
+                            <td>↑↑ (5-15x normal)</td>
+                            <td>Grundlage der Diagnose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Homocitrullin (Urin)</strong></td>
+                            <td>↑↑↑ (pathognomonisch)</td>
+                            <td>Spezifischer Marker, nur bei HHH</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ammoniak</strong></td>
+                            <td>↑ (meist moderat)</td>
+                            <td>Weniger ausgeprägt als bei anderen UCDs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kreatin</strong></td>
+                            <td>↓ (sekundärer Mangel)</td>
+                            <td>Wichtig für Monitoring</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>🔬 Funktionsdiagnostik</h4>
+                    <p><strong>¹⁴C-Ornithin-Test:</strong> Reduzierte Aufnahme in Fibroblasten</p>
+                    <p><strong>Abgrenzung:</strong> OAT-Defizienz (Gyrata-Atrophie) zeigt ähnliches Muster</p>
+                    <p><strong>Genetik:</strong> SLC25A15-Gen-Analyse zur Bestätigung</p>
+                    <p><strong>Träger:</strong> Nur durch Genetik identifizierbar (normale Biochemie)</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Manifestation</h3>
+                <div class="pathway-diagram">
+                    <h4>🏥 Variabilität der Symptomatik</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border: 2px solid #dc2626;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">⚡ Akute Form</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Fulminante Hepatitis</li>
+                                <li>Schwere Hyperammonämie</li>
+                                <li>Lebensbedrohlich</li>
+                            </ul>
+                        </div>
+                        <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">📈 Chronische Form</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Spastische Paraparese</li>
+                                <li>Kognitive Störungen</li>
+                                <li>Wachstumsretardierung</li>
+                            </ul>
+                        </div>
+                        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border: 2px solid #16a34a;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">😊 Milde Form</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Asymptomatisch</li>
+                                <li>Zufallsbefund</li>
+                                <li>Normale Entwicklung</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie und besondere Aspekte</h3>
+                <div class="therapy-box">
+                    <h4>Spezifische Therapiekonzepte</h4>
+                    <p><strong>Basis:</strong> Proteinrestriktion wie bei anderen UCDs</p>
+                    <p><strong>Substitution:</strong> Citrullin oder Arginin (Bypass der Ornithin-Abhängigkeit)</p>
+                    <p><strong>Kreatin:</strong> Supplementation bei nachgewiesenem Mangel</p>
+                    <p><strong>Limitation:</strong> Einfluss auf Pyramidenbahnzeichen unklar</p>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Sekundärer Kreatin-Mangel</h4>
+                    <p><strong>Mechanismus:</strong> Ornithin-Mangel beeinträchtigt Kreatin-Synthese</p>
+                    <p><strong>Häufigkeit:</strong> Auch bei OTC-, ASS-Defizienz, nicht bei ASL</p>
+                    <p><strong>Monitoring:</strong> Plasma-Kreatin regelmäßig kontrollieren</p>
+                    <p><strong>Therapie:</strong> Kreatin-Supplementation erwägen</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Prognostische Einschätzung</h4>
+                    <p><strong>Metabolische Stabilität:</strong> Gut durch Therapie erreichbar</p>
+                    <p><strong>Neurologische Progression:</strong> Schwer beeinflussbar</p>
+                    <p><strong>Variabilität:</strong> Von asymptomatisch bis schwer behindert</p>
+                    <p><strong>Frühe Diagnose:</strong> Wichtig für optimales Management</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Therapie Section -->
+        <div id="therapie" class="content-section">
+            <h2 class="section-title">Umfassende Therapiekonzepte</h2>
+            
+            <div class="subsection">
+                <h3>Akuttherapie hyperammonämischer Krisen</h3>
+                <div class="critical-box">
+                    <h4>Notfallmanagement - Jede Minute zählt!</h4>
+                    <p><strong>Ziel NH₃:</strong> < 80 μmol/L so schnell wie möglich</p>
+                    <p><strong>Neuroprotektion:</strong> Verhindert irreversible Hirnschäden</p>
+                    <p><strong>Multidisziplinär:</strong> Intensivmedizin + Stoffwechsel + Dialyse</p>
+                    <p><strong>Monitoring:</strong> Kontinuierlich NH₃, Bewusstsein, ICP</p>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Sofortmaßnahmen (erste 1-2 Stunden)</h4>
+                    <p><strong>1. Proteinstopp:</strong> Vollständiger Stopp der Proteinzufuhr</p>
+                    <p><strong>2. Glucose-Infusion:</strong> 10-15 mg/kg/min (Anti-Katabolismus)</p>
+                    <p><strong>3. Stickstoff-Scavenger:</strong> Benzoat 250-500 mg/kg + Phenylacetat 250-500 mg/kg i.v.</p>
+                    <p><strong>4. Arginin:</strong> 200-600 mg/kg (außer ARG1-Defizienz)</p>
+                    <p><strong>5. Dialyse-Vorbereitung:</strong> Bei NH₃ > 400 μmol/L sofort</p>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Ammoniak-Level</th>
+                            <th>Bewusstsein</th>
+                            <th>Maßnahmen</th>
+                            <th>Dialyse</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>80-150 μmol/L</td>
+                            <td>Leichte Symptome</td>
+                            <td>Proteinstopp, Medikamente, Beobachtung</td>
+                            <td>Vorbereitung</td>
+                        </tr>
+                        <tr>
+                            <td>150-400 μmol/L</td>
+                            <td>Verwirrtheit, Agitation</td>
+                            <td>Intensive medikamentöse Therapie</td>
+                            <td>Bereitschaft</td>
+                        </tr>
+                        <tr>
+                            <td>>400 μmol/L</td>
+                            <td>Koma, Krampfanfälle</td>
+                            <td>Maximale Therapie + Neuroprotektion</td>
+                            <td>Sofortig</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Langzeit-Management</h3>
+                <div class="pathway-diagram">
+                    <h4>🍽️ Ernährungstherapie als Fundament</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border: 2px solid #2563eb;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🥩 Proteinrestriktion</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>Säuglinge: 1.5-2.0 g/kg/d</li>
+                                <li>Kinder: 1.0-1.5 g/kg/d</li>
+                                <li>Erwachsene: 0.8-1.0 g/kg/d</li>
+                                <li>Individuell angepasst</li>
+                            </ul>
+                        </div>
+                        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border: 2px solid #16a34a;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🧪 Essentielle AS</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Spezialmischungen</li>
+                                <li>Ohne/wenig Stickstoff</li>
+                                <li>Bedarfsdeckung</li>
+                                <li>Geschmacksoptimierung</li>
+                            </ul>
+                        </div>
+                        <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">⚡ Energieversorgung</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Kohlenhydrate bevorzugt</li>
+                                <li>Fette supplementieren</li>
+                                <li>Anti-kataboler Effekt</li>
+                                <li>Ausreichende Kalorien</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Medikamentöse Therapie</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Medikament</th>
+                            <th>Dosis</th>
+                            <th>Wirkung</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Natriumbenzoat</strong></td>
+                            <td>250-500 mg/kg/d</td>
+                            <td>Hippurat-Bildung (2 N pro Molekül)</td>
+                            <td>Gut verträglich, oral möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phenylbutyrat</strong></td>
+                            <td>250-500 mg/kg/d</td>
+                            <td>Phenylacetylglutamin (2 N pro Molekül)</td>
+                            <td>Übler Geruch/Geschmack</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glycerolphenylbutyrat</strong></td>
+                            <td>Äquivalent zu Phenylbutyrat</td>
+                            <td>Langsam freigesetztes Phenylbutyrat</td>
+                            <td>Bessere Verträglichkeit, teuer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L-Arginin</strong></td>
+                            <td>100-600 mg/kg/d</td>
+                            <td>Cofaktor, Harnstoffsynthese</td>
+                            <td>Außer bei ARG1-Defizienz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L-Citrullin</strong></td>
+                            <td>100-200 mg/kg/d</td>
+                            <td>Alternative zu Arginin</td>
+                            <td>Bei ASS/ASL-Defizienz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Carbamylglutamat</strong></td>
+                            <td>100-250 mg/kg/d</td>
+                            <td>CPS1-Aktivator</td>
+                            <td>Nur NAGS-Defizienz + CPS1-Versuch</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Monitoring und Verlaufskontrolle</h3>
+                <div class="highlight-box">
+                    <h4>Regelmäßige Kontrollen</h4>
+                    <p><strong>Laborwerte:</strong> NH₃, Aminosäuren, Leberwerte, Nierenfunktion</p>
+                    <p><strong>Wachstum:</strong> Gewicht, Länge, Kopfumfang, Entwicklung</p>
+                    <p><strong>Neurologie:</strong> Kognition, MRT, neurologische Untersuchung</p>
+                    <p><strong>Adhärenz:</strong> Therapietreue, Lebensqualität, Familie</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>📊 Verlaufsparameter</h4>
+                    <p><strong>Therapieziele:</strong> NH₃ < 80 μmol/L, normale Entwicklung</p>
+                    <p><strong>Krisenprävention:</strong> Notfallpläne, Schulungen, Medikamenten-Pass</p>
+                    <p><strong>Transition:</strong> Übergang Kindermedizin → Erwachsenenmedizin</p>
+                    <p><strong>Schwangerschaft:</strong> Spezielle Betreuung bei Frauen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fallbeispiele Section -->
+        <div id="fallbeispiele" class="content-section">
+            <h2 class="section-title">Praxisnahe Fallbeispiele</h2>
+            
+            <div class="subsection">
+                <h3>Fall 1: Neonatale OTC-Defizienz</h3>
+                <div class="case-study">
+                    <h4>👶 Anamnese und Klinik</h4>
+                    <p><strong>Patient:</strong> Männliches Neugeborenes, 3. Lebenstag</p>
+                    <p><strong>Symptome:</strong> Trinkschwäche, Erbrechen, zunehmende Lethargie</p>
+                    <p><strong>Familie:</strong> Gesunde Eltern, ein älterer Bruder gesund</p>
+                    <p><strong>Verlauf:</strong> Rapid progredienter Bewusstseinsverlust</p>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Laborwerte bei Aufnahme</h4>
+                    <p><strong>Ammoniak:</strong> 890 μmol/L (Referenz < 110)</p>
+                    <p><strong>Citrullin:</strong> 12 μmol/L (niedrig)</p>
+                    <p><strong>Orotat im Urin:</strong> 2800 μmol/mmol Kreatin (Referenz < 10)</p>
+                    <p><strong>Verdachtsdiagnose:</strong> OTC-Defizienz</p>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Akutes Management</h4>
+                    <p><strong>Sofort:</strong> Proteinstopp, Glucose 12 mg/kg/min i.v.</p>
+                    <p><strong>1h:</strong> Hämodialyse begonnen (NH₃ 890 → 340 μmol/L)</p>
+                    <p><strong>2h:</strong> Benzoat 500 mg/kg + Arginin 300 mg/kg i.v.</p>
+                    <p><strong>12h:</strong> NH₃ 45 μmol/L, Patient wach</p>
+                    <p><strong>Genetik:</strong> OTC-Mutation bestätigt</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 2: Spätmanifestation Citrullinämie</h3>
+                <div class="case-study">
+                    <h4>👩 Anamnese</h4>
+                    <p><strong>Patientin:</strong> 28-jährige Frau, 6. Schwangerschaftswoche</p>
+                    <p><strong>Symptome:</strong> Extreme Hyperemesis, Verwirrtheit, aggressives Verhalten</p>
+                    <p><strong>Vorgeschichte:</strong> Seit Kindheit "protein-arm" gegessen, psychiatrische Behandlung</p>
+                    <p><strong>Familie:</strong> Bruder angeblich geistig behindert (unbekannte Ursache)</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Diagnostik</h4>
+                    <p><strong>Ammoniak:</strong> 180 μmol/L (erhöht)</p>
+                    <p><strong>Citrullin:</strong> 1800 μmol/L (massiv erhöht)</p>
+                    <p><strong>Argininosuccinat:</strong> Nicht nachweisbar</p>
+                    <p><strong>Diagnose:</strong> ASS-Defizienz (Citrullinämie Typ 1)</p>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Behandlung und Schwangerschaftsmanagement</h4>
+                    <p><strong>Akut:</strong> Proteinrestriktion 0.8 g/kg, Benzoat 250 mg/kg</p>
+                    <p><strong>Schwangerschaft:</strong> Engmaschige Kontrollen, Citrullin 150 mg/kg</p>
+                    <p><strong>Verlauf:</strong> Normale Schwangerschaft, gesundes Kind</p>
+                    <p><strong>Genetik:</strong> Pränatale Diagnostik durchgeführt (Kind nicht betroffen)</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 3: Hyperargininämie mit Spastik</h3>
+                <div class="case-study">
+                    <h4>🧒 Anamnese</h4>
+                    <p><strong>Patient:</strong> 4-jähriger Junge</p>
+                    <p><strong>Symptome:</strong> Gangstörung, Spastik, Entwicklungsverzögerung</p>
+                    <p><strong>Vordiagnose:</strong> "Infantile Zerebralparese" bei normalem MRT</p>
+                    <p><strong>Verlauf:</strong> Progressive Verschlechterung trotz Physiotherapie</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Weg zur Diagnose</h4>
+                    <p><strong>Verdacht:</strong> Stoffwechselstörung bei progredienter Spastik</p>
+                    <p><strong>Aminosäuren:</strong> Arginin 450 μmol/L (Referenz 40-120)</p>
+                    <p><strong>Arginase:</strong> Aktivität in Erythrozyten stark reduziert</p>
+                    <p><strong>Diagnose:</strong> ARG1-Defizienz</p>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Herausforderungen der Therapie</h4>
+                    <p><strong>Proteinrestriktion:</strong> 1.2 g/kg bei 4-jährigem Kind schwierig</p>
+                    <p><strong>Adhärenz:</strong> Familie kämpft mit strikter Diät</p>
+                    <p><strong>Arginin:</strong> 180 μmol/L trotz Therapie (Ziel < 200)</p>
+                    <p><strong>Prognose:</strong> Spastik stabilisiert, aber nicht reversibel</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 4: HHH-Syndrom - Zufallsbefund</h3>
+                <div class="case-study">
+                    <h4>👨 Anamnese</h4>
+                    <p><strong>Patient:</strong> 35-jähriger Mann, Lebendspender-Evaluation</p>
+                    <p><strong>Befund:</strong> Auffällige Aminosäuren im Routine-Labor</p>
+                    <p><strong>Anamnese:</strong> Beschwerdefrei, normale Leistung im Beruf</p>
+                    <p><strong>Familie:</strong> Schwester mit unklarer Entwicklungsverzögerung</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Diagnostik</h4>
+                    <p><strong>Ornithin:</strong> 850 μmol/L (Referenz 40-120)</p>
+                    <p><strong>Homocitrullin:</strong> Stark erhöht im Urin</p>
+                    <p><strong>Ammoniak:</strong> 65 μmol/L (leicht erhöht)</p>
+                    <p><strong>Diagnose:</strong> HHH-Syndrom</p>
+                </div>
+
+                <div class="therapy-box">
+                    <h4>Management</h4>
+                    <p><strong>Patient:</strong> Aufklärung, moderate Proteinrestriktion, Kontrollen</p>
+                    <p><strong>Familie:</strong> Genetische Beratung, Schwester untersucht</p>
+                    <p><strong>Lebendspende:</strong> Nach Diskussion freigegeben</p>
+                    <p><strong>Verlauf:</strong> Asymptomatischer Verlauf über 3 Jahre</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2 class="section-title">Abschließende Lernkontrolle</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Was ist die Besonderheit der ASL-Defizienz gegenüber anderen UCDs?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Höhere Ammoniak-Werte</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) ASL ist essentiell für systemische NO-Produktion</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Ausschließlich neonatale Manifestation</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Keine Proteinrestriktion notwendig</div>
+                <div id="explanation1" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> ASL ist nicht nur für den Harnstoffzyklus, sondern auch für die systemische NO-Produktion essentiell. Dies erklärt den erweiterten Phänotyp mit Hypertonie und kognitiven Defiziten.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. Welches ist das typische Manifestationsalter der ARG1-Defizienz?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Neonatal (0-1 Monat)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Kleinkind (2-4 Jahre)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Schulalter (6-10 Jahre)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Erwachsenenalter</div>
+                <div id="explanation2" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> ARG1-Defizienz unterscheidet sich von anderen UCDs durch die späte Manifestation zwischen 2-4 Jahren mit progressiver spastischer Paraparese.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. Welcher Parameter ist pathognomonisch für das HHH-Syndrom?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Argininosuccinat im Urin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Homocitrullin im Urin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Orotat stark erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Citrullin 50fach erhöht</div>
+                <div id="explanation3" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Homocitrullin im Urin ist der spezifische Marker für das HHH-Syndrom und Teil der namensgebenden Trias (Hyperornithinämie, Hyperammonämie, Homocitrullinurie).
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. Bei welchem Ammoniak-Wert sollte bei hyperammonämischer Krise sofort mit Dialyse begonnen werden?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) > 150 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) > 250 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) > 400 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) > 600 μmol/L</div>
+                <div id="explanation4" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Bei NH₃ > 400 μmol/L besteht akute Lebensgefahr und die Dialyse muss sofort begonnen werden, um irreversible Hirnschäden zu verhindern.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. Warum wird bei ASL-Defizienz von hochdosierter Arginin-Therapie abgeraten?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Arginin ist bei ASL-Defizienz kontraindiziert</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Argininosuccinat kann als Trikarbonsäure im Gehirn akkumulieren</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Hochdosis-Arginin führt zu Hyperammonämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Es besteht keine wissenschaftliche Evidenz</div>
+                <div id="explanation5" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Bei hochdosierter Arginin-Therapie akkumuliert Argininosuccinat, das als Trikarbonsäure im Gehirn "trapped" werden kann und zu neurologischen Schäden führt.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">6. Welche Komplikation ist bei HHH-Syndrom-Patienten häufig und sollte überwacht werden?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Leberzirrhose</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Sekundärer Kreatin-Mangel</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Kardiomyopathie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Niereninsuffizienz</div>
+                <div id="explanation6" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Beim HHH-Syndrom kommt es durch Ornithin-Mangel zu sekundärem Kreatin-Mangel, der regelmäßig kontrolliert und ggf. substituiert werden sollte.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">7. Was ist das Therapieziel für Plasma-Arginin bei ARG1-Defizienz?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) < 100 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) < 200 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) < 400 μmol/L</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) < 600 μmol/L</div>
+                <div id="explanation7" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Das Therapieziel für Plasma-Arginin bei ARG1-Defizienz ist < 200 μmol/L, was jedoch in der Praxis oft schwer erreichbar ist.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">8. Welches Medikament wird spezifisch bei NAGS-Defizienz eingesetzt?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Benzoat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Phenylbutyrat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) N-Carbamylglutamat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Arginin</div>
+                <div id="explanation8" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> N-Carbamylglutamat ist ein synthetisches Analog von N-Acetylglutamat und wird spezifisch bei NAGS-Defizienz als Ersatz für den fehlenden CPS1-Aktivator eingesetzt.
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div class="completion-badge">
+                    🎉 Herzlichen Glückwunsch! Sie haben das gesamte Lernmodul erfolgreich abgeschlossen! 🎉
+                </div>
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                    Sie sind nun mit allen wichtigen Aspekten der Harnstoffzyklusstörungen vertraut - von der Biochemie über die Diagnostik bis hin zu modernen Therapiekonzepten.
+                </p>
+                <button class="next-btn" onclick="showCertificate()">
+                    📜 Teilnahmebescheinigung anzeigen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 'asl';
+        let quizAnswers = {};
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to corresponding nav button
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const sections = ['asl', 'arg1', 'hhh', 'therapie', 'fallbeispiele', 'quiz'];
+            const currentIndex = sections.indexOf(currentSection);
+            const progress = ((currentIndex + 1) / sections.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function selectAnswer(element, isCorrect) {
+            const container = element.parentElement;
+            const options = container.querySelectorAll('.quiz-option');
+            const questionNumber = container.querySelector('.quiz-question').textContent.charAt(0);
+            
+            // Remove previous selections
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            if (isCorrect) {
+                element.classList.add('correct');
+                quizAnswers[questionNumber] = true;
+            } else {
+                element.classList.add('incorrect');
+                // Also highlight correct answer
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+                quizAnswers[questionNumber] = false;
+            }
+            
+            // Show explanation
+            const explanation = document.getElementById('explanation' + questionNumber);
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+            
+            // Disable further clicks
+            options.forEach(option => {
+                option.onclick = null;
+                option.style.cursor = 'default';
+            });
+        }
+
+        function showCertificate() {
+            const correctAnswers = Object.values(quizAnswers).filter(answer => answer === true).length;
+            const totalQuestions = Object.keys(quizAnswers).length;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            alert(`🎓 TEILNAHMEBESCHEINIGUNG 🎓\n\nHarnstoffzyklusstörungen - Expertenmodul\n\nSie haben ${correctAnswers} von ${totalQuestions} Fragen richtig beantwortet (${percentage}%).\n\nVielen Dank für Ihre Teilnahme an diesem umfassenden Lernmodul!`);
+        }
+
+        // Initialize progress
+        updateProgress();
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

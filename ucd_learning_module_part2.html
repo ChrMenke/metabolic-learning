@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harnstoffzyklusstörungen - Teil 2</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #1f2937;
+            --border-radius: 12px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-top: var(--spacing-lg);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            border-radius: 4px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        .pathway-diagram h4 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .enzyme-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 8px;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metabolite-box {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 8px;
+            display: inline-block;
+            margin: var(--spacing-xs);
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--info-color);
+            text-align: center;
+            margin: var(--spacing-sm) 0;
+        }
+
+        .flow-arrow::after {
+            content: '↓';
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+
+        /* Error/critical boxes */
+        .critical-box {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid var(--error-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .critical-box::before {
+            content: '🚨';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: linear-gradient(135deg, var(--error-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .critical-box h4 {
+            color: #dc2626;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .critical-box p, .critical-box ul, .critical-box li {
+            color: #dc2626;
+        }
+
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .part-info p {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: var(--spacing-md);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Harnstoffzyklusstörungen</h1>
+            <p>Teil 2: Spezifische Enzymdefekte I</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>🎯 Lerneinheit Teil 2</h3>
+            <p>Detaillierte Betrachtung der ersten drei Enzymdefekte: CPS1-, OTC- und ASS-Defizienz mit spezifischen diagnostischen und therapeutischen Aspekten.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('cps1')">1. CPS1-Defizienz</button>
+            <button class="nav-btn" onclick="showSection('otc')">2. OTC-Defizienz</button>
+            <button class="nav-btn" onclick="showSection('ass')">3. ASS-Defizienz</button>
+            <button class="nav-btn" onclick="showSection('vergleich')">4. Vergleich</button>
+            <button class="nav-btn" onclick="showSection('quiz')">5. Lernkontrolle</button>
+        </div>
+
+        <!-- CPS1 Section -->
+        <div id="cps1" class="content-section active">
+            <h2 class="section-title">CPS1-Defizienz</h2>
+            
+            <div class="subsection">
+                <h3>Biochemie und Pathophysiologie</h3>
+                <div class="pathway-diagram">
+                    <h4>🔬 Carbamoylphosphat-Synthetase I (CPS1)</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="enzyme-box">CPS1</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Erstes Enzym des Harnstoffzyklus</p>
+                            <div class="metabolite-box" style="margin: 5px auto;">NH₃ + CO₂ + 2 ATP → Carbamoylphosphat + 2 ADP + Pi</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #f59e0b, #d97706);">NAGS</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Regulatorisches Enzym</p>
+                            <div class="metabolite-box" style="margin: 5px auto; background: linear-gradient(135deg, #f59e0b, #d97706);">N-Acetylglutamat (Aktivator)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Genetik und Epidemiologie</h4>
+                    <p><strong>Vererbung:</strong> Autosomal-rezessiv</p>
+                    <p><strong>Gen:</strong> CPS1 (Chromosom 2q34)</p>
+                    <p><strong>Häufigkeit:</strong> ~1:1.300.000 Geburten</p>
+                    <p><strong>Proteinstruktur:</strong> 1462 Aminosäuren, mitochondriales Enzym</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Manifestation</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Manifestationsform</th>
+                            <th>Zeitpunkt</th>
+                            <th>Symptome</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Schwere Form</strong></td>
+                            <td>Neonatal (1-3 Tage)</td>
+                            <td>Hyperammonämie >1000 μmol/L, Koma, Krampfanfälle</td>
+                            <td>Schlecht ohne Lebertransplantation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Milde Form</strong></td>
+                            <td>Spätsäugling/Kleinkind</td>
+                            <td>Rezidivierende Hyperammonämie, Entwicklungsverzögerung</td>
+                            <td>Besser mit konservativer Therapie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spätmanifestation</strong></td>
+                            <td>Erwachsenenalter</td>
+                            <td>Psychiatrische Symptome, chronische Müdigkeit</td>
+                            <td>Gut bei Diagnose und Therapie</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="critical-box">
+                    <h4>Abgrenzung zu NAGS-Defizienz</h4>
+                    <p><strong>Problem:</strong> Beide Enzyme sind mitochondrial, ähnliche Biochemie</p>
+                    <p><strong>Unterscheidung:</strong> NAGS-Defizienz spricht auf N-Carbamylglutamat an</p>
+                    <p><strong>Therapieversuch:</strong> Bei V.a. CPS1 zunächst N-Carbamylglutamat testen</p>
+                    <p><strong>Definitive Diagnostik:</strong> Molekulargenetik oder Enzymaktivität</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik</h3>
+                <div class="pathway-diagram">
+                    <h4>🔍 Labordiagnostik CPS1-Defizienz</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border: 2px solid #dc2626;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🩸 Basislabor</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>NH₃ ↑↑↑</li>
+                                <li>Glutamin ↑</li>
+                                <li>Citrullin ↓/normal</li>
+                                <li>Arginin ↓</li>
+                                <li>Orotat normal</li>
+                            </ul>
+                        </div>
+                        <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border: 2px solid #2563eb;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🧪 Spezialdiagnostik</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>Molekulargenetik (1. Wahl)</li>
+                                <li>Enzymaktivität (Leber)</li>
+                                <li>Carbamylglutamat-Test</li>
+                                <li>Ausschluss NAGS-Defizienz</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>📋 Empfohlenes Vorgehen</h4>
+                    <p><strong>1. Schritt:</strong> Molekulargenetische Analyse (CPS1-Gen)</p>
+                    <p><strong>2. Schritt:</strong> Bei negativem Befund: Carbamylglutamat-Therapieversuch</p>
+                    <p><strong>3. Schritt:</strong> Enzymaktivitätsbestimmung in Leberbiopsie</p>
+                    <p><strong>Besonderheit:</strong> RNA-Analyse aus Fibroblasten oder Lymphozyten möglich</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Spezielle Therapieaspekte</h3>
+                <div class="highlight-box">
+                    <h4>N-Carbamylglutamat bei CPS1-Defizienz</h4>
+                    <p><strong>Mechanismus:</strong> Mögliche pharmakologische Chaperon-Wirkung</p>
+                    <p><strong>Studien:</strong> Bei 5 Patienten mit späte CPS1-Defizienz getestet</p>
+                    <p><strong>Ergebnis:</strong> 4/5 Patienten zeigten verbesserte Harnstoffsynthese</p>
+                    <p><strong>Anwendung:</strong> Therapieversuch bei milden Formen empfohlen</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>💊 Therapeutisches Management</h4>
+                    <p><strong>Akuttherapie:</strong> Standardprotokoll wie bei anderen UCDs</p>
+                    <p><strong>Langzeittherapie:</strong> Proteinrestriktion, Stickstoff-Scavenger</p>
+                    <p><strong>Besonderheit:</strong> Carbamylglutamat-Versuch bei Spätformen</p>
+                    <p><strong>Prognose:</strong> Schwere Formen benötigen oft Lebertransplantation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTC Section -->
+        <div id="otc" class="content-section">
+            <h2 class="section-title">OTC-Defizienz</h2>
+            
+            <div class="subsection">
+                <h3>Besonderheiten der X-chromosomalen Vererbung</h3>
+                <div class="pathway-diagram">
+                    <h4>🧬 Vererbungsmuster und Manifestation</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #dc2626;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">👨 Männliche Patienten</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Hemizygot betroffen</li>
+                                <li>Meist neonatale Manifestation</li>
+                                <li>Hohe Mortalität (60%)</li>
+                                <li>Schwere Verläufe</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">👩 Weibliche Träger</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>X-Inaktivierung variabel</li>
+                                <li>7% neonatale Manifestation</li>
+                                <li>Oft Spätmanifestation</li>
+                                <li>Asymptomatisch bis schwer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Risikosituationen für weibliche Träger</h4>
+                    <p><strong>Schwangerschaft:</strong> Hyperemesis, akute Leberinsuffizienz</p>
+                    <p><strong>Valproat-Therapie:</strong> Schwere hyperammonämische Krisen</p>
+                    <p><strong>Operative Eingriffe:</strong> Kataboler Stress kann Dekompensation auslösen</p>
+                    <p><strong>Proteinbelastung:</strong> Auch bei asymptomatischen Trägerinnen</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Charakteristische Labordiagnostik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Befund</th>
+                            <th>Mechanismus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ammoniak</strong></td>
+                            <td>↑↑↑ (oft >500 μmol/L)</td>
+                            <td>Blockade der Entgiftung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Citrullin</strong></td>
+                            <td>↓ oder niedrig-normal</td>
+                            <td>Verminderte Synthese</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orotat (Urin)</strong></td>
+                            <td>↑↑↑ (100-1000x normal)</td>
+                            <td>Carbamoylphosphat → Pyrimidin-Synthese</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glutamin</strong></td>
+                            <td>↑↑</td>
+                            <td>Alternative NH₃-Entgiftung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alanin</strong></td>
+                            <td>↑</td>
+                            <td>Muskelkatabolismus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arginin</strong></td>
+                            <td>↓</td>
+                            <td>Verminderte Synthese</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Orotat als Marker</h4>
+                    <p><strong>Spezifität:</strong> Pathognomonisch für OTC-Defizienz</p>
+                    <p><strong>Quantität:</strong> 100-1000fache Erhöhung der Normalwerte</p>
+                    <p><strong>Mechanismus:</strong> Carbamoylphosphat wird alternativ für Pyrimidin-Synthese verwendet</p>
+                    <p><strong>Diagnostik:</strong> Auch bei asymptomatischen Trägerinnen nachweisbar</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetik und Träger-Diagnostik</h3>
+                <div class="pathway-diagram">
+                    <h4>🧪 Genetische Diagnostik</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border: 2px solid #16a34a;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">✅ Standarddiagnostik</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>Mutationsanalyse DNA</li>
+                                <li>Detektionsrate 80-90%</li>
+                                <li>Nicht-invasiv</li>
+                                <li>Pränatale Diagnostik möglich</li>
+                            </ul>
+                        </div>
+                        <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border: 2px solid #2563eb;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🔬 Alternative Methoden</h5>
+                            <ul style="font-size: 0.9em; color: #2563eb;">
+                                <li>RNA-Analyse bei V.a. Splicing-Defekt</li>
+                                <li>LC-MS/MS Plasma-OTC-Aktivität</li>
+                                <li>Funktionelle Tests</li>
+                                <li>Familienanalyse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>👩‍⚕️ Träger-Diagnostik bei Frauen</h4>
+                    <p><strong>1. Wahl:</strong> Molekulargenetische Analyse</p>
+                    <p><strong>Allopurinol-Test:</strong> Orotat-Anstieg nach Allopurinol-Gabe</p>
+                    <p><strong>Proteinbelastungstest:</strong> NH₃-Anstieg nach Proteinbelastung</p>
+                    <p><strong>Stammbaum-Analyse:</strong> Familienanamnese, Segregationsanalyse</p>
+                    <p><strong>Besonderheit:</strong> Enzymatik in Leberbiopsie unzuverlässig (X-Mosaik)</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Spezielle Therapieüberlegungen</h3>
+                <div class="critical-box">
+                    <h4>Geschlechtsspezifische Aspekte</h4>
+                    <p><strong>Männliche Patienten:</strong> Oft aggressive Therapie nötig, LTx-Kandidaten</p>
+                    <p><strong>Weibliche Träger:</strong> Aufklärung über Risikosituationen</p>
+                    <p><strong>Schwangerschaftsplanung:</strong> Pränatale Diagnostik anbieten</p>
+                    <p><strong>Familienberatung:</strong> Genetische Beratung für alle Familienmitglieder</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Besondere Komplikationen</h4>
+                    <p><strong>Leberversagen:</strong> Rezidivierende Episoden bei einigen Patienten</p>
+                    <p><strong>Gastrointestinale Komplikationen:</strong> Protein-Intoleranz</p>
+                    <p><strong>Neurologische Langzeitfolgen:</strong> Auch bei milden Verläufen</p>
+                    <p><strong>Koagulopathie:</strong> Bei asymptomatischen erwachsenen Patienten beschrieben</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ASS Section -->
+        <div id="ass" class="content-section">
+            <h2 class="section-title">ASS-Defizienz (Citrullinämie Typ 1)</h2>
+            
+            <div class="subsection">
+                <h3>Biochemische Charakteristika</h3>
+                <div class="pathway-diagram">
+                    <h4>🔬 Argininosuccinat-Synthetase (ASS)</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div class="enzyme-box">ASS</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Drittes Enzym des Harnstoffzyklus</p>
+                            <div class="metabolite-box" style="margin: 5px auto;">Citrullin + Aspartat + ATP → Argininosuccinat + AMP + PPi</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Defekt</div>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Citrullin-Akkumulation</p>
+                            <div class="metabolite-box" style="margin: 5px auto; background: linear-gradient(135deg, #dc2626, #b91c1c);">Citrullin ↑↑↑ (50-100x)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Pathognomonic: Massive Citrullin-Erhöhung</h4>
+                    <p><strong>Normalwerte:</strong> 10-45 μmol/L (Plasma)</p>
+                    <p><strong>Bei Citrullinämie:</strong> 1000-5000 μmol/L (50-100x erhöht)</p>
+                    <p><strong>Spezifität:</strong> Höchste Citrullin-Werte aller UCDs</p>
+                    <p><strong>Diagnostik:</strong> Oft bereits mit Aminosäurenanalytik diagnostizierbar</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Varianten</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Manifestationsform</th>
+                            <th>Häufigkeit</th>
+                            <th>Citrullin (μmol/L)</th>
+                            <th>Besonderheiten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Neonatale Form</strong></td>
+                            <td>~60%</td>
+                            <td>2000-5000</td>
+                            <td>Schwere Hyperammonämie, schlechte Prognose</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Milde/späte Form</strong></td>
+                            <td>~30%</td>
+                            <td>1000-3000</td>
+                            <td>Bessere Prognose, Restaktivität vorhanden</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adulte Form</strong></td>
+                            <td>~10%</td>
+                            <td>500-2000</td>
+                            <td>Oft psychiatrische Symptome</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="critical-box">
+                    <h4>Akutes Leberversagen bei Citrullinämie</h4>
+                    <p><strong>Manifestation:</strong> Kann als fulminantes Leberversagen beginnen</p>
+                    <p><strong>Schwangerschaft:</strong> Besonderes Risiko für schwangere Frauen</p>
+                    <p><strong>Differentialdiagnose:</strong> Wichtig bei unklarem akutem Leberversagen</p>
+                    <p><strong>Therapie:</strong> Sofortige UCD-Therapie zusätzlich zur Lebertherapie</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Spezielle Komplikationen</h3>
+                <div class="pathway-diagram">
+                    <h4>⚠️ Seltene Manifestationen</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border: 2px solid #dc2626;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">❤️ Kardiomyopathie</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>Hypertrophe Form</li>
+                                <li>Bei Erwachsenen beschrieben</li>
+                                <li>Zusammenhang unklar</li>
+                            </ul>
+                        </div>
+                        <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">👁️ Katarakte</h5>
+                            <ul style="font-size: 0.9em; color: #ea580c;">
+                                <li>Einzelfallberichte</li>
+                                <li>Ätiologie unbekannt</li>
+                                <li>Monitoring empfohlen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>📋 Kasuistik: Erwachsene Patientin</h4>
+                    <p><strong>Fall:</strong> 28-jährige Patientin mit neonataler Citrullinämie</p>
+                    <p><strong>Komplikationen:</strong> Hypertrophe Kardiomyopathie und Katarakte</p>
+                    <p><strong>Unklar:</strong> Krankheitsfolge oder Therapie-assoziiert?</p>
+                    <p><strong>Empfehlung:</strong> Regelmäßige kardiologische und ophthalmologische Kontrollen</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik und Genetik</h3>
+                <div class="highlight-box">
+                    <h4>Diagnostisches Vorgehen</h4>
+                    <p><strong>Verdachtsdiagnose:</strong> Massive Citrullin-Erhöhung im Plasma</p>
+                    <p><strong>Bestätigung:</strong> Ausschluss Argininosuccinat im Plasma/Urin</p>
+                    <p><strong>Genetik:</strong> ASS1-Gen-Analyse (Chromosom 9q34)</p>
+                    <p><strong>Enzymatik:</strong> In Fibroblasten oder Leber möglich</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧬 Genetische Aspekte</h4>
+                    <p><strong>Gen:</strong> ASS1 (14 Exons, 412 Aminosäuren)</p>
+                    <p><strong>Mutationen:</strong> >130 verschiedene Mutationen bekannt</p>
+                    <p><strong>Häufige Mutation:</strong> c.1168G>A (G390R) in europäischer Population</p>
+                    <p><strong>Genotyp-Phänotyp:</strong> Gute Korrelation zwischen Restaktivität und Schwere</p>
+                    <p><strong>Pränatale Diagnostik:</strong> Möglich und empfohlen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vergleich Section -->
+        <div id="vergleich" class="content-section">
+            <h2 class="section-title">Vergleichende Übersicht</h2>
+            
+            <div class="subsection">
+                <h3>Charakteristische Unterschiede</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Merkmal</th>
+                            <th>CPS1-Defizienz</th>
+                            <th>OTC-Defizienz</th>
+                            <th>ASS-Defizienz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Vererbung</strong></td>
+                            <td>Autosomal-rezessiv</td>
+                            <td>X-chromosomal</td>
+                            <td>Autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Häufigkeit</strong></td>
+                            <td>1:1.300.000</td>
+                            <td>1:14.000 (häufigste UCD)</td>
+                            <td>1:57.000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Citrullin</strong></td>
+                            <td>↓ oder normal</td>
+                            <td>↓ oder normal</td>
+                            <td>↑↑↑ (50-100x)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orotat</strong></td>
+                            <td>Normal</td>
+                            <td>↑↑↑ (100-1000x)</td>
+                            <td>↑ (moderat)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arginin</strong></td>
+                            <td>↓</td>
+                            <td>↓</td>
+                            <td>↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enzymdiagnostik</strong></td>
+                            <td>Leber notwendig</td>
+                            <td>Leber/Plasma</td>
+                            <td>Fibroblasten möglich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spezialtherapie</strong></td>
+                            <td>Carbamylglutamat-Versuch</td>
+                            <td>Träger-Beratung</td>
+                            <td>Leberversagen beachten</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostischer Algorithmus</h3>
+                <div class="pathway-diagram">
+                    <h4>🔍 Differentialdiagnostik bei Hyperammonämie</h4>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="background: #fef2f2; padding: 15px; border-radius: 8px; border: 2px solid #dc2626; text-align: center; max-width: 300px;">
+                            <strong>Hyperammonämie</strong><br>
+                            NH₃ ↑, klinische Symptome
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div style="background: #eff6ff; padding: 15px; border-radius: 8px; border: 2px solid #2563eb; text-align: center; max-width: 300px;">
+                            <strong>Aminosäuren + Orotat</strong><br>
+                            Plasma-Aminosäuren<br>
+                            Urin-Orotat
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 600px;">
+                            <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border: 2px solid #16a34a; text-align: center;">
+                                <strong>Citrullin ↑↑↑</strong><br>
+                                → ASS-Defizienz<br>
+                                <small>Genetik</small>
+                            </div>
+                            <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border: 2px solid #f97316; text-align: center;">
+                                <strong>Orotat ↑↑↑</strong><br>
+                                → OTC-Defizienz<br>
+                                <small>Genetik</small>
+                            </div>
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 2px solid #6b7280; text-align: center;">
+                                <strong>Beide normal/↓</strong><br>
+                                → CPS1/NAGS<br>
+                                <small>Carbamylglutamat</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prognose und Outcome</h3>
+                <div class="highlight-box">
+                    <h4>Prognostische Faktoren</h4>
+                    <p><strong>Manifestationszeitpunkt:</strong> Neonatal = schlechtere Prognose</p>
+                    <p><strong>Maximale NH₃-Werte:</strong> >500 μmol/L = hohes Risiko neurologischer Schäden</p>
+                    <p><strong>Krisenanzahl:</strong> Häufige Krisen = schlechteres Outcome</p>
+                    <p><strong>Enzymatik:</strong> Restaktivität korreliert mit Prognose</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>📊 Langzeit-Outcomes</h4>
+                    <p><strong>CPS1:</strong> Oft Lebertransplantation bei schweren Formen nötig</p>
+                    <p><strong>OTC:</strong> Männer meist schwer betroffen, Trägerinnen variabel</p>
+                    <p><strong>ASS:</strong> Breites Spektrum, bei milder Form gute Prognose möglich</p>
+                    <p><strong>Neurokognition:</strong> Alle Formen können zu kognitiven Defiziten führen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2 class="section-title">Lernkontrolle Teil 2</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Welcher Laborparameter ist pathognomonisch für eine OTC-Defizienz?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Citrullin stark erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Orotat im Urin 100-1000fach erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Arginin stark erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ammoniakspiegel >1000 μmol/L</div>
+                <div id="explanation1" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Bei OTC-Defizienz wird Carbamoylphosphat alternativ für die Pyrimidin-Synthese verwendet, wodurch Orotat massiv ansteigt (100-1000x normal).
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. Warum ist die Enzymdiagnostik bei weiblichen OTC-Trägern in Leberbiopsien unzuverlässig?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Das Enzym ist instabil</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) X-Inaktivierung führt zu Mosaik-Verteilung</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Die Biopsie ist zu klein</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Das Enzym ist nur in Männern aktiv</div>
+                <div id="explanation2" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Durch zufällige X-Inaktivierung haben weibliche Träger ein Mosaik aus normalen und defekten Zellen. Eine kleine Leberbiopsie kann zufällig normale Bereiche treffen.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. Welche Therapie kann bei CPS1-Defizienz einen Versuch wert sein?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) N-Carbamylglutamat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Arginin-Supplementation</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Citrullin-Substitution</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Carnitin-Therapie</div>
+                <div id="explanation3" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> N-Carbamylglutamat kann bei milden CPS1-Formen durch mögliche Chaperon-Wirkung die Harnstoffsynthese verbessern. Zunächst NAGS-Defizienz ausschließen!
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. Was ist das charakteristischste Labormerkmal einer ASS-Defizienz (Citrullinämie Typ 1)?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) Citrullin 50-100fach erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Argininosuccinat im Urin nachweisbar</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Orotat 1000fach erhöht</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Arginin 20fach erhöht</div>
+                <div id="explanation4" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Bei ASS-Defizienz akkumuliert Citrullin vor dem Enzymblock und erreicht extrem hohe Werte (1000-5000 μmol/L, normal: 10-45 μmol/L).
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. Welche seltene Komplikation wurde bei erwachsenen Patienten mit ASS-Defizienz beschrieben?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Leberzirrhose</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Hypertrophe Kardiomyopathie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Chronische Niereninsuffizienz</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Pulmonale Hypertonie</div>
+                <div id="explanation5" style="display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; color: #166534;">
+                    <strong>Erklärung:</strong> Es gibt Einzelfallberichte über hypertrophe Kardiomyopathie und Katarakte bei erwachsenen Citrullinämie-Patienten, wobei die Ätiologie unklar ist.
+                </div>
+            </div>
+
+            <div class="next-step">
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                    🎉 Teil 2 abgeschlossen! Weiter mit Teil 3: ASL, ARG1 und Therapiekonzepte
+                </p>
+                <button class="next-btn" onclick="window.location.href='#'">
+                    Weiter zu Teil 3 →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 'cps1';
+        let quizAnswers = {};
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to corresponding nav button
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const sections = ['cps1', 'otc', 'ass', 'vergleich', 'quiz'];
+            const currentIndex = sections.indexOf(currentSection);
+            const progress = ((currentIndex + 1) / sections.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function selectAnswer(element, isCorrect) {
+            const container = element.parentElement;
+            const options = container.querySelectorAll('.quiz-option');
+            const questionNumber = container.querySelector('.quiz-question').textContent.charAt(0);
+            
+            // Remove previous selections
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            if (isCorrect) {
+                element.classList.add('correct');
+                quizAnswers[questionNumber] = true;
+            } else {
+                element.classList.add('incorrect');
+                // Also highlight correct answer
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+                quizAnswers[questionNumber] = false;
+            }
+            
+            // Show explanation
+            const explanation = document.getElementById('explanation' + questionNumber);
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+            
+            // Disable further clicks
+            options.forEach(option => {
+                option.onclick = null;
+                option.style.cursor = 'default';
+            });
+        }
+
+        // Initialize progress
+        updateProgress();
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

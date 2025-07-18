@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cholesterin-/Steroid-Biosynthese - Teil 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #ec4899;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #065f46;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #065f46;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color), #0ea5e9);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Special cholesterol pathway styling */
+        .cholesterol-pathway {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .steroid-pathway {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Cholesterin-/Steroid-Biosynthese</h1>
+            <p>Teil 1: Grundlagen & Smith-Lemli-Opitz-Syndrom</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 1</h3>
+            <p>Dieser erste Teil behandelt die biochemischen Grundlagen der Cholesterin- und Steroid-Biosynthese sowie das Smith-Lemli-Opitz-Syndrom im Detail.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('cholesterin')">2. Cholesterin-Biosynthese</button>
+            <button class="nav-btn" onclick="showSection('slos')">3. Smith-Lemli-Opitz</button>
+            <button class="nav-btn" onclick="showSection('diagnostik')">4. Diagnostik</button>
+        </div>
+
+        <!-- Grundlagen -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen der Sterol-Biosynthese</h2>
+
+            <div class="subsection">
+                <h3>Definition und Überblick</h3>
+                <p>Die Cholesterin- und Steroid-Biosynthese umfasst komplexe metabolische Netzwerke, die aus einfachen Ausgangsmolekülen essenzielle Membrankomponenten und Signalmoleküle synthetisieren.</p>
+
+                <div class="highlight-box">
+                    <h4>Zentrale Bedeutung der Sterol-Biosynthese</h4>
+                    <ul>
+                        <li><strong>Membranfunktion:</strong> Cholesterin als Membrankomponente (30-40%)</li>
+                        <li><strong>Signaltransduktion:</strong> Steroidhormone, Gallensäuren</li>
+                        <li><strong>Entwicklungsbiologie:</strong> Hedgehog-Signaling, Morphogenese</li>
+                        <li><strong>Myelinisierung:</strong> Zentrale Rolle im ZNS</li>
+                        <li><strong>Vitamin D-Metabolismus:</strong> 7-Dehydrocholesterin als Vorstufe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemische Grundprinzipien</h3>
+                <div class="cholesterol-pathway">
+                    <h4>Der Mevalonat-Pathway</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="metabolite-box">Acetyl-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">HMG-CoA Synthase</div>
+                            <span class="arrow">→</span>
+                            <div class="metabolite-box">HMG-CoA</div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="metabolite-box">HMG-CoA</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">HMG-CoA Reduktase</div>
+                            <span class="arrow">→</span>
+                            <div class="metabolite-box">Mevalonat</div>
+                        </div>
+                        
+                        <div style="font-size: 0.9em; color: #0891b2; text-align: center; font-weight: 600;">⭐ Rate-limiting Step - Regulation durch Statine</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="metabolite-box">Mevalonat</div>
+                            <span class="arrow">→</span>
+                            <div class="metabolite-box">Isopentenyl-PP</div>
+                            <span class="arrow">→</span>
+                            <div class="metabolite-box">Farnesyl-PP</div>
+                            <span class="arrow">→</span>
+                            <div class="metabolite-box">Squalen</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Schlüsselenzym</th>
+                            <th>Lokalisation</th>
+                            <th>Regulation</th>
+                            <th>Klinische Relevanz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HMG-CoA Reduktase</strong></td>
+                            <td>ER-Membran</td>
+                            <td>Cholesterin-Feedback, Insulin ↑</td>
+                            <td>Statin-Target, FH</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Squalenoxidase</strong></td>
+                            <td>ER</td>
+                            <td>Sauerstoff-abhängig</td>
+                            <td>Terbinafin-Target</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7-Dehydrocholesterin Reduktase</strong></td>
+                            <td>ER</td>
+                            <td>Cholesterin-Feedback</td>
+                            <td>Smith-Lemli-Opitz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desmosterol Reduktase</strong></td>
+                            <td>ER</td>
+                            <td>Gewebe-spezifisch</td>
+                            <td>Desmosterolosis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Gewebespezifität und Regulation</h3>
+                <div class="pathway-diagram">
+                    <h4>Organbezogene Cholesterin-Homöostase</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">🧠 ZNS (70% Körper-Cholesterin)</h5>
+                            <p style="color: #dc2626;">Lokale Synthese durch Astrozyten</p>
+                            <p style="color: #dc2626;">Blut-Hirn-Schranke undurchlässig</p>
+                            <p style="color: #dc2626;">24S-Hydroxylase (CYP46A1)</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">🏥 Leber (Hauptorgan)</h5>
+                            <p style="color: #ea580c;">De-novo Synthese (50%)</p>
+                            <p style="color: #ea580c;">VLDL-Sekretion</p>
+                            <p style="color: #ea580c;">Gallensäure-Synthese</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 12px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🔥 Periphere Gewebe</h5>
+                            <p style="color: #16a34a;">LDL-Rezeptor vermittelt</p>
+                            <p style="color: #16a34a;">ABCA1/ABCG1 Efflux</p>
+                            <p style="color: #16a34a;">HDL-vermittelter Transport</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Steroid-Biosynthese Übersicht</h3>
+                <div class="steroid-pathway">
+                    <h4>Von Cholesterin zu Steroidhormonen</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div class="metabolite-box" style="font-size: 1.1em; padding: 15px 25px;">Cholesterin</div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #8b5cf6;">↓</span>
+                        
+                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">CYP11A1 (Side-chain cleavage)</div>
+                        </div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #8b5cf6;">↓</span>
+                        
+                        <div class="metabolite-box" style="background: linear-gradient(135deg, #ec4899, #be185d);">Pregnenolon</div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #8b5cf6;">↓</span>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; width: 100%;">
+                            <div style="text-align: center;">
+                                <div class="metabolite-box">Progesteron</div>
+                                <div style="font-size: 0.8em; margin-top: 5px; color: #8b5cf6;">Δ4-Pathway</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="metabolite-box">17-OH-Pregnenolon</div>
+                                <div style="font-size: 0.8em; margin-top: 5px; color: #8b5cf6;">Δ5-Pathway</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; width: 100%; margin-top: 20px;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Kortisol</div>
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">Aldosteron</div>
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">Testosteron</div>
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #ec4899, #be185d);">Estradiol</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Kritische Enzyme der Steroidogenese</h4>
+                    <p><strong>Kongenitale Nebennierenhyperplasie (CAH) - Häufigkeitsverteilung:</strong></p>
+                    <ul>
+                        <li><strong>21-Hydroxylase (CYP21A2):</strong> 90-95% aller CAH-Fälle</li>
+                        <li><strong>11β-Hydroxylase (CYP11B1):</strong> 5-8% der Fälle</li>
+                        <li><strong>17α-Hydroxylase (CYP17A1):</strong> <1% der Fälle</li>
+                        <li><strong>3β-HSD2:</strong> Sehr selten, schwere Verlaufsformen</li>
+                        <li><strong>StAR-Protein:</strong> Lipoid CAH, meist letal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('cholesterin')">Weiter zur Cholesterin-Biosynthese →</button>
+            </div>
+        </div>
+
+        <!-- Cholesterin-Biosynthese -->
+        <div class="content-section" id="cholesterin">
+            <h2 class="section-title">⚗️ Cholesterin-Biosynthese im Detail</h2>
+
+            <div class="subsection">
+                <h3>Post-Squalen Phase: Zwei alternative Wege</h3>
+                <div class="cholesterol-pathway">
+                    <h4>Kandel-Russell vs. Bloch Pathway</h4>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                            <div>
+                                <h5 style="color: #3b82f6; text-align: center; margin-bottom: 15px;">🟦 Kandel-Russell Pathway (85%)</h5>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                    <div class="metabolite-box">Squalen</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">Lanosterol</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">24,25-Dihydrolanosterol</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">Desmosterol</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="enzyme-box defect">DHCR24 (Desmosterol Reduktase)</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: bold;">Cholesterin</div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 style="color: #ec4899; text-align: center; margin-bottom: 15px;">🟪 Bloch Pathway (15%)</h5>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                    <div class="metabolite-box">Squalen</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">Lanosterol</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">Zymosterol</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box">7-Dehydrocholesterin</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="enzyme-box defect">DHCR7 (7-Dehydrocholesterin Reduktase)</div>
+                                    <span class="arrow" style="transform: rotate(90deg); font-size: 1.2em;">↓</span>
+                                    <div class="metabolite-box" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: bold;">Cholesterin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Enzym</th>
+                            <th>Gen</th>
+                            <th>Lokalisation</th>
+                            <th>Substrat → Produkt</th>
+                            <th>Krankheit bei Defekt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DHCR7</strong></td>
+                            <td>DHCR7</td>
+                            <td>ER-Membran</td>
+                            <td>7-DHC → Cholesterin</td>
+                            <td>Smith-Lemli-Opitz Syndrom</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DHCR24</strong></td>
+                            <td>DHCR24</td>
+                            <td>ER-Membran</td>
+                            <td>Desmosterol → Cholesterin</td>
+                            <td>Desmosterolosis</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SC4MOL</strong></td>
+                            <td>MSMO1</td>
+                            <td>ER</td>
+                            <td>Methylsterol Oxidase</td>
+                            <td>SC4MOL-Defekt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LBR</strong></td>
+                            <td>LBR</td>
+                            <td>Kernmembran/ER</td>
+                            <td>C14-Sterol Reduktase</td>
+                            <td>Pelger-Huët Anomalie</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Regulation der Cholesterin-Biosynthese</h3>
+                <div class="pathway-diagram">
+                    <h4>SREBP-2 Regulatory System</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🔽 Niedriges Cholesterin</h5>
+                            <ul style="font-size: 0.9em; color: #dc2626;">
+                                <li>SCAP/SREBP-2 → Golgi</li>
+                                <li>S1P/S2P Protease-Aktivierung</li>
+                                <li>SREBP-2 → Nucleus</li>
+                                <li>↑ HMG-CoA Reduktase</li>
+                                <li>↑ LDL-Rezeptor</li>
+                                <li>↑ Cholesterin-Biosynthese</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🔼 Hohes Cholesterin</h5>
+                            <ul style="font-size: 0.9em; color: #16a34a;">
+                                <li>INSIG bindet SCAP</li>
+                                <li>SREBP-2 im ER retention</li>
+                                <li>↓ HMG-CoA Reduktase</li>
+                                <li>↓ LDL-Rezeptor</li>
+                                <li>↓ Cholesterin-Biosynthese</li>
+                                <li>↑ ABCA1/ABCG1 Efflux</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Pharmakologische Interventionen</h4>
+                    <p><strong>Statine (HMG-CoA Reduktase Inhibitoren):</strong></p>
+                    <ul>
+                        <li><strong>Wirkung:</strong> Kompetitive Hemmung der rate-limiting step</li>
+                        <li><strong>Kompensation:</strong> ↑ SREBP-2 → ↑ LDL-Rezeptor</li>
+                        <li><strong>Paradox bei SLOS:</strong> Kann 7-DHC weiter erhöhen</li>
+                        <li><strong>Simvastatin bei SLOS:</strong> Kontraindiziert!</li>
+                    </ul>
+                    
+                    <p><strong>Alternative Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>Cholesterin-Supplementation:</strong> Direkter Ersatz</li>
+                        <li><strong>Antioxidantien:</strong> Vitamin E, BHT gegen 7-DHC Toxizität</li>
+                        <li><strong>DHCR7 Allosteric Enhancer:</strong> Experimentell</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Cholesterin-Transport und -Metabolismus</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Transport-System</th>
+                            <th>Funktion</th>
+                            <th>Regulierung</th>
+                            <th>Störungen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LDL-Rezeptor</strong></td>
+                            <td>Cholesterin-Aufnahme</td>
+                            <td>SREBP-2, PCSK9</td>
+                            <td>Familiäre Hypercholesterinämie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ABCA1</strong></td>
+                            <td>Cholesterin-Efflux zu ApoA1</td>
+                            <td>LXR, oxysterols</td>
+                            <td>Tangier Disease</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ABCG1/G4</strong></td>
+                            <td>Cholesterin-Efflux zu HDL</td>
+                            <td>LXR</td>
+                            <td>Sitosterolämie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NPC1/NPC2</strong></td>
+                            <td>Lysosomaler Transport</td>
+                            <td>Sphingosin, Cholesterin</td>
+                            <td>Niemann-Pick C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CYP7A1</strong></td>
+                            <td>Gallensäure-Synthese</td>
+                            <td>FXR, FGF19</td>
+                            <td>Cerebrotendinöse Xanthomatose</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('slos')">Weiter zu Smith-Lemli-Opitz →</button>
+            </div>
+        </div>
+
+        <!-- Smith-Lemli-Opitz -->
+        <div class="content-section" id="slos">
+            <h2 class="section-title">🧬 Smith-Lemli-Opitz-Syndrom (SLOS)</h2>
+
+            <div class="subsection">
+                <h3>Definition und Epidemiologie</h3>
+                <div class="case-study">
+                    <h4>🔬 Krankheitsdefinition</h4>
+                    <p><strong>Smith-Lemli-Opitz-Syndrom (SLOS)</strong> ist eine autosomal-rezessive Multisystem-Erkrankung durch Defekt der 7-Dehydrocholesterin-Reduktase (DHCR7).</p>
+                    
+                    <p><strong>Epidemiologie:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 1:20.000 - 1:60.000 (variiert geografisch)</li>
+                        <li><strong>Trägerfrequenz:</strong> 1:70 in Nordeuropa</li>
+                        <li><strong>Höchste Prävalenz:</strong> Zentral-/Osteuropa, besonders Tschechien</li>
+                        <li><strong>Founder-Effekt:</strong> IVS8-1G>C Mutation (60% aller Allele)</li>
+                        <li><strong>Geschlechtsverteilung:</strong> M:F = 1:1</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Inzidenz</th>
+                            <th>Trägerfrequenz</th>
+                            <th>Häufigste Mutation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tschechien/Slowakei</strong></td>
+                            <td>1:9.000</td>
+                            <td>1:47</td>
+                            <td>IVS8-1G>C (80%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deutschland</strong></td>
+                            <td>1:20.000</td>
+                            <td>1:70</td>
+                            <td>IVS8-1G>C (60%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skandinavien</strong></td>
+                            <td>1:60.000</td>
+                            <td>1:122</td>
+                            <td>W151X (30%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>USA/Kanada</strong></td>
+                            <td>1:40.000</td>
+                            <td>1:100</td>
+                            <td>IVS8-1G>C (40%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulare Pathophysiologie</h3>
+                <div class="pathway-diagram">
+                    <h4>DHCR7-Enzym und 7-DHC Akkumulation</h4>
+                    
+                    <div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #fca5a5;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                            <div class="metabolite-box" style="font-size: 1.1em; padding: 15px 25px;">7-Dehydrocholesterin (7-DHC)</div>
+                            <span class="arrow" style="transform: rotate(90deg); color: #dc2626; font-size: 2em;">↓</span>
+                            
+                            <div class="enzyme-box defect" style="font-size: 1.1em; padding: 15px 25px;">DHCR7 (DEFEKT)</div>
+                            <div style="text-align: center; color: #dc2626; font-weight: 600;">7-Dehydrocholesterin Reduktase</div>
+                            <div style="text-align: center; color: #dc2626; font-size: 0.9em;">NADPH + H⁺ abhängig</div>
+                            
+                            <span class="arrow" style="transform: rotate(90deg); color: #dc2626; font-size: 2em;">↓</span>
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 1.1em; padding: 15px 25px;">Cholesterin ↓↓</div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; text-align: center;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">Pathophysiologische Konsequenzen:</h5>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <p style="color: #dc2626; font-weight: 600;">1. Cholesterin-Mangel:</p>
+                                    <ul style="font-size: 0.9em; color: #dc2626; text-align: left;">
+                                        <li>Membranfluidität ↑</li>
+                                        <li>Hedgehog-Signaling ↓</li>
+                                        <li>Myelinisierung ↓</li>
+                                        <li>Steroidogenese ↓</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p style="color: #dc2626; font-weight: 600;">2. 7-DHC Toxizität:</p>
+                                    <ul style="font-size: 0.9em; color: #dc2626; text-align: left;">
+                                        <li>Lipid-Peroxidation ↑</li>
+                                        <li>Membran-Stabilität ↓</li>
+                                        <li>DNA-Schäden</li>
+                                        <li>Apoptose ↑</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Hedgehog-Signaling Disruption</h4>
+                    <p><strong>Cholesterin als kritischer Hedgehog-Cofaktor:</strong></p>
+                    <ul>
+                        <li><strong>Sonic Hedgehog (SHH):</strong> Benötigt Cholesterin für Autoprocessing</li>
+                        <li><strong>Smoothened Rezeptor:</strong> Cholesterin-abhängige Aktivierung</li>
+                        <li><strong>Entwicklungsdefekte:</strong> Holoprosencephalie, Polydaktylie, Genitalanomalien</li>
+                        <li><strong>Dosis-Abhängigkeit:</strong> Schwere korreliert mit Cholesterin-Spiegel</li>
+                    </ul>
+                    
+                    <p><strong>7-DHC spezifische Toxizität:</strong></p>
+                    <ul>
+                        <li><strong>UV-Sensitivität:</strong> 7-DHC → toxische Photoprodukte</li>
+                        <li><strong>Oxidative Schäden:</strong> Konjugierte Doppelbindungen besonders anfällig</li>
+                        <li><strong>Membraninstabilität:</strong> Veränderte Lipid-Rafts</li>
+                        <li><strong>Protein-Funktionsstörungen:</strong> Cholesterin-bindende Proteine betroffen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinisches Spektrum</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <th>Häufigkeit (%)</th>
+                            <th>Hauptmerkmale</th>
+                            <th>Pathogenese</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kraniofazial</strong></td>
+                            <td>90-100%</td>
+                            <td>Mikrozephalie, Ptosis, Mikrognathie, Cleft Palate</td>
+                            <td>Gestörte kraniale NCC-Migration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>85-95%</td>
+                            <td>Intellektuelle Behinderung, Holoprosencephalie, Krampfanfälle</td>
+                            <td>Hedgehog-Signaling, Myelinisierung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extremitäten</strong></td>
+                            <td>60-80%</td>
+                            <td>Postaxiale Polydaktylie, 2-3 Zehensyndaktylie</td>
+                            <td>SHH-Gradientstörung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Genital</strong></td>
+                            <td>70-90% (Männer)</td>
+                            <td>Hypospadie, Kryptorchismus, ambige Genitalien</td>
+                            <td>Testosteron-Synthese ↓</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardial</strong></td>
+                            <td>40-60%</td>
+                            <td>VSD, ASD, HLHS, Aortenisthmusstenose</td>
+                            <td>Herzentwicklung, SHH-Signaling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gastrointestinal</strong></td>
+                            <td>30-50%</td>
+                            <td>Pylorusstenose, Hirschsprung, Malrotation</td>
+                            <td>Enterisches Nervensystem</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>📊 Schweregrad-Klassifikation</h4>
+                    <p><strong>Typ I (Schwer - "Klassisches SLOS"):</strong></p>
+                    <ul>
+                        <li>7-DHC: >20 mg/dl (>0.5 mmol/l)</li>
+                        <li>Cholesterin: <50 mg/dl (<1.3 mmol/l)</li>
+                        <li>Holoprosencephalie, schwere ID, multiple Fehlbildungen</li>
+                        <li>Oft perinatal letal</li>
+                    </ul>
+                    
+                    <p><strong>Typ II (Moderat):</strong></p>
+                    <ul>
+                        <li>7-DHC: 5-20 mg/dl (0.13-0.5 mmol/l)</li>
+                        <li>Cholesterin: 50-100 mg/dl (1.3-2.6 mmol/l)</li>
+                        <li>Faziale Dysmorphie, milde-moderate ID</li>
+                        <li>Entwicklungsverzögerung, Verhaltensauffälligkeiten</li>
+                    </ul>
+                    
+                    <p><strong>Typ III (Mild):</strong></p>
+                    <ul>
+                        <li>7-DHC: <5 mg/dl (<0.13 mmol/l)</li>
+                        <li>Cholesterin: >100 mg/dl (>2.6 mmol/l)</li>
+                        <li>Subtile Dysmorphie, Lernprobleme</li>
+                        <li>Normale Lebenserwartung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetik</h3>
+                <div class="pathway-diagram">
+                    <h4>DHCR7-Gen und Mutationsspektrum</h4>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e2e8f0;">
+                        <p><strong>Gen-Struktur:</strong></p>
+                        <ul>
+                            <li><strong>Lokalisation:</strong> Chromosom 11q13.4</li>
+                            <li><strong>Größe:</strong> 134 kb genomisch, 9 Exons</li>
+                            <li><strong>mRNA:</strong> 1,7 kb, 475 Aminosäuren</li>
+                            <li><strong>Protein:</strong> 55 kDa, ER-Membranprotein</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Mutation</th>
+                            <th>Typ</th>
+                            <th>Häufigkeit (%)</th>
+                            <th>Enzymaktivität</th>
+                            <th>Phänotyp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>IVS8-1G>C</strong></td>
+                            <td>Splice site</td>
+                            <td>60%</td>
+                            <td>~0%</td>
+                            <td>Schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>W151X</strong></td>
+                            <td>Nonsense</td>
+                            <td>5%</td>
+                            <td>0%</td>
+                            <td>Schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>T93M</strong></td>
+                            <td>Missense</td>
+                            <td>10%</td>
+                            <td>3-5%</td>
+                            <td>Moderat</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R242H</strong></td>
+                            <td>Missense</td>
+                            <td>3%</td>
+                            <td>5-10%</td>
+                            <td>Mild-moderat</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R352W</strong></td>
+                            <td>Missense</td>
+                            <td>8%</td>
+                            <td>10-20%</td>
+                            <td>Mild</td>
+                        </tr>
+                        <tr>
+                            <td><strong>V326L</strong></td>
+                            <td>Missense</td>
+                            <td>4%</td>
+                            <td>15-25%</td>
+                            <td>Sehr mild</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Genotyp-Phänotyp Korrelationen</h4>
+                    <p><strong>Vorhersagbare Muster:</strong></p>
+                    <ul>
+                        <li><strong>IVS8-1G>C homozygot:</strong> Immer schwerer Phänotyp, oft letal</li>
+                        <li><strong>Null/Null Mutationen:</strong> Typ I, Holoprosencephalie häufig</li>
+                        <li><strong>Missense/Null:</strong> Typ II-III, abhängig von Restaktivität</li>
+                        <li><strong>Missense/Missense:</strong> Oft mildere Verläufe, bessere Prognose</li>
+                    </ul>
+                    
+                    <p><strong>Biochemische Korrelation:</strong></p>
+                    <ul>
+                        <li><strong>Cholesterin <50 mg/dl:</strong> Schwere Entwicklungsdefekte</li>
+                        <li><strong>7-DHC/Cholesterin Ratio >1:</strong> Schlechte Prognose</li>
+                        <li><strong>8-DHC Akkumulation:</strong> Besonders bei schweren Formen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('diagnostik')">Weiter zur Diagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Diagnostik -->
+        <div class="content-section" id="diagnostik">
+            <h2 class="section-title">🔬 Diagnostik & Therapie</h2>
+
+            <div class="subsection">
+                <h3>Biochemische Diagnostik</h3>
+                <div class="pathway-diagram">
+                    <h4>Sterol-Profil Analyse</h4>
+                    
+                    <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #3b82f6;">
+                        <p><strong>Primäre Marker:</strong></p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div style="text-align: center;">
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #ef4444, #dc2626); margin: 0 0 10px 0; width: 100%;">7-Dehydrocholesterin ↑↑</div>
+                                <p style="font-size: 0.9em;">Normal: <0.5 mg/dl<br>SLOS: 5-50 mg/dl</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #f97316, #ea580c); margin: 0 0 10px 0; width: 100%;">8-Dehydrocholesterin ↑</div>
+                                <p style="font-size: 0.9em;">Schwere Fälle<br>Photoisomer von 7-DHC</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #059669, #047857); margin: 0 0 10px 0; width: 100%;">Cholesterin ↓↓</div>
+                                <p style="font-size: 0.9em;">Normal: >150 mg/dl<br>SLOS: 20-100 mg/dl</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Normal</th>
+                            <th>SLOS Typ I</th>
+                            <th>SLOS Typ II</th>
+                            <th>SLOS Typ III</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cholesterin (mg/dl)</strong></td>
+                            <td>>150</td>
+                            <td>10-50</td>
+                            <td>50-100</td>
+                            <td>100-150</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7-DHC (mg/dl)</strong></td>
+                            <td><0.5</td>
+                            <td>20-50</td>
+                            <td>5-20</td>
+                            <td>1-5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7-DHC/Cholesterin Ratio</strong></td>
+                            <td><0.01</td>
+                            <td>>1.0</td>
+                            <td>0.1-1.0</td>
+                            <td>0.01-0.1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>8-DHC (mg/dl)</strong></td>
+                            <td>Nicht nachweisbar</td>
+                            <td>5-15</td>
+                            <td>1-5</td>
+                            <td><1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Laboranalytik - Technische Aspekte</h4>
+                    <p><strong>Probenvorbereitung:</strong></p>
+                    <ul>
+                        <li><strong>Material:</strong> Serum/Plasma (EDTA bevorzugt)</li>
+                        <li><strong>Lichtschutz:</strong> 7-DHC ist photolabil!</li>
+                        <li><strong>Lagerung:</strong> -20°C, maximal 6 Monate</li>
+                        <li><strong>Versand:</strong> Trockeneis, lichtgeschützt</li>
+                    </ul>
+                    
+                    <p><strong>Analytische Methoden:</strong></p>
+                    <ul>
+                        <li><strong>GC-MS:</strong> Gold Standard, Derivatisierung erforderlich</li>
+                        <li><strong>LC-MS/MS:</strong> Moderne Alternative, direkter</li>
+                        <li><strong>Enzymatisch:</strong> Nur Gesamtcholesterin, unspezifisch</li>
+                    </ul>
+                    
+                    <p><strong>Interferenzen:</strong></p>
+                    <ul>
+                        <li><strong>Statin-Therapie:</strong> Kann 7-DHC erhöhen</li>
+                        <li><strong>Hämolyse:</strong> Falsch niedrige Werte</li>
+                        <li><strong>Langzeit-TPN:</strong> Cholesterin erniedrigt</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetische Diagnostik</h3>
+                <div class="case-study">
+                    <h4>🧬 Genetisches Testing</h4>
+                    <p><strong>Sequenzierungsstrategien:</strong></p>
+                    <ul>
+                        <li><strong>Targeted Sequencing:</strong> DHCR7-Gen komplett (9 Exons)</li>
+                        <li><strong>NGS-Panel:</strong> Multiple Sterol-Biosynthese Gene</li>
+                        <li><strong>Exom-Sequenzierung:</strong> Bei atypischen Fällen</li>
+                        <li><strong>MLPA:</strong> CNV-Detektion bei negativer Sequenzierung</li>
+                    </ul>
+                    
+                    <p><strong>Variant-Interpretation (ACMG Guidelines):</strong></p>
+                    <ul>
+                        <li><strong>Pathogen:</strong> Nonsense, Frameshift, Essential Splice</li>
+                        <li><strong>Likely Pathogen:</strong> Missense mit funktionellen Daten</li>
+                        <li><strong>VUS:</strong> Unklare Missense, seltene Splice variants</li>
+                        <li><strong>Funktionelle Tests:</strong> Yeast complementation assay</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-diagram">
+                    <h4>Diagnostischer Algorithmus</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="background: #fef3c7; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #f59e0b;">
+                            <strong>Klinischer Verdacht auf SLOS</strong><br>
+                            Dysmorphie + ID + Polydaktylie
+                        </div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #f59e0b;">↓</span>
+                        
+                        <div style="background: #dbeafe; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #3b82f6;">
+                            <strong>Sterol-Profil (Serum)</strong><br>
+                            Cholesterin, 7-DHC, 8-DHC
+                        </div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #3b82f6;">↓</span>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                            <div style="background: #dcfce7; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #22c55e;">
+                                <strong>7-DHC erhöht</strong><br>
+                                DHCR7 Sequenzierung
+                            </div>
+                            <div style="background: #fee2e2; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #ef4444;">
+                                <strong>7-DHC normal</strong><br>
+                                Alternative DD
+                            </div>
+                        </div>
+                        <span class="arrow" style="transform: rotate(90deg); color: #22c55e;">↓</span>
+                        
+                        <div style="background: #ecfdf5; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #10b981;">
+                            <strong>Genetische Beratung</strong><br>
+                            Prognose, Therapie, Familienscreening
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapieansätze</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Therapieansatz</th>
+                            <th>Rationale</th>
+                            <th>Dosierung</th>
+                            <th>Evidenz</th>
+                            <th>Limitationen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cholesterin oral</strong></td>
+                            <td>Direkter Ersatz</td>
+                            <td>50-150 mg/kg/d</td>
+                            <td>+++</td>
+                            <td>Absorption limitiert (5%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cholesterin i.v.</strong></td>
+                            <td>Bessere Bioverfügbarkeit</td>
+                            <td>1-2 mg/kg/d</td>
+                            <td>++</td>
+                            <td>Invasiv, Thromboserisiko</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Simvastatin</strong></td>
+                            <td>↓ 7-DHC Synthese</td>
+                            <td>0.5-2 mg/kg/d</td>
+                            <td>++</td>
+                            <td>Paradoxe 7-DHC Erhöhung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Antioxidantien</strong></td>
+                            <td>↓ 7-DHC Toxizität</td>
+                            <td>Vitamin E: 25-50 IE/kg</td>
+                            <td>+</td>
+                            <td>Unklarer klinischer Nutzen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BHT (Butylhydroxytoluol)</strong></td>
+                            <td>Lipid-Antioxidans</td>
+                            <td>5-20 mg/kg/d</td>
+                            <td>+</td>
+                            <td>Experimentell, Sicherheit?</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>💊 Aktuelle Therapieprotokolle</h4>
+                    <p><strong>Standard-Therapie (Consensus 2017):</strong></p>
+                    <ul>
+                        <li><strong>Cholesterin:</strong> 100-150 mg/kg/d (aufgeteilt in 3-4 Dosen)</li>
+                        <li><strong>Hochfett-Diät:</strong> 40-50% der Kalorien als Fett</li>
+                        <li><strong>Vitamin E:</strong> 25-50 IE/kg/d als Antioxidans</li>
+                        <li><strong>Monitoring:</strong> Sterol-Profil alle 3-6 Monate</li>
+                    </ul>
+                    
+                    <p><strong>Experimentelle Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>DHCR7 Enhancer:</strong> Allosterische Aktivatoren in Entwicklung</li>
+                        <li><strong>7-DHC Sequestrants:</strong> β-Cyclodextrin-Derivate</li>
+                        <li><strong>Gentherapie:</strong> AAV-vermittelte DHCR7 Expression</li>
+                        <li><strong>Stammzelltherapie:</strong> Neuronale Progenitorzellen</li>
+                    </ul>
+                    
+                    <p><strong>Symptomatische Behandlung:</strong></p>
+                    <ul>
+                        <li><strong>Entwicklungsförderung:</strong> Frühe multidisziplinäre Intervention</li>
+                        <li><strong>Feeding-Probleme:</strong> PEG-Sonde oft erforderlich</li>
+                        <li><strong>Krampfanfälle:</strong> Standard-Antiepileptika</li>
+                        <li><strong>Chirurgie:</strong> Polydaktylie, Herzfehler, Genitalkorrekturen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prognose und Langzeitverlauf</h3>
+                <div class="highlight-box">
+                    <h4>Prognostische Faktoren</h4>
+                    <p><strong>Günstige Faktoren:</strong></p>
+                    <ul>
+                        <li><strong>Cholesterin >100 mg/dl:</strong> Bessere neurologische Entwicklung</li>
+                        <li><strong>7-DHC/Cholesterin <0.3:</strong> Milderer Verlauf</li>
+                        <li><strong>Frühe Diagnose:</strong> Therapiebeginn vor 6 Monaten</li>
+                        <li><strong>Missense-Mutationen:</strong> Restenzymaktivität vorhanden</li>
+                    </ul>
+                    
+                    <p><strong>Ungünstige Faktoren:</strong></p>
+                    <ul>
+                        <li><strong>Holoprosencephalie:</strong> Schwere neurologische Beeinträchtigung</li>
+                        <li><strong>Kritische Herzfehler:</strong> Erhöhte perinatale Mortalität</li>
+                        <li><strong>Null-Mutationen:</strong> Keine Enzymaktivität</li>
+                        <li><strong>IVS8-1G>C homozygot:</strong> Klassisch schwerer Phänotyp</li>
+                    </ul>
+                    
+                    <p><strong>Lebenserwartung:</strong></p>
+                    <ul>
+                        <li><strong>Typ I:</strong> 30% überleben das 1. Lebensjahr</li>
+                        <li><strong>Typ II:</strong> 80% erreichen das Erwachsenenalter</li>
+                        <li><strong>Typ III:</strong> Normale Lebenserwartung möglich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen und das Smith-Lemli-Opitz-Syndrom erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit Desmosterolosis und kongenitaler Nebennierenhyperplasie</p>
+                    <button class="next-btn">Weiter zu Teil 2 →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'cholesterin', 'slos', 'diagnostik'];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

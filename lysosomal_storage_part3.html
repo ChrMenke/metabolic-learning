@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lysosomale Speicherkrankheiten - Teil 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Lysosomale Speicherkrankheiten</h1>
+            <p>Teil 3: Mukolipidosen & Praxismanagement</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 3</h3>
+            <p>Dieser abschließende Teil behandelt die Mukolipidosen, praktisches Therapiemanagement, Fallbeispiele aus der klinischen Praxis und eine umfassende Lernkontrolle.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('mukolipidosen')">1. Mukolipidosen</button>
+            <button class="nav-btn" onclick="showSection('management')">2. Therapiemanagement</button>
+            <button class="nav-btn" onclick="showSection('fallbeispiele')">3. Fallbeispiele</button>
+            <button class="nav-btn" onclick="showSection('quiz')">4. Lernkontrolle</button>
+        </div>
+
+        <!-- Mukolipidosen -->
+        <div class="content-section active" id="mukolipidosen">
+            <h2 class="section-title">🔬 Mukolipidosen (ML I-IV)</h2>
+
+            <div class="subsection">
+                <h3>Pathophysiologie und Klassifikation</h3>
+                <div class="case-study">
+                    <h4>🧬 Lysosomaler Transport-Defekt</h4>
+                    
+                    <p><strong>Grundprinzip der Mukolipidosen:</strong></p>
+                    <ul>
+                        <li><strong>Primärdefekt:</strong> Gestörtes lysosomales Enzym-Targeting</li>
+                        <li><strong>Sekundärfolge:</strong> Multiple Enzymdefekte in den Lysosomen</li>
+                        <li><strong>Mechanismus:</strong> Defekte Mannose-6-Phosphat (M6P) Markierung</li>
+                        <li><strong>Resultat:</strong> Enzyme werden extrazellulär sekretiert statt lysosomal lokalisiert</li>
+                    </ul>
+                    
+                    <p><strong>Klassifikation (historisch-klinisch):</strong></p>
+                    <ul>
+                        <li><strong>ML I (Sialidose):</strong> Neuraminidase-Defekt (eigenständige Enzymopathie)</li>
+                        <li><strong>ML II (I-Cell Disease):</strong> Schwere Form des Targeting-Defekts</li>
+                        <li><strong>ML III (Pseudo-Hurler-Polydystrophie):</strong> Milde Form des Targeting-Defekts</li>
+                        <li><strong>ML IV:</strong> TRPML1-Kanal-Defekt (separater Mechanismus)</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Molekulare Basis des M6P-Systems</h4>
+                    
+                    <p><strong>N-Acetylglukosamin-1-Phosphotransferase (GNPTAB/GNPTG):</strong></p>
+                    <ul>
+                        <li><strong>Funktion:</strong> Übertragung von GlcNAc-1-P auf Mannose-Reste</li>
+                        <li><strong>Lokalisation:</strong> Cis-Golgi-Netzwerk</li>
+                        <li><strong>Substrate:</strong> Lysosomal bestimmte Hydrolasen</li>
+                        <li><strong>Erkennungssequenz:</strong> Spezifische Proteinkonformation erforderlich</li>
+                    </ul>
+                    
+                    <p><strong>Uncovering Enzyme (GNPTG):</strong></p>
+                    <ul>
+                        <li><strong>Funktion:</strong> Entfernung des GlcNAc-Rests → M6P-Exposition</li>
+                        <li><strong>Timing:</strong> Trans-Golgi-Netzwerk</li>
+                        <li><strong>Bedeutung:</strong> M6P-Rezeptor-Erkennung ermöglichen</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Konsequenz bei Defekt:</strong></p>
+                    <ul>
+                        <li>Lysosomale Enzyme erreichen Lysosomen nicht</li>
+                        <li>Erhöhte Enzymaktivität im Serum/Urin</li>
+                        <li>Substratakkumulation in Lysosomen</li>
+                        <li>Klinischer Phänotyp ähnlich schweren MPS</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mukolipidose II (I-Cell Disease)</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Organmanifest.</th>
+                            <th>Pränatale Befunde</th>
+                            <th>Säuglingsalter</th>
+                            <th>Fortgeschrittenes Stadium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Skelett</strong></td>
+                            <td>Verkürzte Röhrenknochen</td>
+                            <td>Dysostosis multiplex</td>
+                            <td>Schwere Skelettdeformitäten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gesicht</strong></td>
+                            <td>-</td>
+                            <td>Grobes Gesicht ab 6 Monaten</td>
+                            <td>Hurler-ähnliche Fazies</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>-</td>
+                            <td>Entwicklungsrückstand</td>
+                            <td>Schwere geistige Behinderung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Augen</strong></td>
+                            <td>-</td>
+                            <td>Hornhauttrübung</td>
+                            <td>Schwere Visusminderung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kardial</strong></td>
+                            <td>Auffälligkeiten möglich</td>
+                            <td>Kardiomegalie</td>
+                            <td>Valvuläre Insuffizienz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wachstum</strong></td>
+                            <td>IUGR</td>
+                            <td>Gedeihstörung</td>
+                            <td>Schwerer Kleinwuchs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>🔬 Diagnostische Charakteristika ML II</h4>
+                    
+                    <p><strong>Biochemische Befunde:</strong></p>
+                    <ul>
+                        <li><strong>Serum/Plasma:</strong> Erhöhte Aktivität multipler lysosomaler Enzyme</li>
+                        <li><strong>Fibroblastenkultur:</strong> Schwer reduzierte intrazelluläre Enzymaktivitäten</li>
+                        <li><strong>Elektronenmikroskopie:</strong> Charakteristische "Inclusion Cells" (I-Cells)</li>
+                        <li><strong>Urin:</strong> Erhöhte lysosomale Enzymausscheidung</li>
+                    </ul>
+                    
+                    <p><strong>Molekulargenetik:</strong></p>
+                    <ul>
+                        <li><strong>GNPTAB-Gen:</strong> 95% der ML II Fälle</li>
+                        <li><strong>GNPTG-Gen:</strong> 5% der ML II Fälle</li>
+                        <li><strong>Häufige Mutationen:</strong> c.3503_3504delTC (3.8% der Allele)</li>
+                        <li><strong>Genotyp-Phänotyp:</strong> Null-Mutationen → schwerer Phänotyp</li>
+                    </ul>
+                    
+                    <p><strong>Prognose:</strong></p>
+                    <ul>
+                        <li><strong>Lebenserwartung:</strong> Meist &lt;7 Jahre</li>
+                        <li><strong>Todesursachen:</strong> Respiratorische Insuffizienz, Herzversagen</li>
+                        <li><strong>Therapie:</strong> Symptomatisch, keine kausale Behandlung</li>
+                        <li><strong>Supportive Maßnahmen:</strong> Physiotherapie, Atemwegsmanagement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mukolipidose III (Pseudo-Hurler-Polydystrophie)</h3>
+                <div class="highlight-box">
+                    <h4>Mildere Verlaufsform</h4>
+                    
+                    <p><strong>Klinische Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Manifestation:</strong> Später als ML II (3-5 Jahre)</li>
+                        <li><strong>Wachstum:</strong> Milder Kleinwuchs</li>
+                        <li><strong>Gelenke:</strong> Kontrakturen, besonders Schultern und Hüften</li>
+                        <li><strong>ZNS:</strong> Normale bis leicht reduzierte Intelligenz</li>
+                        <li><strong>Skelett:</strong> Milde Dysostosis multiplex</li>
+                    </ul>
+                    
+                    <p><strong>Subtypes ML III:</strong></p>
+                    <ul>
+                        <li><strong>ML III Alpha/Beta:</strong> GNPTAB-Mutationen, klassischer Phänotyp</li>
+                        <li><strong>ML III Gamma:</strong> GNPTG-Mutationen, milder</li>
+                        <li><strong>ML III Complement:</strong> Heterozygote für schwere GNPTAB-Mutationen</li>
+                    </ul>
+                    
+                    <p><strong>Langzeitprognose:</strong></p>
+                    <ul>
+                        <li><strong>Lebenserwartung:</strong> Oft bis ins Erwachsenenalter</li>
+                        <li><strong>Funktionelle Einschränkungen:</strong> Progressive Gelenksteife</li>
+                        <li><strong>Berufliche Integration:</strong> Möglich bei entsprechender Unterstützung</li>
+                        <li><strong>Herzkompl.:</strong> Regelmäßige kardiologische Kontrollen nötig</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mukolipidose IV</h3>
+                <div class="case-study">
+                    <h4>🧠 TRPML1-Kanalopathie</h4>
+                    
+                    <p><strong>Molekulare Pathophysiologie:</strong></p>
+                    <ul>
+                        <li><strong>Defekt:</strong> MCOLN1-Gen (TRPML1-Protein)</li>
+                        <li><strong>Funktion:</strong> Lysosomaler Ca²⁺/Fe²⁺-Kanal</li>
+                        <li><strong>Pathomechanismus:</strong> Gestörte lysosomale Ionenhomöostase</li>
+                        <li><strong>Vererbung:</strong> Autosomal-rezessiv</li>
+                    </ul>
+                    
+                    <p><strong>Klinischer Phänotyp:</strong></p>
+                    <ul>
+                        <li><strong>ZNS:</strong> Schwere psychomotorische Retardierung</li>
+                        <li><strong>Augen:</strong> Hornhaut- und Netzhautdegeneration</li>
+                        <li><strong>Hypotonie:</strong> Generalisierte Muskelhypotonie</li>
+                        <li><strong>Eisenmangel:</strong> Mikrozytäre Anämie (charakteristisch!)</li>
+                        <li><strong>Achlorhydrie:</strong> Fehlende Magensäureproduktion</li>
+                    </ul>
+                    
+                    <p><strong>Ethnische Häufung:</strong></p>
+                    <ul>
+                        <li><strong>Ashkenazi-Juden:</strong> Trägerfrequenz 1:100</li>
+                        <li><strong>Häufige Mutationen:</strong> c.511-2A>G, c.406-2A>G</li>
+                        <li><strong>Andere Populationen:</strong> Deutlich seltener</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Elektronenmikroskopie:</strong> Charakteristische lysosomale Inklusionen</li>
+                        <li><strong>Genetik:</strong> MCOLN1-Sequenzierung</li>
+                        <li><strong>Biochemie:</strong> Normale lysosomale Enzymaktivitäten</li>
+                        <li><strong>Biomarker:</strong> Gangliosid-Akkumulation in Fibroblasten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Sialidose (Mukolipidose I)</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th>Manifestationsalter</th>
+                            <th>Hauptsymptome</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sialidose Typ I</strong></td>
+                            <td>2.-3. Lebensjahrzehnt</td>
+                            <td>Kirschroter Fleck, Myoklonus, Ataxie</td>
+                            <td>Mild progredient</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sialidose Typ II</strong></td>
+                            <td>Geburt bis Kindheit</td>
+                            <td>Dysmorphie, Hydrops fetalis, Hepatosplenomegalie</td>
+                            <td>Schwer, früher Tod</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Galaktosialidose</strong></td>
+                            <td>Variabel</td>
+                            <td>Kombiniert: Sialidase + β-Galaktosidase-Defekt</td>
+                            <td>Abhängig von Restaktivität</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Neuraminidase-Defekt (NEU1-Gen)</h4>
+                    
+                    <p><strong>Biochemie:</strong></p>
+                    <ul>
+                        <li><strong>Enzymdefekt:</strong> α-Neuraminidase (Sialidase)</li>
+                        <li><strong>Substrat:</strong> Sialyl-Oligosaccharide, Sialyl-Glykokonjugate</li>
+                        <li><strong>Urinausscheidung:</strong> Freie Sialinsäure und Sialyl-Oligosaccharide</li>
+                    </ul>
+                    
+                    <p><strong>Galaktosialidose - Protektive Protein/Cathepsin A (PPCA) Defekt:</strong></p>
+                    <ul>
+                        <li><strong>Primärdefekt:</strong> CTSA-Gen (Cathepsin A)</li>
+                        <li><strong>Sekundäreffekt:</strong> Instabilität von β-Galaktosidase und Neuraminidase</li>
+                        <li><strong>Multienzymkomplex:</strong> Gestörte lysosomale Enzyme-Stabilität</li>
+                        <li><strong>Klinik:</strong> Variable Schwere, MPS-ähnliche Symptome</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('management')">Zum Therapiemanagement →</button>
+            </div>
+        </div>
+
+        <!-- Therapiemanagement -->
+        <div class="content-section" id="management">
+            <h2 class="section-title">🏥 Therapiemanagement in der Praxis</h2>
+
+            <div class="subsection">
+                <h3>Multidisziplinäres Team-Management</h3>
+                <div class="case-study">
+                    <h4>👥 Das ideale Behandlungsteam</h4>
+                    
+                    <p><strong>Kernteam Stoffwechselzentrum:</strong></p>
+                    <ul>
+                        <li><strong>Stoffwechsel-Pädiater/Internist:</strong> Primärkoordination und Therapieplanung</li>
+                        <li><strong>Stoffwechsel-Labormediziner:</strong> Diagnostik und Monitoring</li>
+                        <li><strong>Genetiker:</strong> Familienberatung und Pränataldiagnostik</li>
+                        <li><strong>Spezialisierte Pflegekraft:</strong> Therapieschulung und Home-Care-Koordination</li>
+                    </ul>
+                    
+                    <p><strong>Fachspezialisten (je nach Erkrankung):</strong></p>
+                    <ul>
+                        <li><strong>Kardiologe:</strong> EKG, Echo, Belastungs-Tests (MPS, Fabry, Pompe)</li>
+                        <li><strong>Pneumologe:</strong> Lungenfunktion, Polysomnographie (MPS, Pompe)</li>
+                        <li><strong>Nephrologe:</strong> Nierenfunktion, Dialyse-Planung (Fabry)</li>
+                        <li><strong>Neurologe:</strong> ZNS-Monitoring, Epilepsie-Management (NPC, Tay-Sachs)</li>
+                        <li><strong>Ophthalmologe:</strong> Hornhaut, Netzhaut (MPS, Fabry, ML)</li>
+                        <li><strong>Orthopäde:</strong> Gelenkprobleme, HWS-Instabilität (MPS IV)</li>
+                        <li><strong>Anästhesist:</strong> Schwierige Intubation, Atemwegsmanagement</li>
+                    </ul>
+                    
+                    <p><strong>Therapeutisches Team:</strong></p>
+                    <ul>
+                        <li><strong>Physiotherapeut:</strong> Gelenkbeweglichkeit, Atemtherapie</li>
+                        <li><strong>Ergotherapeut:</strong> Feinmotorik, ADL-Training</li>
+                        <li><strong>Logopäde:</strong> Sprachentwicklung, Schlucktherapie</li>
+                        <li><strong>Ernährungsberater:</strong> Diätmanagement (Gaucher SRT, Fabry)</li>
+                        <li><strong>Psychologe:</strong> Entwicklungsförderung, Familienbetreuung</li>
+                        <li><strong>Sozialarbeiter:</strong> Hilfsmittelversorgung, rechtliche Beratung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Strukturiertes Monitoring-Programm</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Untersuchung</th>
+                            <th>Frequenz</th>
+                            <th>Hauptindikationen</th>
+                            <th>Kritische Parameter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Klinische Visite</strong></td>
+                            <td>Alle 3-6 Monate</td>
+                            <td>Alle Erkrankungen</td>
+                            <td>Organomegalie, Wachstum, Entwicklung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Echokardiographie</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>MPS, Fabry, Pompe, ML</td>
+                            <td>LV-Masse, Klappenfunktion, diastol. Fkt.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lungenfunktion</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>MPS, Pompe</td>
+                            <td>FVC, FEV1, respiratorische Muskeln</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Augenuntersuchung</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>MPS, Fabry, ML, NPC</td>
+                            <td>Hornhauttrübung, Fundus, Visus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HWS-MRT</strong></td>
+                            <td>12 Monate</td>
+                            <td>MPS IV (VI)</td>
+                            <td>Atlantoaxiale Instabilität, Myelopathie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biomarker</strong></td>
+                            <td>3-6 Monate</td>
+                            <td>ERT-Patienten</td>
+                            <td>Spezifisch je Erkrankung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6-Min-Gehtest</strong></td>
+                            <td>6 Monate</td>
+                            <td>MPS, Pompe</td>
+                            <td>Gehstrecke, Herz-/Atemfrequenz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Antikörper-Screening</strong></td>
+                            <td>6-12 Monate</td>
+                            <td>ERT-Patienten</td>
+                            <td>ADA-Titer, neutralisierende AK</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Infusionsmanagement bei ERT</h3>
+                <div class="highlight-box">
+                    <h4>Praktische Durchführung der ERT</h4>
+                    
+                    <p><strong>Vorbereitung und Logistik:</strong></p>
+                    <ul>
+                        <li><strong>Medikamentenbestellung:</strong> 48-72h Vorlauf, Kühlkette beachten</li>
+                        <li><strong>Vorbereitung:</strong> Raumtemperatur 30 Min vor Infusion</li>
+                        <li><strong>Venöser Zugang:</strong> Peripher ausreichend, Port bei schwierigen Venenverhältnissen</li>
+                        <li><strong>Personal:</strong> Geschulte Pflegekraft, Notfallmanagement-Kenntnisse</li>
+                    </ul>
+                    
+                    <p><strong>Prämedikation (bei Infusionsreaktionen):</strong></p>
+                    <ul>
+                        <li><strong>Antihistaminika:</strong> Cetirizin 0,25 mg/kg p.o. oder Diphenhydramin 1 mg/kg i.v.</li>
+                        <li><strong>Kortikosteroide:</strong> Prednisolon 1-2 mg/kg p.o. oder Hydrocortison 2-5 mg/kg i.v.</li>
+                        <li><strong>Paracetamol:</strong> 10-15 mg/kg p.o./i.v. bei Fieber/Kopfschmerzen</li>
+                        <li><strong>Timing:</strong> 30-60 Min vor ERT-Beginn</li>
+                    </ul>
+                    
+                    <p><strong>Infusionsprotokoll (beispielhaft Gaucher):</strong></p>
+                    <ul>
+                        <li><strong>Start:</strong> 0,5-1 U/kg/h für erste 30 Min</li>
+                        <li><strong>Steigerung:</strong> Alle 30 Min um 0,5-1 U/kg/h</li>
+                        <li><strong>Maximum:</strong> 2-3 U/kg/h (entspricht 1-2 ml/Min)</li>
+                        <li><strong>Gesamtdauer:</strong> 1-4 Stunden je nach Verträglichkeit</li>
+                    </ul>
+                    
+                    <p><strong>Überwachung während Infusion:</strong></p>
+                    <ul>
+                        <li><strong>Vitalzeichen:</strong> Alle 15-30 Min, kontinuierlich bei Risikopatienten</li>
+                        <li><strong>Infusionsreaktion:</strong> Hautausschlag, Juckreiz, Atemnot, Hypotonie</li>
+                        <li><strong>Bei Reaktion:</strong> Infusion stoppen, symptomatische Therapie, langsame Wiederaufnahme</li>
+                        <li><strong>Dokumentation:</strong> Reaktionstyp, -schwere, Maßnahmen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Notfallmanagement</h3>
+                <div class="case-study">
+                    <h4>🚨 Akute Komplikationen</h4>
+                    
+                    <p><strong>Anaphylaktische Reaktion bei ERT:</strong></p>
+                    <ul>
+                        <li><strong>Sofortmaßnahmen:</strong> Infusion stoppen, venöser Zugang erhalten</li>
+                        <li><strong>Adrenalin:</strong> 0,01 mg/kg i.m. (max. 0,5 mg), wdh. nach 5-15 Min</li>
+                        <li><strong>Volumen:</strong> 20 ml/kg kristalloide Lösung bei Hypotonie</li>
+                        <li><strong>Bronchospasmus:</strong> Salbutamol inhalativ/i.v.</li>
+                        <li><strong>H1/H2-Blocker:</strong> Cetirizin + Ranitidin i.v.</li>
+                        <li><strong>Kortikosteroide:</strong> Prednisolon 1-2 mg/kg i.v.</li>
+                    </ul>
+                    
+                    <p><strong>Atlantoaxiale Dislokation (MPS IV):</strong></p>
+                    <ul>
+                        <li><strong>Symptome:</strong> Nackensteife, Kopfschmerzen, neurologische Ausfälle</li>
+                        <li><strong>Sofortmaßnahmen:</strong> HWS-Immobilisation, Notfall-MRT</li>
+                        <li><strong>Neurochirurgie:</strong> Sofortige Konsultation bei Myelopathie-Zeichen</li>
+                        <li><strong>Intubation:</strong> Fiber-optisch bei Verdacht auf Instabilität</li>
+                    </ul>
+                    
+                    <p><strong>Akute Kardiomyopathie-Dekompensation:</strong></p>
+                    <ul>
+                        <li><strong>Häufig bei:</strong> Pompe IOPD, Fabry, schweren MPS-Formen</li>
+                        <li><strong>Symptome:</strong> Dyspnoe, Ödeme, reduzierte Belastbarkeit</li>
+                        <li><strong>Diagnostik:</strong> Echo, BNP/NT-proBNP, Röntgen-Thorax</li>
+                        <li><strong>Therapie:</strong> Diuretika, ACE-Hemmer, β-Blocker nach Kardiologie</li>
+                    </ul>
+                    
+                    <p><strong>Status epilepticus (NPC, Tay-Sachs):</strong></p>
+                    <ul>
+                        <li><strong>1. Linie:</strong> Lorazepam 0,1 mg/kg i.v. (max. 4 mg)</li>
+                        <li><strong>2. Linie:</strong> Phenytoin 20 mg/kg i.v. über 30 Min</li>
+                        <li><strong>3. Linie:</strong> Phenobarbital 20 mg/kg i.v.</li>
+                        <li><strong>Intensiv:</strong> Propofol/Midazolam-Narkose bei refraktärem Status</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Home-Care und ambulante Betreuung</h3>
+                <div class="highlight-box">
+                    <h4>Häusliche ERT-Durchführung</h4>
+                    
+                    <p><strong>Voraussetzungen für Home-Care:</strong></p>
+                    <ul>
+                        <li><strong>Stabile ERT:</strong> &gt;6 Monate ohne schwere Infusionsreaktionen</li>
+                        <li><strong>Familiäre Kompetenz:</strong> Geschulte Bezugspersonen</li>
+                        <li><strong>Notfallplan:</strong> 24/7 Erreichbarkeit des Zentrums</li>
+                        <li><strong>Pflegedienst:</strong> Spezialisierte Home-Care-Provider</li>
+                    </ul>
+                    
+                    <p><strong>Vorteile der häuslichen Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Lebensqualität:</strong> Gewohnte Umgebung, Schulbesuch möglich</li>
+                        <li><strong>Kosteneffizienz:</strong> Reduzierte Reise- und Tagesklinikkosten</li>
+                        <li><strong>Compliance:</strong> Weniger Fehltermine durch logistische Probleme</li>
+                        <li><strong>Familienbelastung:</strong> Reduzierte zeitliche Belastung</li>
+                    </ul>
+                    
+                    <p><strong>Qualitätssicherung Home-Care:</strong></p>
+                    <ul>
+                        <li><strong>Schulung:</strong> Standardisierte Schulungsprogramme für Pflegekräfte</li>
+                        <li><strong>Monitoring:</strong> Regelmäßige Zentrumsvisiten (3-6 Monate)</li>
+                        <li><strong>Dokumentation:</strong> Elektronische Übertragung der Infusionsprotokolle</li>
+                        <li><strong>Notfallmanagement:</strong> Klare Eskalationswege bei Komplikationen</li>
+                    </ul>
+                    
+                    <p><strong>Kontraindikationen:</strong></p>
+                    <ul>
+                        <li><strong>Hohe ADA-Titer:</strong> Erhöhtes Reaktionsrisiko</li>
+                        <li><strong>Instabile Grunderkrankung:</strong> Häufige Krankenhausaufenthalte</li>
+                        <li><strong>Kardiopulmonale Instabilität:</strong> Überwachung erforderlich</li>
+                        <li><strong>Mangelnde Compliance:</strong> Unzuverlässige Medikamenteneinnahme</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('fallbeispiele')">Zu den Fallbeispielen →</button>
+            </div>
+        </div>
+
+        <!-- Fallbeispiele -->
+        <div class="content-section" id="fallbeispiele">
+            <h2 class="section-title">📋 Fallbeispiele aus der Praxis</h2>
+
+            <div class="subsection">
+                <h3>Fall 1: Differentialdiagnose bei Hepatosplenomegalie</h3>
+                <div class="case-study">
+                    <h4>🩺 Anamnese und Befund</h4>
+                    
+                    <p><strong>Patient:</strong> 3 Jahre alter Junge, türkische Familie</p>
+                    
+                    <p><strong>Anamnese:</strong></p>
+                    <ul>
+                        <li>Seit 6 Monaten zunehmende Müdigkeit und Blässe</li>
+                        <li>Bauchvorwölbung und "harter Bauch" bemerkt</li>
+                        <li>Normale psychomotorische Entwicklung</li>
+                        <li>Keine Auffälligkeiten bei Geburt</li>
+                        <li>Gesunde Geschwister</li>
+                    </ul>
+                    
+                    <p><strong>Klinischer Befund:</strong></p>
+                    <ul>
+                        <li>Wachstum: 25. Perzentile (bisher 50. P.)</li>
+                        <li>Blass, aber agil und altersgerecht entwickelt</li>
+                        <li>Milz: 8 cm unter Rippenbogen tastbar</li>
+                        <li>Leber: 4 cm unter Rippenbogen tastbar</li>
+                        <li>Keine Lymphknotenschwellungen</li>
+                        <li>Keine Dysmorphie-Zeichen</li>
+                        <li>Normale Hornhäute, kein Kirschroter Fleck</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Befund</th>
+                            <th>Normbereich</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hämoglobin</strong></td>
+                            <td>8,5 g/dl</td>
+                            <td>11,0-13,5 g/dl</td>
+                            <td>Moderate Anämie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leukozyten</strong></td>
+                            <td>3,2/nl</td>
+                            <td>5,0-15,0/nl</td>
+                            <td>Leukopenie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thrombozyten</strong></td>
+                            <td>45/nl</td>
+                            <td>150-450/nl</td>
+                            <td>Schwere Thrombopenie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LDH</strong></td>
+                            <td>580 U/l</td>
+                            <td>180-430 U/l</td>
+                            <td>Erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ferritin</strong></td>
+                            <td>850 ng/ml</td>
+                            <td>7-140 ng/ml</td>
+                            <td>Stark erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chitotriosidase</strong></td>
+                            <td>2.850 nmol/h/ml</td>
+                            <td><200 nmol/h/ml</td>
+                            <td>14x erhöht</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Differentialdiagnostische Überlegungen</h4>
+                    
+                    <p><strong>Leitsymptom: Hepatosplenomegalie + Zytopenie</strong></p>
+                    
+                    <p><strong>Hauptverdachtsdiagnosen:</strong></p>
+                    <ul>
+                        <li><strong>Morbus Gaucher:</strong> Passende Trias + erhöhte Chitotriosidase</li>
+                        <li><strong>Niemann-Pick A/B:</strong> Ähnlicher Phänotyp</li>
+                        <li><strong>Hämato-Onkologie:</strong> Lymphom, Leukämie (weniger wahrscheinlich)</li>
+                        <li><strong>Autoimmun:</strong> Systemische Erkrankungen</li>
+                    </ul>
+                    
+                    <p><strong>Spezialdiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>β-Glukozerebrosidase:</strong> 0,8 nmol/h/mg (Normal: >2,5) → stark erniedrigt</li>
+                        <li><strong>Sphingomyelinase:</strong> Normal</li>
+                        <li><strong>Glucosylsphingosine (Lyso-Gb1):</strong> 185 ng/ml (Normal: <12)</li>
+                        <li><strong>GBA-Genetik:</strong> c.1226A>G (N370S) / c.84dupG (84GG)</li>
+                    </ul>
+                    
+                    <p><strong>Diagnose: Morbus Gaucher Typ 1</strong></p>
+                    <ul>
+                        <li>Compound heterozygot für milde (N370S) und schwere (84GG) Mutation</li>
+                        <li>Therapieindikation wegen symptomatischer Zytopenie und Organomegalie</li>
+                        <li>Beginn ERT mit Imiglucerase 30 U/kg alle 2 Wochen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 2: Pompe-Verdacht bei Kardiomyopathie</h3>
+                <div class="case-study">
+                    <h4>👶 Säugling mit Hypotonie</h4>
+                    
+                    <p><strong>Patient:</strong> 4 Monate alter Säugling, weiblich</p>
+                    
+                    <p><strong>Anamnese:</strong></p>
+                    <ul>
+                        <li>Auffällige "Schlaffheit" seit 6 Wochen</li>
+                        <li>Trinkschwäche, häufiges Verschlucken</li>
+                        <li>Auffälliger großer Zungenbelag bemerkt</li>
+                        <li>Keine Krampfanfälle</li>
+                        <li>Schwangerschaft und Geburt unauffällig</li>
+                        <li>Neugeborenenscreening: unauffällig (Pompe nicht gescreent)</li>
+                    </ul>
+                    
+                    <p><strong>Klinischer Befund:</strong></p>
+                    <ul>
+                        <li>Schwere axiale Hypotonie ("floppy infant")</li>
+                        <li>Makroglossia</li>
+                        <li>Hepatomegalie (3 cm unter Rippenbogen)</li>
+                        <li>Herzgeräusch 3/6 systolisch</li>
+                        <li>Schwache Eigenreflexe</li>
+                        <li>Keine Zeichen einer Ateminsuffizienz</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Untersuchung</th>
+                            <th>Befund</th>
+                            <th>Normbereich</th>
+                            <th>Klinische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CK</strong></td>
+                            <td>850 U/l</td>
+                            <td>30-200 U/l</td>
+                            <td>4x erhöht → Muskelschädigung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LDH</strong></td>
+                            <td>680 U/l</td>
+                            <td>180-430 U/l</td>
+                            <td>Muskel-/Herzschädigung</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AST</strong></td>
+                            <td>120 U/l</td>
+                            <td>15-40 U/l</td>
+                            <td>Lebervergrößerung korrelierend</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Echokardiographie</strong></td>
+                            <td>LV-Masse 95g/m² (Z-Score +4,2)</td>
+                            <td>Z-Score -2 bis +2</td>
+                            <td>Schwere hypertrophe Kardiomyopathie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EKG</strong></td>
+                            <td>Verkürzte PR-Zeit (90ms)</td>
+                            <td>120-160ms</td>
+                            <td>Charakteristisch für Pompe</td>
+                        </tr>
+                        <tr>
+                            <td><strong>α-Glukosidase (DBS)</strong></td>
+                            <td>0,3 μmol/l/h</td>
+                            <td>>1,2 μmol/l/h</td>
+                            <td>Stark erniedrigt</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Diagnose und Therapieeinleitung</h4>
+                    
+                    <p><strong>Bestätigungsdiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>GAA-Aktivität Lymphozyten:</strong> &lt;1% der Norm → IOPD bestätigt</li>
+                        <li><strong>Urin-Glc4:</strong> 15,8 mmol/mol Kreatinin (Normal: &lt;3,0)</li>
+                        <li><strong>Genetik:</strong> c.525delT / c.2560C>T (CRIM-negativ)</li>
+                        <li><strong>Muskelbiopsie:</strong> Massive vakuoläre Myopathie, PAS-positive Vakuolen</li>
+                    </ul>
+                    
+                    <p><strong>Therapie-Protokoll:</strong></p>
+                    <ul>
+                        <li><strong>ERT-Start:</strong> Alglucosidase alfa 20 mg/kg alle 2 Wochen</li>
+                        <li><strong>Immunsuppression:</strong> Rituximab + Methotrexat (CRIM-negativ!)</li>
+                        <li><strong>Supportiv:</strong> Physiotherapie, Logopädie, Ernährungsoptimierung</li>
+                        <li><strong>Monitoring:</strong> Wöchentliche Echokontrolle initial</li>
+                    </ul>
+                    
+                    <p><strong>3-Monats-Outcome:</strong></p>
+                    <ul>
+                        <li><strong>Kardial:</strong> LV-Masse Reduktion um 40% → Normalisierung</li>
+                        <li><strong>Motor:</strong> Verbesserung der Kopfkontrolle</li>
+                        <li><strong>Biomarker:</strong> CK auf 320 U/l gesunken, Urin-Glc4 halbiert</li>
+                        <li><strong>ADA-Status:</strong> Negativ (erfolgreiche Immuntoleranzinduktion)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 3: Unklare Ataxie bei Adoleszenter</h3>
+                <div class="case-study">
+                    <h4>🧠 Progressive neurologische Symptome</h4>
+                    
+                    <p><strong>Patientin:</strong> 14 Jahre alt, aus Kosovo</p>
+                    
+                    <p><strong>Anamnese:</strong></p>
+                    <ul>
+                        <li>Seit 2 Jahren zunehmende Gangunsicherheit</li>
+                        <li>Konzentrationsprobleme in der Schule</li>
+                        <li>Gelegentliche Schluckbeschwerden</li>
+                        <li>Eltern berichten "andere Augen" seit 1 Jahr</li>
+                        <li>Normale Entwicklung bis zum 12. Lebensjahr</li>
+                        <li>Konsanguine Eltern (Cousin-Cousine)</li>
+                    </ul>
+                    
+                    <p><strong>Neurologischer Status:</strong></p>
+                    <ul>
+                        <li>Cerebelläre Ataxie mit Gangunsicherheit</li>
+                        <li>Dysarthrie</li>
+                        <li>Vertikale Blickparese (pathognomonisch!)</li>
+                        <li>Gelastische Kataplexie bei Lachen</li>
+                        <li>Keine Organomegalie</li>
+                        <li>SARA-Score: 15/40 Punkte</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Diagnostisches Vorgehen bei NPC-Verdacht</h4>
+                    
+                    <p><strong>Verdachtsdiagnose: Niemann-Pick C</strong></p>
+                    
+                    <p><strong>Spezialdiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Filipin-Test:</strong> Deutlich positive Cholesterol-Akkumulation</li>
+                        <li><strong>Chitotriosidase:</strong> 1850 nmol/h/ml (9x erhöht)</li>
+                        <li><strong>Oxysterole:</strong> Cholestan-3β,5α,6β-triol 180x erhöht</li>
+                        <li><strong>NPC1-Genetik:</strong> c.3019C>G (p.Pro1007Ala) homozygot</li>
+                    </ul>
+                    
+                    <p><strong>Staging und Prognose:</strong></p>
+                    <ul>
+                        <li><strong>Aktuelles Stadium:</strong> 3 (von 4) nach Severity Scale</li>
+                        <li><strong>Manifestationsalter:</strong> 12 Jahre (juvenile Form)</li>
+                        <li><strong>Prognose:</strong> Langsam progredient, Überleben bis 3.-4. Dekade</li>
+                        <li><strong>Mutation:</strong> Milde Variante mit späterem Beginn</li>
+                    </ul>
+                    
+                    <p><strong>Therapie und Management:</strong></p>
+                    <ul>
+                        <li><strong>Miglustat:</strong> 200 mg 3x täglich (nach Körpergewicht)</li>
+                        <li><strong>Supportiv:</strong> Physiotherapie, Logopädie, Ergotherapie</li>
+                        <li><strong>Schulanpassung:</strong> Nachteilsausgleich, ggf. Förderbedarf</li>
+                        <li><strong>Monitoring:</strong> SARA-Score alle 6 Monate</li>
+                        <li><strong>Familienberatung:</strong> 25% Wiederholungsrisiko, Pränatale Diagnostik verfügbar</li>
+                    </ul>
+                    
+                    <p><strong>2-Jahres-Verlauf:</strong></p>
+                    <ul>
+                        <li><strong>SARA-Score:</strong> Stabilisierung bei 16/40 (vs. erwartet 22/40)</li>
+                        <li><strong>Lebensqualität:</strong> Verbesserung der Dysphagie</li>
+                        <li><strong>Nebenwirkungen:</strong> Initiale Diarrhoe, nach 3 Monaten sistiert</li>
+                        <li><strong>Compliance:</strong> Ausgezeichnet nach ausführlicher Aufklärung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="content-section" id="quiz">
+            <h2 class="section-title">🎓 Lernkontrolle - Abschlusstest</h2>
+
+            <div class="quiz-container">
+                <div class="quiz-question">1. Welcher Biomarker ist am spezifischsten für Morbus Gaucher?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Chitotriosidase</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) CCL18/PARC</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) Glucosylsphingosine (Lyso-Gb1)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ferritin</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. Bei welcher MPS ist eine Hornhauttrübung NICHT typisch?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) MPS I</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) MPS II</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) MPS VI</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) MPS VII</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. Welche Aussage zur Mukolipidose II ist korrekt?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Normale lysosomale Enzymaktivitäten im Serum</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Erhöhte lysosomale Enzymaktivitäten im Serum</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Isolierter α-L-Iduronidase-Mangel</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Normale Lebenserwartung</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. Welcher Parameter ist bei Morbus Pompe IOPD am wichtigsten für die Prognose?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) CK-Wert bei Diagnose</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Alter bei Therapiebeginn</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Schwere der Genotyps</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ausmaß der Hepatomegalie</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. Welches Merkmal ist pathognomonisch für Niemann-Pick C?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Hepatosplenomegalie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Entwicklungsrückstand</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) Vertikale supranukleäre Blickparese</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Ataxie</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">6. Bei welcher Erkrankung ist HSCT eine etablierte Therapieoption?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) MPS IH (Hurler-Syndrom)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Morbus Gaucher Typ 1</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Morbus Fabry</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Morbus Pompe</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">7. Welche Aussage zu Pharmakologischen Chaperonen ist richtig?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Wirken bei allen Mutationen</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Nur bei amenable Mutationen wirksam</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Ersetzen die ERT vollständig</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Haben keine Nebenwirkungen</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">8. Welcher Überwachungsparameter ist bei MPS IV am kritischsten?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Lungenfunktion</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Herzfunktion</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) HWS-MRT (Atlantoaxiale Instabilität)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Augenuntersuchung</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">9. Welche Substrat-Reduktions-Therapie ist für Gaucher Typ 1 zugelassen?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Miglustat als Monotherapie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Eliglustat als Erstlinientherapie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Lucerastat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Alle genannten</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">10. Bei welchem Alter sollte bei MPS IH eine HSCT erfolgen?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Vor dem 6. Lebensmonat</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Vor dem 2. Lebensjahr</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Vor dem 5. Lebensjahr</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Alter ist nicht relevant</div>
+            </div>
+
+            <div id="quiz-result" style="margin-top: 2rem; padding: 2rem; background: var(--bg-light); border-radius: var(--border-radius); text-align: center; display: none;">
+                <h3 id="result-title" style="margin-bottom: 1rem;"></h3>
+                <p id="result-text" style="margin-bottom: 1.5rem;"></p>
+                <div class="completion-badge">🎉 Lerneinheit erfolgreich abgeschlossen!</div>
+                <p style="margin-top: 1rem; color: var(--text-secondary);">Sie haben nun umfassende Kenntnisse über lysosomale Speicherkrankheiten erworben und sind bereit für die klinische Anwendung.</p>
+            </div>
+
+            <div class="next-step" id="quiz-complete" style="display: none;">
+                <button class="next-btn" onclick="showCertificate()">Zertifikat anzeigen 🏆</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['mukolipidosen', 'management', 'fallbeispiele', 'quiz'];
+        let quizScore = 0;
+        let totalQuestions = 10;
+        let answeredQuestions = 0;
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function selectAnswer(element, isCorrect) {
+            // Check if this question was already answered
+            const container = element.parentElement;
+            const options = container.querySelectorAll('.quiz-option');
+            let alreadyAnswered = false;
+            
+            options.forEach(option => {
+                if (option.classList.contains('correct') || option.classList.contains('incorrect')) {
+                    alreadyAnswered = true;
+                }
+            });
+
+            if (alreadyAnswered) return;
+
+            // Mark answer and update score
+            if (isCorrect) {
+                element.classList.add('correct');
+                quizScore++;
+            } else {
+                element.classList.add('incorrect');
+                // Show correct answer
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+            }
+
+            answeredQuestions++;
+
+            // Check if all questions answered
+            if (answeredQuestions === totalQuestions) {
+                setTimeout(showQuizResult, 1000);
+            }
+        }
+
+        function showQuizResult() {
+            const resultDiv = document.getElementById('quiz-result');
+            const titleElement = document.getElementById('result-title');
+            const textElement = document.getElementById('result-text');
+            const completeButton = document.getElementById('quiz-complete');
+
+            const percentage = Math.round((quizScore / totalQuestions) * 100);
+            
+            if (percentage >= 80) {
+                titleElement.textContent = `Ausgezeichnet! ${quizScore}/${totalQuestions} Punkte (${percentage}%)`;
+                titleElement.style.color = 'var(--success-color)';
+                textElement.textContent = 'Sie haben ein sehr gutes Verständnis für lysosomale Speicherkrankheiten gezeigt. Ihre Kenntnisse reichen für die klinische Anwendung aus.';
+            } else if (percentage >= 60) {
+                titleElement.textContent = `Gut! ${quizScore}/${totalQuestions} Punkte (${percentage}%)`;
+                titleElement.style.color = 'var(--warning-color)';
+                textElement.textContent = 'Sie haben ein gutes Grundverständnis. Wiederholen Sie die schwächeren Bereiche für eine optimale Vorbereitung.';
+            } else {
+                titleElement.textContent = `${quizScore}/${totalQuestions} Punkte (${percentage}%)`;
+                titleElement.style.color = 'var(--danger-color)';
+                textElement.textContent = 'Bitte wiederholen Sie die Lerneinheit, um Ihr Wissen zu vertiefen. Die komplexen Zusammenhänge benötigen intensive Beschäftigung.';
+            }
+
+            resultDiv.style.display = 'block';
+            completeButton.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showCertificate() {
+            alert('🏆 Herzlichen Glückwunsch!\n\nSie haben die Lerneinheit "Lysosomale Speicherkrankheiten" erfolgreich abgeschlossen.\n\nIhre erworbenen Kompetenzen:\n• Differentialdiagnostik lysosomaler Speicherkrankheiten\n• Therapeutische Optionen und deren Indikationen\n• Praktisches Therapiemanagement\n• Notfallmanagement und Monitoring\n\nSie sind nun bereit für die Betreuung von Patienten mit lysosomalen Speicherkrankheiten in der klinischen Praxis.');
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

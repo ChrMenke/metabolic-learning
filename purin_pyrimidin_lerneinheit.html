@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purin-/Pyrimidin-Stoffwechselstörungen - Expertenschulung</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #00f2fe);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Purin-/Pyrimidin-Stoffwechselstörungen</h1>
+            <p>Umfassende Expertenschulung für Stoffwechselmedizin</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <div class="part-info">
+            <h3>📚 Vollständige Lerneinheit</h3>
+            <p>Diese Expertenschulung behandelt alle wichtigen Aspekte der Purin-/Pyrimidin-Stoffwechselstörungen mit Fokus auf klinische Handlungsfähigkeit.</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('grundlagen')">Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('lesch-nyhan')">Lesch-Nyhan</button>
+            <button class="nav-btn" onclick="showSection('ada-scid')">ADA-SCID</button>
+            <button class="nav-btn" onclick="showSection('dpd-mangel')">DPD-Mangel</button>
+            <button class="nav-btn" onclick="showSection('orotazidurie')">Orotazidurie</button>
+            <button class="nav-btn" onclick="showSection('quiz')">Lernkontrolle</button>
+        </div>
+
+        <!-- GRUNDLAGEN -->
+        <div class="content-section active" id="grundlagen">
+            <h2 class="section-title">🎯 Grundlagen der Purin-/Pyrimidin-Stoffwechselstörungen</h2>
+            
+            <div class="subsection">
+                <h3>Überblick und Klassifikation</h3>
+                <p>Purin- und Pyrimidinstoffwechselstörungen umfassen eine heterogene Gruppe angeborener Enzymdefekte, die sowohl die Synthese (de novo und Salvage-Wege) als auch den Abbau von Nukleotiden betreffen. Diese Störungen manifestieren sich mit einem breiten Spektrum von neurologischen, immunologischen, hämatologischen und nephrologischen Symptomen.</p>
+                
+                <div class="highlight-box">
+                    <h4>Hauptkategorien der Stoffwechselstörungen</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div>
+                            <p><strong>🔴 Purin-Stoffwechsel:</strong></p>
+                            <ul>
+                                <li><strong>HPRT-Mangel</strong> → Lesch-Nyhan-Syndrom</li>
+                                <li><strong>ADA-Mangel</strong> → SCID</li>
+                                <li><strong>PNP-Mangel</strong> → T-Zell-Immundefekt</li>
+                                <li><strong>Xanthinoxidase-Mangel</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>🔵 Pyrimidin-Stoffwechsel:</strong></p>
+                            <ul>
+                                <li><strong>DPD-Mangel</strong> → 5-FU-Toxizität</li>
+                                <li><strong>UMP-Synthase-Mangel</strong> → Orotazidurie</li>
+                                <li><strong>Dihydroorotat-DH-Mangel</strong></li>
+                                <li><strong>Thymidylat-Synthase-Mangel</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Erkrankung</th>
+                            <th>Inzidenz</th>
+                            <th>Vererbung</th>
+                            <th>Hauptmanifestationen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lesch-Nyhan</strong></td>
+                            <td>1:380.000 (♂)</td>
+                            <td>X-chromosomal</td>
+                            <td>Selbstverletzung, Hyperurikämie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ADA-SCID</strong></td>
+                            <td>1:500.000</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>Schwerer Immundefekt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DPD-Mangel</strong></td>
+                            <td>3-5% (partiell)</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>5-FU-Toxizität</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orotazidurie</strong></td>
+                            <td>sehr selten</td>
+                            <td>autosomal-rezessiv</td>
+                            <td>Megaloblastäre Anämie</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathophysiologische Prinzipien</h3>
+                <div class="case-study">
+                    <h4>🔬 Grundmechanismen der Krankheitsentstehung</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 15px;">💀 Substratakkumulation</h5>
+                            <p style="color: #dc2626;">Anhäufung toxischer Substrate (z.B. dATP bei ADA-Mangel)</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 15px;">⚡ Produktmangel</h5>
+                            <p style="color: #ea580c;">Defizit essentieller Produkte (z.B. UMP bei Orotazidurie)</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 15px;">🎯 Gewebsspezifität</h5>
+                            <p style="color: #16a34a;">Unterschiedliche Vulnerabilität verschiedener Organsysteme</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('lesch-nyhan')">Zum Lesch-Nyhan-Syndrom →</button>
+            </div>
+        </div>
+
+        <!-- LESCH-NYHAN-SYNDROM -->
+        <div class="content-section" id="lesch-nyhan">
+            <h2 class="section-title">🧠 Lesch-Nyhan-Syndrom</h2>
+            
+            <div class="subsection">
+                <h3>Klinisches Bild und Pathophysiologie</h3>
+                <div class="case-study">
+                    <h4>🩺 Klassische Trias</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                            <h5 style="color: #dc2626; margin-bottom: 10px;">🧠 Neurologie</h5>
+                            <ul style="color: #dc2626; font-size: 0.9em;">
+                                <li>Intellektuelle Behinderung</li>
+                                <li>Dystonie, Choreoathetose</li>
+                                <li>Spastische Zerebralparese</li>
+                                <li>Schluck-/Sprechstörungen</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">⚗️ Hyperurikämie</h5>
+                            <ul style="color: #ea580c; font-size: 0.9em;">
+                                <li>Harnsäure >600 μmol/l</li>
+                                <li>Orange Kristalle (Windel)</li>
+                                <li>Nephrolithiasis</li>
+                                <li>Progressierende Nephropathie</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 15px; border-radius: 8px; border: 2px solid #0ea5e9;">
+                            <h5 style="color: #0284c7; margin-bottom: 10px;">💔 Selbstverletzung</h5>
+                            <ul style="color: #0284c7; font-size: 0.9em;">
+                                <li>Compulsives Beißen</li>
+                                <li>Kopfschlagen</li>
+                                <li>Beginn: 2.-4. Lebensjahr</li>
+                                <li>Verstärkung bei Stress</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>HPRT-Mangel: Biochemie und Pathogenese</h4>
+                    <p><strong>Hypoxanthin-Guanin-Phosphoribosyltransferase (HPRT):</strong></p>
+                    <ul>
+                        <li><strong>Normalfunktion:</strong> Salvage-Weg für Purinbasen</li>
+                        <li><strong>Reaktionen:</strong> Hypoxanthin + PRPP → IMP; Guanin + PRPP → GMP</li>
+                        <li><strong>Bei Mangel:</strong> Verstärkte de novo Purinsynthese</li>
+                        <li><strong>Folge:</strong> Harnsäure-Überproduktion (5-10x erhöht)</li>
+                    </ul>
+                    
+                    <p><strong>Neurochemische Hypothese der Selbstverletzung:</strong></p>
+                    <ul>
+                        <li>Dopamin-Defizienz in Basalganglien</li>
+                        <li>D1-Rezeptor-Hypersensitivität</li>
+                        <li>Gestörte Neuronale Entwicklung</li>
+                        <li>GABAerge Dysbalance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik und Varianten</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Phänotyp</th>
+                            <th>HPRT-Aktivität</th>
+                            <th>Harnsäure</th>
+                            <th>Neurologie</th>
+                            <th>Selbstverletzung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lesch-Nyhan</strong></td>
+                            <td>&lt;1% der Norm</td>
+                            <td>5-10x erhöht</td>
+                            <td>Schwere CP, ID</td>
+                            <td>Compulsiv, schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kelley-Seegmiller</strong></td>
+                            <td>1-8% der Norm</td>
+                            <td>3-5x erhöht</td>
+                            <td>Spastik, Dystonie</td>
+                            <td>Mild oder fehlend</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Milde Formen</strong></td>
+                            <td>8-25% der Norm</td>
+                            <td>2-3x erhöht</td>
+                            <td>Minimal</td>
+                            <td>Keine</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie und Management</h3>
+                <div class="case-study">
+                    <h4>💊 Behandlungsansätze</h4>
+                    <p><strong>Pharmakologische Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Allopurinol 10-20 mg/kg/d:</strong> Xanthinoxidase-Hemmung, essentiell für Nierenprotektion</li>
+                        <li><strong>Benzodiazepine:</strong> Anxiolyse, Reduktion der Selbstverletzung</li>
+                        <li><strong>Gabapentin 15-35 mg/kg/d:</strong> Antikonvulsiv, analgetisch</li>
+                        <li><strong>Baclofen:</strong> GABA-B-Agonist, Spastik-Reduktion</li>
+                    </ul>
+                    
+                    <p><strong>Supportive Maßnahmen:</strong></p>
+                    <ul>
+                        <li>Physische Schutzmaßnahmen (Zahnschutz, weiche Polsterung)</li>
+                        <li>Physiotherapie und Ergotherapie</li>
+                        <li>Ernährungstherapie bei Schluckstörungen</li>
+                        <li>Psychosoziale Unterstützung der Familie</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>⚠️ Wichtige Therapieprinzipien</h4>
+                    <ul>
+                        <li><strong>Allopurinol verhindert Nierenversagen,</strong> aber nicht die neurologischen Symptome</li>
+                        <li><strong>Keine kausale Therapie verfügbar</strong> - symptomatische Behandlung</li>
+                        <li><strong>Multidisziplinäre Betreuung</strong> durch Neurologie, Urologie, Orthopädie</li>
+                        <li><strong>Prognose:</strong> Lebenserwartung 30-40 Jahre, oft Aspirationspneumonie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('ada-scid')">Zum ADA-SCID →</button>
+            </div>
+        </div>
+
+        <!-- ADA-SCID -->
+        <div class="content-section" id="ada-scid">
+            <h2 class="section-title">🛡️ ADA-Mangel (SCID)</h2>
+            
+            <div class="subsection">
+                <h3>Pathophysiologie der Lymphozytotoxizität</h3>
+                <div class="case-study">
+                    <h4>🧬 Toxische Wirkung der dATP-Akkumulation</h4>
+                    <p><strong>Adenosindeaminase (ADA) - Funktion und Bedeutung:</strong></p>
+                    <ul>
+                        <li><strong>Normalfunktion:</strong> Adenosin → Inosin (Purin-Katabolismus)</li>
+                        <li><strong>Bei Mangel:</strong> Adenosin-Akkumulation → dATP ↑↑↑</li>
+                        <li><strong>Toxischer Mechanismus:</strong> dATP hemmt Ribonukleotid-Reduktase</li>
+                        <li><strong>Folge:</strong> DNA-Synthese-Stopp → Lymphozyten-Apoptose</li>
+                    </ul>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div>
+                            <p><strong>🔴 Primäre Toxizität:</strong></p>
+                            <ul>
+                                <li>dATP-Akkumulation (300-1000x normal)</li>
+                                <li>Ribonukleotid-Reduktase-Hemmung</li>
+                                <li>DNA-Polymerase-α-Inhibition</li>
+                                <li>Thymozytentod in utero</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>🟡 Sekundäre Effekte:</strong></p>
+                            <ul>
+                                <li>S-Adenosylhomocystein ↑</li>
+                                <li>Methylierungs-Defekte</li>
+                                <li>ATP-Depletion</li>
+                                <li>Mitochondriale Dysfunktion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Manifestationen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Manifestationsalter</th>
+                            <th>Immundefekt</th>
+                            <th>Nicht-immunologische Symptome</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Early onset (85%)</strong><br>0-6 Monate</td>
+                            <td>Schwere rezidivierende Infekte<br>T⁻B⁻NK⁻ Phänotyp</td>
+                            <td>Skelettanomalien<br>Hörverlust</td>
+                            <td>Letal ohne HSCT</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delayed onset (10%)</strong><br>6-24 Monate</td>
+                            <td>Graduelle Verschlechterung<br>Partielle T-Zell-Funktion</td>
+                            <td>Hepatopathie<br>Entwicklungsverzögerung</td>
+                            <td>ERT effektiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Late onset (5%)</strong><br>&gt;2 Jahre</td>
+                            <td>Rekurrente Pneumonien<br>Autoimmunität</td>
+                            <td>Lungenerkrankung<br>Allergien</td>
+                            <td>Variable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik</h3>
+                <div class="highlight-box">
+                    <h4>Charakteristische Laborbefunde</h4>
+                    <table class="clinical-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>ADA-SCID</th>
+                                <th>Normwerte</th>
+                                <th>Diagnostische Bedeutung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>dATP (Erythrozyten)</strong></td>
+                                <td>300-1000 nmol/ml</td>
+                                <td>&lt;20 nmol/ml</td>
+                                <td>⭐ Pathognomonisch</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ADA-Aktivität</strong></td>
+                                <td>0-5 U/g Hb</td>
+                                <td>60-120 U/g Hb</td>
+                                <td>Bestätigung</td>
+                            </tr>
+                            <tr>
+                                <td><strong>T-Zellen (CD3+)</strong></td>
+                                <td>&lt;500/μl</td>
+                                <td>2500-5500/μl</td>
+                                <td>SCID-Kriterium</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Proliferation (PHA)</strong></td>
+                                <td>&lt;10% der Norm</td>
+                                <td>SI &gt;10</td>
+                                <td>Funktionstest</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapieoptionen</h3>
+                <div class="case-study">
+                    <h4>🏥 Behandlungsstrategien</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+                            <h5 style="color: #16a34a; margin-bottom: 10px;">🥇 HSCT (Erstlinie)</h5>
+                            <ul style="color: #16a34a; font-size: 0.9em;">
+                                <li><strong>HLA-identisch:</strong> 95-100% Erfolg</li>
+                                <li><strong>Haploidentisch:</strong> 85-95% Erfolg</li>
+                                <li>Optimales Timing: &lt;6 Monate</li>
+                                <li>Keine/reduzierte Konditionierung</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <h5 style="color: #2563eb; margin-bottom: 10px;">🔄 PEG-ADA (Bridge)</h5>
+                            <ul style="color: #2563eb; font-size: 0.9em;">
+                                <li>15-30 U/kg/Woche i.m.</li>
+                                <li>Stabilisierung bis HSCT</li>
+                                <li>70-80% Immunrestitution</li>
+                                <li>Lebenslange Therapie möglich</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+                            <h5 style="color: #ea580c; margin-bottom: 10px;">🧬 Gentherapie</h5>
+                            <ul style="color: #ea580c; font-size: 0.9em;">
+                                <li>Lentivirale Vektoren</li>
+                                <li>Autologe CD34+ Zellen</li>
+                                <li>Vielversprechende Ergebnisse</li>
+                                <li>Noch experimentell</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Monitoring der Therapie</h4>
+                    <p><strong>Erfolgsparameter:</strong></p>
+                    <ul>
+                        <li><strong>Metabolisch:</strong> dATP &lt;30 nmol/ml, ADA-Aktivität &gt;1 U/g Hb</li>
+                        <li><strong>Immunologisch:</strong> T-Zellen &gt;500/μl, normale Proliferation</li>
+                        <li><strong>Klinisch:</strong> Infektfreiheit, normale Entwicklung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('dpd-mangel')">Zum DPD-Mangel →</button>
+            </div>
+        </div>
+
+        <!-- DPD-MANGEL -->
+        <div class="content-section" id="dpd-mangel">
+            <h2 class="section-title">💊 DPD-Mangel und 5-FU-Toxizität</h2>
+            
+            <div class="subsection">
+                <h3>Pharmakogenetik der 5-FU-Toxizität</h3>
+                <div class="case-study">
+                    <h4>⚗️ Dihydropyrimidin-Dehydrogenase (DPD)</h4>
+                    <p><strong>Normale Funktion:</strong></p>
+                    <ul>
+                        <li><strong>Hauptabbauweg:</strong> 80-90% des 5-FU wird durch DPD metabolisiert</li>
+                        <li><strong>Reaktion:</strong> 5-FU → 5-Fluor-5,6-dihydrouracil → 5-Fluor-β-alanin</li>
+                        <li><strong>Bedeutung:</strong> Detoxifikation von 5-FU und Capecitabin</li>
+                        <li><strong>Lokalisation:</strong> Leber, Darm, Leukozyten</li>
+                    </ul>
+                    
+                    <p><strong>Bei DPD-Mangel:</strong></p>
+                    <ul>
+                        <li><strong>5-FU-Akkumulation:</strong> 5-10x verlängerte Halbwertszeit</li>
+                        <li><strong>Verstärkte Anabolismus:</strong> Mehr aktive Metabolite (5-FdUMP, 5-FUTP)</li>
+                        <li><strong>Schwere Toxizität:</strong> Mukositis, Myelosuppression, Neurotoxizität</li>
+                        <li><strong>Letalität:</strong> Bis zu 30% bei komplettem Mangel</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Genetische Varianten und Phänotypen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>DPYD-Variante</th>
+                            <th>Allel-Frequenz (EUR)</th>
+                            <th>Funktionsverlust</th>
+                            <th>5-FU-Dosisempfehlung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DPYD*2A (c.1905+1G&gt;A)</strong></td>
+                            <td>0.9%</td>
+                            <td>Komplett (No function)</td>
+                            <td>❌ Kontraindikation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DPYD*13 (c.1679T&gt;G)</strong></td>
+                            <td>0.07%</td>
+                            <td>Komplett (No function)</td>
+                            <td>❌ Kontraindikation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>c.2846A&gt;T</strong></td>
+                            <td>4.6%</td>
+                            <td>50% (Decreased function)</td>
+                            <td>⚠️ 50% Dosisreduktion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>c.1236G&gt;A (HapB3)</strong></td>
+                            <td>2.6%</td>
+                            <td>25% (Decreased function)</td>
+                            <td>⚠️ 25-50% Dosisreduktion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Manifestationen der 5-FU-Toxizität</h3>
+                <div class="highlight-box">
+                    <h4>Organsystem-spezifische Toxizität</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div>
+                            <p><strong>🔴 Gastrointestinal (häufigste):</strong></p>
+                            <ul>
+                                <li>Schwere Mukositis/Stomatitis</li>
+                                <li>Nekrotisierende Enterocolitis</li>
+                                <li>Profuse Diarrhö</li>
+                                <li>Dehydratation/Elektrolytverlust</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>🟡 Hämatologisch:</strong></p>
+                            <ul>
+                                <li>Schwere Neutropenie</li>
+                                <li>Thrombozytopenie</li>
+                                <li>Panzytopenie</li>
+                                <li>Sepsis-Risiko</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>🔵 Neurologisch (schwer):</strong></p>
+                            <ul>
+                                <li>Kleinhirnataxie</li>
+                                <li>Enzephalopathie</li>
+                                <li>Somnolenz bis Koma</li>
+                                <li>Oft irreversibel</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Prätherapeutische Diagnostik</h3>
+                <div class="case-study">
+                    <h4>🔬 Empfohlenes Screening-Vorgehen</h4>
+                    <p><strong>1. Genetisches Screening (Standard):</strong></p>
+                    <ul>
+                        <li>DPYD-Varianten-Panel (CPIC/EMA-empfohlene Varianten)</li>
+                        <li>Turnaround-Zeit: 24-48 Stunden</li>
+                        <li>Kosteneffektiv und weit verfügbar</li>
+                    </ul>
+                    
+                    <p><strong>2. Phänotypisches Screening (optional):</strong></p>
+                    <ul>
+                        <li><strong>Uracil-Belastungstest:</strong> 500mg Uracil p.o. → Urin-Ratio</li>
+                        <li><strong>Cut-off:</strong> Uracil/Dihydrouracil >10 = DPD-Mangel</li>
+                        <li><strong>Vorteil:</strong> Erfasst auch seltene Varianten</li>
+                    </ul>
+                    
+                    <p><strong>3. Enzymaktivität (Goldstandard):</strong></p>
+                    <ul>
+                        <li>DPD-Aktivität in mononukleären Zellen</li>
+                        <li>Aufwendig und nicht routinemäßig verfügbar</li>
+                        <li>Forschungskontext</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Management und Notfalltherapie</h3>
+                <div class="highlight-box">
+                    <h4>🚨 Notfallmanagement bei schwerer 5-FU-Toxizität</h4>
+                    <p><strong>Sofortmaßnahmen:</strong></p>
+                    <ul>
+                        <li><strong>5-FU sofort stoppen</strong> (auch Pumpentherapie!)</li>
+                        <li><strong>Uridin-Rescue:</strong> Uridin (Vistogard®) 10g p.o. alle 6h × 20 Dosen</li>
+                        <li><strong>Beginn &lt;96h nach 5-FU-Gabe</strong> für optimale Wirksamkeit</li>
+                        <li><strong>Supportive Therapie:</strong> Flüssigkeit, Elektrolyte, G-CSF</li>
+                    </ul>
+                    
+                    <p><strong>Dosisanpassungen für zukünftige Therapien:</strong></p>
+                    <ul>
+                        <li><strong>Intermediate Metabolizer:</strong> 50% Dosisreduktion</li>
+                        <li><strong>Poor Metabolizer:</strong> 5-FU-Kontraindikation</li>
+                        <li><strong>Alternative Protokolle:</strong> FOLFOX → FOLFIRI, Immuntherapie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('orotazidurie')">Zur Orotazidurie →</button>
+            </div>
+        </div>
+
+        <!-- OROTAZIDURIE -->
+        <div class="content-section" id="orotazidurie">
+            <h2 class="section-title">🧪 Orotazidurie</h2>
+            
+            <div class="subsection">
+                <h3>UMP-Synthase-Mangel</h3>
+                <div class="case-study">
+                    <h4>🧬 Bifunktionelles Enzym</h4>
+                    <p><strong>UMP-Synthase (UMPS) - Struktur und Funktion:</strong></p>
+                    <ul>
+                        <li><strong>Domäne 1:</strong> Orotat-Phosphoribosyltransferase (OPRT)</li>
+                        <li><strong>Domäne 2:</strong> Orotat-5'-Monophosphat-Decarboxylase (OMPDC)</li>
+                        <li><strong>Reaktion:</strong> Orotsäure + PRPP → OMP → UMP</li>
+                        <li><strong>Bedeutung:</strong> Letzter Schritt der de novo Pyrimidin-Biosynthese</li>
+                    </ul>
+                    
+                    <p><strong>Krankheitsmechanismus:</strong></p>
+                    <ul>
+                        <li><strong>Orotazidurie Typ I (95%):</strong> Beide Domänen defekt</li>
+                        <li><strong>Orotazidurie Typ II (5%):</strong> Nur OMPDC-Domäne defekt</li>
+                        <li><strong>Folge:</strong> UMP-Mangel → Gestörte DNA/RNA-Synthese</li>
+                        <li><strong>Klinik:</strong> Megaloblastäre Anämie, Immundefekt</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinisches Bild</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Alter</th>
+                            <th>Hämatologie</th>
+                            <th>Entwicklung</th>
+                            <th>Weitere Symptome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Säuglingsalter</strong><br>(3-12 Monate)</td>
+                            <td>Megaloblastäre Anämie<br>MCV &gt;120 fl<br>Neutropenie</td>
+                            <td>Entwicklungsverzögerung<br>Hypotonie<br>Gedeihstörung</td>
+                            <td>Immundefekte<br>Rezidivierende Infekte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unbehandelt</strong></td>
+                            <td>Schwere Panzytopenie<br>Hyperzelluläres KM</td>
+                            <td>Progressive ID<br>Schwere Retardierung</td>
+                            <td>Kardiomyopathie<br>Letal im 1.-2. LJ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik</h3>
+                <div class="highlight-box">
+                    <h4>Charakteristische Befunde</h4>
+                    <table class="clinical-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Orotazidurie Typ I</th>
+                                <th>Normwerte</th>
+                                <th>Besonderheiten</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Orotsäure (Urin)</strong></td>
+                                <td>1000-5000 μmol/mmol Krea</td>
+                                <td>&lt;20 μmol/mmol Krea</td>
+                                <td>⭐ Pathognomonisch</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCV</strong></td>
+                                <td>&gt;120 fl</td>
+                                <td>70-86 fl</td>
+                                <td>Megaloblastäre Anämie</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vitamin B12/Folsäure</strong></td>
+                                <td>Normal</td>
+                                <td>Normal</td>
+                                <td>DD zu B12/Folsäure-Mangel</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Orotkristalle</strong></td>
+                                <td>Positiv (Urin)</td>
+                                <td>Negativ</td>
+                                <td>Nadelförmige Kristalle</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie</h3>
+                <div class="case-study">
+                    <h4>💊 Uridin als Salvage-Therapie</h4>
+                    <p><strong>Wirkungsmechanismus:</strong></p>
+                    <ul>
+                        <li><strong>Uridin-Kinase-Weg:</strong> Uridin → UMP (umgeht UMP-Synthase-Defekt)</li>
+                        <li><strong>Pool-Restauration:</strong> UMP → UDP → UTP → CTP</li>
+                        <li><strong>Feedback-Hemmung:</strong> UTP hemmt Carbamoylphosphat-Synthetase</li>
+                        <li><strong>Folge:</strong> Orotsäure-Ausscheidung sinkt drastisch</li>
+                    </ul>
+                    
+                    <p><strong>Dosierung und Monitoring:</strong></p>
+                    <ul>
+                        <li><strong>Dosierung:</strong> 100-200 mg/kg/d p.o. in 4-6 Einzeldosen</li>
+                        <li><strong>Response:</strong> Hb-Anstieg nach 2-4 Wochen</li>
+                        <li><strong>Vollremission:</strong> Normale Hämatologie nach 2-3 Monaten</li>
+                        <li><strong>Monitoring:</strong> Orotsäure normalisiert sich (Typ I), bleibt erhöht (Typ II)</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>Prognose</h4>
+                    <ul>
+                        <li><strong>Exzellent bei früher Diagnose:</strong> Normale Entwicklung möglich</li>
+                        <li><strong>Lebenslange Therapie:</strong> Hohe Compliance erforderlich</li>
+                        <li><strong>Nebenwirkungen:</strong> Uridin sehr gut verträglich</li>
+                        <li><strong>Familie:</strong> Genetische Beratung für weitere Kinder</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="content-section" id="quiz">
+            <h2 class="section-title">🎯 Lernkontrolle</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. Welcher Laborparameter ist pathognomonisch für ADA-SCID?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Stark erniedrigte T-Zellzahl</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Massiv erhöhtes dATP in Erythrozyten</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Hypogammaglobulinämie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Erhöhtes Adenosin im Plasma</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">2. Bei welcher DPYD-Variante ist 5-FU absolut kontraindiziert?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) DPYD*2A (c.1905+1G>A) homozygot</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) c.2846A>T heterozygot</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) c.1236G>A (HapB3) heterozygot</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Normale DPYD-Aktivität</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">3. Was charakterisiert das Lesch-Nyhan-Syndrom?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Autosomal-rezessive Vererbung</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Compulsives selbstverletzendes Verhalten</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Normale Harnsäure-Werte</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Weibliches Geschlecht bevorzugt betroffen</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">4. Welcher Befund spricht für Orotazidurie?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Erniedrigte Vitamin B12-Spiegel</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Orotsäure >1000 μmol/mmol Kreatinin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Erhöhte Homocystein-Werte</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Verminderte Folsäure im Serum</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">5. Welches Antidot wird bei schwerer 5-FU-Toxizität eingesetzt?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Leucovorin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Uridin (Vistogard®)</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Cytidin</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Thymidine</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">6. Was ist die Erstlinientherapie bei ADA-SCID?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) Allogene Stammzelltransplantation</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) PEG-ADA als Dauertherapie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Gentherapie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Immunglobulin-Substitution</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">7. Welche Therapie ist bei Orotazidurie effektiv?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Vitamin B12-Substitution</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Folsäure-Gabe</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) Uridin 100-200 mg/kg/d</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Stammzelltransplantation</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">8. Was verhindert Allopurinol beim Lesch-Nyhan-Syndrom?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Selbstverletzendes Verhalten</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Neurologische Symptome</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">C) Nephropathie durch Harnsäure</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Entwicklungsverzögerung</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">9. Welcher Phänotyp ist typisch für schweres ADA-SCID?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">A) T⁻B⁻NK⁻ Immundefekt</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">B) Isolierte T-Zell-Lymphopenie</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Nur B-Zell-Mangel</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Normale Lymphozytenzahlen</div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">10. Was ist das Ziel der DPD-Genotypisierung?</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">A) Diagnose einer Stoffwechselkrankheit</div>
+                <div class="quiz-option" onclick="selectAnswer(this, true)">B) Prävention schwerer 5-FU-Toxizität</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">C) Therapie von Immundefekten</div>
+                <div class="quiz-option" onclick="selectAnswer(this, false)">D) Behandlung von Hyperurikämie</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: var(--border-radius); border: 2px solid var(--success-color);">
+                <div class="completion-badge">🎉 Lerneinheit erfolgreich abgeschlossen!</div>
+                <h3 style="color: var(--success-color); margin: 1rem 0;">Herzlichen Glückwunsch!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die umfassende Expertenschulung zu Purin-/Pyrimidin-Stoffwechselstörungen erfolgreich durchlaufen.</p>
+                <p style="color: var(--text-secondary);"><strong>Wichtige Erkenntnisse für die Praxis:</strong></p>
+                <ul style="text-align: left; color: var(--text-secondary); max-width: 600px; margin: 1rem auto;">
+                    <li>Frühe Diagnostik ist entscheidend für optimale Outcomes</li>
+                    <li>Spezifische Therapien können Leben retten (HSCT, ERT, Uridin)</li>
+                    <li>Pharmakogenetik verhindert schwere Medikamententoxizität</li>
+                    <li>Multidisziplinäre Betreuung ist essentiell</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['grundlagen', 'lesch-nyhan', 'ada-scid', 'dpd-mangel', 'orotazidurie', 'quiz'];
+        let quizScore = 0;
+        let totalQuestions = 10;
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function selectAnswer(element, isCorrect) {
+            // Disable all options in this quiz container
+            const container = element.closest('.quiz-container');
+            const options = container.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option === element) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        quizScore++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                } else {
+                    // Show correct answer
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                }
+            });
+
+            // Show final score if all questions answered
+            setTimeout(() => {
+                const answeredQuestions = document.querySelectorAll('.quiz-option.correct, .quiz-option.incorrect').length;
+                if (answeredQuestions >= totalQuestions) {
+                    showFinalScore();
+                }
+            }, 1000);
+        }
+
+        function showFinalScore() {
+            const percentage = Math.round((quizScore / totalQuestions) * 100);
+            let message = '';
+            let color = '';
+
+            if (percentage >= 90) {
+                message = 'Exzellent! Sie beherrschen das Thema ausgezeichnet.';
+                color = '#22c55e';
+            } else if (percentage >= 80) {
+                message = 'Sehr gut! Solide Kenntnisse mit kleineren Lücken.';
+                color = '#3b82f6';
+            } else if (percentage >= 70) {
+                message = 'Gut! Grundlagen verstanden, Vertiefung empfohlen.';
+                color = '#f59e0b';
+            } else {
+                message = 'Wiederholung empfohlen. Vertiefen Sie die Grundlagen.';
+                color = '#ef4444';
+            }
+
+            const scoreElement = document.createElement('div');
+            scoreElement.innerHTML = `
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #f8fafc, #e2e8f0); border-radius: 16px; border: 2px solid ${color};">
+                    <h3 style="color: ${color}; margin-bottom: 1rem;">📊 Ihr Ergebnis: ${quizScore}/${totalQuestions} (${percentage}%)</h3>
+                    <p style="color: #4a5568; font-size: 1.1rem;">${message}</p>
+                </div>
+            `;
+            document.querySelector('#quiz').appendChild(scoreElement);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '16.67%';
+    </script>
+</body>
+</html>

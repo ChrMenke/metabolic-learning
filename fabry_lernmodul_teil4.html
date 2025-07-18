@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morbus Fabry - Teil 4: Therapie & Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-lighter);
+            border-radius: 4px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, var(--bg-white), var(--bg-light));
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: var(--bg-white);
+            padding: 0 var(--spacing-xs);
+            font-size: 1.2rem;
+        }
+        
+        .highlight-box h4 {
+            color: var(--warning-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        /* Therapy comparison */
+        .therapy-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .therapy-card {
+            background: var(--bg-white);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .therapy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .therapy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-color);
+        }
+        
+        .therapy-card h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .therapy-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .therapy-badge.ert {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .therapy-badge.chaperon {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+        }
+        
+        /* Treatment goals */
+        .treatment-goals {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .treatment-goals h4 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+        }
+        
+        .goal-item {
+            background: var(--bg-white);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .goal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+        
+        .goal-item h5 {
+            color: var(--success-color);
+            margin-bottom: var(--spacing-xs);
+            font-weight: 600;
+        }
+        
+        /* Monitoring schedule */
+        .monitoring-timeline {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-md) 0;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: var(--spacing-md);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: var(--bg-white);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .timeline-content h5 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+            font-weight: 600;
+        }
+        
+        /* Completion badge */
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+            animation: completionPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes completionPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Final summary */
+        .final-summary {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .final-summary h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-lg);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .final-summary p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* Finish button */
+        .finish-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--border-radius);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            margin: var(--spacing-xl) auto 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .finish-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .finish-btn:hover::before {
+            left: 100%;
+        }
+        
+        .finish-btn:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+            
+            .therapy-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+        .subsection:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💊 Morbus Fabry</h1>
+            <p>Teil 4: Therapie & Management</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>🎯 Lerneinheit Teil 4 - Finale</h3>
+            <p>Moderne Therapieoptionen und evidenzbasiertes Management des Morbus Fabry - von der Enzymersatztherapie bis zur personalisierten Medizin.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active">1. Therapieziele</button>
+            <button class="nav-btn">2. Enzymersatztherapie</button>
+            <button class="nav-btn">3. Chaperontherapie</button>
+            <button class="nav-btn">4. Monitoring</button>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Therapie & Management</h2>
+
+            <div class="subsection">
+                <h3>Therapieziele und Grundprinzipien</h3>
+                <p>Die Therapie des Morbus Fabry erfordert eine <strong>enge interdisziplinäre Zusammenarbeit</strong> und ein multimodales Behandlungskonzept.</p>
+                
+                <div class="treatment-goals">
+                    <h4>🎯 Primäre Therapieziele</h4>
+                    <div class="goals-grid">
+                        <div class="goal-item">
+                            <h5>🛡️ Organprotektion</h5>
+                            <p style="font-size: 0.9em;">Verhinderung der Progression von Organmanifestationen</p>
+                        </div>
+                        <div class="goal-item">
+                            <h5>😌 Symptomlinderung</h5>
+                            <p style="font-size: 0.9em;">Reduktion von Schmerzen und GI-Beschwerden</p>
+                        </div>
+                        <div class="goal-item">
+                            <h5>📈 Lebensqualität</h5>
+                            <p style="font-size: 0.9em;">Verbesserung der gesundheitsbezogenen Lebensqualität</p>
+                        </div>
+                        <div class="goal-item">
+                            <h5>⏰ Lebensverlängerung</h5>
+                            <p style="font-size: 0.9em;">Verlängerung der Lebenserwartung</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>🏥 Zentrumsüberweisung empfohlen</h4>
+                    <p>Nach bestätigter Diagnose sollten Betroffene zur <strong>Eingangsuntersuchung und Therapieplanung</strong> an ein in der Diagnostik und Therapie erfahrenes Zentrum überwiesen werden.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Enzymersatztherapie (ERT)</h3>
+                <p>Seit 2001 steht mit der ERT eine <strong>kausale Behandlungsoption</strong> zur Verfügung. Die gentechnologisch hergestellte α-Galaktosidase A wird alle 14 Tage intravenös infundiert.</p>
+                
+                <div class="therapy-comparison">
+                    <div class="therapy-card">
+                        <h4>💉 Agalsidase alfa</h4>
+                        <div style="margin: 15px 0;">
+                            <span class="therapy-badge ert">Replagal®</span>
+                            <span class="therapy-badge ert">0,2 mg/kg</span>
+                            <span class="therapy-badge ert">HT-1080 Zellen</span>
+                        </div>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Dosierung:</strong> 0,2 mg/kg KG alle 14 Tage</li>
+                            <li><strong>Herstellung:</strong> Humane Fibrosarkom-Zelllinie</li>
+                            <li><strong>Infusionsdauer:</strong> 40 Minuten</li>
+                            <li><strong>Antikörper:</strong> ~24% der Männer</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="therapy-card">
+                        <h4>💉 Agalsidase beta</h4>
+                        <div style="margin: 15px 0;">
+                            <span class="therapy-badge ert">Fabrazyme®</span>
+                            <span class="therapy-badge ert">1,0 mg/kg</span>
+                            <span class="therapy-badge ert">CHO-Zellen</span>
+                        </div>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Dosierung:</strong> 1,0 mg/kg KG alle 14 Tage</li>
+                            <li><strong>Herstellung:</strong> Chinese Hamster Ovary Zellen</li>
+                            <li><strong>Infusionsdauer:</strong> 4 Stunden</li>
+                            <li><strong>Antikörper:</strong> Mehrzahl in ersten 3 Monaten</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>Agalsidase alfa</th>
+                            <th>Agalsidase beta</th>
+                            <th>Klinische Relevanz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Wirksamkeit</strong></td>
+                            <td>Gut dokumentiert</td>
+                            <td>Gut dokumentiert</td>
+                            <td>Keine klinisch relevanten Unterschiede</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Glykosylierung</strong></td>
+                            <td>Human-ähnlich</td>
+                            <td>CHO-spezifisch</td>
+                            <td>Unterschiedliche Muster</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Immunogenität</strong></td>
+                            <td>24% (♂)</td>
+                            <td>Höher (♂)</td>
+                            <td>Antikörper können Wirkung mindern</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Praktikabilität</strong></td>
+                            <td>Kürzere Infusion</td>
+                            <td>Längere Infusion</td>
+                            <td>Patientenpräferenz berücksichtigen</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight-box">
+                    <h4>⚠️ Antikörperproblematik</h4>
+                    <p><strong>40% aller männlichen Patienten</strong> entwickeln neutralisierende Antikörper, die mit höherem Lyso-Gb3, größerer LVM und schlechterer Nierenfunktion assoziiert sind. Eine Immunmodulation kann erwogen werden.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Chaperontherapie mit Migalastat</h3>
+                <p>Seit 2016 steht mit <strong>Migalastat (Galafold®)</strong> eine orale Behandlungsoption für Patienten mit "amenable" Genvarianten zur Verfügung.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 12px; border: 2px solid #0ea5e9;">
+                        <h4 style="color: #0369a1; margin-bottom: 15px;">🧬 Wirkmechanismus</h4>
+                        <ul style="color: #075985; font-size: 0.9em;">
+                            <li><strong>Pharmacological Chaperon:</strong> 1-Deoxygalactonojirimycin</li>
+                            <li><strong>Stabilisierung:</strong> Fehlfaltung des AGLA-Proteins verhindern</li>
+                            <li><strong>Transport:</strong> Verbesserter Transport zu Lysosomen</li>
+                            <li><strong>Aktivität:</strong> Erhöhte Enzymaktivität in Lysosomen</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fef3c7, #fcd34d); padding: 20px; border-radius: 12px; border: 2px solid #f59e0b;">
+                        <h4 style="color: #92400e; margin-bottom: 15px;">📋 Indikation & Dosierung</h4>
+                        <ul style="color: #92400e; font-size: 0.9em;">
+                            <li><strong>Alter:</strong> ≥12 Jahre (≥45 kg KG)</li>
+                            <li><strong>Dosierung:</strong> 123 mg jeden 2. Tag oral</li>
+                            <li><strong>Voraussetzung:</strong> "Amenable" Genvariante</li>
+                            <li><strong>Test:</strong> In-vitro Amenability Assay</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="therapy-card" style="margin: 20px 0;">
+                    <h4>🎯 "Amenable" Varianten</h4>
+                    <p style="margin-bottom: 15px;">Nur bestimmte Missense-Varianten sprechen auf Migalastat an. Die aktuelle Liste finden Sie unter:</p>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <span class="therapy-badge chaperon">www.galafoldamenabilitytable.com</span>
+                    </div>
+                    <p style="font-size: 0.9em; color: var(--text-muted);">Die Amenability-Testung ist vor Therapiebeginn zwingend erforderlich!</p>
+                </div>
+                
+                <table class="clinical-table" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Vergleichsaspekt</th>
+                            <th>ERT</th>
+                            <th>Migalastat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Applikation</strong></td>
+                            <td>IV alle 14 Tage</td>
+                            <td>Oral jeden 2. Tag</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Patienteneignung</strong></td>
+                            <td>Alle Varianten</td>
+                            <td>Nur "amenable" Varianten</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Immunogenität</strong></td>
+                            <td>Antikörperrisiko</td>
+                            <td>Kein Antikörperrisiko</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gewebe-Penetration</strong></td>
+                            <td>Limitiert</td>
+                            <td>Bessere Penetration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Symptomatische und adjuvante Therapien</h3>
+                <p>Neben der kausalen Therapie sind <strong>symptomatische Behandlungen</strong> essentiell für die umfassende Betreuung von Fabry-Patienten.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 20px; border-radius: 12px; border: 2px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 15px;">⚡ Fabry-Schmerzen</h4>
+                        <ul style="color: #7f1d1d; font-size: 0.9em;">
+                            <li><strong>Antikonvulsiva:</strong> Gabapentin, Pregabalin</li>
+                            <li><strong>Antidepressiva:</strong> Duloxetin, Amitriptylin</li>
+                            <li><strong>Akutschmerz:</strong> NSAR, Metamizol</li>
+                            <li><strong>Vermeidung:</strong> Triggerfaktoren (Hitze, Stress)</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 12px; border: 2px solid #0ea5e9;">
+                        <h4 style="color: #0369a1; margin-bottom: 15px;">🫀 Kardiale Therapie</h4>
+                        <ul style="color: #075985; font-size: 0.9em;">
+                            <li><strong>ACE-Hemmer/ARB:</strong> Kardio- und Nephroprotektiv</li>
+                            <li><strong>Betablocker:</strong> Bei Arrhythmien/Hypertrophie</li>
+                            <li><strong>ICD/CRT:</strong> Bei malignen Arrhythmien</li>
+                            <li><strong>Antikoagulation:</strong> Bei Vorhofflimmern</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fefce8, #fef3c7); padding: 20px; border-radius: 12px; border: 2px solid #eab308;">
+                        <h4 style="color: #a16207; margin-bottom: 15px;">🫁 Nephroprotektive Therapie</h4>
+                        <ul style="color: #92400e; font-size: 0.9em;">
+                            <li><strong>ACE-Hemmer/ARB:</strong> Proteinurie-Reduktion</li>
+                            <li><strong>SGLT2-Inhibitoren:</strong> Zusätzlicher Benefit</li>
+                            <li><strong>Blutdruckkontrolle:</strong> <130/80 mmHg</li>
+                            <li><strong>Dialyse/Transplantation:</strong> Bei Nierenversagen</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 20px; border-radius: 12px; border: 2px solid #22c55e;">
+                        <h4 style="color: #15803d; margin-bottom: 15px;">🧠 Neurologische Therapie</h4>
+                        <ul style="color: #166534; font-size: 0.9em;">
+                            <li><strong>Schlaganfallprophylaxe:</strong> Thrombozytenaggregationshemmer</li>
+                            <li><strong>Epilepsie:</strong> Antikonvulsiva</li>
+                            <li><strong>Depression:</strong> SSRI/SNRI</li>
+                            <li><strong>Psychotherapie:</strong> Krankheitsbewältigung</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>👩‍⚕️ Besonderheiten bei Frauen</h4>
+                    <p><strong>Therapieindikation bei Frauen</strong> anhand gleicher Kriterien wie bei Männern stellen! Während der Schwangerschaft ist die Indikation zur ERT vorsichtig und streng zu stellen (nach 1. Trimenon).</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapiemonitoring und Verlaufskontrolle</h3>
+                <p>Regelmäßige Kontrollen sind essentiell zur <strong>Überwachung des Therapieerfolgs</strong> und zur frühzeitigen Erkennung von Komplikationen.</p>
+                
+                <div class="monitoring-timeline">
+                    <h4 style="color: var(--info-color); text-align: center; margin-bottom: 20px;">📅 Monitoring-Schedule</h4>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3M</div>
+                        <div class="timeline-content">
+                            <h5>Erste Verlaufskontrolle</h5>
+                            <p style="font-size: 0.9em;">Verträglichkeit der Therapie, Lyso-Gb3, Basisparameter</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">6M</div>
+                        <div class="timeline-content">
+                            <h5>Erweiterte Kontrolle</h5>
+                            <p style="font-size: 0.9em;">Organfunktion, Biomarker, Nebenwirkungen, Antikörper</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">12M</div>
+                        <div class="timeline-content">
+                            <h5>Jahresuntersuchung</h5>
+                            <p style="font-size: 0.9em;">Vollständige Organevaluation, Therapieadjustierung</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">∞</div>
+                        <div class="timeline-content">
+                            <h5>Lebenslange Nachsorge</h5>
+                            <p style="font-size: 0.9em;">12-monatige Kontrollen mit kompletter Organevaluation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="clinical-table" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Kontrolle</th>
+                            <th>Zielwerte</th>
+                            <th>Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lyso-Gb3</strong></td>
+                            <td>Alle 6 Monate</td>
+                            <td>Reduktion/Stabilisierung</td>
+                            <td>Therapieresponse</td>
+                        </tr>
+                        <tr>
+                            <td><strong>eGFR</strong></td>
+                            <td>Alle 6 Monate</td>
+                            <td>Stabilisierung</td>
+                            <td>Nephroprotektiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proteinurie</strong></td>
+                            <td>Alle 6 Monate</td>
+                            <td><300 mg/g Kreatinin</td>
+                            <td>Nierenfunktion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LVMI</strong></td>
+                            <td>Jährlich</td>
+                            <td>Stabilisierung/Reduktion</td>
+                            <td>Kardioprotektiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schmerz-Scores</strong></td>
+                            <td>Alle 3 Monate</td>
+                            <td>Reduktion</td>
+                            <td>Symptomkontrolle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Prognose und Zukunftsperspektiven</h3>
+                <p>Mit moderner Therapie hat sich die <strong>Prognose des Morbus Fabry deutlich verbessert</strong>, jedoch bleibt die frühzeitige Diagnose und Behandlung entscheidend.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #dcfce7, #86efac); padding: 20px; border-radius: 12px; border: 2px solid #22c55e;">
+                        <h4 style="color: #15803d; margin-bottom: 15px;">✅ Therapieerfolge</h4>
+                        <ul style="color: #166534; font-size: 0.9em;">
+                            <li><strong>Organprotektion:</strong> Verlangsamte Progression</li>
+                            <li><strong>Symptomlinderung:</strong> Verbesserte Lebensqualität</li>
+                            <li><strong>Langzeitdaten:</strong> >20 Jahre Erfahrung</li>
+                            <li><strong>Frühe Therapie:</strong> Bessere Langzeitprognose</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fef3c7, #fcd34d); padding: 20px; border-radius: 12px; border: 2px solid #f59e0b;">
+                        <h4 style="color: #92400e; margin-bottom: 15px;">🔬 Zukunftsperspektiven</h4>
+                        <ul style="color: #92400e; font-size: 0.9em;">
+                            <li><strong>Gentherapie:</strong> In klinischer Entwicklung</li>
+                            <li><strong>Substratreduktion:</strong> Neue Ansätze</li>
+                            <li><strong>Biomarker:</strong> Verbesserte Diagnostik</li>
+                            <li><strong>Personalisierte Medizin:</strong> Variantenspezifisch</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="final-summary">
+                    <h3>🎯 Fazit für die Praxis</h3>
+                    <p><strong>Morbus Fabry ist eine behandelbare Multisystemerkrankung!</strong></p>
+                    <p>Frühe Diagnose und rechtzeitiger Therapiebeginn sind entscheidend für die Prognose. Die interdisziplinäre Betreuung in erfahrenen Zentren verbessert die Langzeitergebnisse erheblich.</p>
+                    <div class="completion-badge">
+                        🏆 Lernmodul erfolgreich abgeschlossen!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="finish-btn" onclick="window.open('about:blank')">
+            🎉 Lernmodul abschließen
+        </button>
+    </div>
+
+    <script>
+        // Progress tracking - start at 100% for final module
+        let currentProgress = 100;
+        
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+        }
+        
+        // Navigation functionality
+        document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update progress based on section (80-100% range for part 4)
+                updateProgress(80 + (index + 1) * 5);
+            });
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.subsection').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Interactive hover effects for therapy cards
+        document.querySelectorAll('.therapy-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-6px)';
+                this.style.borderColor = 'var(--secondary-color)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.borderColor = 'var(--primary-color)';
+            });
+        });
+        
+        // Interactive hover effects for goal items
+        document.querySelectorAll('.goal-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+                this.style.borderColor = 'var(--primary-color)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.borderColor = 'var(--success-color)';
+            });
+        });
+        
+        // Timeline item interactions
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const marker = this.querySelector('.timeline-marker');
+                const content = this.querySelector('.timeline-content');
+                marker.style.transform = 'scale(1.1)';
+                content.style.background = 'var(--bg-lighter)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                const marker = this.querySelector('.timeline-marker');
+                const content = this.querySelector('.timeline-content');
+                marker.style.transform = 'scale(1)';
+                content.style.background = 'var(--bg-white)';
+            });
+        });
+        
+        // Completion celebration effect
+        function celebrateCompletion() {
+            const badge = document.querySelector('.completion-badge');
+            if (badge) {
+                badge.style.animation = 'completionPulse 0.5s ease-in-out 3';
+            }
+        }
+        
+        // Trigger celebration when final summary comes into view
+        const finalSummary = document.querySelector('.final-summary');
+        if (finalSummary) {
+            const celebrationObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(celebrateCompletion, 500);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            celebrationObserver.observe(finalSummary);
+        }
+    </script>
+</body>
+</html>

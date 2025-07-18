@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurotransmitter-Defekte - Teil 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--neuro-color: #9c88ff;
+--dopamine-color: #ff6b9d;
+--serotonin-color: #4ecdc4;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color), var(--serotonin-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--neuro-color), var(--dopamine-color));
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--neuro-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border-color: var(--neuro-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Pathway diagrams */
+.pathway-diagram {
+background: var(--bg-white);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.pathway-diagram h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+text-align: center;
+}
+
+.pathway-diagram h5 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+.pathway-diagram p {
+color: var(--text-secondary);
+}
+
+/* Neurotransmitter boxes */
+.nt-box {
+display: inline-block;
+padding: 12px 20px;
+margin: 6px;
+border-radius: 12px;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.nt-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+.nt-box.dopamine {
+background: linear-gradient(135deg, var(--dopamine-color), #ff7675);
+color: white;
+}
+
+.nt-box.serotonin {
+background: linear-gradient(135deg, var(--serotonin-color), #00b894);
+color: white;
+}
+
+.nt-box.noradrenaline {
+background: linear-gradient(135deg, #fd79a8, #e17055);
+color: white;
+}
+
+.nt-box.bh4 {
+background: linear-gradient(135deg, var(--warning-color), #fdcb6e);
+color: white;
+}
+
+.nt-box.defect {
+background: linear-gradient(135deg, var(--danger-color), #d63031);
+color: white;
+animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+0%, 100% {
+transform: scale(1);
+box-shadow: var(--shadow-sm);
+}
+50% {
+transform: scale(1.02);
+box-shadow: var(--shadow-md);
+}
+}
+
+.arrow {
+display: inline-block;
+margin: 0 var(--spacing-sm);
+font-size: 1.8rem;
+color: var(--neuro-color);
+transition: all 0.3s ease;
+}
+
+.arrow:hover {
+transform: scale(1.2);
+color: var(--dopamine-color);
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Special neurotransmitter pathway boxes */
+.neuro-pathway {
+background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.neuro-pathway h4 {
+color: #6b21a8;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+}
+
+.neuro-pathway p, .neuro-pathway ul, .neuro-pathway li {
+color: #6b21a8;
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+.subsection:nth-child(6) { animation-delay: 0.6s; }
+.subsection:nth-child(7) { animation-delay: 0.7s; }
+.subsection:nth-child(8) { animation-delay: 0.8s; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🧠 Neurotransmitter-Defekte</h1>
+<p>Teil 1: Grundlagen, Biochemie & Klinisches Bild</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>📚 Lerneinheit Teil 1</h3>
+<p>Dieser erste Teil behandelt die biochemischen Grundlagen, Pathophysiologie und klinischen Präsentationen der wichtigsten Neurotransmitter-Defekte.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('grundlagen')">1. Grundlagen</button>
+<button class="nav-btn" onclick="showSection('biochemie')">2. Biochemie</button>
+<button class="nav-btn" onclick="showSection('klinik')">3. Klinisches Bild</button>
+</div>
+
+<!-- Grundlagen -->
+<div class="content-section active" id="grundlagen">
+<h2 class="section-title">🎯 Grundlagen der Neurotransmitter-Defekte</h2>
+
+<div class="subsection">
+<h3>Definition und Überblick</h3>
+<p>Neurotransmitter-Defekte sind seltene angeborene Stoffwechselstörungen, die die Biosynthese, den Abbau oder den Transport von Neurotransmittern betreffen. Sie führen zu schweren neurologischen Symptomen bereits im Säuglingsalter.</p>
+
+<div class="highlight-box">
+<h4>Drei Hauptgruppen</h4>
+<ul>
+<li><strong>AADC-Mangel</strong> - Aromantische L-Aminosäure-Decarboxylase</li>
+<li><strong>Tyrosinhydroxylase-Mangel</strong> - Geschwindigkeitsbestimmender Schritt</li>
+<li><strong>BH4-Defekte</strong> - Tetrahydrobiopterin-Cofaktor-Mängel</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🧬 Gemeinsame Charakteristika</h4>
+<ul>
+<li><strong>Autosomal-rezessive Vererbung</strong> (Ausnahme: GTP-CH-I auch dominant)</li>
+<li><strong>Frühe Manifestation</strong> meist in den ersten Lebensmonaten</li>
+<li><strong>Progressive Neurodegeneration</strong> ohne Behandlung</li>
+<li><strong>Multisystemische Beteiligung</strong> möglich</li>
+<li><strong>Therapierbar</strong> bei frühzeitiger Diagnose</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Epidemiologie und Vererbung</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Inzidenz</th>
+<th>Vererbung</th>
+<th>Gen(e)</th>
+<th>Chromosom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AADC-Mangel</strong></td>
+<td>~1:1.000.000</td>
+<td>autosomal-rezessiv</td>
+<td>DDC</td>
+<td>7p12.2</td>
+</tr>
+<tr>
+<td><strong>TH-Mangel</strong></td>
+<td>~1:2.000.000</td>
+<td>autosomal-rezessiv</td>
+<td>TH</td>
+<td>11p15.5</td>
+</tr>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>1:1.000.000</td>
+<td>AR + AD</td>
+<td>GCH1</td>
+<td>14q22.1-q22.2</td>
+</tr>
+<tr>
+<td><strong>PTPS-Mangel</strong></td>
+<td>1:5.000.000</td>
+<td>autosomal-rezessiv</td>
+<td>PTS</td>
+<td>11q22.3-q23.3</td>
+</tr>
+<tr>
+<td><strong>DHPR-Mangel</strong></td>
+<td>1:1.000.000</td>
+<td>autosomal-rezessiv</td>
+<td>QDPR</td>
+<td>4p15.3</td>
+</tr>
+<tr>
+<td><strong>PCD-Mangel</strong></td>
+<td>sehr selten</td>
+<td>autosomal-rezessiv</td>
+<td>PCBD1</td>
+<td>10q22.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Pathophysiologische Grundprinzipien</h3>
+
+<div class="pathway-diagram">
+<h4>Drei Hauptmechanismen der Krankheitsentstehung</h4>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+
+<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; border: 2px solid #ef4444;">
+<h5 style="color: #dc2626; margin-bottom: 15px;">🧠 Neurotransmitter-Depletion</h5>
+<p style="color: #dc2626;">Verminderte Synthese</p>
+<div class="arrow" style="color: #dc2626;">↓</div>
+<p style="color: #dc2626;">Neurologische Symptome</p>
+</div>
+
+<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 12px; border: 2px solid #f97316;">
+<h5 style="color: #ea580c; margin-bottom: 15px;">⚡ Toxische Akkumulation</h5>
+<p style="color: #ea580c;">Substrat-Anhäufung</p>
+<div class="arrow" style="color: #ea580c;">↓</div>
+<p style="color: #ea580c;">Zelluläre Dysfunktion</p>
+</div>
+
+<div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 12px; border: 2px solid #22c55e;">
+<h5 style="color: #16a34a; margin-bottom: 15px;">🔄 Kompensatorische Störungen</h5>
+<p style="color: #16a34a;">Alternative Stoffwechselwege</p>
+<div class="arrow" style="color: #16a34a;">↓</div>
+<p style="color: #16a34a;">Sekundäre Effekte</p>
+</div>
+
+</div>
+</div>
+
+<div class="case-study">
+<h4>💡 Zentrale Konzepte verstehen</h4>
+<p><strong>Neurotransmitter-Homöostase:</strong> Das Gleichgewicht zwischen Synthese, Speicherung, Freisetzung, Wiederaufnahme und Abbau bestimmt die synaptische Funktion.</p>
+
+<p><strong>Entwicklungsabhängigkeit:</strong> Neurotransmitter sind essentiell für die normale Gehirnentwicklung - Defekte führen zu progressiven Schäden.</p>
+
+<p><strong>Therapeutisches Fenster:</strong> Frühe Behandlung kann Neurodegeneration verhindern oder verlangsamen.</p>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Neurotransmitter-Klassifikation</h3>
+
+<div class="pathway-diagram">
+<h4>Hauptgruppen der betroffenen Neurotransmitter</h4>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+
+<div>
+<h5 style="color: #dc2626; margin-bottom: 15px;">🔴 Katecholamine</h5>
+<div class="nt-box dopamine">Dopamin</div>
+<div class="nt-box noradrenaline">Noradrenalin</div>
+<div class="nt-box noradrenaline">Adrenalin</div>
+<p style="margin-top: 10px; font-size: 0.9em;">→ Motorik, Kognition, autonome Funktion</p>
+</div>
+
+<div>
+<h5 style="color: #16a34a; margin-bottom: 15px;">🟢 Indolamine</h5>
+<div class="nt-box serotonin">Serotonin (5-HT)</div>
+<div class="nt-box serotonin">Melatonin</div>
+<p style="margin-top: 10px; font-size: 0.9em;">→ Stimmung, Schlaf, Verhalten</p>
+</div>
+
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+<h5 style="color: #ea580c; margin-bottom: 15px;">🟡 Wichtiger Cofaktor</h5>
+<div class="nt-box bh4">Tetrahydrobiopterin (BH4)</div>
+<p style="margin-top: 10px; font-size: 0.9em;">→ Cofaktor für Tyrosin- und Tryptophanhydroxylase</p>
+</div>
+
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('biochemie')">Weiter zur Biochemie →</button>
+</div>
+</div>
+
+<!-- Biochemie -->
+<div class="content-section" id="biochemie">
+<h2 class="section-title">⚗️ Biochemische Grundlagen</h2>
+
+<div class="subsection">
+<h3>1. Neurotransmitter-Biosynthese im Detail</h3>
+
+<div class="pathway-diagram">
+<h4>Der komplette Katecholamin-Biosyntheseweg</h4>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #6b7280, #4b5563); color: white;">L-Phenylalanin</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #059669, #047857); color: white;">Phenylalaninhydroxylase + BH4</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white;">L-Tyrosin</div>
+</div>
+
+<div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: Tyrosin-Bildung (nicht bei NT-Defekten betroffen)</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white;">L-Tyrosin</div>
+<span class="arrow">→</span>
+<div class="nt-box defect">Tyrosinhydroxylase + BH4</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #0891b2, #0e7490); color: white;">L-DOPA</div>
+</div>
+
+<div style="font-size: 0.9em; color: #dc2626; text-align: center; font-weight: bold;">Schritt 2: Geschwindigkeitsbestimmend! TH-Mangel hier</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #0891b2, #0e7490); color: white;">L-DOPA</div>
+<span class="arrow">→</span>
+<div class="nt-box defect">AADC (+ PLP)</div>
+<span class="arrow">→</span>
+<div class="nt-box dopamine">Dopamin</div>
+</div>
+
+<div style="font-size: 0.9em; color: #dc2626; text-align: center; font-weight: bold;">Schritt 3: AADC-Mangel hier</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box dopamine">Dopamin</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #16a34a, #15803d); color: white;">DBH (+ Vitamin C)</div>
+<span class="arrow">→</span>
+<div class="nt-box noradrenaline">Noradrenalin</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box noradrenaline">Noradrenalin</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white;">PNMT</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #7c2d12, #92400e); color: white;">Adrenalin</div>
+</div>
+
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>Kritische biochemische Details</h4>
+<p><strong>Tyrosinhydroxylase (TH):</strong></p>
+<ul>
+<li>Rate-limiting enzyme der Katecholamin-Synthese</li>
+<li>Benötigt BH4 als Cofaktor</li>
+<li>Feedback-Inhibition durch Dopamin</li>
+<li>Temperaturempfindlich, daher Fluktuation der Symptome</li>
+</ul>
+
+<p><strong>AADC (Aromatische L-Aminosäure-Decarboxylase):</strong></p>
+<ul>
+<li>Wandelt L-DOPA in Dopamin um</li>
+<li>Benötigt Pyridoxalphosphat (Vitamin B6) als Cofaktor</li>
+<li>Katalysiert auch Tryptophan → 5-HTP → Serotonin</li>
+<li>Beide Neurotransmitter-Systeme betroffen!</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>2. Serotonin-Biosyntheseweg</h3>
+
+<div class="pathway-diagram">
+<h4>Parallelweg zur Serotonin-Synthese</h4>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #6b7280, #4b5563); color: white;">L-Tryptophan</div>
+<span class="arrow">→</span>
+<div class="nt-box bh4">Tryptophanhydroxylase + BH4</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #a855f7, #9333ea); color: white;">5-Hydroxytryptophan</div>
+</div>
+
+<div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: BH4-abhängiger Schritt</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #a855f7, #9333ea); color: white;">5-HTP</div>
+<span class="arrow">→</span>
+<div class="nt-box defect">AADC (+ PLP)</div>
+<span class="arrow">→</span>
+<div class="nt-box serotonin">Serotonin (5-HT)</div>
+</div>
+
+<div style="font-size: 0.9em; color: #dc2626; text-align: center; font-weight: bold;">Schritt 2: Auch AADC-abhängig!</div>
+
+</div>
+
+<div class="neuro-pathway">
+<h4>🧠 Warum AADC so kritisch ist</h4>
+<p><strong>Doppelter Neurotransmitter-Block:</strong></p>
+<ul>
+<li><strong>Dopamin-Depletion:</strong> L-DOPA kann nicht zu Dopamin umgewandelt werden</li>
+<li><strong>Serotonin-Depletion:</strong> 5-HTP kann nicht zu Serotonin umgewandelt werden</li>
+<li><strong>Substrat-Akkumulation:</strong> L-DOPA und 5-HTP häufen sich an</li>
+<li><strong>Kompensation unmöglich:</strong> Kein alternativer Syntheseweg verfügbar</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>3. Tetrahydrobiopterin (BH4) - Der entscheidende Cofaktor</h3>
+
+<div class="pathway-diagram">
+<h4>BH4-Metabolismus und Recycling</h4>
+
+<div style="background: linear-gradient(90deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+
+<div style="text-align: center; margin-bottom: 20px;">
+<h5 style="color: #92400e;">De-novo Biosynthese</h5>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="nt-box" style="background: linear-gradient(135deg, #6b7280, #4b5563);">GTP</div>
+<span class="arrow">→</span>
+<div class="nt-box defect" style="font-size: 0.8em;">GTP-CH-I</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">7,8-Dihydroneopterin-TP</div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">Dihydroneopterin-TP</div>
+<span class="arrow">→</span>
+<div class="nt-box defect" style="font-size: 0.8em;">PTPS</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #059669, #047857);">6-Pyruvoyl-BH4</div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="nt-box" style="background: linear-gradient(135deg, #059669, #047857);">6-Pyruvoyl-BH4</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Sepiapterin-Red.</div>
+<span class="arrow">→</span>
+<div class="nt-box bh4">BH4</div>
+</div>
+
+<div style="text-align: center; margin: 25px 0;">
+<h5 style="color: #92400e;">Cofaktor-Funktion & Recycling</h5>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="nt-box bh4">BH4</div>
+<span style="margin: 0 10px; color: #92400e; font-weight: bold;">+</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">Tyrosin</div>
+<span class="arrow">→</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">BH2 (oxidiert)</div>
+<span style="margin: 0 10px; color: #92400e; font-weight: bold;">+</span>
+<div class="nt-box" style="background: linear-gradient(135deg, #0891b2, #0e7490);">L-DOPA</div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: center; margin: 15px 0; flex-wrap: wrap; gap: 10px;">
+<div class="nt-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">BH2</div>
+<span class="arrow">→</span>
+<div class="nt-box defect" style="font-size: 0.8em;">DHPR</div>
+<span class="arrow">→</span>
+<div class="nt-box bh4">BH4 (regeneriert)</div>
+</div>
+
+<div style="text-align: center; margin: 15px 0;">
+<span class="arrow" style="transform: rotate(90deg); color: #92400e;">↓</span><br>
+<div class="nt-box" style="background: linear-gradient(135deg, #16a34a, #15803d);">Recycling-Zyklus</div>
+</div>
+
+</div>
+</div>
+
+<div class="case-study">
+<h4>🔄 BH4-Defekte - Fünf verschiedene Enzymdefekte</h4>
+
+<p><strong>1. GTP-Cyclohydrolase I (GCH1):</strong></p>
+<ul>
+<li>Erster Schritt der BH4-Biosynthese</li>
+<li>Autosomal-dominant (DYT5/Segawa) oder rezessiv</li>
+<li>Komplette BH4-Depletion bei schweren Formen</li>
+</ul>
+
+<p><strong>2. 6-Pyruvoyl-tetrahydropterin-Synthase (PTPS):</strong></p>
+<ul>
+<li>Häufigster BH4-Defekt (60% aller Fälle)</li>
+<li>Akkumulation von Neopterin</li>
+<li>Variable Schweregrade möglich</li>
+</ul>
+
+<p><strong>3. Dihydropterinreduktase (DHPR):</strong></p>
+<ul>
+<li>Recycling-Defekt</li>
+<li>Zusätzlich Folsäure-Metabolismus gestört</li>
+<li>Schwerste Form der BH4-Defekte</li>
+</ul>
+
+<p><strong>4. Pterin-4α-carbinolamin-Dehydratase (PCD):</strong></p>
+<ul>
+<li>Sehr seltener Recycling-Defekt</li>
+<li>Primacapterin-Akkumulation</li>
+<li>Meist mildere Verläufe</li>
+</ul>
+
+<p><strong>5. Sepiapterin-Reduktase (SR):</strong></p>
+<ul>
+<li>Letzter Schritt der BH4-Synthese</li>
+<li>L-DOPA-responsive Dystonie</li>
+<li>Erhaltene Serotonin-Synthese</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>4. Neurotransmitter-Abbau und Clearance</h3>
+
+<div class="pathway-diagram">
+<h4>Dopamin- und Serotonin-Abbau</h4>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+
+<div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 15px; border-radius: 8px; border: 2px solid #fca5a5;">
+<h5 style="color: #dc2626; margin-bottom: 10px;">🔴 Dopamin-Abbau</h5>
+
+<div style="text-align: center; margin: 10px 0;">
+<div class="nt-box dopamine" style="font-size: 0.9em;">Dopamin</div>
+</div>
+
+<div style="display: flex; justify-content: space-around; margin: 15px 0;">
+<div style="text-align: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #059669, #047857); font-size: 0.8em;">COMT</div>
+<div style="margin: 5px 0; font-size: 0.8em; color: #dc2626;">↓</div>
+<div style="background: #fde2e2; padding: 5px; border-radius: 5px; font-size: 0.8em; color: #dc2626;">3-MT</div>
+</div>
+
+<div style="text-align: center;">
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); font-size: 0.8em;">MAO</div>
+<div style="margin: 5px 0; font-size: 0.8em; color: #dc2626;">↓</div>
+<div style="background: #fde2e2; padding: 5px; border-radius: 5px; font-size: 0.8em; color: #dc2626;">DOPAC</div>
+</div>
+</div>
+
+<div style="text-align: center; margin: 15px 0;">
+<div style="background: #fca5a5; padding: 8px; border-radius: 5px; font-size: 0.9em; color: white; font-weight: bold;">HVA</div>
+<div style="font-size: 0.8em; color: #dc2626; margin-top: 5px;">Hauptmetabolit (Urin)</div>
+</div>
+</div>
+
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #86efac;">
+<h5 style="color: #16a34a; margin-bottom: 10px;">🟢 Serotonin-Abbau</h5>
+
+<div style="text-align: center; margin: 10px 0;">
+<div class="nt-box serotonin" style="font-size: 0.9em;">Serotonin</div>
+</div>
+
+<div style="text-align: center; margin: 15px 0;">
+<div class="nt-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); font-size: 0.8em;">MAO-A</div>
+<div style="margin: 5px 0; font-size: 0.8em; color: #16a34a;">↓</div>
+<div style="background: #dcfce7; padding: 5px; border-radius: 5px; font-size: 0.8em; color: #16a34a;">5-HIAA</div>
+</div>
+
+<div style="text-align: center; margin: 15px 0;">
+<div style="background: #22c55e; padding: 8px; border-radius: 5px; font-size: 0.9em; color: white; font-weight: bold;">5-HIAA (Urin)</div>
+<div style="font-size: 0.8em; color: #16a34a; margin-top: 5px;">Diagnostischer Marker</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>🔬 Diagnostische Bedeutung der Metabolite</h4>
+
+<p><strong>Bei AADC-Mangel:</strong></p>
+<ul>
+<li><strong>↑↑ L-DOPA im Plasma</strong> (kann nicht zu Dopamin umgewandelt werden)</li>
+<li><strong>↑↑ 5-HTP im Plasma</strong> (kann nicht zu Serotonin umgewandelt werden)</li>
+<li><strong>↓↓ HVA im Urin</strong> (kein Dopamin → kein HVA)</li>
+<li><strong>↓↓ 5-HIAA im Urin</strong> (kein Serotonin → kein 5-HIAA)</li>
+<li><strong>↑ 3-OMD im Urin</strong> (alternatives L-DOPA-Abbauprodukt)</li>
+</ul>
+
+<p><strong>Bei TH-Mangel:</strong></p>
+<ul>
+<li><strong>↓↓ L-DOPA im Plasma</strong> (verminderte Synthese)</li>
+<li><strong>↓↓ HVA im Urin</strong> (konsekutiv weniger Dopamin)</li>
+<li><strong>Normal: 5-HTP und 5-HIAA</strong> (Serotonin-Weg intakt)</li>
+</ul>
+
+<p><strong>Bei BH4-Defekten:</strong></p>
+<ul>
+<li><strong>↑↑ Phenylalanin im Plasma</strong> (wie bei PKU)</li>
+<li><strong>↓↓ HVA und 5-HIAA im Urin</strong> (beide Wege betroffen)</li>
+<li><strong>Abnorme Pterin-Metabolite</strong> (spezifisch für den Defekt)</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>5. Neurotransmitter-Regulation und Feedback</h3>
+
+<div class="neuro-pathway">
+<h4>🎛️ Komplexe Regulationsmechanismen</h4>
+
+<p><strong>Tyrosinhydroxylase-Regulation:</strong></p>
+<ul>
+<li><strong>Produkthemmung:</strong> Dopamin hemmt TH (negative Rückkopplung)</li>
+<li><strong>Phosphorylierung:</strong> Aktivierung durch cAMP-abhängige Proteinkinase</li>
+<li><strong>Temperaturempfindlichkeit:</strong> Aktivität ↓ bei Fieber</li>
+<li><strong>Cofaktor-Verfügbarkeit:</strong> BH4-Mangel = TH-Inhibition</li>
+</ul>
+
+<p><strong>AADC-Regulation:</strong></p>
+<ul>
+<li><strong>Substrat-Konkurrenz:</strong> L-DOPA vs. 5-HTP um dasselbe Enzym</li>
+<li><strong>Vitamin B6-Abhängigkeit:</strong> PLP als prosthetische Gruppe</li>
+<li><strong>Gewebe-spezifische Expression:</strong> ZNS vs. Peripherie</li>
+</ul>
+
+<p><strong>Präsynaptische Kontrolle:</strong></p>
+<ul>
+<li><strong>Autorezepto-Feedback:</strong> D2-Rezeptoren hemmen weitere Dopamin-Freisetzung</li>
+<li><strong>Wiederaufnahme:</strong> DAT und SERT kontrollieren synaptische Konzentrationen</li>
+<li><strong>Vesiculäre Speicherung:</strong> VMAT2 für beide Neurotransmitter-Systeme</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>💭 Warum diese Regulationen klinisch relevant sind</h4>
+
+<p><strong>Fluktuation der Symptome verstehen:</strong></p>
+<ul>
+<li><strong>Tageszeitliche Schwankungen:</strong> Tyrosinhydroxylase-Aktivität variiert</li>
+<li><strong>Fieber-induzierte Verschlechterung:</strong> TH-Hemmung bei erhöhter Temperatur</li>
+<li><strong>Stress-Auslösung:</strong> Erhöhter Neurotransmitter-Verbrauch</li>
+</ul>
+
+<p><strong>Therapeutische Implikationen:</strong></p>
+<ul>
+<li><strong>L-DOPA-Dosierung:</strong> Muss Regulationsmechanismen berücksichtigen</li>
+<li><strong>Carbidopa-Kombination:</strong> Verhindert periphere AADC-Aktivität</li>
+<li><strong>Timing der Medikation:</strong> Pharmacokinetik und -dynamik abstimmen</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('klinik')">Zum klinischen Bild →</button>
+</div>
+</div>
+
+<!-- Klinisches Bild -->
+<div class="content-section" id="klinik">
+<h2 class="section-title">🏥 Klinisches Bild</h2>
+
+<div class="subsection">
+<h3>AADC-Mangel - Schwerste Form</h3>
+
+<div class="case-study">
+<h4>📋 Typischer Verlauf</h4>
+<p><strong>Manifestationsalter:</strong> Meist erste Lebenswochen bis -monate</p>
+<p><strong>Früheste Zeichen:</strong> Hypotonie, schwache Reflexe, Trinkschwäche</p>
+<p><strong>Progression:</strong> Ohne Behandlung schwere psychomotorische Retardierung</p>
+
+<p><strong>Kardinalsymptome:</strong></p>
+<ul>
+<li>Schwere generalisierte Hypotonie</li>
+<li>Okulohypische Krisen (charakteristisch!)</li>
+<li>Temperaturinstabilität</li>
+<li>Hypersalivation und Schluckstörungen</li>
+<li>Ptosis und verminderte spontane Augenbewegungen</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Organsystem</th>
+<th>Symptome/Befunde</th>
+<th>Pathophysiologie</th>
+<th>Schweregrad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bewegungsapparat</strong></td>
+<td>Hypotonie, verzögerte Motorik, Dystonie</td>
+<td>Dopamin-Mangel im Striatum</td>
+<td>+++</td>
+</tr>
+<tr>
+<td><strong>Augen</strong></td>
+<td>Ptosis, Okulohypische Krisen, Blickparese</td>
+<td>Katecholamin-Mangel, zentral</td>
+<td>+++</td>
+</tr>
+<tr>
+<td><strong>Autonomes NS</strong></td>
+<td>Temperaturinstabilität, Hyperhidrose</td>
+<td>Noradrenalin-Mangel</td>
+<td>++</td>
+</tr>
+<tr>
+<td><strong>GI-Trakt</strong></td>
+<td>Hypersalivation, Gastroösopha. Reflux</td>
+<td>Serotonin-Mangel</td>
+<td>++</td>
+</tr>
+<tr>
+<td><strong>Schlaf/Verhalten</strong></td>
+<td>Schlafstörungen, Reizbarkeit</td>
+<td>Serotonin-Mangel</td>
+<td>++</td>
+</tr>
+<tr>
+<td><strong>Entwicklung</strong></td>
+<td>Schwere globale Retardierung</td>
+<td>Beide NT-Systeme</td>
+<td>+++</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>🎯 Pathognomonische Zeichen bei AADC-Mangel</h4>
+
+<p><strong>Okulohypische Krisen:</strong></p>
+<ul>
+<li>Unwillkürliche, anhaltende Aufwärtsdeviation der Augen</li>
+<li>Können Stunden bis Tage andauern</li>
+<li>Meist verbunden mit Opisthotonus</li>
+<li>Verstärkt durch Stress, Müdigkeit oder Krankheit</li>
+<li>Charakteristisch für AADC-Mangel!</li>
+</ul>
+
+<p><strong>Schwere neonatale Hypotonie:</strong></p>
+<ul>
+<li>"Floppy infant syndrome" ab Geburt</li>
+<li>Schwache oder fehlende primitive Reflexe</li>
+<li>Trinkschwäche und Gedeihstörung</li>
+<li>Oft initial als SMA oder andere neuromuskuläre Erkrankung fehlgedeutet</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🧠 Langzeitfolgen ohne Behandlung</h4>
+<ul>
+<li><strong>Schwere intellektuelle Behinderung:</strong> IQ meist < 50</li>
+<li><strong>Motorische Behinderung:</strong> Niemals freies Laufen</li>
+<li><strong>Sprachentwicklung:</strong> Meist nur wenige Worte oder keine Sprache</li>
+<li><strong>Epilepsie:</strong> Bei 20-30% der Patienten</li>
+<li><strong>Lebenserwartung:</strong> Reduziert bei fehlender Behandlung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Tyrosinhydroxylase-Mangel - Variable Phänotypen</h3>
+
+<div class="pathway-diagram">
+<h4>Drei klinische Formen</h4>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+
+<div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+<h5 style="color: #dc2626; margin-bottom: 10px;">🔴 Typ A (schwer)</h5>
+<ul style="font-size: 0.9em; color: #dc2626;">
+<li>Neonatale Manifestation</li>
+<li>Schwere generalisierte Dystonie</li>
+<li>Hypokinetischer Parkinsonismus</li>
+<li>Entwicklungsretardierung</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+<h5 style="color: #ea580c; margin-bottom: 10px;">🟡 Typ B (moderat)</h5>
+<ul style="font-size: 0.9em; color: #ea580c;">
+<li>Manifestation im Kindesalter</li>
+<li>L-DOPA-responsive Dystonie</li>
+<li>Normale Intelligenz</li>
+<li>Fluktuation der Symptome</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+<h5 style="color: #16a34a; margin-bottom: 10px;">🟢 Segawa-ähnlich</h5>
+<ul style="font-size: 0.9em; color: #16a34a;">
+<li>Späte Kindheit/Adoleszenz</li>
+<li>Fokale Dystonie der Beine</li>
+<li>Diurnale Fluktuation</li>
+<li>Exzellente L-DOPA-Response</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="case-study">
+<h4>🔄 Charakteristische Fluktuation</h4>
+
+<p><strong>Tagesrhythmus:</strong></p>
+<ul>
+<li><strong>Morgens:</strong> Relativ gute Motorik nach Nachtruhe</li>
+<li><strong>Nachmittags/Abends:</strong> Zunehmende Dystonie und Steifheit</li>
+<li><strong>Stress/Müdigkeit:</strong> Akute Verschlechterung</li>
+<li><strong>Fieber:</strong> Dramatische Symptomverstärkung</li>
+</ul>
+
+<p><strong>Typische Entwicklung der Symptome:</strong></p>
+<ul>
+<li><strong>Säuglingsalter:</strong> Hypotonie, verzögerte motorische Entwicklung</li>
+<li><strong>Kleinkindalter:</strong> Beginn der Dystonie, meist an den Beinen</li>
+<li><strong>Schulalter:</strong> Gangstörungen, Schwierigkeiten beim Sport</li>
+<li><strong>Adoleszenz:</strong> Mögliche Generalisierung der Dystonie</li>
+</ul>
+
+<p><strong>Unterscheidung zu anderen Dystonien:</strong></p>
+<ul>
+<li><strong>Früher Beginn:</strong> Meist vor dem 10. Lebensjahr</li>
+<li><strong>Exzellente L-DOPA-Response:</strong> Oft dramatische Besserung</li>
+<li><strong>Keine Progression:</strong> Stabil unter Therapie</li>
+<li><strong>Familiäre Häufung:</strong> Autosomal-rezessive Vererbung</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Schweregrad</th>
+<th>Manifestation</th>
+<th>Hauptsymptome</th>
+<th>L-DOPA Response</th>
+<th>Prognose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schwer (Typ A)</strong></td>
+<td>Neonatal/früh infantil</td>
+<td>Generalisierte Dystonie, Parkinsonismus</td>
+<td>Partial/unvollständig</td>
+<td>Eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>Moderat (Typ B)</strong></td>
+<td>Späte Kindheit</td>
+<td>Dystonie der Extremitäten</td>
+<td>Sehr gut</td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><strong>Mild</strong></td>
+<td>Adoleszenz/Erwachsenenalter</td>
+<td>Fokale Dystonie</td>
+<td>Exzellent</td>
+<td>Exzellent</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>BH4-Defekte - Heterogenes Spektrum</h3>
+
+<div class="highlight-box">
+<h4>🔗 Gemeinsame Grundzüge aller BH4-Defekte</h4>
+
+<p><strong>Neugeborenenscreening-Auffälligkeit:</strong></p>
+<ul>
+<li><strong>Erhöhtes Phenylalanin</strong> (wie bei PKU)</li>
+<li><strong>Aber:</strong> Zusätzliche neurologische Symptome</li>
+<li><strong>Cave:</strong> BH4-Defekte werden oft als "atypische PKU" verkannt</li>
+</ul>
+
+<p><strong>Neurologische Progression:</strong></p>
+<ul>
+<li><strong>Initial:</strong> Oft normaler Neugeborenen-Befund</li>
+<li><strong>2.-6. Monat:</strong> Beginn der neurologischen Symptome</li>
+<li><strong>Ohne Behandlung:</strong> Progressive Verschlechterung</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>BH4-Defekt</th>
+<th>Häufigkeit</th>
+<th>Phenylalanin</th>
+<th>Neurologische Symptome</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PTPS-Mangel</strong></td>
+<td>60% aller BH4-Defekte</td>
+<td>++</td>
+<td>+++</td>
+<td>Variable Schwere</td>
+</tr>
+<tr>
+<td><strong>DHPR-Mangel</strong></td>
+<td>25%</td>
+<td>++</td>
+<td>+++</td>
+<td>Schwerste Form</td>
+</tr>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>10%</td>
+<td>++</td>
+<td>+++</td>
+<td>Auch dominant (DYT5)</td>
+</tr>
+<tr>
+<td><strong>PCD-Mangel</strong></td>
+<td>3%</td>
+<td>+</td>
+<td>++</td>
+<td>Mildere Verläufe</td>
+</tr>
+<tr>
+<td><strong>SR-Mangel</strong></td>
+<td>2%</td>
+<td>-</td>
+<td>++</td>
+<td>Kein Phenylalanin ↑</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🎭 Spezifische Phänotypen der BH4-Defekte</h4>
+
+<p><strong>PTPS-Mangel (häufigste Form):</strong></p>
+<ul>
+<li><strong>Variabilität:</strong> Von milden bis schweren Verläufen</li>
+<li><strong>Typische Trias:</strong> Hypotonie, Dystonie, intellektuelle Behinderung</li>
+<li><strong>Zusatzsymptome:</strong> Temperaturinstabilität, Hypersalivation</li>
+<li><strong>Response:</strong> Gute Besserung unter BH4 + NT-Vorstufen</li>
+</ul>
+
+<p><strong>DHPR-Mangel (schwerste Form):</strong></p>
+<ul>
+<li><strong>Progressive Enzephalopathie:</strong> Trotz Phenylalanin-Kontrolle</li>
+<li><strong>Zusätzlich:</strong> Folsäure-Mangel-Symptome</li>
+<li><strong>Neurologisch:</strong> Spastik, Epilepsie, schwere Retardierung</li>
+<li><strong>Therapie-Resistenz:</strong> Oft unvollständige Response</li>
+</ul>
+
+<p><strong>GTP-CH-I-Mangel:</strong></p>
+<ul>
+<li><strong>Rezessive Form:</strong> Schwere neonatale Präsentation</li>
+<li><strong>Dominante Form (DYT5):</strong> Segawa-Syndrom</li>
+<li><strong>Diurnale Fluktuation:</strong> Besonders ausgeprägt</li>
+<li><strong>Geschlechts-Bias:</strong> Dominante Form: Frauen > Männer</li>
+</ul>
+
+<p><strong>Sepiapterin-Reduktase-Mangel:</strong></p>
+<ul>
+<li><strong>Besonderheit:</strong> Normales Phenylalanin</li>
+<li><strong>Hauptsymptom:</strong> L-DOPA-responsive Dystonie</li>
+<li><strong>Serotonin intakt:</strong> Weniger Verhaltensauffälligkeiten</li>
+<li><strong>Prognose:</strong> Relativ günstig bei früher Behandlung</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>⚡ Neurologische Progression bei BH4-Defekten</h4>
+
+<p><strong>Frühe Phase (0-6 Monate):</strong></p>
+<ul>
+<li>Oft zunächst unauffällige neurologische Entwicklung</li>
+<li>Phenylalanin-Erhöhung im Neugeborenenscreening</li>
+<li>Erste Zeichen: Trinkschwäche, Hypotonie</li>
+</ul>
+
+<p><strong>Mittlere Phase (6-24 Monate):</strong></p>
+<ul>
+<li>Beginn der charakteristischen neurologischen Symptome</li>
+<li>Verzögerte psychomotorische Entwicklung</li>
+<li>Auftreten von Bewegungsstörungen</li>
+</ul>
+
+<p><strong>Späte Phase (> 2 Jahre):</strong></p>
+<ul>
+<li>Manifestation der vollen Symptombreite</li>
+<li>Bei DHPR: Zusätzliche progressive Komponente</li>
+<li>Ohne Behandlung: Schwere Behinderung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Differentialdiagnose und Abgrenzung</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Differentialdiagnose</th>
+<th>Abgrenzung</th>
+<th>Wichtige Unterschiede</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zerebralparese</strong></td>
+<td>Statisch vs. progressiv</td>
+<td>NT-Defekte: Progressive Verschlechterung</td>
+</tr>
+<tr>
+<td><strong>SMA/Muskeldystrophie</strong></td>
+<td>Zentral vs. peripher</td>
+<td>NT-Defekte: Normale EMG/NLG</td>
+</tr>
+<tr>
+<td><strong>Mitochondriopathie</strong></td>
+<td>Biomarker</td>
+<td>NT-Defekte: Spezifische Metabolite</td>
+</tr>
+<tr>
+<td><strong>Klassische PKU</strong></td>
+<td>Neurologische Symptome</td>
+<td>PKU: Keine frühe Neurologie bei Diät</td>
+</tr>
+<tr>
+<td><strong>Anderen Dystonien</strong></td>
+<td>L-DOPA-Response</td>
+<td>NT-Defekte: Exzellente Response</td>
+</tr>
+<tr>
+<td><strong>Epilepsie-Syndrome</strong></td>
+<td>EEG und Response</td>
+<td>NT-Defekte: Antikonvulsiva wenig wirksam</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🚨 Red Flags für Neurotransmitter-Defekte</h4>
+
+<p><strong>Bei Säuglingen:</strong></p>
+<ul>
+<li><strong>Kombiniert:</strong> Hypotonie + Bewegungsstörungen</li>
+<li><strong>Temperaturinstabilität</strong> ohne Infektionszeichen</li>
+<li><strong>Okulohypische Krisen</strong> (pathognomonisch für AADC)</li>
+<li><strong>Erhöhtes Phenylalanin + Neurologie</strong> (BH4-Defekte)</li>
+</ul>
+
+<p><strong>Bei älteren Kindern:</strong></p>
+<ul>
+<li><strong>L-DOPA-responsive Dystonie</strong> mit frühem Beginn</li>
+<li><strong>Diurnale Fluktuation</strong> der Bewegungsstörungen</li>
+<li><strong>Familiäre Häufung</strong> ähnlicher Symptome</li>
+<li><strong>Fieber-induzierte Verschlechterung</strong></li>
+</ul>
+
+<p><strong>Anamnestische Hinweise:</strong></p>
+<ul>
+<li><strong>Konsanguinität der Eltern</strong> (erhöhtes Risiko)</li>
+<li><strong>Früher Kindstod</strong> in der Familie</li>
+<li><strong>Ähnliche Symptome bei Geschwistern</strong></li>
+<li><strong>Therapie-refraktäre "Epilepsie"</strong></li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 1 abgeschlossen!</h3>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Grundlagen, Biochemie und klinischen Präsentationen erfolgreich durchgearbeitet.</p>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes:</strong> Teil 2 mit Diagnostik und Therapie</p>
+<button class="next-btn">Weiter zu Teil 2 →</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['grundlagen', 'biochemie', 'klinik'];
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+event.target.classList.add('active');
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '33.3%';
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurotransmitter-Defekte - Teil 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--neuro-color: #9c88ff;
+--dopamine-color: #ff6b9d;
+--serotonin-color: #4ecdc4;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color), var(--serotonin-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--neuro-color), var(--dopamine-color));
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--neuro-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border-color: var(--neuro-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Diagnostic flow */
+.diagnostic-flow {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: var(--spacing-md);
+margin: var(--spacing-md) 0;
+}
+
+.flow-step {
+background: var(--bg-white);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+max-width: 320px;
+text-align: center;
+transition: all 0.3s ease;
+color: var(--text-primary);
+box-shadow: var(--shadow-sm);
+}
+
+.flow-step:hover {
+transform: translateY(-4px) scale(1.02);
+box-shadow: var(--shadow-md);
+}
+
+.flow-arrow {
+width: 0;
+height: 0;
+border-left: 12px solid transparent;
+border-right: 12px solid transparent;
+border-top: 20px solid var(--neuro-color);
+animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-5px); }
+}
+
+/* Pathway diagrams */
+.pathway-diagram {
+background: var(--bg-white);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.pathway-diagram h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+text-align: center;
+}
+
+.pathway-diagram h5 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+.pathway-diagram p {
+color: var(--text-secondary);
+}
+
+/* Neurotransmitter boxes */
+.nt-box {
+display: inline-block;
+padding: 12px 20px;
+margin: 6px;
+border-radius: 12px;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.nt-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+.nt-box.dopamine {
+background: linear-gradient(135deg, var(--dopamine-color), #ff7675);
+color: white;
+}
+
+.nt-box.serotonin {
+background: linear-gradient(135deg, var(--serotonin-color), #00b894);
+color: white;
+}
+
+.nt-box.therapy {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+}
+
+.nt-box.bh4 {
+background: linear-gradient(135deg, var(--warning-color), #fdcb6e);
+color: white;
+}
+
+.nt-box.biomarker {
+background: linear-gradient(135deg, var(--info-color), #a29bfe);
+color: white;
+}
+
+.arrow {
+display: inline-block;
+margin: 0 var(--spacing-sm);
+font-size: 1.8rem;
+color: var(--neuro-color);
+transition: all 0.3s ease;
+}
+
+.arrow:hover {
+transform: scale(1.2);
+color: var(--dopamine-color);
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Special neurotransmitter pathway boxes */
+.neuro-pathway {
+background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.neuro-pathway h4 {
+color: #6b21a8;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+}
+
+.neuro-pathway p, .neuro-pathway ul, .neuro-pathway li {
+color: #6b21a8;
+}
+
+/* Therapy boxes */
+.therapy-box {
+background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+position: relative;
+}
+
+.therapy-box::before {
+content: '💊';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.therapy-box h4 {
+color: #166534;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.therapy-box p, .therapy-box ul, .therapy-box li {
+color: #166534;
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+.subsection:nth-child(6) { animation-delay: 0.6s; }
+.subsection:nth-child(7) { animation-delay: 0.7s; }
+.subsection:nth-child(8) { animation-delay: 0.8s; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🧠 Neurotransmitter-Defekte</h1>
+<p>Teil 2: Diagnostik & Therapie</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>🔬 Lerneinheit Teil 2</h3>
+<p>Dieser zweite Teil behandelt die spezialisierten Diagnostikverfahren und evidenzbasierten Therapiestrategien für Neurotransmitter-Defekte.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('diagnostik')">1. Diagnostik</button>
+<button class="nav-btn" onclick="showSection('therapie')">2. Therapie</button>
+</div>
+
+<!-- Diagnostik -->
+<div class="content-section active" id="diagnostik">
+<h2 class="section-title">🔬 Diagnostik</h2>
+
+<div class="subsection">
+<h3>Diagnostisches Vorgehen - Stufenschema</h3>
+
+<div class="diagnostic-flow">
+<div class="flow-step">
+<strong>Schritt 1: Klinischer Verdacht</strong><br>
+Hypotonie + Bewegungsstörungen<br>
+Okulohypische Krisen<br>
+L-DOPA-responsive Dystonie
+</div>
+
+<div class="flow-arrow"></div>
+
+<div class="flow-step">
+<strong>Schritt 2: Basis-Screening</strong><br>
+Phenylalanin (Plasma)<br>
+CSF-Liquorpunktion<br>
+Urin-Pterine (bei ↑ Phe)
+</div>
+
+<div class="flow-arrow"></div>
+
+<div class="flow-step">
+<strong>Schritt 3: Spezifische Biomarker</strong><br>
+CSF: HVA, 5-HIAA, BH4<br>
+Plasma: L-DOPA, 5-HTP<br>
+Urin: Pterine, VMA, HVA
+</div>
+
+<div class="flow-arrow"></div>
+
+<div class="flow-step">
+<strong>Schritt 4: Enzymaktivität</strong><br>
+AADC in Plasma<br>
+DHPR in Erythrozyten<br>
+Funktionelle Tests
+</div>
+
+<div class="flow-arrow"></div>
+
+<div class="flow-step">
+<strong>Schritt 5: Molekulargenetik</strong><br>
+Targeted Sequencing<br>
+Whole Exome/Genome<br>
+Familien-Screening
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>⚡ Wichtige präanalytische Faktoren</h4>
+
+<p><strong>Liquorpunktion-Besonderheiten:</strong></p>
+<ul>
+<li><strong>Nüchtern:</strong> Mindestens 4 Stunden keine Nahrung</li>
+<li><strong>Keine L-DOPA:</strong> 48h vor Punktion absetzen</li>
+<li><strong>Sofortige Verarbeitung:</strong> CSF innerhalb 30 min bei -80°C einfrieren</li>
+<li><strong>Lichtschutz:</strong> Neurotransmitter-Metabolite photosensitiv</li>
+</ul>
+
+<p><strong>Plasma/Urin-Proben:</strong></p>
+<ul>
+<li><strong>EDTA-Plasma:</strong> Für L-DOPA, 5-HTP-Bestimmung</li>
+<li><strong>24h-Sammelurin:</strong> Für quantitative Metabolit-Bestimmung</li>
+<li><strong>Morgenprobe:</strong> Erste Urinportion für Screening</li>
+<li><strong>pH-Kontrolle:</strong> Urin-pH 2-4 für Stabilität</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>CSF-Liquordiagnostik - Der Goldstandard</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Normwerte</th>
+<th>AADC-Mangel</th>
+<th>TH-Mangel</th>
+<th>BH4-Defekte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HVA</strong></td>
+<td>200-600 nmol/l</td>
+<td>↓↓↓ (< 50)</td>
+<td>↓↓↓ (< 100)</td>
+<td>↓↓ (50-150)</td>
+</tr>
+<tr>
+<td><strong>5-HIAA</strong></td>
+<td>80-250 nmol/l</td>
+<td>↓↓↓ (< 20)</td>
+<td>Normal</td>
+<td>↓↓ (20-80)</td>
+</tr>
+<tr>
+<td><strong>MHPG</strong></td>
+<td>15-60 nmol/l</td>
+<td>↓↓ (< 10)</td>
+<td>↓↓ (< 15)</td>
+<td>↓ (10-30)</td>
+</tr>
+<tr>
+<td><strong>BH4</strong></td>
+<td>15-35 nmol/l</td>
+<td>Normal</td>
+<td>Normal</td>
+<td>↓↓↓ (< 5)</td>
+</tr>
+<tr>
+<td><strong>BH2</strong></td>
+<td>5-15 nmol/l</td>
+<td>Normal</td>
+<td>Normal</td>
+<td>↑↑ (> 25)</td>
+</tr>
+<tr>
+<td><strong>L-DOPA</strong></td>
+<td>< 50 nmol/l</td>
+<td>↑↑↑ (> 500)</td>
+<td>↓↓ (< 10)</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td><strong>5-HTP</strong></td>
+<td>< 20 nmol/l</td>
+<td>↑↑↑ (> 200)</td>
+<td>Normal</td>
+<td>Variable</td>
+</tr>
+</tbody>
+</table>
+
+<div class="neuro-pathway">
+<h4>🧠 Interpretation der CSF-Befunde</h4>
+
+<p><strong>AADC-Mangel - Charakteristisches Muster:</strong></p>
+<ul>
+<li><strong>HVA und 5-HIAA beide stark erniedrigt</strong> (beide NT-Systeme betroffen)</li>
+<li><strong>L-DOPA und 5-HTP stark erhöht</strong> (Substrat-Akkumulation)</li>
+<li><strong>BH4 normal</strong> (Cofaktor-Synthese intakt)</li>
+<li><strong>Verhältnis L-DOPA/HVA > 10</strong> (normal < 1)</li>
+</ul>
+
+<p><strong>TH-Mangel - Selektiver Dopamin-Mangel:</strong></p>
+<ul>
+<li><strong>HVA stark erniedrigt, 5-HIAA normal</strong> (nur Katecholamin-System)</li>
+<li><strong>L-DOPA erniedrigt</strong> (verminderte Synthese)</li>
+<li><strong>5-HTP normal</strong> (Serotonin-System intakt)</li>
+<li><strong>MHPG erniedrigt</strong> (Noradrenalin-Mangel)</li>
+</ul>
+
+<p><strong>BH4-Defekte - Cofaktor-Mangel:</strong></p>
+<ul>
+<li><strong>HVA und 5-HIAA beide erniedrigt</strong> (beide Hydroxylasen betroffen)</li>
+<li><strong>BH4 stark erniedrigt, BH2 erhöht</strong> (Cofaktor-Mangel/Recycling-Defekt)</li>
+<li><strong>BH2/BH4-Ratio > 3</strong> (normal < 1)</li>
+<li><strong>L-DOPA und 5-HTP meist normal bis leicht erhöht</strong></li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🔍 Praktische Durchführung der Liquorpunktion</h4>
+
+<p><strong>Indikationen für CSF-Analyse:</strong></p>
+<ul>
+<li>Klinischer Verdacht auf Neurotransmitter-Defekt</li>
+<li>Erhöhtes Phenylalanin + neurologische Symptome</li>
+<li>L-DOPA-responsive Dystonie unklarer Genese</li>
+<li>Therapie-Monitor bei gesicherter Diagnose</li>
+</ul>
+
+<p><strong>Kontraindikationen/Vorsichtsmaßnahmen:</strong></p>
+<ul>
+<li><strong>Relative KI:</strong> Schwere Bewegungsstörungen (Narkose erwägen)</li>
+<li><strong>Thrombozytopenie:</strong> Thrombozyten > 50.000/μl</li>
+<li><strong>Erhöhter ICP:</strong> Vorherige Bildgebung</li>
+<li><strong>Antikoagulation:</strong> Pausieren nach Möglichkeit</li>
+</ul>
+
+<p><strong>Besonderheiten bei Kindern:</strong></p>
+<ul>
+<li><strong>Sedierung/Narkose:</strong> Meist erforderlich bei < 10 Jahren</li>
+<li><strong>Volumen:</strong> 1-2 ml CSF ausreichend für alle Parameter</li>
+<li><strong>Wiederholung:</strong> Zur Therapiekontrolle alle 6-12 Monate</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Plasma- und Urindiagnostik</h3>
+
+<div class="pathway-diagram">
+<h4>Komplementäre Biomarker-Profile</h4>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+
+<div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 15px; border-radius: 8px; border: 2px solid #fca5a5;">
+<h5 style="color: #dc2626; margin-bottom: 10px;">🔴 Plasma-Biomarker</h5>
+
+<table style="width: 100%; font-size: 0.9em;">
+<tr style="background: #fde2e2;">
+<td style="padding: 5px; font-weight: bold;">Parameter</td>
+<td style="padding: 5px; font-weight: bold;">AADC</td>
+<td style="padding: 5px; font-weight: bold;">TH</td>
+</tr>
+<tr>
+<td style="padding: 5px; color: #dc2626;">L-DOPA</td>
+<td style="padding: 5px; color: #dc2626;">↑↑↑</td>
+<td style="padding: 5px; color: #dc2626;">↓↓</td>
+</tr>
+<tr style="background: #fde2e2;">
+<td style="padding: 5px; color: #dc2626;">5-HTP</td>
+<td style="padding: 5px; color: #dc2626;">↑↑↑</td>
+<td style="padding: 5px; color: #dc2626;">N</td>
+</tr>
+<tr>
+<td style="padding: 5px; color: #dc2626;">Phenylalanin</td>
+<td style="padding: 5px; color: #dc2626;">N</td>
+<td style="padding: 5px; color: #dc2626;">N</td>
+</tr>
+<tr style="background: #fde2e2;">
+<td style="padding: 5px; color: #dc2626;">AADC-Aktivität</td>
+<td style="padding: 5px; color: #dc2626;">↓↓↓</td>
+<td style="padding: 5px; color: #dc2626;">N</td>
+</tr>
+</table>
+</div>
+
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #86efac;">
+<h5 style="color: #16a34a; margin-bottom: 10px;">🟢 Urin-Metabolite</h5>
+
+<table style="width: 100%; font-size: 0.9em;">
+<tr style="background: #dcfce7;">
+<td style="padding: 5px; font-weight: bold;">Parameter</td>
+<td style="padding: 5px; font-weight: bold;">AADC</td>
+<td style="padding: 5px; font-weight: bold;">TH</td>
+</tr>
+<tr>
+<td style="padding: 5px; color: #16a34a;">HVA</td>
+<td style="padding: 5px; color: #16a34a;">↓↓↓</td>
+<td style="padding: 5px; color: #16a34a;">↓↓</td>
+</tr>
+<tr style="background: #dcfce7;">
+<td style="padding: 5px; color: #16a34a;">5-HIAA</td>
+<td style="padding: 5px; color: #16a34a;">↓↓↓</td>
+<td style="padding: 5px; color: #16a34a;">N</td>
+</tr>
+<tr>
+<td style="padding: 5px; color: #16a34a;">VMA</td>
+<td style="padding: 5px; color: #16a34a;">↓↓</td>
+<td style="padding: 5px; color: #16a34a;">↓↓</td>
+</tr>
+<tr style="background: #dcfce7;">
+<td style="padding: 5px; color: #16a34a;">3-OMD</td>
+<td style="padding: 5px; color: #16a34a;">↑↑↑</td>
+<td style="padding: 5px; color: #16a34a;">↓</td>
+</tr>
+</table>
+</div>
+
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>🎯 Diagnostische Schlüssel-Metabolite</h4>
+
+<p><strong>3-O-Methyldopa (3-OMD) - Pathognomonisch für AADC:</strong></p>
+<ul>
+<li><strong>Entstehung:</strong> L-DOPA wird durch COMT methyliert (Alternative zum AADC)</li>
+<li><strong>Bei AADC-Mangel:</strong> Massive 3-OMD-Erhöhung im Urin (50-100x normal)</li>
+<li><strong>Spezifität:</strong> Nur bei AADC-Mangel so stark erhöht</li>
+<li><strong>Monitoring:</strong> Korreliert mit L-DOPA-Dosierung unter Therapie</li>
+</ul>
+
+<p><strong>Vanillinmandelsäure (VMA) - Noradrenalin-Endmetabolit:</strong></p>
+<ul>
+<li><strong>Erniedrigt bei:</strong> Störungen ab Tyrosinhydroxylase-Schritt</li>
+<li><strong>Normal bei:</strong> Isolierter Serotonin-Synthese-Störung</li>
+<li><strong>Verhältnis HVA/VMA:</strong> Gibt Hinweise auf Defekt-Lokalisation</li>
+</ul>
+
+<p><strong>AADC-Enzymaktivität im Plasma:</strong></p>
+<ul>
+<li><strong>Methode:</strong> L-DOPA → Dopamin-Umsatz in vitro</li>
+<li><strong>Bei AADC-Mangel:</strong> < 10% der normalen Aktivität</li>
+<li><strong>Falsch-normal:</strong> Bei partiellen Defekten möglich</li>
+<li><strong>Bestätigung:</strong> Durch Genetik erforderlich</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>BH4-Defekt-spezifische Diagnostik</h3>
+
+<div class="pathway-diagram">
+<h4>Pterine-Metabolismus und Diagnostik</h4>
+
+<div style="background: linear-gradient(90deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+
+<div style="text-align: center; margin-bottom: 20px;">
+<h5 style="color: #92400e;">Differenzierung der BH4-Defekte</h5>
+</div>
+
+<table class="clinical-table" style="margin: 0;">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Neopterin (Urin)</th>
+<th>Biopterin (Urin)</th>
+<th>Primapterin (Urin)</th>
+<th>DHPR-Aktivität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>↓↓↓</td>
+<td>↓↓↓</td>
+<td>-</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>PTPS</strong></td>
+<td>↑↑↑</td>
+<td>↓↓</td>
+<td>-</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>DHPR</strong></td>
+<td>↑↑</td>
+<td>↑↑</td>
+<td>-</td>
+<td>↓↓↓</td>
+</tr>
+<tr>
+<td><strong>PCD</strong></td>
+<td>↑</td>
+<td>↑</td>
+<td>↑↑↑</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>SR</strong></td>
+<td>↑</td>
+<td>↓</td>
+<td>-</td>
+<td>Normal</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+<div class="case-study">
+<h4>🔬 Praktisches Vorgehen bei erhöhtem Phenylalanin</h4>
+
+<p><strong>Schritt 1: Phenylalanin-Bestätigung</strong></p>
+<ul>
+<li><strong>Kontrollmessung:</strong> Aus frischer Blutprobe</li>
+<li><strong>Diät-Status:</strong> Normale Protein-Aufnahme sicherstellen</li>
+<li><strong>Klinische Beurteilung:</strong> Neurologische Symptome vorhanden?</li>
+</ul>
+
+<p><strong>Schritt 2: BH4-Test (bei Phe > 400 μmol/l)</strong></p>
+<ul>
+<li><strong>BH4-Loading-Test:</strong> 20 mg/kg BH4 oral</li>
+<li><strong>Phenylalanin-Messung:</strong> Nach 4, 8, 24 Stunden</li>
+<li><strong>Positive Response:</strong> > 30% Phenylalanin-Abfall</li>
+<li><strong>Interpretation:</strong> Spricht für BH4-abhängige PKU oder BH4-Defekt</li>
+</ul>
+
+<p><strong>Schritt 3: Pterine-Analyse</strong></p>
+<ul>
+<li><strong>Urin-Pterine:</strong> Neopterin, Biopterin, Primapterin</li>
+<li><strong>24h-Sammelurin:</strong> Oder Spontanurin mit Kreatinin-Bezug</li>
+<li><strong>Alterskorrektur:</strong> Referenzwerte altersabhängig</li>
+</ul>
+
+<p><strong>Schritt 4: Enzymaktivität (bei auffälligen Pterinen)</strong></p>
+<ul>
+<li><strong>DHPR-Aktivität:</strong> In Erythrozyten oder DBS</li>
+<li><strong>Bei normalem DHPR:</strong> Weitere Differenzierung durch Genetik</li>
+<li><strong>Familienuntersuchung:</strong> Eltern und Geschwister</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🧬 Besonderheiten einzelner BH4-Defekte</h4>
+
+<p><strong>DHPR-Mangel - Der komplexeste Defekt:</strong></p>
+<ul>
+<li><strong>Doppelter Defekt:</strong> BH4-Recycling + Folsäure-Metabolismus</li>
+<li><strong>Zusätzliche Diagnostik:</strong> CSF-Folsäure, 5-Methyltetrahydrofolat</li>
+<li><strong>Neuroimaging:</strong> Oft charakteristische Veränderungen</li>
+<li><strong>Prognose:</strong> Schlechteste aller BH4-Defekte</li>
+</ul>
+
+<p><strong>Sepiapterin-Reduktase-Mangel - Die Ausnahme:</strong></p>
+<ul>
+<li><strong>Normales Phenylalanin:</strong> Wird oft übersehen!</li>
+<li><strong>Erhaltene Serotonin-Synthese:</strong> Alternative Syntheseroute</li>
+<li><strong>Diagnostik:</strong> CSF-Biomarker, Sepiapterin-Erhöhung</li>
+<li><strong>Therapie:</strong> L-DOPA allein oft ausreichend</li>
+</ul>
+
+<p><strong>GTP-Cyclohydrolase-I - Zwei Formen:</strong></p>
+<ul>
+<li><strong>Autosomal-rezessiv:</strong> Schwere Form mit Hyperphenylalaninämie</li>
+<li><strong>Autosomal-dominant (DYT5):</strong> Segawa-Syndrom ohne Phe-Erhöhung</li>
+<li><strong>Penetranz:</strong> Bei dominanter Form geschlechtsabhängig</li>
+<li><strong>Phänotyp-Variabilität:</strong> Von mild bis schwer</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Molekulargenetische Diagnostik</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Gen</th>
+<th>Protein</th>
+<th>Exons</th>
+<th>Häufige Mutationen</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DDC</strong></td>
+<td>AADC</td>
+<td>15</td>
+<td>c.714+4A>T, c.1297G>A</td>
+<td>Founder-Effekte regional</td>
+</tr>
+<tr>
+<td><strong>TH</strong></td>
+<td>Tyrosinhydroxylase</td>
+<td>14</td>
+<td>c.698G>A, c.1297G>A</td>
+<td>Genotyp-Phänotyp-Korrelation</td>
+</tr>
+<tr>
+<td><strong>GCH1</strong></td>
+<td>GTP-Cyclohydrolase I</td>
+<td>6</td>
+<td>c.842+1G>A, c.626C>T</td>
+<td>Dominant/rezessive Formen</td>
+</tr>
+<tr>
+<td><strong>PTS</strong></td>
+<td>PTPS</td>
+<td>6</td>
+<td>c.259C>T, c.286G>A</td>
+<td>Häufigster BH4-Defekt</td>
+</tr>
+<tr>
+<td><strong>QDPR</strong></td>
+<td>DHPR</td>
+<td>7</td>
+<td>c.665A>G, c.783delG</td>
+<td>Schwerste Prognose</td>
+</tr>
+<tr>
+<td><strong>PCBD1</strong></td>
+<td>PCD</td>
+<td>4</td>
+<td>c.286delA, c.137G>A</td>
+<td>Milde Verläufe häufig</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>🧬 Genetische Besonderheiten und Fallstricke</h4>
+
+<p><strong>AADC-Gen (DDC) - Founder-Effekte:</strong></p>
+<ul>
+<li><strong>Taiwanesische Population:</strong> c.714+4A>T in 90% der Allele</li>
+<li><strong>Europäische Population:</strong> c.1297G>A häufig</li>
+<li><strong>Nordafrikanische Population:</strong> c.1348G>A</li>
+<li><strong>Carrier-Screening:</strong> Sinnvoll in betroffenen Populationen</li>
+</ul>
+
+<p><strong>TH-Gen - Genotyp-Phänotyp-Korrelation:</strong></p>
+<ul>
+<li><strong>Null-Mutationen:</strong> Schwere Formen (Typ A)</li>
+<li><strong>Missense-Mutationen:</strong> Variable Phänotypen</li>
+<li><strong>Promotor-Mutationen:</strong> Oft mildere Verläufe</li>
+<li><strong>Temperature-sensitive:</strong> Einige Mutationen temperaturabhängig</li>
+</ul>
+
+<p><strong>GCH1-Gen - Komplexe Vererbung:</strong></p>
+<ul>
+<li><strong>Autosomal-dominant:</strong> DYT5/Segawa-Syndrom</li>
+<li><strong>Reduzierte Penetranz:</strong> Männer 12%, Frauen 87%</li>
+<li><strong>Autosomal-rezessiv:</strong> Schwere Form mit Hyperphenylalaninämie</li>
+<li><strong>Compound-heterozygot:</strong> Intermediäre Phänotypen</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🔍 Praktische Aspekte der Genetik</h4>
+
+<p><strong>Panel-Sequenzierung vs. Exom:</strong></p>
+<ul>
+<li><strong>Targeted Panel:</strong> Kosteneffizient bei klarem Verdacht</li>
+<li><strong>Exom-Sequenzierung:</strong> Bei unklaren Fällen oder Negativität</li>
+<li><strong>Funktionale Studien:</strong> Bei Variants of Unknown Significance</li>
+<li><strong>RNA-Analyse:</strong> Bei Splice-Site-Mutationen</li>
+</ul>
+
+<p><strong>Familiengenetik und Beratung:</strong></p>
+<ul>
+<li><strong>Segregationsanalyse:</strong> Bestätigung der Pathogenität</li>
+<li><strong>Carrier-Status:</strong> Bestimmung bei Eltern und Geschwistern</li>
+<li><strong>Pränatale Diagnostik:</strong> Möglich ab 10. SSW</li>
+<li><strong>Präimplantationsdiagnostik:</strong> Option bei schwerem Verlauf</li>
+</ul>
+
+<p><strong>Therapie-relevante Mutationen:</strong></p>
+<ul>
+<li><strong>BH4-responsive PKU-Mutationen:</strong> Überlappung mit BH4-Defekten</li>
+<li><strong>Temperature-sensitive TH-Mutationen:</strong> Fieber-Prophylaxe wichtig</li>
+<li><strong>Splice-Site-Mutationen:</strong> Mögliche Therapie mit Antisense-Oligonukleotiden</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Funktionelle und bildgebende Diagnostik</h3>
+
+<div class="neuro-pathway">
+<h4>🧠 Ergänzende diagnostische Verfahren</h4>
+
+<p><strong>L-DOPA-Test - Therapeutischer Probeversuch:</strong></p>
+<ul>
+<li><strong>Indikation:</strong> Verdacht auf DOPA-responsive Dystonie</li>
+<li><strong>Dosierung:</strong> L-DOPA/Carbidopa 2-5 mg/kg/d, langsame Steigerung</li>
+<li><strong>Positive Response:</strong> > 50% Symptombesserung binnen 4 Wochen</li>
+<li><strong>Monitoring:</strong> Vor/nach Videos zur objektiven Beurteilung</li>
+</ul>
+
+<p><strong>Neuroimaging - MRT-Befunde:</strong></p>
+<ul>
+<li><strong>AADC-Mangel:</strong> Oft T2-Hyperintensitäten in Stammhirn</li>
+<li><strong>DHPR-Mangel:</strong> Progressive Hirnatrophie, Demyelinisierung</li>
+<li><strong>TH-Mangel:</strong> Meist unauffällig oder minimale Veränderungen</li>
+<li><strong>Verlaufskontrolle:</strong> Jährlich bei progressiven Formen</li>
+</ul>
+
+<p><strong>Funktionale Bildgebung:</strong></p>
+<ul>
+<li><strong>DAT-SPECT:</strong> Präsynaptische Dopamin-Funktion</li>
+<li><strong>F-DOPA-PET:</strong> Dopamin-Synthese-Kapazität</li>
+<li><strong>Bei NT-Defekten:</strong> Typischerweise reduzierte Aufnahme</li>
+<li><strong>Forschung:</strong> Therapie-Monitoring möglich</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>⚡ Elektrophysiologie und weitere Tests</h4>
+
+<p><strong>EEG-Befunde:</strong></p>
+<ul>
+<li><strong>AADC-Mangel:</strong> Oft multifokale Spikes, keine echte Epilepsie</li>
+<li><strong>BH4-Defekte:</strong> Bei Krampfanfällen abnorme Grundaktivität</li>
+<li><strong>Therapie-Response:</strong> EEG-Normalisierung unter Behandlung</li>
+</ul>
+
+<p><strong>Polysomnographie:</strong></p>
+<ul>
+<li><strong>Schlafstörungen:</strong> Häufig bei Serotonin-Mangel</li>
+<li><strong>REM-Schlaf:</strong> Oft reduziert oder fragmentiert</li>
+<li><strong>Therapiekontrolle:</strong> Besserung unter 5-HTP</li>
+</ul>
+
+<p><strong>Entwicklungsdiagnostik:</strong></p>
+<ul>
+<li><strong>Bayley Scales:</strong> Standardisierte Entwicklungstests</li>
+<li><strong>Motorische Tests:</strong> GMFM bei Bewegungsstörungen</li>
+<li><strong>Verlaufsbeurteilung:</strong> Objektivierung des Therapieerfolgs</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('therapie')">Zur Therapie →</button>
+</div>
+</div>
+
+<!-- Therapie -->
+<div class="content-section" id="therapie">
+<h2 class="section-title">💊 Therapie</h2>
+
+<div class="subsection">
+<h3>AADC-Mangel - Komplexe Substitutionstherapie</h3>
+
+<div class="therapy-box">
+<h4>Medikamentöse Therapie - Standard-Protokoll</h4>
+
+<p><strong>1. Dopamin-Agonisten (Erstlinientherapie):</strong></p>
+<ul>
+<li><strong>Bromocriptin:</strong> 0,1-0,3 mg/kg/d, aufgeteilt in 3 Dosen</li>
+<li><strong>Ropinirol:</strong> 0,25-2 mg/kg/d, aufgeteilt in 3 Dosen</li>
+<li><strong>Pramipexol:</strong> 20-100 μg/kg/d, aufgeteilt in 3 Dosen</li>
+<li><strong>Vorteil:</strong> Umgeht den AADC-Defekt komplett</li>
+</ul>
+
+<p><strong>2. MAO-Inhibitoren (essentiell!):</strong></p>
+<ul>
+<li><strong>Tranylcypromin:</strong> 1-2 mg/kg/d (max. 60 mg/d)</li>
+<li><strong>Selegilin:</strong> 0,5-1 mg/kg/d</li>
+<li><strong>Zweck:</strong> Schutz endogener Neurotransmitter vor Abbau</li>
+<li><strong>Cave:</strong> Diätrestriktionen (tyraminreiche Nahrung)</li>
+</ul>
+
+<p><strong>3. Vitamin B6 (Pyridoxin):</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 15-30 mg/kg/d</li>
+<li><strong>Rationale:</strong> AADC-Cofaktor, kann Restaktivität steigern</li>
+<li><strong>Meist begrenzte Wirkung</strong>, aber sicherer Therapieversuch</li>
+</ul>
+
+<p><strong>4. Experimentelle Ansätze:</strong></p>
+<ul>
+<li><strong>Gen-Therapie:</strong> AAV-vermittelte AADC-Gene (Studien laufend)</li>
+<li><strong>Fötale Gewebe-Transplantation:</strong> Experimentell</li>
+<li><strong>Tiefe Hirnstimulation:</strong> Einzelfälle bei älteren Patienten</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Medikament</th>
+<th>Startdosis</th>
+<th>Zieldosis</th>
+<th>Häufigste NW</th>
+<th>Monitoring</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bromocriptin</strong></td>
+<td>0,05 mg/kg/d</td>
+<td>0,1-0,3 mg/kg/d</td>
+<td>Übelkeit, Hypotonie</td>
+<td>RR, Entwicklung</td>
+</tr>
+<tr>
+<td><strong>Ropinirol</strong></td>
+<td>0,1 mg/kg/d</td>
+<td>0,25-2 mg/kg/d</td>
+<td>Schläfrigkeit, Halluzinationen</td>
+<td>Neurologische Funktion</td>
+</tr>
+<tr>
+<td><strong>Tranylcypromin</strong></td>
+<td>0,5 mg/kg/d</td>
+<td>1-2 mg/kg/d</td>
+<td>Hypertensive Krisen</td>
+<td>RR, Diät-Compliance</td>
+</tr>
+<tr>
+<td><strong>Pyridoxin</strong></td>
+<td>10 mg/kg/d</td>
+<td>15-30 mg/kg/d</td>
+<td>Periphere Neuropathie (selten)</td>
+<td>B6-Spiegel</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🎯 Praktisches Therapie-Management</h4>
+
+<p><strong>Therapie-Einleitung (stationär empfohlen):</strong></p>
+<ul>
+<li><strong>Baseline-Assessment:</strong> Entwicklungsstand, Bewegungsstörungen</li>
+<li><strong>Schrittweise Einschleichung:</strong> Ein Medikament nach dem anderen</li>
+<li><strong>Monitoring:</strong> Blutdruck, Herzfrequenz, neurologische Funktion</li>
+<li><strong>Dokumentation:</strong> Video-Aufnahmen vor und nach Therapie</li>
+</ul>
+
+<p><strong>Therapie-Optimierung:</strong></p>
+<ul>
+<li><strong>Individuelle Dosisfindung:</strong> Große interindividuelle Variabilität</li>
+<li><strong>Kombinationstherapie:</strong> Meist mehrere Medikamente nötig</li>
+<li><strong>Timing:</strong> Gleichmäßige Verteilung über den Tag</li>
+<li><strong>Verlaufskontrolle:</strong> Alle 3-6 Monate Anpassung</li>
+</ul>
+
+<p><strong>Diätrestriktionen bei MAO-Hemmern:</strong></p>
+<ul>
+<li><strong>Tyraminreiche Nahrung meiden:</strong> Alter Käse, geräuchertes Fleisch</li>
+<li><strong>Alkohol:</strong> Komplett vermeiden</li>
+<li><strong>Medikamenten-Interaktionen:</strong> Serotonin-Syndrome-Risiko</li>
+<li><strong>Notfall-Plan:</strong> Bei hypertensiver Krise</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🧬 Neue Therapieansätze - Gen-Therapie</h4>
+
+<p><strong>AAV-Gen-Therapie für AADC-Mangel:</strong></p>
+<ul>
+<li><strong>Vektor:</strong> AAV2-vermitteltes humanes AADC-Gen</li>
+<li><strong>Zielort:</strong> Putamen (stereotaktische Injektion)</li>
+<li><strong>Erste Studien:</strong> Vielversprechende Ergebnisse bei 10 Kindern</li>
+<li><strong>Verbesserungen:</strong> Motorik, Aufmerksamkeit, weniger Krisen</li>
+<li><strong>Langzeitsicherheit:</strong> Noch nicht vollständig bekannt</li>
+</ul>
+
+<p><strong>Weitere experimentelle Ansätze:</strong></p>
+<ul>
+<li><strong>Enzym-Replacement:</strong> Rekombinante AADC (präklinisch)</li>
+<li><strong>Cell-based Therapie:</strong> AADC-transfizierende Zellen</li>
+<li><strong>Chaperone-Therapie:</strong> Bei Missense-Mutationen</li>
+<li><strong>Read-through-Therapie:</strong> Bei Nonsense-Mutationen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Tyrosinhydroxylase-Mangel - L-DOPA-Therapie</h3>
+
+<div class="therapy-box">
+<h4>L-DOPA/Carbidopa - Hocheffektive Therapie</h4>
+
+<p><strong>Standard-Therapie:</strong></p>
+<ul>
+<li><strong>L-DOPA/Carbidopa (10:1):</strong> 2-10 mg/kg/d, aufgeteilt in 3-4 Dosen</li>
+<li><strong>Startdosis:</strong> 1-2 mg/kg/d, langsame Steigerung alle 3-7 Tage</li>
+<li><strong>Maximaldosis:</strong> Meist 10-15 mg/kg/d ausreichend</li>
+<li><strong>Response:</strong> Oft dramatische Besserung binnen Tagen</li>
+</ul>
+
+<p><strong>Besonderheiten der Dosierung:</strong></p>
+<ul>
+<li><strong>Kinder < 10 kg:</strong> Crushing von Tabletten, genaue Dosierung schwierig</li>
+<li><strong>Retard-Präparate:</strong> Bei älteren Kindern zur Compliance-Verbesserung</li>
+<li><strong>Timing:</strong> Zu den Mahlzeiten (reduziert Übelkeit)</li>
+<li><strong>Fluktuation:</strong> Bei Wearing-off COMT-Hemmer erwägen</li>
+</ul>
+
+<p><strong>Zusätzliche Therapieoptionen:</strong></p>
+<ul>
+<li><strong>BH4 (Tetrahydrobiopterin):</strong> 5-20 mg/kg/d als Cofaktor</li>
+<li><strong>Dopamin-Agonisten:</strong> Bei unvollständiger L-DOPA-Response</li>
+<li><strong>Physiotherapie:</strong> Unterstützend bei motorischen Defiziten</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>TH-Mangel Typ</th>
+<th>L-DOPA-Response</th>
+<th>Startdosis</th>
+<th>Typische Enddosis</th>
+<th>Zusatztherapie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Typ A (schwer)</strong></td>
+<td>Partial (50-70%)</td>
+<td>2-3 mg/kg/d</td>
+<td>10-20 mg/kg/d</td>
+<td>DA-Agonisten</td>
+</tr>
+<tr>
+<td><strong>Typ B (moderat)</strong></td>
+<td>Sehr gut (80-90%)</td>
+<td>1-2 mg/kg/d</td>
+<td>5-10 mg/kg/d</td>
+<td>Meist nicht nötig</td>
+</tr>
+<tr>
+<td><strong>Segawa-ähnlich</strong></td>
+<td>Exzellent (>90%)</td>
+<td>1 mg/kg/d</td>
+<td>2-5 mg/kg/d</td>
+<td>Selten erforderlich</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>🎯 Therapie-Response und Monitoring</h4>
+
+<p><strong>Erwartete Response-Zeiten:</strong></p>
+<ul>
+<li><strong>Akute Motorik:</strong> Verbesserung binnen 24-48 Stunden</li>
+<li><strong>Tonusregulation:</strong> Normalisierung in 1-2 Wochen</li>
+<li><strong>Komplexe Bewegungen:</strong> Verbesserung über Monate</li>
+<li><strong>Kognition:</strong> Langsame Verbesserung, wenn überhaupt</li>
+</ul>
+
+<p><strong>Monitoring-Parameter:</strong></p>
+<ul>
+<li><strong>Motorische Funktion:</strong> GMFM-Scores, Videos</li>
+<li><strong>Lebensqualität:</strong> Aktivitäten des täglichen Lebens</li>
+<li><strong>Nebenwirkungen:</strong> Dyskinésien (selten bei primären Formen)</li>
+<li><strong>Wachstum:</strong> L-DOPA kann Appetit reduzieren</li>
+</ul>
+
+<p><strong>Therapie-Resistenz:</strong></p>
+<ul>
+<li><strong>Falsche Diagnose:</strong> Re-Evaluation der Diagnostik</li>
+<li><strong>Unzureichende Dosierung:</strong> Schrittweise Steigerung</li>
+<li><strong>Compliance-Probleme:</strong> Geschmack, Nebenwirkungen</li>
+<li><strong>Schwere Mutationen:</strong> Zusätzliche Dopamin-Agonisten</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🔄 Langzeit-Management</h4>
+
+<p><strong>Lebenslange Therapie erforderlich:</strong></p>
+<ul>
+<li><strong>Kontinuierliche Einnahme:</strong> Kein Absetzen möglich</li>
+<li><strong>Dosisanpassung:</strong> Bei Wachstum, Gewichtszunahme</li>
+<li><strong>Pubertät:</strong> Mögliche Dosiserhöhung notwendig</li>
+<li><strong>Schwangerschaft:</strong> L-DOPA ist sicher</li>
+</ul>
+
+<p><strong>Komplikationen (selten bei primären Formen):</strong></p>
+<ul>
+<li><strong>Wearing-off:</strong> Wirkungs-Nachlassen vor nächster Dosis</li>
+<li><strong>Dyskinésien:</strong> Unwillkürliche Bewegungen (sehr selten)</li>
+<li><strong>Schlafstörungen:</strong> Durch Dopamin-Erhöhung</li>
+<li><strong>Impulskontroll-Störungen:</strong> Bei Dopamin-Agonisten</li>
+</ul>
+
+<p><strong>Transition ins Erwachsenenalter:</strong></p>
+<ul>
+<li><strong>Überweisung:</strong> Neurologe/Bewegungsstörungen-Spezialist</li>
+<li><strong>Berufswahl:</strong> Meist keine Einschränkungen</li>
+<li><strong>Führerschein:</strong> In der Regel kein Problem</li>
+<li><strong>Sport:</strong> Normale Teilnahme möglich</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>BH4-Defekte - Cofaktor-Substitution</h3>
+
+<div class="therapy-box">
+<h4>Differentielle Therapie je nach Defekt-Typ</h4>
+
+<p><strong>1. Tetrahydrobiopterin (BH4) - Basis aller BH4-Defekte:</strong></p>
+<ul>
+<li><strong>Sapropterin (Kuvan®):</strong> 10-20 mg/kg/d in 1-2 Dosen</li>
+<li><strong>Alternatives BH4:</strong> 2-8 mg/kg/d aufgeteilt</li>
+<li><strong>Monitoring:</strong> Phenylalanin-Spiegel, neurologische Funktion</li>
+<li><strong>Lebenslange Gabe:</strong> Absetzen führt zu Rückfall</li>
+</ul>
+
+<p><strong>2. Neurotransmitter-Vorstufen (zusätzlich bei Neurologie):</strong></p>
+<ul>
+<li><strong>L-DOPA/Carbidopa:</strong> 5-15 mg/kg/d</li>
+<li><strong>5-Hydroxytryptophan:</strong> 5-10 mg/kg/d</li>
+<li><strong>Beide erforderlich:</strong> Dopamin- und Serotonin-System betroffen</li>
+</ul>
+
+<p><strong>3. Zusätzliche Cofaktoren:</strong></p>
+<ul>
+<li><strong>Folinsäure:</strong> 10-20 mg/d (besonders bei DHPR-Mangel)</li>
+<li><strong>Vitamin C:</strong> 100-200 mg/d (Antioxidans)</li>
+<li><strong>Vitamin E:</strong> 100-400 IE/d (Antioxidans)</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>BH4-Defekt</th>
+<th>BH4-Dosis</th>
+<th>L-DOPA</th>
+<th>5-HTP</th>
+<th>Folinsäure</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>10-20 mg/kg/d</td>
+<td>5-15 mg/kg/d</td>
+<td>5-10 mg/kg/d</td>
+<td>-</td>
+<td>Manchmal BH4 allein</td>
+</tr>
+<tr>
+<td><strong>PTPS</strong></td>
+<td>15-20 mg/kg/d</td>
+<td>10-15 mg/kg/d</td>
+<td>5-10 mg/kg/d</td>
+<td>+</td>
+<td>Häufigster Typ</td>
+</tr>
+<tr>
+<td><strong>DHPR</strong></td>
+<td>15-20 mg/kg/d</td>
+<td>15-20 mg/kg/d</td>
+<td>10-15 mg/kg/d</td>
+<td>+++</td>
+<td>Schwerste Form</td>
+</tr>
+<tr>
+<td><strong>PCD</strong></td>
+<td>10-15 mg/kg/d</td>
+<td>5-10 mg/kg/d</td>
+<td>5 mg/kg/d</td>
+<td>+</td>
+<td>Mildere Verläufe</td>
+</tr>
+<tr>
+<td><strong>SR</strong></td>
+<td>-</td>
+<td>5-15 mg/kg/d</td>
+<td>-</td>
+<td>-</td>
+<td>BH4 unwirksam</td>
+</tr>
+</tbody>
+</table>
+
+<div class="neuro-pathway">
+<h4>🧬 Defekt-spezifische Therapie-Besonderheiten</h4>
+
+<p><strong>DHPR-Mangel - Der komplexeste Fall:</strong></p>
+<ul>
+<li><strong>Triple-Therapie:</strong> BH4 + NT-Vorstufen + Folinsäure</li>
+<li><strong>Hohe Folinsäure-Dosen:</strong> 15-20 mg/d (Folsäure-Recycling gestört)</li>
+<li><strong>Oft schlechte Response:</strong> Progression trotz Therapie möglich</li>
+<li><strong>Zusätzliche Vitamine:</strong> B12, Antioxidantien</li>
+</ul>
+
+<p><strong>Sepiapterin-Reduktase-Mangel - Die Ausnahme:</strong></p>
+<ul>
+<li><strong>Kein BH4:</strong> Kann körpereigenes BH4 nicht synthetisieren</li>
+<li><strong>L-DOPA allein:</strong> Oft ausreichend (5-15 mg/kg/d)</li>
+<li><strong>Erhaltene Serotonin-Synthese:</strong> 5-HTP meist nicht nötig</li>
+<li><strong>Beste Prognose:</strong> Aller BH4-Defekte</li>
+</ul>
+
+<p><strong>GTP-Cyclohydrolase-I:</strong></p>
+<ul>
+<li><strong>Variable Response:</strong> Von kompletter Heilung bis Therapie-Resistenz</li>
+<li><strong>BH4-Monotherapie:</strong> Bei milden Formen möglich</li>
+<li><strong>Dominante Form (DYT5):</strong> Niedrigste BH4-Dosen (2-5 mg/kg/d)</li>
+<li><strong>Familien-Screening:</strong> Oft asymptomatische Träger</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📊 Therapie-Monitoring und Dosisanpassung</h4>
+
+<p><strong>Regelmäßige Kontrollen (alle 3-6 Monate):</strong></p>
+<ul>
+<li><strong>Phenylalanin-Spiegel:</strong> Ziel < 120 μmol/l (bei BH4-Defekten)</li>
+<li><strong>CSF-Metabolite:</strong> HVA, 5-HIAA (jährlich)</li>
+<li><strong>Entwicklungsstand:</strong> Motorik, Kognition, Verhalten</li>
+<li><strong>Wachstum:</strong> Gewicht, Größe, Kopfumfang</li>
+</ul>
+
+<p><strong>Dosisanpassungen:</strong></p>
+<ul>
+<li><strong>Bei Wachstum:</strong> mg/kg-Dosis konstant halten</li>
+<li><strong>Bei Verschlechterung:</strong> Schrittweise Steigerung</li>
+<li><strong>Maximaldosen:</strong> BH4 bis 40 mg/kg/d, L-DOPA bis 25 mg/kg/d</li>
+<li><strong>Nebenwirkungen:</strong> Dosisreduktion oder Pause</li>
+</ul>
+
+<p><strong>Compliance-Verbesserung:</strong></p>
+<ul>
+<li><strong>Geschmack:</strong> Säfte, Pulver in Joghurt</li>
+<li><strong>Timing:</strong> Zu festen Uhrzeiten</li>
+<li><strong>Familien-Schulung:</strong> Verständnis für Notwendigkeit</li>
+<li><strong>Notfall-Plan:</strong> Bei Vergessen oder Erbrechen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Supportive und adjuvante Therapien</h3>
+
+<div class="pathway-diagram">
+<h4>Multidisziplinäres Therapie-Konzept</h4>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+
+<div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+<h5 style="color: #dc2626; margin-bottom: 10px;">🏃 Physiotherapie</h5>
+<ul style="font-size: 0.9em; color: #dc2626;">
+<li>Motorische Entwicklungsförderung</li>
+<li>Kontraktur-Prophylaxe</li>
+<li>Gleichgewichtstraining</li>
+<li>Hypotonusbehandlung</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 15px; border-radius: 8px; border: 2px solid #f97316;">
+<h5 style="color: #ea580c; margin-bottom: 10px;">🗣️ Logopädie</h5>
+<ul style="font-size: 0.9em; color: #ea580c;">
+<li>Sprachentwicklungsförderung</li>
+<li>Schlucktherapie</li>
+<li>Dysarthrie-Behandlung</li>
+<li>Kommunikationshilfen</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 8px; border: 2px solid #22c55e;">
+<h5 style="color: #16a34a; margin-bottom: 10px;">🎯 Ergotherapie</h5>
+<ul style="font-size: 0.9em; color: #16a34a;">
+<li>Feinmotorik-Training</li>
+<li>Alltagsfertigkeiten</li>
+<li>Hilfsmittel-Anpassung</li>
+<li>Sensomotorik-Förderung</li>
+</ul>
+</div>
+
+<div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 15px; border-radius: 8px; border: 2px solid #3b82f6;">
+<h5 style="color: #2563eb; margin-bottom: 10px;">🎓 Frühförderung</h5>
+<ul style="font-size: 0.9em; color: #2563eb;">
+<li>Kognitive Entwicklungsförderung</li>
+<li>Schulvorbereitung</li>
+<li>Soziale Integration</li>
+<li>Elternberatung</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="therapy-box">
+<h4>Symptom-spezifische Zusatztherapien</h4>
+
+<p><strong>Epilepsie-Management:</strong></p>
+<ul>
+<li><strong>Erste Wahl:</strong> Levetiracetam, Lamotrigin</li>
+<li><strong>Vermeiden:</strong> Valproat (kann NT-Synthese hemmen)</li>
+<li><strong>Besonderheit:</strong> Oft Pseudoepilepsie bei NT-Defekten</li>
+<li><strong>EEG-Kontrolle:</strong> Epilepsie vs. Bewegungsstörungen</li>
+</ul>
+
+<p><strong>Gastroösophagealer Reflux:</strong></p>
+<ul>
+<li><strong>PPI-Therapie:</strong> Omeprazol 1-2 mg/kg/d</li>
+<li><strong>Prokinetika:</strong> Domperidon (cave: Dopamin-Antagonist!)</li>
+<li><strong>Ernährung:</strong> Kleine, häufige Mahlzeiten</li>
+<li><strong>Chirurgie:</strong> Fundoplikatio bei schwerem Reflux</li>
+</ul>
+
+<p><strong>Schlafstörungen:</strong></p>
+<ul>
+<li><strong>Melatonin:</strong> 3-6 mg abends (bei Serotonin-Mangel)</li>
+<li><strong>Schlafhygiene:</strong> Regelmäßige Zeiten</li>
+<li><strong>5-HTP-Optimierung:</strong> Ausreichende Dosierung</li>
+</ul>
+
+<p><strong>Osteoporose-Prophylaxe:</strong></p>
+<ul>
+<li><strong>Vitamin D:</strong> 1000-2000 IE/d</li>
+<li><strong>Calcium:</strong> 1000-1500 mg/d</li>
+<li><strong>Mobilisation:</strong> So viel wie möglich</li>
+<li><strong>DXA-Scan:</strong> Ab Adoleszenz</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>⚠️ Wichtige Medikamenten-Interaktionen</h4>
+
+<p><strong>Bei MAO-Hemmern (AADC-Mangel):</strong></p>
+<ul>
+<li><strong>Kontraindikiert:</strong> SSRI, SNRI, Tramadol, Pethidin</li>
+<li><strong>Serotonin-Syndrom-Risiko:</strong> Fieber, Rigidität, Bewusstseinsstörung</li>
+<li><strong>Tyramin-reiche Nahrung:</strong> Käse, Wein, geräuchertes Fleisch</li>
+<li><strong>Notfall-Medikation:</strong> Noradrenalin bei hypertensiver Krise</li>
+</ul>
+
+<p><strong>Bei L-DOPA-Therapie:</strong></p>
+<ul>
+<li><strong>Verstärkung:</strong> COMT-Hemmer (Entacapon)</li>
+<li><strong>Antagonismus:</strong> Dopamin-Antagonisten (Neuroleptika)</li>
+<li><strong>Resorption:</strong> Große Proteinmahlzeiten reduzieren Aufnahme</li>
+<li><strong>Eisenpräparate:</strong> 2h Abstand zur L-DOPA-Gabe</li>
+</ul>
+
+<p><strong>Bei BH4-Therapie:</strong></p>
+<ul>
+<li><strong>Folsäure-Antagonisten:</strong> Methotrexat, Trimethoprim</li>
+<li><strong>Phenytoin:</strong> Kann BH4-Bedarf erhöhen</li>
+<li><strong>Antioxidantien:</strong> Vitamin C schützt BH4 vor Oxidation</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Notfall-Management und Krisenintervention</h3>
+
+<div class="case-study">
+<h4>🚨 Akute Verschlechterungen - Ursachen und Management</h4>
+
+<p><strong>Häufige Auslöser für Krisen:</strong></p>
+<ul>
+<li><strong>Infekte mit Fieber:</strong> Erhöhter NT-Verbrauch, reduzierte TH-Aktivität</li>
+<li><strong>Therapie-Unterbrechung:</strong> Vergessen, Erbrechen, Non-Compliance</li>
+<li><strong>Interkurrente Erkrankungen:</strong> Gastroenteritis, Dehydration</li>
+<li><strong>Medikamenten-Interaktionen:</strong> Neue Medikamente</li>
+<li><strong>Psychischer Stress:</strong> Operationen, Umgebungswechsel</li>
+</ul>
+
+<p><strong>Klinische Warnsignale:</strong></p>
+<ul>
+<li><strong>Zunehmende Hypotonie:</strong> Akuter Tonusverlust</li>
+<li><strong>Okulohypische Krisen:</strong> Neue oder verstärkte Episoden</li>
+<li><strong>Temperaturinstabilität:</strong> Hyperthermie oder Hypothermie</li>
+<li><strong>Bewusstseinstrübung:</strong> Somnolenz bis Koma</li>
+<li><strong>Verschlechterte Motorik:</strong> Rückgang erworbener Fähigkeiten</li>
+</ul>
+
+<p><strong>Sofortmaßnahmen:</strong></p>
+<ul>
+<li><strong>Medikation sicherstellen:</strong> Zeitgerechte Gabe, ggf. i.v.</li>
+<li><strong>Fiebersenkung:</strong> Paracetamol/Ibuprofen, Kühlung</li>
+<li><strong>Flüssigkeitshaushalt:</strong> Dehydration vermeiden</li>
+<li><strong>Kontakt Stoffwechselzentrum:</strong> Telefonische Beratung</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🏥 Stationäres Management bei Krisen</h4>
+
+<p><strong>Indikationen für stationäre Aufnahme:</strong></p>
+<ul>
+<li><strong>Persistierende Bewusstseinsstörung:</strong> > 2h trotz Therapie</li>
+<li><strong>Anhaltende okulohypische Krisen:</strong> > 12h</li>
+<li><strong>Therapie-Verweigerung:</strong> Erbrechen, Nahrungsverweigerung</li>
+<li><strong>Erstmanifestation:</strong> Unklare Diagnose</li>
+</ul>
+
+<p><strong>Stationäres Therapie-Protokoll:</strong></p>
+<ul>
+<li><strong>Kontinuierliches Monitoring:</strong> Vitaldaten, neurologischer Status</li>
+<li><strong>Parenterale Therapie:</strong> Bei Schluckstörungen</li>
+<li><strong>L-DOPA i.v.:</strong> Mögliche Option (off-label)</li>
+<li><strong>Supportive Therapie:</strong> Temperatur, Flüssigkeit, Ernährung</li>
+</ul>
+
+<p><strong>Entlassungs-Kriterien:</strong></p>
+<ul>
+<li><strong>Stabile Vitalfunktionen:</strong> Normale Temperaturregulation</li>
+<li><strong>Neurologische Stabilität:</strong> Baseline-Zustand erreicht</li>
+<li><strong>Orale Medikation:</strong> Sichere Einnahme gewährleistet</li>
+<li><strong>Follow-up gesichert:</strong> Ambulante Weiterbetreuung</li>
+</ul>
+</div>
+
+<div class="therapy-box">
+<h4>Familien-Schulung und Notfall-Pläne</h4>
+
+<p><strong>Notfall-Ausweis sollte enthalten:</strong></p>
+<ul>
+<li><strong>Diagnose und Mutation:</strong> Spezifischer Defekt</li>
+<li><strong>Aktuelle Medikation:</strong> Dosis und Zeitplan</li>
+<li><strong>Kontraindikationen:</strong> Besonders Dopamin-Antagonisten</li>
+<li><strong>Kontaktdaten:</strong> Stoffwechselzentrum 24h-Rufbereitschaft</li>
+<li><strong>Krisensymptome:</strong> Wann Notarzt rufen</li>
+</ul>
+
+<p><strong>Familien-Schulung umfasst:</strong></p>
+<ul>
+<li><strong>Symptom-Erkennung:</strong> Frühe Warnsignale</li>
+<li><strong>Medikamenten-Management:</strong> Zubereitung, Timing</li>
+<li><strong>Erste Hilfe:</strong> Bei okulohypischen Krisen</li>
+<li><strong>Präventionsmaßnahmen:</strong> Fieber-Prophylaxe</li>
+</ul>
+
+<p><strong>Langfristige Krisen-Prävention:</strong></p>
+<ul>
+<li><strong>Impfungen:</strong> Vollständiger Impfschutz</li>
+<li><strong>Fieber-Management:</strong> Frühe Antipyrese</li>
+<li><strong>Stress-Minimierung:</strong> Vorhersehbare Routinen</li>
+<li><strong>Regelmäßige Kontrollen:</strong> Therapie-Optimierung</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 2 abgeschlossen!</h3>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben die Diagnostik und Therapie der Neurotransmitter-Defekte erfolgreich durchgearbeitet.</p>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Als nächstes

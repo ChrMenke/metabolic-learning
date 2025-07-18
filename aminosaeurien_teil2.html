@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aminosäurestörungen - Teil 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--success-color), #00f2fe);
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--primary-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+color: white;
+border-color: var(--primary-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Quiz containers */
+.quiz-container {
+background: var(--bg-light);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+border: 1px solid #e2e8f0;
+box-shadow: var(--shadow-sm);
+}
+
+.quiz-question {
+font-weight: 600;
+margin-bottom: var(--spacing-md);
+color: var(--text-primary);
+font-size: 1.1rem;
+}
+
+.quiz-option {
+background: var(--bg-white);
+border: 2px solid #e2e8f0;
+border-radius: 12px;
+padding: var(--spacing-md);
+margin: var(--spacing-xs) 0;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+font-weight: 500;
+color: var(--text-primary);
+}
+
+.quiz-option:hover {
+background: #eff6ff;
+border-color: var(--info-color);
+transform: translateX(8px) scale(1.02);
+}
+
+.quiz-option.correct {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border-color: #22c55e;
+animation: correctPulse 0.6s ease-out;
+}
+
+.quiz-option.incorrect {
+background: linear-gradient(135deg, #fef2f2, #fecaca);
+border-color: #ef4444;
+animation: incorrectShake 0.6s ease-out;
+}
+
+@keyframes correctPulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+75% { transform: translateX(5px); }
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+.completion-badge {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+padding: var(--spacing-md) var(--spacing-lg);
+border-radius: 50px;
+display: inline-block;
+font-weight: 600;
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-md);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<div class="header">
+<h1>🧬 Aminosäurestörungen</h1>
+<p>Teil 2: Management & Praxis</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>📚 Lerneinheit Teil 2</h3>
+<p>Dieser zweite Teil behandelt Therapie, Prognose, praxisnahe Fallbeispiele und die abschließende Lernkontrolle.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('therapie')">1. Therapie</button>
+<button class="nav-btn" onclick="showSection('prognose')">2. Prognose</button>
+<button class="nav-btn" onclick="showSection('fallbeispiele')">3. Fallbeispiele</button>
+<button class="nav-btn" onclick="showSection('quiz')">4. Lernkontrolle</button>
+</div>
+
+<!-- Therapie -->
+<div class="content-section active" id="therapie">
+<h2 class="section-title">💊 Therapie und Management</h2>
+
+<div class="subsection">
+<h3>PKU - Diätmanagement</h3>
+<div class="case-study">
+<h4>🍎 Phenylalanin-arme Diät</h4>
+<p><strong>Therapieziel:</strong> Phenylalanin 120-360 μmol/l (alle Altersgruppen)</p>
+<p><strong>Diätprinzipien:</strong></p>
+<ul>
+<li><strong>Phenylalanin-Restriktion:</strong> Auf 200-500 mg/Tag begrenzen</li>
+<li><strong>Proteinsubstitution:</strong> Phenylalanin-freie Aminosäure-Mischungen</li>
+<li><strong>Tyrosin-Supplementation:</strong> Da Tyrosin essentiell wird</li>
+<li><strong>Natürliche Proteine:</strong> Kontrolliert in kleinen Mengen</li>
+</ul>
+<p><strong>Altersabhängige Phe-Toleranz:</strong></p>
+<ul>
+<li><strong>0-12 Monate:</strong> 200-400 mg/Tag</li>
+<li><strong>1-3 Jahre:</strong> 300-500 mg/Tag</li>
+<li><strong>4-10 Jahre:</strong> 400-600 mg/Tag</li>
+<li><strong>Erwachsene:</strong> 600-1000 mg/Tag</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Lebensmittelgruppe</th>
+<th>Phe-Gehalt</th>
+<th>PKU-Eignung</th>
+<th>Bemerkungen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hochprotein</strong></td>
+<td>Sehr hoch</td>
+<td>❌ Verboten</td>
+<td>Fleisch, Fisch, Eier, Nüsse, Hülsenfrüchte</td>
+</tr>
+<tr>
+<td><strong>Milchprodukte</strong></td>
+<td>Hoch</td>
+<td>⚠️ Stark limitiert</td>
+<td>Nur in kleinsten Mengen</td>
+</tr>
+<tr>
+<td><strong>Getreide</strong></td>
+<td>Mittel</td>
+<td>⚠️ Kontrolliert</td>
+<td>Phe-arme Spezialprodukte verfügbar</td>
+</tr>
+<tr>
+<td><strong>Obst/Gemüse</strong></td>
+<td>Niedrig</td>
+<td>✅ Erlaubt</td>
+<td>Basis der Ernährung</td>
+</tr>
+<tr>
+<td><strong>Fette/Zucker</strong></td>
+<td>Praktisch null</td>
+<td>✅ Frei</td>
+<td>Wichtige Energiequelle</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>BH₄-responsive PKU</h4>
+<p><strong>Sapropterin (Kuvan®):</strong> Synthetisches BH₄</p>
+<p><strong>Wirkung:</strong></p>
+<ul>
+<li>Stabilisiert residuale PAH-Aktivität</li>
+<li>Erhöht Phenylalanin-Toleranz um 20-50%</li>
+<li>Ermöglicht liberalere Diät</li>
+<li>Verbessert Lebensqualität erheblich</li>
+</ul>
+<p><strong>Dosierung:</strong> 5-20 mg/kg/Tag, morgens nüchtern</p>
+<p><strong>Responder-Rate:</strong> ~30% aller PKU-Patienten</p>
+<p><strong>Monitoring:</strong> Phe-Spiegel sinken innerhalb 24h um >30%</p>
+</div>
+</div>
+
+<div class="subsection">
+<h3>MSUD - Akut- und Langzeittherapie</h3>
+<div class="case-study">
+<h4>🚨 Akuttherapie bei neonataler Krise</h4>
+<p><strong>1. Sofortmaßnahmen:</strong></p>
+<ul>
+<li>Protein-Stopp (komplett für 24-48h)</li>
+<li>Hochkalorische Glukose-Infusion (12-15 mg/kg/min)</li>
+<li>Insulin bei Hyperglykämie (fördert Anabolismus)</li>
+<li>Intensivmonitoring (ICP, EEG, Vitalparameter)</li>
+</ul>
+<p><strong>2. Entgiftung:</strong></p>
+<ul>
+<li><strong>Peritoneal-/Hämodialyse:</strong> Bei Leucin >1500 μmol/l</li>
+<li><strong>Hämofiltration:</strong> Kontinuierlich bei instabilen Patienten</li>
+<li><strong>Ziel:</strong> Leucin <400 μmol/l binnen 12-24h</li>
+</ul>
+<p><strong>3. Wiederaufbau:</strong></p>
+<ul>
+<li>Schrittweise Protein-Wiedereinführung ab Tag 2-3</li>
+<li>Start mit 0,5 g/kg/d, Steigerung alle 12h</li>
+<li>BCAA-freie Aminosäure-Mischungen</li>
+<li>Engmaschige Leucin-Kontrollen</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Zielwerte akut</th>
+<th>Langzeit-Zielwerte</th>
+<th>Kritische Schwelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Leucin</strong></td>
+<td><400 μmol/l</td>
+<td>80-200 μmol/l</td>
+<td>>300 μmol/l (Dekompensation)</td>
+</tr>
+<tr>
+<td><strong>Isoleucin</strong></td>
+<td><300 μmol/l</td>
+<td>40-120 μmol/l</td>
+<td>>200 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Valin</strong></td>
+<td><350 μmol/l</td>
+<td>100-300 μmol/l</td>
+<td>>400 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Alloisoleucin</strong></td>
+<td><50 μmol/l</td>
+<td><20 μmol/l</td>
+<td>Immer pathologisch</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeit-Diätmanagement MSUD</h4>
+<p><strong>Proteintoleranz (BCAA-haltig):</strong></p>
+<ul>
+<li><strong>Säuglinge:</strong> 1,5-2,0 g/kg/Tag</li>
+<li><strong>Kleinkinder:</strong> 1,2-1,8 g/kg/Tag</li>
+<li><strong>Schulkinder:</strong> 1,0-1,5 g/kg/Tag</li>
+<li><strong>Erwachsene:</strong> 0,8-1,2 g/kg/Tag</li>
+</ul>
+<p><strong>Thiamin-responsive Formen (15%):</strong></p>
+<ul>
+<li>Vitamin B₁: 10-200 mg/Tag</li>
+<li>Deutlich höhere Protein-Toleranz</li>
+<li>Weniger restriktive Diät möglich</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Harnstoffzyklusdefekte</h3>
+<div class="case-study">
+<h4>⚡ Hyperammonämische Krise</h4>
+<p><strong>Akutmaßnahmen (erste 2-4 Stunden):</strong></p>
+<ul>
+<li><strong>Protein-Stopp:</strong> Sofort, komplett</li>
+<li><strong>Kalorienzufuhr:</strong> Glukose 10-15 mg/kg/min + Lipide</li>
+<li><strong>Stickstoff-Scavenger:</strong>
+<ul>
+<li>Natriumbenzoat: 250-500 mg/kg i.v.</li>
+<li>Natriumphenylacetat: 250-500 mg/kg i.v.</li>
+<li>L-Arginin: 200-600 mg/kg i.v. (außer bei Arginase-Mangel)</li>
+</ul>
+</li>
+<li><strong>Extrakorporale Elimination:</strong>
+<ul>
+<li>NH₃ >500 μmol/l: Sofortige Dialyse</li>
+<li>NH₃ 300-500 μmol/l: CVVH erwägen</li>
+<li>Hämodialyse am effektivsten</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Medikament</th>
+<th>Wirkmechanismus</th>
+<th>Dosierung</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Natriumbenzoat</strong></td>
+<td>Bindet Glycin → Hippurat</td>
+<td>250-500 mg/kg/d</td>
+<td>1 mol NH₃ pro mol Benzoat</td>
+</tr>
+<tr>
+<td><strong>Natriumphenylacetat</strong></td>
+<td>Bindet Glutamin → Phenylacetylglutamin</td>
+<td>250-500 mg/kg/d</td>
+<td>2 mol NH₃ pro mol Phenylacetat</td>
+</tr>
+<tr>
+<td><strong>Natriumphenylbutyrat</strong></td>
+<td>Prodrug von Phenylacetat</td>
+<td>450-600 mg/kg/d p.o.</td>
+<td>Besser verträglich oral</td>
+</tr>
+<tr>
+<td><strong>Glycerolphenylbutyrat</strong></td>
+<td>Geschmacksneutrale Form</td>
+<td>4,5-17,4 ml/m²/d</td>
+<td>Verbesserte Compliance</td>
+</tr>
+<tr>
+<td><strong>L-Arginin</strong></td>
+<td>Substrat für ASS/ASL</td>
+<td>200-700 mg/kg/d</td>
+<td>Kontraindiziert bei Arginase-Mangel</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeit-Management Harnstoffzyklusdefekte</h4>
+<p><strong>Diätprinzipien:</strong></p>
+<ul>
+<li><strong>Protein-Restriktion:</strong> 0,8-1,5 g/kg/Tag (je nach Defekt)</li>
+<li><strong>Essentielle Aminosäuren:</strong> Bevorzugt über natürliche Proteine</li>
+<li><strong>Calprotein/Citrullin:</strong> Bei ASS-/ASL-Mangel supplementieren</li>
+<li><strong>Häufige kleine Mahlzeiten:</strong> Vermeidung von Protein-"Bolus"</li>
+</ul>
+<p><strong>Monitoring:</strong></p>
+<ul>
+<li>Ammoniak nüchtern + 2h postprandial</li>
+<li>Aminosäure-Profile alle 3-6 Monate</li>
+<li>Wachstum und Entwicklung</li>
+<li>Leberfunktion, Nierenfunktion</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Homocystinurie</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Therapieansatz</th>
+<th>B₆-responsive</th>
+<th>B₆-non-responsive</th>
+<th>Wirkung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pyridoxin (B₆)</strong></td>
+<td>100-500 mg/d</td>
+<td>Wirkungslos</td>
+<td>Aktiviert residuale CBS</td>
+</tr>
+<tr>
+<td><strong>Betain</strong></td>
+<td>Optional</td>
+<td>6-9 g/d</td>
+<td>Alternative Remethylierung</td>
+</tr>
+<tr>
+<td><strong>Folsäure</strong></td>
+<td>5 mg/d</td>
+<td>5 mg/d</td>
+<td>Cofaktor Methionin-Synthase</td>
+</tr>
+<tr>
+<td><strong>Vitamin B₁₂</strong></td>
+<td>1 mg/d</td>
+<td>1 mg/d</td>
+<td>Cofaktor Methionin-Synthase</td>
+</tr>
+<tr>
+<td><strong>Methionin-Restriktion</strong></td>
+<td>Meist nicht nötig</td>
+<td>Ja, auf 10-20 mg/kg/d</td>
+<td>Reduziert Homocystein-Bildung</td>
+</tr>
+<tr>
+<td><strong>Cystein</strong></td>
+<td>Optional</td>
+<td>Ja, 100-200 mg/kg/d</td>
+<td>Wird essentiell</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🎯 Therapieziele Homocystinurie</h4>
+<p><strong>Biochemische Ziele:</strong></p>
+<ul>
+<li><strong>Total-Homocystein:</strong> <50 μmol/l (ideal <15 μmol/l)</li>
+<li><strong>Methionin:</strong> 20-50 μmol/l (nicht zu niedrig!)</li>
+<li><strong>Freies Homocystein:</strong> Nicht messbar</li>
+</ul>
+<p><strong>Klinische Ziele:</strong></p>
+<ul>
+<li>Prävention/Progression von Linsenluxation</li>
+<li>Vermeidung thromboembolischer Ereignisse</li>
+<li>Normale intellektuelle Entwicklung</li>
+<li>Prävention von Skelettanomalien</li>
+</ul>
+<p><strong>Zusatzmaßnahmen:</strong></p>
+<ul>
+<li><strong>ASS 100 mg/d:</strong> Thromboseprophylaxe ab Jugend</li>
+<li><strong>Kontrazeptiva:</strong> Östrogenhaltige vermeiden</li>
+<li><strong>Operationen:</strong> Perioperative Antikoagulation</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Tyrosinämie I - NTBC-Therapie</h3>
+<div class="case-study">
+<h4>🎯 NTBC: Revolutionäre Behandlung</h4>
+<p><strong>Nitisinone (NTBC = 2-Nitro-4-trifluormethylbenzoyl-1,3-cyclohexandion):</strong></p>
+<p><strong>Wirkmechanismus:</strong></p>
+<ul>
+<li>Hemmt 4-Hydroxyphenylpyruvat-Dioxygenase (HPD)</li>
+<li>Verhindert Bildung von Maleylacetoacetat und Fumaryacetoacetat</li>
+<li>Blockiert Succinylaceton-Synthese (toxisches Nebenprodukt)</li>
+<li>Stoppt Leberschädigung und Porphyrie-ähnliche Krisen</li>
+</ul>
+<p><strong>Dosierung:</strong></p>
+<ul>
+<li><strong>Startdosis:</strong> 1-2 mg/kg/Tag in 2 Dosen</li>
+<li><strong>Erhaltung:</strong> 0,5-2 mg/kg/Tag</li>
+<li><strong>Monitoring:</strong> Succinylaceton sollte nicht messbar sein</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>Nebenwirkungen und Management</h4>
+<p><strong>Tyrosinämie durch NTBC:</strong></p>
+<ul>
+<li>Tyrosin steigt auf 400-800 μmol/l</li>
+<li>Kann zu Kornea-Läsionen führen (wie Tyrosinämie II)</li>
+<li><strong>Prävention:</strong> Tyrosin-/Phenylalanin-arme Diät</li>
+<li><strong>Ziel:</strong> Tyrosin <500 μmol/l</li>
+</ul>
+<p><strong>Ophthalmologische Kontrollen:</strong></p>
+<ul>
+<li>Spaltlampen-Untersuchung alle 6 Monate</li>
+<li>Bei Kornea-Kristallen: Tyrosin weiter senken</li>
+<li>Meist reversibel bei guter Diätführung</li>
+</ul>
+<p><strong>Langzeitprognose:</strong></p>
+<ul>
+<li>Dramatische Reduktion der Mortalität (>90% → <5%)</li>
+<li>HCC-Risiko bleibt bestehen, aber reduziert</li>
+<li>Normale Lebenserwartung bei früher Therapie</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('prognose')">Weiter zur Prognose →</button>
+</div>
+</div>
+
+<!-- Prognose -->
+<div class="content-section" id="prognose">
+<h2 class="section-title">📈 Prognose und Verlauf</h2>
+
+<div class="subsection">
+<h3>PKU - Langzeitprognose</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Therapiebeginn</th>
+<th>IQ-Outcome</th>
+<th>Neuropsychologische Funktion</th>
+<th>Lebensqualität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vor 6 Lebenswochen</strong></td>
+<td>Normal (100±15)</td>
+<td>Leichte Defizite in Exekutivfunktionen</td>
+<td>Sehr gut</td>
+</tr>
+<tr>
+<td><strong>6-12 Wochen</strong></td>
+<td>Niedrig-normal (90-100)</td>
+<td>Aufmerksamkeits-, Gedächtnisprobleme</td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><strong>3-6 Monate</strong></td>
+<td>Grenzwertig (70-85)</td>
+<td>Deutliche Exekutivdefizite</td>
+<td>Eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>>6 Monate</strong></td>
+<td>Geistige Behinderung (<70)</td>
+<td>Schwere kognitive Defizite</td>
+<td>Stark eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>Nie behandelt</strong></td>
+<td>Schwere Behinderung (<50)</td>
+<td>Schwere Entwicklungsstörung</td>
+<td>Sehr schlecht</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>📊 Moderne PKU-Outcomes</h4>
+<p><strong>Neugeborenenscreening-Ära (seit 1971):</strong></p>
+<ul>
+<li><strong>Normale Intelligenz:</strong> >95% der Patienten</li>
+<li><strong>Regelschulbesuch:</strong> >90%</li>
+<li><strong>Berufstätigkeit:</strong> >85% in Vollzeit</li>
+<li><strong>Selbstständiges Leben:</strong> >90%</li>
+<li><strong>Familiengründung:</strong> Normal möglich</li>
+</ul>
+<p><strong>Persistierende Probleme trotz Behandlung:</strong></p>
+<ul>
+<li><strong>Leichte Exekutivdefizite:</strong> Arbeitsgedächtnis, Aufmerksamkeit</li>
+<li><strong>Feinmotorik:</strong> Teilweise beeinträchtigt</li>
+<li><strong>Soziale Kognitionen:</strong> Theory of Mind leicht reduziert</li>
+<li><strong>Psychiatrische Komorbiditäten:</strong> Erhöhte Rate von Ängsten/Depression</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>Kritische Phasen für PKU-Management</h4>
+<p><strong>Adoleszenz:</strong></p>
+<ul>
+<li>50-70% brechen Diät ab</li>
+<li>Phe-Anstieg → Konzentrationsprobleme, Schulleistungen ↓</li>
+<li>Stimmungsschwankungen, Depression häufiger</li>
+<li><strong>Intervention:</strong> Intensive Betreuung, BH₄-Test</li>
+</ul>
+<p><strong>Schwangerschaft:</strong></p>
+<ul>
+<li><strong>Maternale PKU:</strong> Phe >360 μmol/l schädigt normales Kind</li>
+<li><strong>Malformationsrisiko:</strong> 90% bei Phe >1200 μmol/l</li>
+<li><strong>Präkonzeptionelle Diät:</strong> Mindestens 3 Monate vor Konzeption</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>MSUD - Entwicklungsprognose</h3>
+<div class="case-study">
+<h4>📈 Outcome nach Manifestationsform</h4>
+<p><strong>Klassische MSUD (neonatale Manifestation):</strong></p>
+<ul>
+<li><strong>Unbehandelt:</strong> Tod in ersten Lebenswochen</li>
+<li><strong>Spät diagnostiziert (>14 Tage):</strong> Schwere geistige Behinderung</li>
+<li><strong>Frühe Behandlung (<7 Tage):</strong> Normale bis leicht eingeschränkte Entwicklung</li>
+<li><strong>Neugeborenenscreening:</strong> Deutlich verbesserte Prognose</li>
+</ul>
+<p><strong>Intermittierende MSUD:</strong></p>
+<ul>
+<li><strong>Bei gutem Management:</strong> Normale Intelligenz</li>
+<li><strong>Nach Dekompensationen:</strong> Kognitive Defizite proportional zu Schwere</li>
+<li><strong>Langzeitprognose:</strong> Gut bei Compliance</li>
+</ul>
+<p><strong>Thiamin-responsive MSUD:</strong></p>
+<ul>
+<li><strong>Prognose:</strong> Sehr gut, fast normal</li>
+<li><strong>Entwicklung:</strong> Meist altersgerecht</li>
+<li><strong>Lebensqualität:</strong> Wenig eingeschränkt</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Prognosefaktor</th>
+<th>Günstig</th>
+<th>Ungünstig</th>
+<th>Langzeitfolgen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Therapiebeginn</strong></td>
+<td>Vor Symptomen (NBS)</td>
+<td>Nach neurologischen Symptomen</td>
+<td>IQ-Unterschied bis 20 Punkte</td>
+</tr>
+<tr>
+<td><strong>Erste Krise</strong></td>
+<td>Leucin <1000 μmol/l</td>
+<td>Leucin >2000 μmol/l</td>
+<td>Strukturelle Hirnschäden</td>
+</tr>
+<tr>
+<td><strong>Compliance</strong></td>
+<td>Gute Diätführung</td>
+<td>Häufige Dekompensationen</td>
+<td>Kumulative Hirnschäden</td>
+</tr>
+<tr>
+<td><strong>Genotyp</strong></td>
+<td>Thiamin-responsiv</td>
+<td>Null-Mutationen</td>
+<td>Mildere Verläufe möglich</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeitkomplikationen MSUD</h4>
+<p><strong>Neurologische Spätfolgen:</strong></p>
+<ul>
+<li><strong>Myelin-Alterationen:</strong> Perivaskuläre Gliose</li>
+<li><strong>Bewegungsstörungen:</strong> Dystonie, Ataxie (besonders nach Krisen)</li>
+<li><strong>Epilepsie:</strong> 10-20% der Patienten</li>
+<li><strong>Pankreatitis:</strong> Seltene, aber schwere Komplikation</li>
+</ul>
+<p><strong>Prävention:</strong></p>
+<ul>
+<li>Strikte Diätführung</li>
+<li>Frühe Intervention bei Infekten</li>
+<li>Notfallprotokolle für Familien</li>
+<li>Regelmäßige Aminosäure-Kontrollen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Harnstoffzyklusdefekte</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Enzymdefekt</th>
+<th>Mortalität neonatal</th>
+<th>Langzeitprognose</th>
+<th>Intellektuelle Entwicklung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPS1-Mangel</strong></td>
+<td>Hoch (>50%)</td>
+<td>Schlecht</td>
+<td>Meist Behinderung</td>
+</tr>
+<tr>
+<td><strong>OTC-Mangel</strong></td>
+<td>Sehr hoch (>70%)</td>
+<td>Sehr schlecht</td>
+<td>Schwere Behinderung häufig</td>
+</tr>
+<tr>
+<td><strong>ASS-Mangel</strong></td>
+<td>Mittel (20-30%)</td>
+<td>Mäßig</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td><strong>ASL-Mangel</strong></td>
+<td>Niedrig (<20%)</td>
+<td>Gut</td>
+<td>Meist normal/leicht eingeschränkt</td>
+</tr>
+<tr>
+<td><strong>Arginase-Mangel</strong></td>
+<td>Sehr niedrig</td>
+<td>Gut</td>
+<td>Normal bei früher Behandlung</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>⚡ Prognostische Faktoren</h4>
+<p><strong>Entscheidende Variablen:</strong></p>
+<ul>
+<li><strong>Höchster NH₃-Wert:</strong> >500 μmol/l → sehr schlecht</li>
+<li><strong>Koma-Dauer:</strong> >24h → bleibende Schäden</li>
+<li><strong>Anzahl der Krisen:</strong> Kumulative Schäden</li>
+<li><strong>Therapiebeginn:</strong> Präsymptomatisch optimal</li>
+</ul>
+<p><strong>Neurokognitive Outcomes:</strong></p>
+<ul>
+<li><strong>Normale Entwicklung:</strong> Nur bei sehr milden Formen oder früher Diagnose</li>
+<li><strong>Lernbehinderung:</strong> 50-70% der Überlebenden</li>
+<li><strong>Zerebralparese:</strong> 20-30% nach schweren Krisen</li>
+<li><strong>Epilepsie:</strong> 15-25%</li>
+</ul>
+<p><strong>Lebertransplantation:</strong></p>
+<ul>
+<li><strong>Indikation:</strong> Schwere proximale Defekte (CPS1, OTC)</li>
+<li><strong>Erfolgsrate:</strong> >90% langfristig</li>
+<li><strong>Outcome:</strong> Normale Entwicklung nach Tx möglich</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Tyrosinämie I mit NTBC</h3>
+<div class="case-study">
+<h4>🎯 Revolutionierte Prognose</h4>
+<p><strong>Vor NTBC-Ära (bis 1992):</strong></p>
+<ul>
+<li><strong>Mortalität:</strong> >90% bis 10. Lebensjahr</li>
+<li><strong>HCC-Rate:</strong> ~90% der Überlebenden</li>
+<li><strong>Lebertransplantation:</strong> Einzige Option</li>
+<li><strong>Lebensqualität:</strong> Sehr schlecht</li>
+</ul>
+<p><strong>NTBC-Ära (seit 1992):</strong></p>
+<ul>
+<li><strong>Mortalität:</strong> <5% bei frühem Therapiebeginn</li>
+<li><strong>HCC-Rate:</strong> <2% bei früher NTBC-Therapie</li>
+<li><strong>Leberfunktion:</strong> Normalisierung bei früher Behandlung</li>
+<li><strong>Lebensqualität:</strong> Nahezu normal</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>NTBC-Beginn</th>
+<th>Leberfunktion</th>
+<th>HCC-Risiko</th>
+<th>Prognose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Präsymptomatisch</strong></td>
+<td>Normal</td>
+<td><1%</td>
+<td>Exzellent</td>
+</tr>
+<tr>
+<td><strong>Akute Phase</strong></td>
+<td>Reversible Verbesserung</td>
+<td><5%</td>
+<td>Sehr gut</td>
+</tr>
+<tr>
+<td><strong>Chronische Phase</strong></td>
+<td>Stabilisierung</td>
+<td>10-15%</td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><strong>Nach HCC</strong></td>
+<td>Variable</td>
+<td>Bereits aufgetreten</td>
+<td>Abhängig von Stadium</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeit-Monitoring bei Tyrosinämie I</h4>
+<p><strong>HCC-Surveillance (lebenslang!):</strong></p>
+<ul>
+<li><strong>AFP:</strong> Alle 3-6 Monate</li>
+<li><strong>Sonographie:</strong> Alle 6 Monate</li>
+<li><strong>MRT/CT:</strong> Jährlich ab 2. Lebensjahr</li>
+<li><strong>Auch unter NTBC:</strong> Residualrisiko bleibt!</li>
+</ul>
+<p><strong>Andere Komplikationen:</strong></p>
+<ul>
+<li><strong>Nierenfunktion:</strong> Meist Verbesserung unter NTBC</li>
+<li><strong>Neuropathie:</strong> Reversibel unter NTBC</li>
+<li><strong>Entwicklung:</strong> Normal bei früher Therapie</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Homocystinurie</h3>
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Therapie-Ansprechen</th>
+<th>Intellektuelle Entwicklung</th>
+<th>Thromboserate</th>
+<th>Linsenluxation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B₆-responsiv, früh</strong></td>
+<td>Normal</td>
+<td><5%</td>
+<td>Selten</td>
+</tr>
+<tr>
+<td><strong>B₆-responsiv, spät</strong></td>
+<td>Leicht eingeschränkt</td>
+<td>10-15%</td>
+<td>Möglich</td>
+</tr>
+<tr>
+<td><strong>B₆-non-responsiv, früh</strong></td>
+<td>Leicht-mäßig eingeschränkt</td>
+<td>15-25%</td>
+<td>Häufig</td>
+</tr>
+<tr>
+<td><strong>B₆-non-responsiv, spät</strong></td>
+<td>Mäßig-schwer eingeschränkt</td>
+<td>30-50%</td>
+<td>Sehr häufig</td>
+</tr>
+<tr>
+<td><strong>Unbehandelt</strong></td>
+<td>Schwere Behinderung</td>
+<td>>50%</td>
+<td>90%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🔄 Lebenslange Betreuung</h4>
+<p><strong>Transition ins Erwachsenenalter:</strong></p>
+<ul>
+<li><strong>Thromboseprophylaxe:</strong> Lebenslang ASS, Lifestyle-Anpassung</li>
+<li><strong>Augenärztliche Betreuung:</strong> Jährlich, Glaukom-Screening</li>
+<li><strong>Schwangerschaftsberatung:</strong> Thrombose-/Präeklampsie-Risiko</li>
+<li><strong>Compliance-Monitoring:</strong> Regelmäßige Homocystein-Kontrollen</li>
+</ul>
+<p><strong>Spätkomplikationen:</strong></p>
+<ul>
+<li><strong>Osteoporose:</strong> Häufig, Kalzium/Vitamin D-Prophylaxe</li>
+<li><strong>Koronare Herzkrankheit:</strong> Frühe Manifestation möglich</li>
+<li><strong>Schlaganfall:</strong> Auch bei jungen Erwachsenen</li>
+<li><strong>Nierenerkrankung:</strong> Seltener</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('fallbeispiele')">Zu den Fallbeispielen →</button>
+</div>
+</div>
+
+<!-- Fallbeispiele -->
+<div class="content-section" id="fallbeispiele">
+<h2 class="section-title">📋 Fallbeispiele aus der Praxis</h2>
+
+<div class="subsection">
+<h3>Fall 1: PKU - Späte Diagnose und Rehabilitation</h3>
+<div class="case-study">
+<h4>👩‍⚕️ Anamnese</h4>
+<p><strong>Patientin:</strong> 2,5 Jahre, weiblich</p>
+<p><strong>Vorgeschichte:</strong> Geburt 1985 (vor Neugeborenenscreening), unauffällige Neugeborenenperiode</p>
+<p><strong>Aktuelle Problematik:</strong></p>
+<ul>
+<li>Entwicklungsrückstand seit 12. Lebensmonat bemerkt</li>
+<li>Laufen erst mit 24 Monaten</li>
+<li>Keine Sprachentwicklung</li>
+<li>Auffälliger "mäuseartiger" Geruch</li>
+<li>Helle Haut, blonde Haare bei dunkelhaarigen Eltern</li>
+<li>Ekzeme, schwer behandelbar</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Bei Diagnose</th>
+<th>Nach 6 Mon. Diät</th>
+<th>Nach 2 Jahren</th>
+<th>Normbereich</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phenylalanin</strong></td>
+<td>1850 μmol/l</td>
+<td>420 μmol/l</td>
+<td>280 μmol/l</td>
+<td>30-80 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Tyrosin</strong></td>
+<td>25 μmol/l</td>
+<td>68 μmol/l</td>
+<td>85 μmol/l</td>
+<td>40-120 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Entwicklungsquotient</strong></td>
+<td>45</td>
+<td>52</td>
+<td>65</td>
+<td>85-115</td>
+</tr>
+<tr>
+<td><strong>Hautbefund</strong></td>
+<td>Schwere Ekzeme</td>
+<td>Deutliche Besserung</td>
+<td>Normal</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Therapie und Verlauf</h4>
+<p><strong>Sofortmaßnahmen:</strong></p>
+<ul>
+<li>Strenge Phenylalanin-arme Diät (200 mg/Tag initial)</li>
+<li>Aminosäure-Supplement (PKU-Formula)</li>
+<li>Intensive Frühförderung</li>
+<li>Familienberatung und -schulung</li>
+</ul>
+<p><strong>Langzeitverlauf (15 Jahre Follow-up):</strong></p>
+<ul>
+<li><strong>IQ mit 18 Jahren:</strong> 78 (Grenzbereich)</li>
+<li><strong>Schulbesuch:</strong> Förderschule, Hauptschulabschluss</li>
+<li><strong>Berufstätigkeit:</strong> Beschützter Arbeitsplatz</li>
+<li><strong>Lebensqualität:</strong> Selbstständiges Leben mit Unterstützung</li>
+</ul>
+<p><strong>Lernpunkte:</strong></p>
+<ul>
+<li>Auch späte Diät bringt deutliche Verbesserungen</li>
+<li>Kognitive Defizite nach 2,5 Jahren meist irreversibel</li>
+<li>Verhaltensprobleme bessern sich oft dramatisch</li>
+<li>Lebenslange Diät dennoch empfohlen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 2: MSUD - Notfallmanagement</h3>
+<div class="case-study">
+<h4>🚨 Akutsituation</h4>
+<p><strong>Patient:</strong> 12 Tage alter Säugling, männlich</p>
+<p><strong>Aufnahmegrund:</strong> Zunehmende Lethargie, Trinkschwäche seit 2 Tagen</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li>Termingerecht geboren (39+2 SSW), Geburtsgewicht 3200g</li>
+<li>Initial problemlose Adaptation</li>
+<li>Stillen ab Tag 1, anfangs gut</li>
+<li>Tag 10: Eltern bemerken süßlichen Geruch</li>
+<li>Tag 11: Trinkschwäche, vermehrtes Schlafen</li>
+<li>Tag 12: Kaum weckbar, Notaufnahme</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Zeitpunkt</th>
+<th>Leucin (μmol/l)</th>
+<th>Valin (μmol/l)</th>
+<th>Isoleucin (μmol/l)</th>
+<th>Alloisoleucin</th>
+<th>Klinik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aufnahme</strong></td>
+<td>2100</td>
+<td>850</td>
+<td>480</td>
+<td>Positiv</td>
+<td>Sopor, Hypertonie</td>
+</tr>
+<tr>
+<td><strong>+6h (nach Dialyse-Beginn)</strong></td>
+<td>1650</td>
+<td>620</td>
+<td>350</td>
+<td>Positiv</td>
+<td>Verbessertes Bewusstsein</td>
+</tr>
+<tr>
+<td><strong>+24h</strong></td>
+<td>450</td>
+<td>280</td>
+<td>160</td>
+<td>Reduziert</td>
+<td>Wach, trinkend</td>
+</tr>
+<tr>
+<td><strong>+72h</strong></td>
+<td>180</td>
+<td>150</td>
+<td>80</td>
+<td>Schwach positiv</td>
+<td>Altersgerecht</td>
+</tr>
+<tr>
+<td><strong>+1 Woche</strong></td>
+<td>120</td>
+<td>120</td>
+<td>65</td>
+<td>Grenzwertig</td>
+<td>Normal</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>⚡ Intensivtherapie</h4>
+<p><strong>Stunde 0-2:</strong></p>
+<ul>
+<li>Kompletter Protein-Stopp</li>
+<li>Glukose 15% mit 12 mg/kg/min</li>
+<li>Intensivmonitoring, EEG</li>
+<li>Notfall-Aminosäure-Analytik</li>
+</ul>
+<p><strong>Stunde 2-6:</strong></p>
+<ul>
+<li>Peritoneal-Dialyse-Beginn (Leucin >2000 μmol/l)</li>
+<li>Insulin-Therapie (Anabolismus fördern)</li>
+<li>Engmaschige neurologische Kontrollen</li>
+</ul>
+<p><strong>Tag 2-3:</strong></p>
+<ul>
+<li>Vorsichtige Protein-Wiedereinführung</li>
+<li>BCAA-freie Aminosäure-Mischung</li>
+<li>Orale Nahrungsaufnahme</li>
+</ul>
+<p><strong>Entlassung (Tag 14):</strong></p>
+<ul>
+<li>Protein-Toleranz: 1,5 g/kg/Tag</li>
+<li>Normale neurologische Entwicklung</li>
+<li>Umfassende Familienberatung</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>5-Jahres-Follow-up</h4>
+<p><strong>Entwicklungsoutcome:</strong></p>
+<ul>
+<li><strong>Kognitive Entwicklung:</strong> IQ 95 (altersgerecht)</li>
+<li><strong>Motorik:</strong> Leichte Koordinationsstörungen</li>
+<li><strong>Sprache:</strong> Normale Entwicklung</li>
+<li><strong>Verhalten:</strong> Unauffällig</li>
+</ul>
+<p><strong>Metabolische Kontrolle:</strong></p>
+<ul>
+<li>2 weitere Krisen im 2. und 4. Lebensjahr (Infekt-getriggert)</li>
+<li>Leucin-Zielwerte meist erreicht</li>
+<li>Gute Compliance der Familie</li>
+</ul>
+<p><strong>Lernpunkte:</strong></p>
+<ul>
+<li>Frühe aggressive Intervention entscheidend</li>
+<li>Neugeborenenscreening hätte verhindert</li>
+<li>Süßlicher Geruch pathognomonisch</li>
+<li>Gute Prognose bei früher Behandlung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 3: Homocystinurie - B₆-Response und Thrombose</h3>
+<div class="case-study">
+<h4>👁️ Ophthalmologische Auffälligkeit führt zur Diagnose</h4>
+<p><strong>Patient:</strong> 8 Jahre, männlich</p>
+<p><strong>Vorstellungsgrund:</strong> Augenarzt-Überweisung wegen Linsenluxation</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li>Unauffällige Entwicklung bis 6. Lebensjahr</li>
+<li>Zunehmende Myopie seit 2 Jahren</li>
+<li>Auffällig großer, schlanker Wuchs (97. Perzentile)</li>
+<li>Gelegentliche Beinschmerzen</li>
+<li>Positive Familienanamnese: Onkel verstorben mit 25 Jahren an "Schlaganfall"</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Bei Diagnose</th>
+<th>Nach 6 Mon. B₆</th>
+<th>Nach 2 Jahren</th>
+<th>Normbereich</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total-Homocystein</strong></td>
+<td>185 μmol/l</td>
+<td>45 μmol/l</td>
+<td>22 μmol/l</td>
+<td><15 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Methionin</strong></td>
+<td>780 μmol/l</td>
+<td>185 μmol/l</td>
+<td>95 μmol/l</td>
+<td>10-50 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Cystin (Urin)</strong></td>
+<td>Stark positiv</td>
+<td>Leicht positiv</td>
+<td>Negativ</td>
+<td>Negativ</td>
+</tr>
+<tr>
+<td><strong>CBS-Aktivität</strong></td>
+<td>15% der Norm</td>
+<td>-</td>
+<td>-</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Therapieverlauf und Komplikationen</h4>
+<p><strong>Initiale Therapie:</strong></p>
+<ul>
+<li><strong>Pyridoxin:</strong> 500 mg/Tag p.o.</li>
+<li><strong>Folsäure:</strong> 5 mg/Tag</li>
+<li><strong>Vitamin B₁₂:</strong> 1 mg/Tag</li>
+<li><strong>Thrombozytenaggregationshemmer:</strong> ASS 100 mg/Tag</li>
+</ul>
+<p><strong>Dramatische B₆-Response:</strong></p>
+<ul>
+<li>Homocystein-Abfall um 75% innerhalb 4 Wochen</li>
+<li>Normalisierung nach 6 Monaten</li>
+<li>Keine Methionin-Restriktion nötig</li>
+<li>Normale körperliche Entwicklung</li>
+</ul>
+<p><strong>Komplikation im Alter von 16 Jahren:</strong></p>
+<ul>
+<li>Tiefe Beinvenenthrombose trotz Therapie</li>
+<li>Ursache: Unregelmäßige Medikamenteneinnahme in Pubertät</li>
+<li>Homocystein war auf 95 μmol/l angestiegen</li>
+<li>Antikoagulation + verstärkte Compliance-Betreuung</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📚 Langzeit-Management (jetzt 25 Jahre alt)</h4>
+<p><strong>Aktuelle Therapie:</strong></p>
+<ul>
+<li>Pyridoxin 400 mg/Tag (lebenslang)</li>
+<li>ASS 100 mg/Tag</li>
+<li>Regelmäßige ophthalmologische Kontrollen</li>
+<li>Jährliche Homocystein-Kontrollen</li>
+</ul>
+<p><strong>Aktueller Status:</strong></p>
+<ul>
+<li><strong>Berufstätigkeit:</strong> Ingenieur, normale Leistung</li>
+<li><strong>Augen:</strong> Stabile Linsenluxation, korrigiert</li>
+<li><strong>Kardiovaskulär:</strong> Keine weiteren Ereignisse</li>
+<li><strong>Familienplanung:</strong> Genetische Beratung erfolgt</li>
+</ul>
+<p><strong>Lernpunkte:</strong></p>
+<ul>
+<li>B₆-responsive Formen haben exzellente Prognose</li>
+<li>Compliance in Adoleszenz kritisch</li>
+<li>Thromboserisiko bleibt bestehen</li>
+<li>Ophthalmologische Diagnostik führend</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 4: Tyrosinämie I - NTBC-Therapie</h3>
+<div class="case-study">
+<h4>🏥 Akutes Leberversagen im Säuglingsalter</h4>
+<p><strong>Patientin:</strong> 4 Monate, weiblich</p>
+<p><strong>Aufnahmegrund:</strong> Ikterus, Gedeihstörung, Gerinnungsstörung</p>
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li>Unauffällige Neugeborenenperiode</li>
+<li>Gedeihstörung seit 6. Lebenswoche</li>
+<li>Ikterus seit 8. Lebenswoche</li>
+<li>Auffälliger "Kohlgeruch"</li>
+<li>Zunehmende Lethargie</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Bei Diagnose</th>
+<th>Nach 1 Mon. NTBC</th>
+<th>Nach 1 Jahr</th>
+<th>Normbereich</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tyrosin</strong></td>
+<td>580 μmol/l</td>
+<td>420 μmol/l</td>
+<td>380 μmol/l</td>
+<td>40-120 μmol/l</td>
+</tr>
+<tr>
+<td><strong>Succinylaceton</strong></td>
+<td>156 μmol/l</td>
+<td>Nicht messbar</td>
+<td>Nicht messbar</td>
+<td>Nicht messbar</td>
+</tr>
+<tr>
+<td><strong>AFP</strong></td>
+<td>95.000 ng/ml</td>
+<td>8.500 ng/ml</td>
+<td>45 ng/ml</td>
+<td>0-10 ng/ml</td>
+</tr>
+<tr>
+<td><strong>ALT</strong></td>
+<td>340 U/l</td>
+<td>85 U/l</td>
+<td>28 U/l</td>
+<td><40 U/l</td>
+</tr>
+<tr>
+<td><strong>Quick</strong></td>
+<td>35%</td>
+<td>68%</td>
+<td>95%</td>
+<td>>70%</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>NTBC-Therapie und Response</h4>
+<p><strong>Therapieprotokoll:</strong></p>
+<ul>
+<li><strong>NTBC (Nitisinone):</strong> 1 mg/kg/Tag in 2 Dosen</li>
+<li><strong>Tyrosin/Phenylalanin-arme Diät</strong></li>
+<li><strong>Protein-Restriktion:</strong> 1,5 g/kg/Tag</li>
+<li><strong>Monitoring:</strong> Wöchentlich initial, dann monatlich</li>
+</ul>
+<p><strong>Dramatische Response:</strong></p>
+<ul>
+<li>Succinylaceton nicht mehr nachweisbar nach 1 Woche</li>
+<li>Leberfunktion normalisiert sich binnen 4 Wochen</li>
+<li>AFP-Normalisierung nach 8 Monaten</li>
+<li>Normale Wachstumsgeschwindigkeit</li>
+</ul>
+<p><strong>Nebenwirkungen:</strong></p>
+<ul>
+<li>Tyrosin-Anstieg auf 800 μmol/l initial</li>
+<li>Transiente Kornea-Kristalle mit 2 Jahren</li>
+<li>Besserung nach Diät-Intensivierung</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📈 Langzeit-Follow-up (jetzt 18 Jahre alt)</h4>
+<p><strong>Entwicklungsverlauf:</strong></p>
+<ul>
+<li><strong>Wachstum:</strong> 50. Perzentile für Größe und Gewicht</li>
+<li><strong>Intellektuelle Entwicklung:</strong> IQ 110 (altersgerecht)</li>
+<li><strong>Schulische Leistungen:</strong> Gymnasium, gute Noten</li>
+<li><strong>Soziale Integration:</strong> Unauffällig</li>
+</ul>
+<p><strong>Aktuelle Überwachung:</strong></p>
+<ul>
+<li><strong>AFP:</strong> Alle 6 Monate (konstant <10 ng/ml)</li>
+<li><strong>Leber-Sonographie:</strong> Alle 6 Monate (unauffällig)</li>
+<li><strong>MRT Abdomen:</strong> Jährlich (keine Herde)</li>
+<li><strong>NTBC-Dosierung:</strong> 0,8 mg/kg/Tag</li>
+</ul>
+<p><strong>Zukunftsplanung:</strong></p>
+<ul>
+<li>Transition zur Erwachsenenmedizin geplant</li>
+<li>HCC-Surveillance lebenslang erforderlich</li>
+<li>Genetic counseling vor Familienplanung</li>
+<li>Berufswahl ohne Einschränkungen</li>
+</ul>
+<p><strong>Lernpunkte:</strong></p>
+<ul>
+<li>NTBC hat Prognose revolutioniert</li>
+<li>Frühe Therapie führt zu normalem Leben</li>
+<li>HCC-Surveillance bleibt lebenslang nötig</li>
+<li>Diät-Compliance wichtig für Tyrosin-Kontrolle</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+</div>
+</div>
+
+<!-- Quiz -->
+<div class="content-section" id="quiz">
+<h2 class="section-title">🧠 Lernkontrolle</h2>
+
+<div class="quiz-container">
+<div class="quiz-question">1. Welche Aminosäurestörung ist in Deutschland am häufigsten?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) MSUD (Ahornsirupkrankheit)</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) PKU (Phenylketonurie)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Homocystinurie</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Tyrosinämie I</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">2. Welcher Biomarker ist pathognomonisch für MSUD?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Erhöhtes Leucin</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Alloisoleucin im Plasma</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) α-Ketoisocaproat im Urin</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Süßlicher Uringeruch</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">3. Bei welchem Ammoniak-Wert sollte eine Dialyse bei Harnstoffzyklusdefekten erwogen werden?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) >150 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) >200 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">C) >300 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) >400 μmol/l</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">4. Welches Medikament hat die Prognose der Tyrosinämie I revolutioniert?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) L-Carnitin</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) Sapropterin (BH₄)</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">C) NTBC (Nitisinone)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Natriumphenylbutyrat</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">5. Welcher Phenylalanin-Zielwert gilt für PKU-Patienten aller Altersgruppen?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) 60-120 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) 120-360 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) 200-600 μmol/l</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) 400-800 μmol/l</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">6. Welcher Anteil der Homocystinurie-Patienten spricht auf Vitamin B₆ an?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) 25%</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) 50%</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) 75%</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) 90%</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">7. Was ist das Hauptrisiko bei schlecht eingestellter maternaler PKU?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Fehlgeburt</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Geistige Behinderung des Kindes</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Frühgeburt</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Wachstumsretardierung</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">8. Welches Enzym ist bei der häufigsten Form der Homocystinurie defekt?</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">A) Cystathionin-β-Synthase (CBS)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) Methionin-Synthase</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Methylentetrahydrofolat-Reduktase</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Betain-Homocystein-Methyltransferase</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">9. Wie viele Verzweigtkettige Aminosäuren (BCAA) gibt es?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) 2</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) 3</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) 4</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) 5</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">10. Welche Aussage zur PKU ist falsch?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Tyrosin wird bei PKU essentiell</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) BH₄-Mangel kann PKU vortäuschen</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">C) Alle PKU-Patienten benötigen eine strenge Diät</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Neugeborenenscreening erkennt >99% der Fälle</div>
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+<div id="quiz-result" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;"></div>
+<button class="next-btn" onclick="evaluateQuiz()" id="evaluate-btn">Quiz auswerten</button>
+<button class="next-btn" onclick="resetQuiz()" id="reset-btn" style="display: none; background: linear-gradient(135deg, var(--warning-color), #fee140);">Quiz wiederholen</button>
+</div>
+
+<div class="completion-badge" id="completion-badge" style="display: none;">
+🎉 Glückwunsch! Sie haben die Lerneinheit zu Aminosäurestörungen erfolgreich abgeschlossen!
+</div>
+
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h3 style="color: var(--info-color); margin-bottom: 1rem;">📚 Weiterführende Ressourcen</h3>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Vertiefen Sie Ihr Wissen über angeborene Stoffwechselstörungen:</p>
+<ul style="color: var(--text-secondary); text-align: left; max-width: 600px; margin: 0 auto;">
+<li><strong>SSIEM (Society for the Study of Inborn Errors of Metabolism):</strong> Internationale Guidelines</li>
+<li><strong>DGKJ Leitlinien:</strong> Deutsche Behandlungsempfehlungen</li>
+<li><strong>OrphaNet:</strong> Detaillierte Krankheitsbeschreibungen</li>
+<li><strong>OMIM:</strong> Genetische Datenbank</li>
+<li><strong>PKU-Gesellschaft:</strong> Patientenorganisation Deutschland</li>
+</ul>
+</div>
+</div>
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['therapie', 'prognose', 'fallbeispiele', 'quiz'];
+let selectedAnswers = {};
+let quizEvaluated = false;
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+event.target.classList.add('active');
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+function selectAnswer(element, isCorrect) {
+if (quizEvaluated) return;
+
+// Get the parent quiz container
+const quizContainer = element.parentElement;
+const questionNumber = Array.from(document.querySelectorAll('.quiz-container')).indexOf(quizContainer);
+
+// Remove previous selection in this question
+const options = quizContainer.querySelectorAll('.quiz-option');
+options.forEach(option => {
+option.classList.remove('selected');
+option.style.backgroundColor = '';
+option.style.borderColor = '';
+});
+
+// Mark this option as selected
+element.classList.add('selected');
+element.style.backgroundColor = '#e0f2fe';
+element.style.borderColor = '#0ea5e9';
+
+// Store the answer
+selectedAnswers[questionNumber] = isCorrect;
+}
+
+function evaluateQuiz() {
+if (quizEvaluated) return;
+
+const totalQuestions = document.querySelectorAll('.quiz-container').length;
+let correctAnswers = 0;
+
+// Check each answer and apply styling
+document.querySelectorAll('.quiz-container').forEach((container, index) => {
+const options = container.querySelectorAll('.quiz-option');
+options.forEach(option => {
+const isCorrect = option.onclick.toString().includes('true');
+if (isCorrect) {
+option.classList.add('correct');
+correctAnswers++;
+} else if (option.classList.contains('selected') && !isCorrect) {
+option.classList.add('incorrect');
+}
+});
+});
+
+// Calculate score
+const percentage = Math.round((Object.values(selectedAnswers).filter(Boolean).length / totalQuestions) * 100);
+
+// Show result
+const resultElement = document.getElementById('quiz-result');
+let resultText = `Quiz abgeschlossen! `;
+let resultColor = '';
+
+if (percentage >= 80) {
+resultText += `Ausgezeichnet! ${percentage}% richtig beantwortet. 🎉`;
+resultColor = '#22c55e';
+document.getElementById('completion-badge').style.display = 'block';
+} else if (percentage >= 60) {
+resultText += `Gut gemacht! ${percentage}% richtig beantwortet. 👍`;
+resultColor = '#f97316';
+} else {
+resultText += `${percentage}% richtig beantwortet. Wiederholen Sie das Material und versuchen Sie es erneut. 📚`;
+resultColor = '#ef4444';
+}
+
+resultElement.textContent = resultText;
+resultElement.style.color = resultColor;
+
+// Switch buttons
+document.getElementById('evaluate-btn').style.display = 'none';
+document.getElementById('reset-btn').style.display = 'inline-block';
+
+quizEvaluated = true;
+}
+
+function resetQuiz() {
+// Reset all selections and styling
+document.querySelectorAll('.quiz-option').forEach(option => {
+option.classList.remove('selected', 'correct', 'incorrect');
+option.style.backgroundColor = '';
+option.style.borderColor = '';
+});
+
+// Reset variables
+selectedAnswers = {};
+quizEvaluated = false;
+
+// Reset UI
+document.getElementById('quiz-result').textContent = '';
+document.getElementById('evaluate-btn').style.display = 'inline-block';
+document.getElementById('reset-btn').style.display = 'none';
+document.getElementById('completion-badge').style.display = 'none';
+
+// Scroll to top of quiz
+document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '25%';
+</script>
+</body>
+</html>

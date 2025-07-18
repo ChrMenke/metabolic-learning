@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cholesterin-/Steroid-Biosynthese - Teil 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #ec4899;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #065f46;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #065f46;
+        }
+        
+        /* Clinical case boxes */
+        .clinical-case {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .clinical-case h4 {
+            color: #1e40af;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .clinical-case p, .clinical-case ul, .clinical-case li {
+            color: #1e40af;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .quiz-explanation {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            display: none;
+        }
+        
+        .quiz-explanation.show {
+            display: block;
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .quiz-explanation h5 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .quiz-explanation p {
+            color: #92400e;
+            font-size: 0.9em;
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Final completion */
+        .completion-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 3px solid var(--success-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .completion-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .completion-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+        
+        /* Score tracking */
+        .score-display {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Cholesterin-/Steroid-Biosynthese</h1>
+            <p>Teil 3: Fallbeispiele, Differentialdiagnostik & Lernkontrolle</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 3</h3>
+            <p>Dieser abschließende Teil vertieft das Gelernte durch praxisnahe Fallbeispiele, differentialdiagnostische Herausforderungen und eine umfassende Lernkontrolle.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('fallbeispiele')">1. Fallbeispiele</button>
+            <button class="nav-btn" onclick="showSection('differentialdiagnostik')">2. Differentialdiagnostik</button>
+            <button class="nav-btn" onclick="showSection('management')">3. Therapie-Management</button>
+            <button class="nav-btn" onclick="showSection('quiz')">4. Lernkontrolle</button>
+        </div>
+
+        <!-- Fallbeispiele -->
+        <div class="content-section active" id="fallbeispiele">
+            <h2 class="section-title">📋 Praxisnahe Fallbeispiele</h2>
+
+            <div class="subsection">
+                <h3>Fall 1: Neugeborenes mit ambigen Genitalien</h3>
+                <div class="clinical-case">
+                    <h4>🍼 Anamnese und Befund</h4>
+                    <p><strong>Patient:</strong> 3 Tage altes Neugeborenes, karyotyp 46,XX</p>
+                    
+                    <p><strong>Geburtsverlauf:</strong> Termingerecht, Geburtsgewicht 3200g, Apgar 9/10/10</p>
+                    
+                    <p><strong>Aufnahmebefund:</strong></p>
+                    <ul>
+                        <li><strong>Genitalien:</strong> Ambig, Prader IV, vergrößerte Klitoris (2,5 cm), labioscrotal folds</li>
+                        <li><strong>Allgemeinzustand:</strong> Unauffällig, trinkt gut</li>
+                        <li><strong>Sonographie:</strong> Uterus und Ovarien darstellbar</li>
+                        <li><strong>Familienanamnese:</strong> Konsanguine Eltern (Cousins 1. Grades)</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Wert Tag 3</th>
+                            <th>Wert Tag 7</th>
+                            <th>Normbereich NG</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>17-OH-Progesteron</strong></td>
+                            <td>15.000 ng/ml</td>
+                            <td>25.000 ng/ml</td>
+                            <td><300 ng/ml</td>
+                            <td>Massiv erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Androstendion</strong></td>
+                            <td>8,5 ng/ml</td>
+                            <td>12,2 ng/ml</td>
+                            <td><1,0 ng/ml</td>
+                            <td>Stark erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kortisol</strong></td>
+                            <td>2,1 μg/dl</td>
+                            <td>1,8 μg/dl</td>
+                            <td>5-25 μg/dl</td>
+                            <td>Erniedrigt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Natrium</strong></td>
+                            <td>142 mmol/l</td>
+                            <td>128 mmol/l</td>
+                            <td>135-145 mmol/l</td>
+                            <td>Fallend!</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kalium</strong></td>
+                            <td>4,2 mmol/l</td>
+                            <td>6,8 mmol/l</td>
+                            <td>3,5-5,5 mmol/l</td>
+                            <td>Ansteigend!</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>🔬 Diagnostisches Vorgehen</h4>
+                    <p><strong>Tag 3 - Erste Verdachtsdiagnose:</strong></p>
+                    <ul>
+                        <li><strong>Klinischer Verdacht:</strong> CAH bei 46,XX DSD</li>
+                        <li><strong>Laboranforderung:</strong> 17-OHP, Androstendion, Kortisol, Elektrolyte</li>
+                        <li><strong>Bildgebung:</strong> Sonographie Nebennieren und innere Genitalien</li>
+                        <li><strong>Sofortmaßnahmen:</strong> Engmaschige Elektrolytkontrolle</li>
+                    </ul>
+                    
+                    <p><strong>Tag 7 - Bestätigung und Akutintervention:</strong></p>
+                    <ul>
+                        <li><strong>Diagnose bestätigt:</strong> 21-Hydroxylase CAH, Salzverlustform</li>
+                        <li><strong>Molekulargenetik:</strong> Blutentnahme für CYP21A2-Analyse</li>
+                        <li><strong>Notfalltherapie:</strong> Hydrocortison 100 mg/m² + Fludrocortison</li>
+                        <li><strong>Familienberatung:</strong> DSD-Team, Geschlechtszuordnung</li>
+                    </ul>
+                    
+                    <p><strong>Genetisches Ergebnis (2 Wochen später):</strong></p>
+                    <ul>
+                        <li><strong>Mutation:</strong> c.293-13A>G (IVS8-1G>C) homozygot</li>
+                        <li><strong>Prognose:</strong> Klassische Salzverlustform</li>
+                        <li><strong>Familienrisiko:</strong> 25% bei weiteren Schwangerschaften</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 2: Adoleszentin mit Hirsutismus</h3>
+                <div class="clinical-case">
+                    <h4>👩‍🦱 Anamnese und Befund</h4>
+                    <p><strong>Patientin:</strong> 16-jährige Adoleszentin</p>
+                    
+                    <p><strong>Beschwerden:</strong></p>
+                    <ul>
+                        <li><strong>Hirsutismus:</strong> Seit 2 Jahren zunehmend, besonders Gesicht und Körper</li>
+                        <li><strong>Zyklusstörungen:</strong> Oligomenorrhoe, nur 4-5 Zyklen/Jahr</li>
+                        <li><strong>Akne:</strong> Therapieresistent trotz dermatologischer Behandlung</li>
+                        <li><strong>Psychosoziale Belastung:</strong> Sozialer Rückzug, Schulprobleme</li>
+                    </ul>
+                    
+                    <p><strong>Familienanamnese:</strong> Tante mütterlicherseits: "PCOS", Unfruchtbarkeit</p>
+                    
+                    <p><strong>Körperliche Untersuchung:</strong></p>
+                    <ul>
+                        <li><strong>Größe:</strong> 158 cm (10. Perzentile), Elterngröße: 168 cm</li>
+                        <li><strong>Hirsutismus-Score:</strong> 18 Punkte (Ferriman-Gallwey)</li>
+                        <li><strong>Tanner-Stadium:</strong> B4 P5, normale Genitalentwicklung</li>
+                        <li><strong>Sonstige Befunde:</strong> Unauffällig</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🔍 Differentialdiagnostische Überlegungen</h4>
+                    <p><strong>Mögliche Diagnosen:</strong></p>
+                    <ul>
+                        <li><strong>PCOS:</strong> Häufigste Ursache, aber untypisches Alter</li>
+                        <li><strong>Nicht-klassische CAH:</strong> Familienanamnese + Kleinwuchs verdächtig</li>
+                        <li><strong>Androgen-produzierender Tumor:</strong> Rapide Progression spricht dagegen</li>
+                        <li><strong>Idiopathischer Hirsutismus:</strong> Diagnose per exclusionem</li>
+                    </ul>
+                    
+                    <p><strong>Zielgerichtete Labordiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>17-OH-Progesteron (8 Uhr):</strong> 850 ng/ml (erhöht!)</li>
+                        <li><strong>ACTH-Stimulationstest:</strong> 60-min 17-OHP: 15.000 ng/ml</li>
+                        <li><strong>Androstendion:</strong> 4,5 ng/ml (erhöht)</li>
+                        <li><strong>DHEA-S:</strong> 380 μg/dl (oberer Normbereich)</li>
+                    </ul>
+                    
+                    <p><strong>Diagnose:</strong> Nicht-klassische 21-Hydroxylase CAH</p>
+                    
+                    <p><strong>Molekulargenetik:</strong> V281L (c.842G>T) homozygot</p>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Therapieziel</th>
+                            <th>Maßnahme</th>
+                            <th>Dosierung</th>
+                            <th>Kontrolle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Androgen-Suppression</strong></td>
+                            <td>Hydrocortison</td>
+                            <td>15-20 mg/d in 2-3 Dosen</td>
+                            <td>17-OHP alle 3 Monate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hirsutismus-Behandlung</strong></td>
+                            <td>Cyproteronacetat + Ethinylestradiol</td>
+                            <td>2 mg/35 μg täglich</td>
+                            <td>Ferriman-Gallwey Score</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kosmetische Verbesserung</strong></td>
+                            <td>Laser-Epilation</td>
+                            <td>6-8 Sitzungen</td>
+                            <td>Dermatologie-Kontrolle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Psychosoziale Unterstützung</strong></td>
+                            <td>Psychologische Beratung</td>
+                            <td>Alle 2-4 Wochen initial</td>
+                            <td>Lebensqualität-Assessment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 3: Kleinkind mit Entwicklungsstörung</h3>
+                <div class="clinical-case">
+                    <h4>👶 Komplexer Entwicklungsfall</h4>
+                    <p><strong>Patient:</strong> 18 Monate alter Junge</p>
+                    
+                    <p><strong>Vorgeschichte:</strong></p>
+                    <ul>
+                        <li><strong>Schwangerschaft:</strong> Auffällig durch Hydramnion, verminderte Kindsbewegungen</li>
+                        <li><strong>Geburt:</strong> 36. SSW, Sectio wegen pathologischem CTG</li>
+                        <li><strong>Neugeborenenperiode:</strong> Prolongierte Hypoglykämien, Trinkschwäche</li>
+                        <li><strong>Konsanguinität:</strong> Eltern sind Cousins 2. Grades</li>
+                    </ul>
+                    
+                    <p><strong>Aktuelle Symptomatik:</strong></p>
+                    <ul>
+                        <li><strong>Entwicklung:</strong> Schwere globale Retardierung</li>
+                        <li><strong>Krampfanfälle:</strong> Seit 6. Lebensmonat, schwer einstellbar</li>
+                        <li><strong>Wachstum:</strong> Mikrozephalie, Kleinwuchs (3. Perzentile)</li>
+                        <li><strong>Faziale Dysmorphie:</strong> Ptosis, Mikrognathie, tief sitzende Ohren</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>🧬 Metabolic Workup</h4>
+                    <p><strong>Initiale Labordiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Cholesterin:</strong> 45 mg/dl (stark erniedrigt!)</li>
+                        <li><strong>Triglyzeride:</strong> 180 mg/dl (erhöht)</li>
+                        <li><strong>Leberwerte:</strong> AST 180 U/l, ALT 150 U/l</li>
+                        <li><strong>Entwicklungsdiagnostik:</strong> DQ 30 (schwer retardiert)</li>
+                    </ul>
+                    
+                    <p><strong>Spezialisierte Sterol-Analytik:</strong></p>
+                    <ul>
+                        <li><strong>7-Dehydrocholesterin:</strong> 25 mg/dl (massiv erhöht!)</li>
+                        <li><strong>8-Dehydrocholesterin:</strong> 8 mg/dl (pathologisch)</li>
+                        <li><strong>7-DHC/Cholesterin Ratio:</strong> 0,56 (pathognomonisch)</li>
+                        <li><strong>Desmosterol:</strong> Normal</li>
+                    </ul>
+                    
+                    <p><strong>Diagnose:</strong> Smith-Lemli-Opitz-Syndrom (SLOS) Typ I</p>
+                    
+                    <p><strong>Molekulargenetik:</strong> DHCR7 c.964-1G>C (IVS8-1G>C) homozygot</p>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Therapiebereich</th>
+                            <th>Intervention</th>
+                            <th>Dosierung/Frequenz</th>
+                            <th>Monitoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cholesterin-Substitution</strong></td>
+                            <td>Cholesterin p.o.</td>
+                            <td>100 mg/kg/d in 3 Dosen</td>
+                            <td>Sterol-Profil alle 3 Mon.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Antioxidative Therapie</strong></td>
+                            <td>Vitamin E</td>
+                            <td>25 IE/kg/d</td>
+                            <td>Vitamin E-Spiegel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ernährungsmanagement</strong></td>
+                            <td>Hochfett-Diät (40% Fett)</td>
+                            <td>Individuell angepasst</td>
+                            <td>Ernährungsprotokoll</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Antiepileptische Therapie</strong></td>
+                            <td>Levetiracetam</td>
+                            <td>40 mg/kg/d</td>
+                            <td>EEG, Anfallsfrequenz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Entwicklungsförderung</strong></td>
+                            <td>Physiotherapie, Ergotherapie</td>
+                            <td>3x/Woche</td>
+                            <td>Entwicklungsassessment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('differentialdiagnostik')">Weiter zur Differentialdiagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Differentialdiagnostik -->
+        <div class="content-section" id="differentialdiagnostik">
+            <h2 class="section-title">🔍 Differentialdiagnostische Algorithmen</h2>
+
+            <div class="subsection">
+                <h3>Hypocholesterinämie im Kindesalter</h3>
+                <div class="clinical-case">
+                    <h4>📊 Systematisches Vorgehen bei niedrigem Cholesterin</h4>
+                    <p><strong>Cholesterin <100 mg/dl bei Kindern - Ursachen:</strong></p>
+                    <ul>
+                        <li><strong>Smith-Lemli-Opitz-Syndrom:</strong> + 7-DHC ↑, Dysmorphie, ID</li>
+                        <li><strong>Desmosterolosis:</strong> + Desmosterol ↑, seltener, milder</li>
+                        <li><strong>Abetalipoproteinämie:</strong> + Malabsorption, Ataxie, Retinopathie</li>
+                        <li><strong>Hypobetalipoproteinämie:</strong> Meist asymptomatisch</li>
+                        <li><strong>Lebererkrankungen:</strong> + Transaminasen ↑, Synthesestörung</li>
+                        <li><strong>Malnutrition:</strong> + Gesamtprotein ↓, andere Mangelzeichen</li>
+                    </ul>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnose</th>
+                            <th>Cholesterin (mg/dl)</th>
+                            <th>Spezifischer Marker</th>
+                            <th>Klinische Hinweise</th>
+                            <th>Genetik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SLOS</strong></td>
+                            <td>10-100</td>
+                            <td>7-DHC ↑↑↑</td>
+                            <td>Polydaktylie, Hypospadie, ID</td>
+                            <td>DHCR7</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desmosterolosis</strong></td>
+                            <td>50-120</td>
+                            <td>Desmosterol ↑↑</td>
+                            <td>Mikrozephalie, Katarakt</td>
+                            <td>DHCR24</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Abetalipoproteinämie</strong></td>
+                            <td>20-50</td>
+                            <td>ApoB nicht nachweisbar</td>
+                            <td>Malabsorption, Ataxie</td>
+                            <td>MTTP</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hypobetalipoproteinämie</strong></td>
+                            <td>30-80</td>
+                            <td>ApoB ↓</td>
+                            <td>Meist asymptomatisch</td>
+                            <td>APOB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Hyperandrogenämie bei Frauen</h3>
+                <div class="case-study">
+                    <h4>🔬 Diagnostischer Algorithmus</h4>
+                    <p><strong>Stufendiagnostik bei Hirsutismus/Virilisierung:</strong></p>
+                    
+                    <p><strong>Schritt 1 - Basislabor:</strong></p>
+                    <ul>
+                        <li><strong>Testosteron gesamt:</strong> >1,5 ng/ml = Tumor-Verdacht</li>
+                        <li><strong>DHEA-S:</strong> >7.000 μg/dl = Nebennierentumor</li>
+                        <li><strong>17-OH-Progesteron (8 Uhr):</strong> >3.000 ng/ml = klassische CAH</li>
+                        <li><strong>LH/FSH:</strong> LH/FSH >2 = PCOS-Verdacht</li>
+                    </ul>
+                    
+                    <p><strong>Schritt 2 - ACTH-Test bei 17-OHP 300-3000 ng/ml:</strong></p>
+                    <ul>
+                        <li><strong>60-min 17-OHP >10.000 ng/ml:</strong> Klassische CAH</li>
+                        <li><strong>60-min 17-OHP 3.000-10.000 ng/ml:</strong> Nicht-klassische CAH</li>
+                        <li><strong>60-min 17-OHP <3.000 ng/ml:</strong> Heterozygote/Normal</li>
+                    </ul>
+                    
+                    <p><strong>Schritt 3 - Bildgebung bei Tumor-Verdacht:</strong></p>
+                    <ul>
+                        <li><strong>Ovarielle Tumoren:</strong> Transvaginaler Ultraschall + MRT</li>
+                        <li><strong>Adrenale Tumoren:</strong> CT/MRT Nebennieren</li>
+                        <li><strong>Dexamethason-Test:</strong> Suppression bei CAH, nicht bei Tumoren</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Hypertonie im Kindesalter</h3>
+                <div class="clinical-case">
+                    <h4>🩺 CAH-assoziierte Hypertonie</h4>
+                    <p><strong>Differentialdiagnose bei Hypertonie + Elektrolytstörungen:</strong></p>
+                    
+                    <p><strong>11β-Hydroxylase CAH:</strong></p>
+                    <ul>
+                        <li><strong>Laborprofil:</strong> 11-Deoxykortisol ↑, DOC ↑, Hypokaliämie</li>
+                        <li><strong>Besonderheiten:</strong> Virilisierung + Hypertonie, kein Salzverlust</li>
+                        <li><strong>Therapie:</strong> Glukokortikoid + Spironolacton</li>
+                    </ul>
+                    
+                    <p><strong>17α-Hydroxylase CAH:</strong></p>
+                    <ul>
+                        <li><strong>Laborprofil:</strong> DOC ↑, 17-OH-Steroide ↓, Hypogonadismus</li>
+                        <li><strong>Besonderheiten:</strong> Hypertonie + sexueller Infantilismus</li>
+                        <li><strong>DSD-Aspekt:</strong> 46,XY mit weiblichem Erscheinungsbild</li>
+                    </ul>
+                    
+                    <p><strong>AME (Apparent Mineralocorticoid Excess):</strong></p>
+                    <ul>
+                        <li><strong>Laborprofil:</strong> Kortisol/Kortison Ratio ↑, niedrig-renin Hypertonie</li>
+                        <li><strong>Ursache:</strong> 11β-HSD2 Defekt, Kortisol wirkt als Mineralokortikoid</li>
+                        <li><strong>Therapie:</strong> Spironolacton, Amilorid</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Störungen der Geschlechtsentwicklung (DSD)</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>DSD-Typ</th>
+                            <th>Karyotyp</th>
+                            <th>Gonadenhistologie</th>
+                            <th>Hormonprofil</th>
+                            <th>Ursache</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>46,XX DSD</strong></td>
+                            <td>46,XX</td>
+                            <td>Ovarien</td>
+                            <td>Androgene ↑</td>
+                            <td>CAH (90%), Tumoren</td>
+                        </tr>
+                        <tr>
+                            <td><strong>46,XY DSD - Biosynthese</strong></td>
+                            <td>46,XY</td>
+                            <td>Testes</td>
+                            <td>Testosteron ↓</td>
+                            <td>17β-HSD3, 5α-Red2, StAR, CAH</td>
+                        </tr>
+                        <tr>
+                            <td><strong>46,XY DSD - Wirkung</strong></td>
+                            <td>46,XY</td>
+                            <td>Testes</td>
+                            <td>Testosteron normal</td>
+                            <td>Androgenrezeptor-Defekt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>46,XY DSD - AMH</strong></td>
+                            <td>46,XY</td>
+                            <td>Testes</td>
+                            <td>AMH ↓ oder Rezeptor-Defekt</td>
+                            <td>PMDS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('management')">Weiter zum Therapie-Management →</button>
+            </div>
+        </div>
+
+        <!-- Therapie-Management -->
+        <div class="content-section" id="management">
+            <h2 class="section-title">💊 Komplexes Therapie-Management</h2>
+
+            <div class="subsection">
+                <h3>Lebenslange Betreuungskonzepte</h3>
+                <div class="case-study">
+                    <h4>🔄 Transition und kontinuierliche Betreuung</h4>
+                    <p><strong>Pädiatrische Phase (0-18 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Wachstumsmonitoring:</strong> Alle 3-6 Monate, Knochelalter jährlich</li>
+                        <li><strong>Pubertätsmanagement:</strong> Suppression vs. Substitution</li>
+                        <li><strong>Psychosoziale Betreuung:</strong> DSD-Team, Familienberatung</li>
+                        <li><strong>Compliance-Förderung:</strong> Altersgerechte Aufklärung</li>
+                    </ul>
+                    
+                    <p><strong>Transition (16-25 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Strukturierte Überleitung:</strong> Erwachsenenendokrinologie</li>
+                        <li><strong>Selbstmanagement-Training:</strong> Stress-Dosierung, Notfälle</li>
+                        <li><strong>Reproduktive Beratung:</strong> Fertilität, Kontrazeption, Genetik</li>
+                        <li><strong>Berufswahl-Beratung:</strong> Schichtdienst, körperliche Belastung</li>
+                    </ul>
+                    
+                    <p><strong>Erwachsenenbetreuung (>18 Jahre):</strong></p>
+                    <ul>
+                        <li><strong>Langzeitkomplikationen:</strong> Osteoporose, Metabolisches Syndrom</li>
+                        <li><strong>Schwangerschaftsmanagement:</strong> Präkonzeptionell bis postnatal</li>
+                        <li><strong>Tumor-Surveillance:</strong> Adrenale Inzidentalome</li>
+                        <li><strong>Kardiovaskuläre Risiken:</strong> Langzeit-Glukokortikoid-Effekte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Präzisionsmedizin basierend auf Genotyp</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Genotyp</th>
+                            <th>Phänotyp-Vorhersage</th>
+                            <th>Therapie-Anpassung</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>21-OHD: IVS8-1G>C/IVS8-1G>C</strong></td>
+                            <td>Schwere Salzverlustform</td>
+                            <td>Standard HC + FC</td>
+                            <td>Gut bei Compliance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>21-OHD: I172N/IVS8-1G>C</strong></td>
+                            <td>Einfach virilisierend</td>
+                            <td>HC, meist kein FC</td>
+                            <td>Exzellent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>21-OHD: V281L/V281L</strong></td>
+                            <td>Nicht-klassisch</td>
+                            <td>Niedrig-Dosis HC oder nur bei Symptomen</td>
+                            <td>Normal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SLOS: IVS8-1G>C/IVS8-1G>C</strong></td>
+                            <td>Schwerer Typ I</td>
+                            <td>Hochdosis Cholesterin + Antioxidantien</td>
+                            <td>Eingeschränkt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SLOS: T93M/V326L</strong></td>
+                            <td>Milder Typ II-III</td>
+                            <td>Moderate Cholesterin-Dosis</td>
+                            <td>Deutlich besser</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Experimentelle und zukünftige Therapien</h3>
+                <div class="clinical-case">
+                    <h4>🔬 Innovative Behandlungsansätze</h4>
+                    <p><strong>Gentherapie-Ansätze:</strong></p>
+                    <ul>
+                        <li><strong>CAH-Gentherapie:</strong> AAV-vermittelte CYP21A2 Expression</li>
+                        <li><strong>SLOS-Gentherapie:</strong> Lentivirale DHCR7-Korrektur</li>
+                        <li><strong>Stammzelltherapie:</strong> Neuronale Progenitorzellen bei SLOS</li>
+                        <li><strong>Base Editing:</strong> Präzise Korrektur von Punktmutationen</li>
+                    </ul>
+                    
+                    <p><strong>Pharmalogische Enhancer:</strong></p>
+                    <ul>
+                        <li><strong>DHCR7-Aktivatoren:</strong> Allosterische Enzyme-Verstärkung</li>
+                        <li><strong>Chaperon-Therapie:</strong> Protein-Faltung bei Missense-Mutationen</li>
+                        <li><strong>Modifizierte Lipoproteine:</strong> Verbesserte Cholesterin-Delivery</li>
+                        <li><strong>Antioxidantien der 2. Generation:</strong> Mitochondrien-spezifisch</li>
+                    </ul>
+                    
+                    <p><strong>Präzisions-Endokrinologie:</strong></p>
+                    <ul>
+                        <li><strong>Kontinuierliches Monitoring:</strong> CGM-ähnlich für Kortisol</li>
+                        <li><strong>AI-gestützte Dosierung:</strong> Algorithmus-basierte Anpassung</li>
+                        <li><strong>Biomarker-Panel:</strong> Multi-omics Ansätze</li>
+                        <li><strong>Personalisierte Medizin:</strong> Pharmakokinetik-basierte Dosierung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Notfallmanagement - Erweiterte Protokolle</h3>
+                <div class="case-study">
+                    <h4>🚨 Spezialprotokolle für komplexe Situationen</h4>
+                    <p><strong>Perioperatives Management bei CAH:</strong></p>
+                    <ul>
+                        <li><strong>Kleine Eingriffe:</strong> Doppelte Tagesdosis HC am OP-Tag</li>
+                        <li><strong>Mittlere Eingriffe:</strong> 50-75 mg/m² i.v. + normale Dosis p.o.</li>
+                        <li><strong>Große Eingriffe:</strong> 100-150 mg/m² i.v. über 24h</li>
+                        <li><strong>Intensivpatienten:</strong> Bis 300 mg/m²/d bei Sepsis/Schock</li>
+                    </ul>
+                    
+                    <p><strong>Schwangerschaftskomplikationen:</strong></p>
+                    <ul>
+                        <li><strong>Hyperemesis:</strong> I.v. HC wenn p.o. nicht möglich</li>
+                        <li><strong>Präeklampsie:</strong> Stress-Dosis + Magnesium-Interaktionen beachten</li>
+                        <li><strong>Geburt:</strong> 100 mg HC i.v. bei Wehenbeginn</li>
+                        <li><strong>Sectio:</strong> 100 mg HC i.v. präoperativ</li>
+                    </ul>
+                    
+                    <p><strong>Intensivmedizinische Besonderheiten:</strong></p>
+                    <ul>
+                        <li><strong>Sepsis/SIRS:</strong> High-dose HC (bis 50 mg/kg/d)</li>
+                        <li><strong>Multiorganversagen:</strong> Kontinuierliche HC-Infusion</li>
+                        <li><strong>Extrakorporale Verfahren:</strong> Increased clearance berücksichtigen</li>
+                        <li><strong>Drug Interactions:</strong> CYP-Induktoren/Inhibitoren</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="content-section" id="quiz">
+            <h2 class="section-title">🎯 Lernkontrolle</h2>
+            
+            <div class="score-display" id="scoreDisplay">
+                Score: 0/0 | 0%
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemie und Pathophysiologie</h3>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">1. Welches Enzym katalysiert den rate-limiting step der Cholesterin-Biosynthese?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'hmg-coa-synthase')">A) HMG-CoA Synthase</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'hmg-coa-reduktase')">B) HMG-CoA Reduktase</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'squalenoxidase')">C) Squalenoxidase</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'dhcr7')">D) 7-Dehydrocholesterin Reduktase</div>
+                    <div class="quiz-explanation" id="hmg-coa-reduktase">
+                        <h5>Erklärung:</h5>
+                        <p>Die HMG-CoA Reduktase katalysiert die Reduktion von HMG-CoA zu Mevalonat und ist der rate-limiting step der Cholesterin-Biosynthese. Dieses Enzym wird durch Statine gehemmt und durch SREBP-2 reguliert.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">2. Beim Smith-Lemli-Opitz-Syndrom akkumuliert welcher Metabolit pathologisch?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'desmosterol')">A) Desmosterol</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, '7-dhc')">B) 7-Dehydrocholesterin</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'lanosterol')">C) Lanosterol</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'squalen')">D) Squalen</div>
+                    <div class="quiz-explanation" id="7-dhc">
+                        <h5>Erklärung:</h5>
+                        <p>SLOS wird durch einen Defekt der DHCR7 (7-Dehydrocholesterin Reduktase) verursacht, wodurch 7-DHC akkumuliert. Die 7-DHC/Cholesterin Ratio >0,1 ist diagnostisch. 7-DHC ist toxischer als andere Sterol-Intermediate.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">3. Welcher Parameter ist bei 11β-Hydroxylase CAH charakteristisch erhöht?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '17-ohp')">A) 17-OH-Progesteron</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, '11-deoxykortisol')">B) 11-Deoxykortisol</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'pregnenolon')">C) Pregnenolon</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'dhea')">D) DHEA</div>
+                    <div class="quiz-explanation" id="11-deoxykortisol">
+                        <h5>Erklärung:</h5>
+                        <p>Bei 11β-Hydroxylase CAH akkumuliert 11-Deoxykortisol (>20 μg/dl) und DOC. Dies führt zur charakteristischen Kombination aus Virilisierung UND Hypertonie. 17-OHP ist nur mäßig erhöht.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinische Diagnostik</h3>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">4. Ein 46,XX Neugeborenes mit ambigen Genitalien und 17-OHP von 25.000 ng/ml. Was ist die wahrscheinlichste Diagnose?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '11-ohd')">A) 11β-Hydroxylase CAH</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, '21-ohd-sw')">B) 21-Hydroxylase CAH, Salzverlustform</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '17-ohd')">C) 17α-Hydroxylase CAH</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '3-hsd')">D) 3β-HSD2 Mangel</div>
+                    <div class="quiz-explanation" id="21-ohd-sw">
+                        <h5>Erklärung:</h5>
+                        <p>17-OHP >20.000 ng/ml ist charakteristisch für klassische 21-OHD CAH. Bei 46,XX führt die pränatale Androgenexposition zu ambigen Genitalien. Die hohen Werte sprechen für eine Salzverlustform.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">5. Welcher ACTH-Test-Befund spricht für nicht-klassische CAH?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '60min-1000')">A) 60-min 17-OHP: 1.000 ng/ml</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, '60min-8000')">B) 60-min 17-OHP: 8.000 ng/ml</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '60min-15000')">C) 60-min 17-OHP: 15.000 ng/ml</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, '60min-25000')">D) 60-min 17-OHP: 25.000 ng/ml</div>
+                    <div class="quiz-explanation" id="60min-8000">
+                        <h5>Erklärung:</h5>
+                        <p>Nach ACTH-Stimulation: 60-min 17-OHP 3.000-10.000 ng/ml = nicht-klassische CAH; >10.000 ng/ml = klassische CAH; <3.000 ng/ml = normal/Heterozygotenträger.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">6. Welches ist das charakteristische Laborprofil bei 17α-Hydroxylase CAH?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'profile-a')">A) 17-OHP ↑, DOC ↑, Testosteron ↑</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'profile-b')">B) 17-OH-Steroide ↓, DOC ↑, Testosteron ↓</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'profile-c')">C) 11-Deoxykortisol ↑, Aldosteron ↓</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'profile-d')">D) Δ5-Steroide ↑, Δ4-Steroide ↓</div>
+                    <div class="quiz-explanation" id="profile-b">
+                        <h5>Erklärung:</h5>
+                        <p>17α-Hydroxylase CAH: Dualer Enzymdefekt führt zu ↓ 17-OH-Steroide (Kortisol), ↓ Sexualhormone und ↑ DOC (Hypertonie). Kennzeichen: Hypertonie + Hypogonadismus.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie und Management</h3>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">7. Ein 5-jähriges Kind mit CAH benötigt eine Appendektomie. Wie sollte die Hydrocortison-Dosis angepasst werden?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'normal-dose')">A) Normale Tagesdosis beibehalten</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'stress-dose')">B) 50-75 mg/m² am OP-Tag</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'double-dose')">C) Doppelte Tagesdosis für 3 Tage</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'high-dose')">D) 300 mg/m²/d über 5 Tage</div>
+                    <div class="quiz-explanation" id="stress-dose">
+                        <h5>Erklärung:</h5>
+                        <p>Mittlere Eingriffe (wie Appendektomie) erfordern 50-75 mg/m² HC am OP-Tag. Kleine Eingriffe: doppelte Dosis. Große Eingriffe: 100-150 mg/m²/d. Die Stressdosis verhindert adrenale Insuffizienz.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">8. Warum ist bei MCAD-Mangel keine Fettrestriktion erforderlich?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'mcad-mild')">A) MCAD-Mangel ist immer mild</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'mcad-chain-length')">B) MCAD spaltet nur C6-C12, Nahrungsfette sind C16-C18</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'mcad-carnitine')">C) Carnitin-Substitution reicht aus</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'mcad-bypass')">D) Alternative Pathways können kompensieren</div>
+                    <div class="quiz-explanation" id="mcad-chain-length">
+                        <h5>Erklärung:</h5>
+                        <p>MCAD spaltet nur mittelkettige FS (C6-C12). Nahrungsfette sind langkettig (C16-C18) und werden durch VLCAD/LCAD normal abgebaut. Daher ist bei MCAD keine Fettrestriktion nötig.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">9. Welche Therapie ist bei SLOS KONTRAINDIZIERT?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'cholesterol-suppl')">A) Cholesterin-Supplementation</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'vitamin-e')">B) Vitamin E</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'simvastatin')">C) Simvastatin</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'high-fat-diet')">D) Hochfett-Diät</div>
+                    <div class="quiz-explanation" id="simvastatin">
+                        <h5>Erklärung:</h5>
+                        <p>Statine (wie Simvastatin) hemmen die HMG-CoA Reduktase und können bei SLOS die 7-DHC-Akkumulation verstärken. Sie sind daher kontraindiziert. Cholesterin-Substitution ist die Standardtherapie.</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">10. Eine 16-jährige mit nicht-klassischer CAH möchte die Anti-Baby-Pille. Was ist zu beachten?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'no-contraception')">A) Kontrazeption ist kontraindiziert</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'cyproteron-combination')">B) Cyproteronacetat-haltige Präparate sind vorteilhaft</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'progestin-only')">C) Nur Gestagen-Präparate verwenden</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'double-dose-hc')">D) Hydrocortison-Dosis verdoppeln</div>
+                    <div class="quiz-explanation" id="cyproteron-combination">
+                        <h5>Erklärung:</h5>
+                        <p>Cyproteronacetat wirkt als Antiandrogen und kann bei nicht-klassischer CAH zusätzlich zur HC-Therapie den Hirsutismus verbessern. Es ist daher bei CAH-Patientinnen besonders vorteilhaft.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="next-btn" onclick="showResults()">Quiz abschließen</button>
+                </div>
+            </div>
+
+            <div class="completion-box" id="completionBox" style="display: none;">
+                <div class="completion-content">
+                    <h2 style="color: #065f46; margin-bottom: 1rem;">🎉 Herzlichen Glückwunsch!</h2>
+                    <div class="completion-badge">Curriculum erfolgreich abgeschlossen</div>
+                    <p style="color: #065f46; margin: 1rem 0;">Sie haben das komplette Curriculum zu Cholesterin-/Steroid-Biosynthese-Störungen erfolgreich durchgearbeitet.</p>
+                    <div style="margin: 2rem 0;">
+                        <h3 style="color: #065f46; margin-bottom: 1rem;">📊 Ihr Ergebnis</h3>
+                        <div id="finalScore" style="font-size: 1.5rem; font-weight: bold; color: #065f46;"></div>
+                    </div>
+                    <div style="margin: 2rem 0;">
+                        <h3 style="color: #065f46; margin-bottom: 1rem;">✅ Erreichte Lernziele</h3>
+                        <p style="color: #065f46; text-align: left;">
+                            ✓ Biochemische Grundlagen der Sterol-Biosynthese<br>
+                            ✓ Smith-Lemli-Opitz-Syndrom und Desmosterolosis<br>
+                            ✓ Alle Formen der kongenitalen Nebennierenhyperplasie<br>
+                            ✓ Erweiterte Steroidogenese-Störungen<br>
+                            ✓ Differentialdiagnostik und klinisches Management<br>
+                            ✓ Praxisnahe Fallbeispiele und Therapieprotokolle
+                        </p>
+                    </div>
+                    <p style="color: #065f46; font-style: italic;">Sie sind nun bestens vorbereitet für die Betreuung von Patienten mit Cholesterin- und Steroidbiosynthese-Störungen!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['fallbeispiele', 'differentialdiagnostik', 'management', 'quiz'];
+        let quizScore = 0;
+        let totalQuestions = 0;
+        let answeredQuestions = 0;
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Count total questions when quiz section is shown
+            if (sectionId === 'quiz') {
+                totalQuestions = document.querySelectorAll('.quiz-container').length - 1; // -1 for completion button container
+                updateScore();
+            }
+        }
+
+        function selectAnswer(element, isCorrect, explanationId) {
+            // Prevent multiple answers for the same question
+            const container = element.closest('.quiz-container');
+            const options = container.querySelectorAll('.quiz-option');
+            
+            // Check if question already answered
+            const alreadyAnswered = Array.from(options).some(opt => 
+                opt.classList.contains('correct') || opt.classList.contains('incorrect')
+            );
+            
+            if (alreadyAnswered) return;
+
+            // Mark this question as answered
+            answeredQuestions++;
+
+            // Apply styling to all options
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option === element) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        quizScore++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Show explanation
+            if (explanationId) {
+                const explanation = document.getElementById(explanationId);
+                if (explanation) {
+                    explanation.classList.add('show');
+                }
+            }
+
+            // Update score
+            updateScore();
+        }
+
+        function updateScore() {
+            const percentage = totalQuestions > 0 ? Math.round((quizScore / totalQuestions) * 100) : 0;
+            document.getElementById('scoreDisplay').textContent = 
+                `Score: ${quizScore}/${totalQuestions} | ${percentage}%`;
+        }
+
+        function showResults() {
+            if (answeredQuestions < totalQuestions) {
+                alert(`Bitte beantworten Sie alle ${totalQuestions} Fragen, bevor Sie das Quiz abschließen.`);
+                return;
+            }
+            
+            const percentage = Math.round((quizScore / totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = 
+                `${quizScore}/${totalQuestions} Fragen richtig (${percentage}%)`;
+            
+            document.getElementById('completionBox').style.display = 'block';
+            document.getElementById('completionBox').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

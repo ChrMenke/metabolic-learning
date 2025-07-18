@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitamin-/Cofaktor-Defekte - Vollständige Lerneinheit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--success-color), #00f2fe);
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--primary-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+color: white;
+border-color: var(--primary-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+border-radius: 2px;
+}
+
+.subsection h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-sm);
+font-size: 1.2rem;
+font-weight: 600;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Pathway diagrams */
+.pathway-diagram {
+background: var(--bg-white);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.pathway-diagram h4 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+text-align: center;
+}
+
+.pathway-diagram h5 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+.pathway-diagram p {
+color: var(--text-secondary);
+}
+
+/* Enzyme boxes */
+.enzyme-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+color: white;
+padding: 12px 20px;
+margin: 6px;
+border-radius: 12px;
+font-weight: 600;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.enzyme-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+.enzyme-box.defect {
+background: linear-gradient(135deg, var(--danger-color), #ee5a24);
+animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+0%, 100% {
+transform: scale(1);
+box-shadow: var(--shadow-sm);
+}
+50% {
+transform: scale(1.02);
+box-shadow: var(--shadow-md);
+}
+}
+
+.arrow {
+display: inline-block;
+margin: 0 var(--spacing-sm);
+font-size: 1.8rem;
+color: var(--primary-color);
+transition: all 0.3s ease;
+}
+
+.arrow:hover {
+transform: scale(1.2);
+color: var(--accent-color);
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Metabolite boxes */
+.metabolite-box {
+display: inline-block;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+color: white;
+padding: 10px 16px;
+margin: 4px;
+border-radius: 8px;
+font-size: 0.9rem;
+font-weight: 500;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-sm);
+}
+
+.metabolite-box:hover {
+transform: translateY(-2px) scale(1.05);
+box-shadow: var(--shadow-md);
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.next-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+/* Diagnostic flow */
+.diagnostic-flow {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: var(--spacing-md);
+margin: var(--spacing-md) 0;
+}
+
+.flow-step {
+background: var(--bg-white);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+max-width: 320px;
+text-align: center;
+transition: all 0.3s ease;
+color: var(--text-primary);
+box-shadow: var(--shadow-sm);
+}
+
+.flow-step:hover {
+transform: translateY(-4px) scale(1.02);
+box-shadow: var(--shadow-md);
+}
+
+.flow-arrow {
+width: 0;
+height: 0;
+border-left: 12px solid transparent;
+border-right: 12px solid transparent;
+border-top: 20px solid var(--info-color);
+animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-5px); }
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+/* Quiz containers */
+.quiz-container {
+background: var(--bg-light);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+border: 1px solid #e2e8f0;
+box-shadow: var(--shadow-sm);
+}
+
+.quiz-question {
+font-weight: 600;
+margin-bottom: var(--spacing-md);
+color: var(--text-primary);
+font-size: 1.1rem;
+}
+
+.quiz-option {
+background: var(--bg-white);
+border: 2px solid #e2e8f0;
+border-radius: 12px;
+padding: var(--spacing-md);
+margin: var(--spacing-xs) 0;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+font-weight: 500;
+color: var(--text-primary);
+}
+
+.quiz-option:hover {
+background: #eff6ff;
+border-color: var(--info-color);
+transform: translateX(8px) scale(1.02);
+}
+
+.quiz-option.correct {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border-color: #22c55e;
+animation: correctPulse 0.6s ease-out;
+}
+
+.quiz-option.incorrect {
+background: linear-gradient(135deg, #fef2f2, #fecaca);
+border-color: #ef4444;
+animation: incorrectShake 0.6s ease-out;
+}
+
+@keyframes correctPulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+75% { transform: translateX(5px); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+.subsection:nth-child(6) { animation-delay: 0.6s; }
+.subsection:nth-child(7) { animation-delay: 0.7s; }
+.subsection:nth-child(8) { animation-delay: 0.8s; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🧬 Vitamin-/Cofaktor-Defekte</h1>
+<p>Komplett-Lerneinheit: Von Grundlagen bis Praxis</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>📚 Vollständige Lerneinheit</h3>
+<p>Diese Lerneinheit behandelt alle wichtigen Vitamin-/Cofaktor-Defekte umfassend: Grundlagen, Klinik, Diagnostik, Therapie und Praxis.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('biotinidase')">1. Biotinidase-Mangel</button>
+<button class="nav-btn" onclick="showSection('carboxylase')">2. Multiple Carboxylase</button>
+<button class="nav-btn" onclick="showSection('cobalamin')">3. Cobalamin-Defekte</button>
+<button class="nav-btn" onclick="showSection('folsaeure')">4. Folsäure-Defekte</button>
+<button class="nav-btn" onclick="showSection('quiz')">5. Lernkontrolle</button>
+</div>
+
+<!-- Biotinidase-Mangel -->
+<div class="content-section active" id="biotinidase">
+<h2 class="section-title">🔬 Biotinidase-Mangel</h2>
+
+<div class="subsection">
+<h3>Grundlagen und Definition</h3>
+<p><strong>Biotinidase-Mangel</strong> ist ein autosomal-rezessiver Defekt der Biotinidase (EC 3.5.1.12), die für das Recycling von Biotin aus biotinylierten Proteinen essentiell ist.</p>
+
+<div class="highlight-box">
+<h4>Epidemiologie und Vererbung</h4>
+<ul>
+<li><strong>Inzidenz:</strong> 1:60.000 - 1:137.000 (variiert regional)</li>
+<li><strong>Trägerfrequenz:</strong> 1:123 bis 1:185</li>
+<li><strong>Vererbung:</strong> Autosomal-rezessiv</li>
+<li><strong>Gen:</strong> BTD-Gen (Chromosom 3p25.1)</li>
+<li><strong>Neugeborenenscreening:</strong> Seit 2005 in Deutschland</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Schweregrad</th>
+<th>Enzymaktivität</th>
+<th>Klinische Manifestation</th>
+<th>Therapie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Profund</strong></td>
+<td>&lt;10% der Norm</td>
+<td>Schwere Symptome ab 2-5 Monaten</td>
+<td>Biotin 5-20 mg/d</td>
+</tr>
+<tr>
+<td><strong>Partiell</strong></td>
+<td>10-30% der Norm</td>
+<td>Milde Symptome, oft asymptomatisch</td>
+<td>Biotin 5-10 mg/d</td>
+</tr>
+<tr>
+<td><strong>Atypisch</strong></td>
+<td>Variable</td>
+<td>Ungewöhnliche Präsentation</td>
+<td>Individuell angepasst</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Biochemie und Pathophysiologie</h3>
+
+<div class="pathway-diagram">
+<h4>Biotin-Recycling-Zyklus</h4>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+<div class="enzyme-box">Nahrungsproteine</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">Biocytin/Biotinyl-Peptide</div>
+<span class="arrow">→</span>
+<div class="enzyme-box defect">Biotinidase</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">Freies Biotin</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+<div class="enzyme-box">Holocarboxylase-Synthetase</div>
+<span class="arrow">←</span>
+<div class="enzyme-box">Freies Biotin</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">Biotinylierte Carboxylasen</div>
+</div>
+</div>
+</div>
+
+<div class="case-study">
+<h4>🔬 Betroffene Carboxylasen</h4>
+<p><strong>Die vier biotinabhängigen Carboxylasen:</strong></p>
+<ul>
+<li><strong>Acetyl-CoA-Carboxylase (ACC):</strong> Fettsäuresynthese</li>
+<li><strong>Propionyl-CoA-Carboxylase (PCC):</strong> Propionat-Metabolismus</li>
+<li><strong>3-Methylcrotonyl-CoA-Carboxylase (MCC):</strong> Leucin-Abbau</li>
+<li><strong>Pyruvat-Carboxylase (PC):</strong> Gluconeogenese, Anaplerotic Reaktionen</li>
+</ul>
+
+<p><strong>Konsequenzen bei Biotinmangel:</strong></p>
+<ul>
+<li>Akkumulation von organischen Säuren (3-Methylcrotonyl-Glycin, 3-Hydroxyisovalerat)</li>
+<li>Störung der Gluconeogenese und Fettsäuresynthese</li>
+<li>Laktatazidose durch PC-Mangel</li>
+<li>Hyperammonämie durch gestörte N-Acetylglutamat-Synthese</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Klinisches Bild</h3>
+
+<div class="highlight-box">
+<h4>Frühsymptome (2-5 Monate)</h4>
+<p><strong>Dermatologische Manifestationen:</strong></p>
+<ul>
+<li><strong>"Biotin-Rash":</strong> Perioraler, periokulärer schuppender Ausschlag</li>
+<li><strong>Alopezie:</strong> Diffuser Haarausfall, auch Augenbrauen/Wimpern</li>
+<li><strong>Candidose:</strong> Persistierende Windelsoor, orale Candidose</li>
+<li><strong>Seborrhoische Dermatitis:</strong> Cradle cap, generalisiert</li>
+</ul>
+
+<p><strong>Neurologische Symptome:</strong></p>
+<ul>
+<li><strong>Krampfanfälle:</strong> Oft therapieresistent</li>
+<li><strong>Hypotonie:</strong> Muskelschwäche, schlechte Kopfkontrolle</li>
+<li><strong>Entwicklungsrückstand:</strong> Motorisch und kognitiv</li>
+<li><strong>Ataxie:</strong> Gangunsicherheit bei älteren Kindern</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Organsystem</th>
+<th>Akute Symptome</th>
+<th>Chronische Folgen</th>
+<th>Reversibilität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Haut/Haare</strong></td>
+<td>Erythematöser Ausschlag, Alopezie</td>
+<td>Narbenbildung möglich</td>
+<td>Meist vollständig</td>
+</tr>
+<tr>
+<td><strong>ZNS</strong></td>
+<td>Krampfanfälle, Lethargie</td>
+<td>Intellektuelle Behinderung</td>
+<td>Partiell</td>
+</tr>
+<tr>
+<td><strong>Auge</strong></td>
+<td>Konjunktivitis</td>
+<td>Optikusatrophie, Retinopathie</td>
+<td>Irreversibel</td>
+</tr>
+<tr>
+<td><strong>Ohr</strong></td>
+<td>Otitis externa</td>
+<td>Sensorineuraler Hörverlust</td>
+<td>Irreversibel</td>
+</tr>
+<tr>
+<td><strong>Immunsystem</strong></td>
+<td>Rezidivierende Infekte</td>
+<td>T-Zell-Defizienz</td>
+<td>Meist reversibel</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>👁️ Ophthalmologische Komplikationen</h4>
+<p><strong>Irreversible Augenschäden bei verspäteter Diagnose:</strong></p>
+<ul>
+<li><strong>Optikusatrophie:</strong> Bleibende Visusminderung</li>
+<li><strong>Retinale Pigmentveränderungen:</strong> "Salt-and-pepper" Fundus</li>
+<li><strong>Katarakt:</strong> Frühzeitige Linsentrübung</li>
+<li><strong>Nystagmus:</strong> Oft als Erstmanifestation</li>
+</ul>
+<p><strong>Prävention:</strong> Regelmäßige ophthalmologische Kontrollen auch bei behandelten Patienten</p>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Diagnostik</h3>
+
+<div class="diagnostic-flow">
+<div class="flow-step">
+<strong>Neugeborenenscreening</strong><br>
+Biotinidase-Aktivität im Trockenblut<br>
+Cut-off: <30% der Norm
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Bestätigungsdiagnostik</strong><br>
+Quantitative Biotinidase-Aktivität<br>
+Organische Säuren (Urin)
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Molekulargenetik</strong><br>
+BTD-Genanalyse<br>
+Familienschreening
+</div>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Test</th>
+<th>Normbereich</th>
+<th>Biotinidase-Mangel</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Biotinidase-Aktivität</strong></td>
+<td>100% (5.9-18.2 nmol/min/ml)</td>
+<td><10% (profund), 10-30% (partiell)</td>
+<td>Definitive Diagnose</td>
+</tr>
+<tr>
+<td><strong>3-Hydroxyisovalerat</strong></td>
+<td><5 mmol/mol Kreatinin</td>
+<td>50-500 mmol/mol Kreatinin</td>
+<td>Sekundärer Biotin-Mangel</td>
+</tr>
+<tr>
+<td><strong>3-Methylcrotonyl-Glycin</strong></td>
+<td><15 mmol/mol Kreatinin</td>
+<td>100-1000 mmol/mol Kreatinin</td>
+<td>MCC-Defizienz</td>
+</tr>
+<tr>
+<td><strong>Laktat</strong></td>
+<td><2 mmol/l</td>
+<td>2-8 mmol/l</td>
+<td>PC-Defizienz</td>
+</tr>
+<tr>
+<td><strong>Biotin (Plasma)</strong></td>
+<td>200-1000 ng/l</td>
+<td>Meist normal</td>
+<td>Recycling-Defekt!</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Molekulargenetik - Häufige Mutationen</h4>
+<p><strong>Europäische Population:</strong></p>
+<ul>
+<li><strong>c.1330G>C (p.Asp444His):</strong> Häufigste Mutation (50-60%)</li>
+<li><strong>c.98_104delinsTCC:</strong> Zweithäufigste (15-20%)</li>
+<li><strong>c.1612C>T (p.Arg538Cys):</strong> Milde Form</li>
+</ul>
+
+<p><strong>Genotyp-Phänotyp-Korrelation:</strong></p>
+<ul>
+<li><strong>Null-Mutationen:</strong> Profunde Form, schwere Symptome</li>
+<li><strong>Missense-Mutationen:</strong> Variable Restaktivität, mildere Verläufe</li>
+<li><strong>Founder-Effekte:</strong> Regionale Häufungen bestimmter Mutationen</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Therapie</h3>
+
+<div class="case-study">
+<h4>💊 Biotin-Substitution</h4>
+<p><strong>Dosierung:</strong></p>
+<ul>
+<li><strong>Profunder Mangel:</strong> 5-20 mg/d oral (Kinder), bis 40 mg/d (Erwachsene)</li>
+<li><strong>Partieller Mangel:</strong> 5-10 mg/d</li>
+<li><strong>Erhaltungstherapie:</strong> Niedrigste effektive Dosis</li>
+<li><strong>Stresszeiten:</strong> Dosiserhöhung bei Infekten/Operationen</li>
+</ul>
+
+<p><strong>Praktische Aspekte:</strong></p>
+<ul>
+<li><strong>Galenik:</strong> Tabletten, Kapseln, Lösungen verfügbar</li>
+<li><strong>Zeitpunkt:</strong> Unabhängig von Mahlzeiten</li>
+<li><strong>Compliance:</strong> Lebenslange Therapie erforderlich</li>
+<li><strong>Überdosierung:</strong> Praktisch unmöglich (wasserlöslich)</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Ansprechen auf Biotin</th>
+<th>Zeitrahmen</th>
+<th>Irreversibilität</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dermatitis</strong></td>
+<td>Exzellent</td>
+<td>1-2 Wochen</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td><strong>Alopezie</strong></td>
+<td>Sehr gut</td>
+<td>2-6 Monate</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td><strong>Krampfanfälle</strong></td>
+<td>Gut</td>
+<td>Tage bis Wochen</td>
+<td>Selten</td>
+</tr>
+<tr>
+<td><strong>Entwicklungsrückstand</strong></td>
+<td>Variabel</td>
+<td>Monate bis Jahre</td>
+<td>Möglich</td>
+</tr>
+<tr>
+<td><strong>Hörverlust</strong></td>
+<td>Schlecht</td>
+<td>-</td>
+<td>Meist</td>
+</tr>
+<tr>
+<td><strong>Optikusatrophie</strong></td>
+<td>Schlecht</td>
+<td>-</td>
+<td>Meist</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Monitoring und Verlaufskontrollen</h4>
+<p><strong>Regelmäßige Kontrollen:</strong></p>
+<ul>
+<li><strong>Biotinidase-Aktivität:</strong> Jährlich (Compliance-Check)</li>
+<li><strong>Organische Säuren:</strong> 6-12 monatlich</li>
+<li><strong>Ophthalmologie:</strong> Jährlich (Funduskopie, Visus)</li>
+<li><strong>Audiologie:</strong> Jährlich (Hörtests)</li>
+<li><strong>Entwicklung:</strong> Halbjährlich bis zum Schulalter</li>
+</ul>
+
+<p><strong>Prognose:</strong></p>
+<ul>
+<li><strong>Neugeborenenscreening:</strong> Exzellente Prognose bei präsymptomatischer Therapie</li>
+<li><strong>Frühe Diagnose:</strong> Meist normale Entwicklung</li>
+<li><strong>Späte Diagnose:</strong> Irreversible neurologische/sensorische Defekte möglich</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('carboxylase')">Weiter zu Multiple Carboxylase-Defizienz →</button>
+</div>
+</div>
+
+<!-- Multiple Carboxylase-Defizienz -->
+<div class="content-section" id="carboxylase">
+<h2 class="section-title">🔗 Multiple Carboxylase-Defizienz</h2>
+
+<div class="subsection">
+<h3>Grundlagen und Klassifikation</h3>
+
+<p><strong>Multiple Carboxylase-Defizienz</strong> umfasst zwei genetisch distinkte Störungen der Biotin-Verwertung, die zu einem funktionellen Mangel aller vier biotinabhängigen Carboxylasen führen.</p>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Typ</th>
+<th>Enzymdefekt</th>
+<th>Gen</th>
+<th>Manifestationsalter</th>
+<th>Biotin-Ansprechen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frühe Form</strong></td>
+<td>Holocarboxylase-Synthetase (HCS)</td>
+<td>HLCS (21q22.13)</td>
+<td>Neonatal (0-1 Monat)</td>
+<td>Variabel</td>
+</tr>
+<tr>
+<td><strong>Späte Form</strong></td>
+<td>Biotinidase</td>
+<td>BTD (3p25.1)</td>
+<td>2-24 Monate</td>
+<td>Exzellent</td>
+</tr>
+</tbody>
+</table>
+
+<div class="pathway-diagram">
+<h4>Biotin-Cofaktor-Zyklus</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+<div style="text-align: center;">
+<h5 style="color: #dc2626; margin-bottom: 15px;">🔴 Holocarboxylase-Synthetase-Mangel</h5>
+<div class="enzyme-box defect">HCS ↓</div>
+<div class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</div>
+<div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Apo-Carboxylasen ↑</div>
+<div class="arrow" style="transform: rotate(90deg); color: #dc2626;">↓</div>
+<div class="metabolite-box" style="background: linear-gradient(135deg, #b91c1c, #991b1b);">Funktionelle Carboxylase-Aktivität ↓↓</div>
+</div>
+<div style="text-align: center;">
+<h5 style="color: #ea580c; margin-bottom: 15px;">🟠 Biotinidase-Mangel</h5>
+<div class="enzyme-box defect">Biotinidase ↓</div>
+<div class="arrow" style="transform: rotate(90deg); color: #ea580c;">↓</div>
+<div class="metabolite-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">Biotin-Recycling ↓</div>
+<div class="arrow" style="transform: rotate(90deg); color: #ea580c;">↓</div>
+<div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Sekundärer Biotin-Mangel</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Holocarboxylase-Synthetase-Mangel (Frühe Form)</h3>
+
+<div class="case-study">
+<h4>🍼 Neonatale Präsentation</h4>
+<p><strong>Typischer Verlauf:</strong></p>
+<ul>
+<li><strong>Manifestation:</strong> Erste Lebenstage bis 6 Wochen</li>
+<li><strong>Initialsymptome:</strong> Trinkschwäche, Erbrechen, Lethargie</li>
+<li><strong>Progression:</strong> Rapid progredient ohne Therapie</li>
+<li><strong>Outcome unbehandelt:</strong> Meist letal</li>
+</ul>
+
+<p><strong>Klinische Zeichen:</strong></p>
+<ul>
+<li><strong>Metabolische Azidose:</strong> Schwer, oft pH <7,2</li>
+<li><strong>Hyperammonämie:</strong> 200-800 μmol/l</li>
+<li><strong>Laktatazidose:</strong> Laktat >5 mmol/l</li>
+<li><strong>Ketonurie:</strong> Ausgeprägt</li>
+<li><strong>Charakteristischer Geruch:</strong> "Katzenurin-ähnlich"</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>Biochemische Marker</h4>
+<p><strong>Organische Säuren (sehr charakteristisch):</strong></p>
+<ul>
+<li><strong>3-Methylcrotonyl-Glycin:</strong> Massiv erhöht (>1000x)</li>
+<li><strong>3-Hydroxyisovalerat:</strong> Stark erhöht</li>
+<li><strong>3-Hydroxypropinat:</strong> Erhöht</li>
+<li><strong>Methylcitratsäure:</strong> Erhöht</li>
+<li><strong>Lactat:</strong> Sekundär erhöht</li>
+<li><strong>3-Hydroxybutterat:</strong> Ketonkörper ↑</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Carboxylase</th>
+<th>Substrat-Akkumulation</th>
+<th>Urin-Marker</th>
+<th>Klinische Relevanz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3-Methylcrotonyl-CoA-Carboxylase</strong></td>
+<td>3-Methylcrotonyl-CoA</td>
+<td>3-Methylcrotonyl-Glycin, 3-Hydroxyisovalerat</td>
+<td>Leucin-Intoleranz</td>
+</tr>
+<tr>
+<td><strong>Propionyl-CoA-Carboxylase</strong></td>
+<td>Propionyl-CoA</td>
+<td>3-Hydroxypropinat, Methylcitrat</td>
+<td>Protein-Intoleranz</td>
+</tr>
+<tr>
+<td><strong>Pyruvat-Carboxylase</strong></td>
+<td>Pyruvat</td>
+<td>Laktat, Pyruvat</td>
+<td>Hypoglykämie, Azidose</td>
+</tr>
+<tr>
+<td><strong>Acetyl-CoA-Carboxylase</strong></td>
+<td>Acetyl-CoA</td>
+<td>Keine spezifischen</td>
+<td>Fettsäuresynthese ↓</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Genetik und Molekularbiologie</h3>
+
+<div class="pathway-diagram">
+<h4>HLCS-Gen und Enzymfunktion</h4>
+<div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+<p><strong>Holocarboxylase-Synthetase:</strong></p>
+<ul>
+<li><strong>Funktion:</strong> Kovalente Bindung von Biotin an Carboxylasen</li>
+<li><strong>Km für Biotin:</strong> Normal 0,1-1 μM</li>
+<li><strong>Bei Mutationen:</strong> Erhöhte Km (bis 100-1000x)</li>
+<li><strong>Therapeutische Konsequenz:</strong> Hohe Biotin-Dosen nötig</li>
+</ul>
+</div>
+</div>
+
+<div class="case-study">
+<h4>🧬 Häufige HLCS-Mutationen</h4>
+<p><strong>Schwere Formen (Biotin-resistent):</strong></p>
+<ul>
+<li><strong>c.1411C>T (p.Leu471Pro):</strong> Null-Mutation</li>
+<li><strong>c.1522C>T (p.Arg508Trp):</strong> Strukturdefekt</li>
+<li><strong>c.1368_1371delACAG:</strong> Frameshift</li>
+</ul>
+
+<p><strong>Milde Formen (Biotin-responsiv):</strong></p>
+<ul>
+<li><strong>c.1067A>G (p.Asn356Ser):</strong> Erhöhte Km</li>
+<li><strong>c.1540G>A (p.Val514Met):</strong> Reduzierte Affinität</li>
+<li><strong>c.1119C>A (p.Asp373Glu):</strong> Temperatur-sensitiv</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Diagnostisches Vorgehen</h3>
+
+<div class="diagnostic-flow">
+<div class="flow-step">
+<strong>Verdacht bei Neugeborenem</strong><br>
+Azidose + Hyperammonämie<br>
++ Ketonurie
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Organische Säuren</strong><br>
+Charakteristisches Muster<br>
+3-Methylcrotonyl-Glycin ↑↑
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Biotin-Test</strong><br>
+Empirische Therapie<br>
+Klinisches Ansprechen
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Differenzierung</strong><br>
+Biotinidase vs. HCS<br>
+Enzymaktivität/Genetik
+</div>
+</div>
+
+<div class="highlight-box">
+<h4>Differentialdiagnose der organischen Azidämien</h4>
+<table class="clinical-table" style="margin: 0;">
+<thead>
+<tr>
+<th>Erkrankung</th>
+<th>Schlüssel-Metabolit</th>
+<th>Biotin-Ansprechen</th>
+<th>Manifestationsalter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HCS-Mangel</strong></td>
+<td>3-Methylcrotonyl-Glycin</td>
+<td>Variable</td>
+<td>Neonatal</td>
+</tr>
+<tr>
+<td><strong>Biotinidase-Mangel</strong></td>
+<td>3-Methylcrotonyl-Glycin</td>
+<td>Exzellent</td>
+<td>2-24 Monate</td>
+</tr>
+<tr>
+<td><strong>Propionazidämie</strong></td>
+<td>3-Hydroxypropinat</td>
+<td>Nein</td>
+<td>Neonatal/infantil</td>
+</tr>
+<tr>
+<td><strong>Methylmalonazidämie</strong></td>
+<td>Methylmalonat</td>
+<td>Nur cblA/B</td>
+<td>Neonatal/infantil</td>
+</tr>
+<tr>
+<td><strong>Isovaleriazidämie</strong></td>
+<td>Isovaleryl-Glycin</td>
+<td>Nein</td>
+<td>Neonatal/infantil</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Therapie der Multiple Carboxylase-Defizienz</h3>
+
+<div class="case-study">
+<h4>💊 Akuttherapie</h4>
+<p><strong>Notfallmanagement:</strong></p>
+<ul>
+<li><strong>Biotin sofort:</strong> 10-40 mg/d i.v. oder oral</li>
+<li><strong>Azidose-Korrektur:</strong> NaHCO₃ vorsichtig titrieren</li>
+<li><strong>Hyperammonämie:</strong> Protein-Stopp, ggf. Dialyse</li>
+<li><strong>Flüssigkeit/Elektrolyte:</strong> Ausgleich der Verluste</li>
+<li><strong>Monitoring:</strong> BGA, NH₃, Laktat alle 4-6h</li>
+</ul>
+
+<p><strong>Klinisches Ansprechen:</strong></p>
+<ul>
+<li><strong>Biochemisch:</strong> Normalisierung in 24-72h</li>
+<li><strong>Klinisch:</strong> Besserung in 2-7 Tagen</li>
+<li><strong>Organische Säuren:</strong> Rückgang in 1-2 Wochen</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Therapiesäule</th>
+<th>HCS-Mangel</th>
+<th>Biotinidase-Mangel</th>
+<th>Überwachung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Biotin-Dosierung</strong></td>
+<td>10-100 mg/d (sehr variabel)</td>
+<td>5-20 mg/d</td>
+<td>Organische Säuren</td>
+</tr>
+<tr>
+<td><strong>Protein-Restriktion</strong></td>
+<td>Manchmal erforderlich</td>
+<td>Nicht nötig</td>
+<td>Ammoniak, Wachstum</td>
+</tr>
+<tr>
+<td><strong>Leucin-Restriktion</strong></td>
+<td>Bei schweren Formen</td>
+<td>Nicht nötig</td>
+<td>3-Methylcrotonyl-Glycin</td>
+</tr>
+<tr>
+<td><strong>Notfallregime</strong></td>
+<td>Bei Dekompensation</td>
+<td>Meist nicht nötig</td>
+<td>Klinik, Labor</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeitprognose</h4>
+<p><strong>HCS-Mangel:</strong></p>
+<ul>
+<li><strong>Biotin-responsive Formen:</strong> Normale Entwicklung möglich</li>
+<li><strong>Biotin-resistente Formen:</strong> Oft intellektuelle Behinderung</li>
+<li><strong>Compliance crucial:</strong> Strikte Biotin-Einnahme lebenslang</li>
+</ul>
+
+<p><strong>Biotinidase-Mangel:</strong></p>
+<ul>
+<li><strong>Exzellente Prognose:</strong> Bei früher Diagnose/Therapie</li>
+<li><strong>Vollständige Reversibilität:</strong> Der meisten Symptome</li>
+<li><strong>Ausnahmen:</strong> Optikus-/Hörnervenschäden</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('cobalamin')">Weiter zu Cobalamin-Defekten →</button>
+</div>
+</div>
+
+<!-- Cobalamin-Defekte -->
+<div class="content-section" id="cobalamin">
+<h2 class="section-title">🔴 Cobalamin-Defekte</h2>
+
+<div class="subsection">
+<h3>Übersicht und Klassifikation</h3>
+
+<p><strong>Cobalamin (Vitamin B₁₂)-Defekte</strong> umfassen eine heterogene Gruppe von Störungen der Vitamin B₁₂-Aufnahme, des Transports oder der intrazellulären Verarbeitung zu den aktiven Cofaktoren Methylcobalamin und Adenosylcobalamin.</p>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt-Typ</th>
+<th>Gen</th>
+<th>Betroffene Reaktion</th>
+<th>Hauptmetabolit</th>
+<th>Manifestation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cblA</strong></td>
+<td>MMAA</td>
+<td>AdoCbl-Synthese</td>
+<td>Methylmalonat</td>
+<td>Methylmalonazidämie</td>
+</tr>
+<tr>
+<td><strong>cblB</strong></td>
+<td>MMAB</td>
+<td>AdoCbl-Synthese</td>
+<td>Methylmalonat</td>
+<td>Methylmalonazidämie</td>
+</tr>
+<tr>
+<td><strong>cblC</strong></td>
+<td>MMACHC</td>
+<td>Cbl-Processing</td>
+<td>MMA + Homocystein</td>
+<td>Kombiniert</td>
+</tr>
+<tr>
+<td><strong>cblD</strong></td>
+<td>MMADHC</td>
+<td>Cofaktor-Verteilung</td>
+<td>Variable</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td><strong>cblE</strong></td>
+<td>MTRR</td>
+<td>MeCbl-Regeneration</td>
+<td>Homocystein</td>
+<td>Homocystinurie</td>
+</tr>
+<tr>
+<td><strong>cblF</strong></td>
+<td>LMBRD1</td>
+<td>Lysosomaler Export</td>
+<td>MMA + Homocystein</td>
+<td>Kombiniert</td>
+</tr>
+<tr>
+<td><strong>cblG</strong></td>
+<td>MTR</td>
+<td>Methionin-Synthase</td>
+<td>Homocystein</td>
+<td>Homocystinurie</td>
+</tr>
+</tbody>
+</table>
+
+<div class="pathway-diagram">
+<h4>Intrazellulärer Cobalamin-Metabolismus</h4>
+<div style="background: linear-gradient(90deg, #f3f4f6 50%, #e5e7eb 50%); padding: 20px; border-radius: 10px; margin: 20px 0;">
+<div style="text-align: center; margin-bottom: 15px;">
+<span style="margin-right: 50px; font-weight: bold;">Cytosol</span>
+<span style="font-weight: bold;">Mitochondrium</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 15px;">
+<div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px;">
+<div class="enzyme-box">OH-Cbl/CN-Cbl</div>
+<span class="arrow">→</span>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">cblC (MMACHC)</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">Cob(II)alamin</div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+<div style="text-align: center;">
+<div class="enzyme-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">cblE (MTRR)</div>
+<div class="arrow" style="transform: rotate(90deg);">↓</div>
+<div class="enzyme-box">Methylcobalamin</div>
+<div class="arrow" style="transform: rotate(90deg);">↓</div>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">Methionin-Synthase</div>
+</div>
+
+<div style="text-align: center;">
+<div class="enzyme-box" style="background: linear-gradient(135deg, #ea580c, #dc2626);">cblA/B</div>
+<div class="arrow" style="transform: rotate(90deg);">↓</div>
+<div class="enzyme-box">Adenosylcobalamin</div>
+<div class="arrow" style="transform: rotate(90deg);">↓</div>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #16a34a, #15803d);">Methylmalonyl-CoA-Mutase</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>cblC-Defekt (häufigste Form)</h3>
+
+<div class="case-study">
+<h4>🔬 MMACHC-Gen und Pathophysiologie</h4>
+<p><strong>Molekulare Basis:</strong></p>
+<ul>
+<li><strong>Enzym:</strong> Methylmalonic aciduria and homocystinuria type C protein</li>
+<li><strong>Funktion:</strong> Decyanierung und Reduktion von Cobalamin</li>
+<li><strong>Lokalisation:</strong> Cytosol</li>
+<li><strong>Konsequenz:</strong> Störung beider Cobalamin-Cofaktor-Wege</li>
+</ul>
+
+<p><strong>Biochemische Folgen:</strong></p>
+<ul>
+<li><strong>Methylmalonyl-CoA-Mutase-Mangel:</strong> Methylmalonat ↑</li>
+<li><strong>Methionin-Synthase-Mangel:</strong> Homocystein ↑, Methionin ↓</li>
+<li><strong>Folat-Trap:</strong> 5-Methyltetrahydrofolat akkumuliert</li>
+<li><strong>S-Adenosylmethionin ↓:</strong> Methylierungsdefekte</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>Klinische Phänotypen</h4>
+<p><strong>Frühe Form (neonatal/infantil):</strong></p>
+<ul>
+<li><strong>Manifestation:</strong> Erste Lebenswochen bis 2 Jahre</li>
+<li><strong>Symptome:</strong> Gedeihstörung, Entwicklungsrückstand, Megaloblastenanämie</li>
+<li><strong>Schwere:</strong> Oft schwer, Multiorgan-Beteiligung</li>
+<li><strong>Ansprechen:</strong> Gut auf OH-Cbl</li>
+</ul>
+
+<p><strong>Späte Form (juvenil/adult):</strong></p>
+<ul>
+<li><strong>Manifestation:</strong> Adoleszenz bis Erwachsenenalter</li>
+<li><strong>Symptome:</strong> Neurologisch-psychiatrisch dominiert</li>
+<li><strong>Besonderheit:</strong> Oft fehlende hämatologische Zeichen</li>
+<li><strong>Prognose:</strong> Variable, oft progredient</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Organsystem</th>
+<th>Frühe Form</th>
+<th>Späte Form</th>
+<th>Pathomechanismus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hämatologisch</strong></td>
+<td>Megaloblastenanämie, Panzytopenie</td>
+<td>Oft normal</td>
+<td>DNA-Synthese-Störung</td>
+</tr>
+<tr>
+<td><strong>Neurologisch</strong></td>
+<td>Entwicklungsrückstand, Krampfanfälle</td>
+<td>Demenz, Neuropathie, Myelopathie</td>
+<td>Methylierung ↓</td>
+</tr>
+<tr>
+<td><strong>Ophthalmologisch</strong></td>
+<td>Makuläre Degeneration</td>
+<td>Retinitis pigmentosa</td>
+<td>Unbekannt</td>
+</tr>
+<tr>
+<td><strong>Renal</strong></td>
+<td>Seltener</td>
+<td>Chronische Niereninsuffizienz</td>
+<td>Vaskuläre Schäden</td>
+</tr>
+<tr>
+<td><strong>Kardiovaskulär</strong></td>
+<td>Kardiomyopathie</td>
+<td>Thromboembolien</td>
+<td>Hyperhomocysteinämie</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Diagnostik der Cobalamin-Defekte</h3>
+
+<div class="diagnostic-flow">
+<div class="flow-step">
+<strong>Verdacht</strong><br>
+MMA ↑ und/oder<br>
+Homocystein ↑
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Basislabor</strong><br>
+Cobalamin, Folat<br>
+Methylmalonat, Homocystein
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Differenzierung</strong><br>
+Nur MMA ↑ vs.<br>
+MMA + Homocystein ↑
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Molekulargenetik</strong><br>
+Targeted Panel<br>
+Funktionstest
+</div>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Normbereich</th>
+<th>cblC-Defekt</th>
+<th>Differentialdiagnose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Methylmalonat (Urin)</strong></td>
+<td><5 mmol/mol Kreatinin</td>
+<td>100-5000 mmol/mol</td>
+<td>MMA, cblA/B</td>
+</tr>
+<tr>
+<td><strong>Homocystein (Plasma)</strong></td>
+<td><15 μmol/l</td>
+<td>50-500 μmol/l</td>
+<td>CBS, cblE/G</td>
+</tr>
+<tr>
+<td><strong>Methionin (Plasma)</strong></td>
+<td>15-40 μmol/l</td>
+<td>5-15 μmol/l</td>
+<td>Charakteristisch niedrig</td>
+</tr>
+<tr>
+<td><strong>Cobalamin (Serum)</strong></td>
+<td>200-900 pmol/l</td>
+<td>Meist normal</td>
+<td>Funktioneller Mangel!</td>
+</tr>
+<tr>
+<td><strong>Propionylcarnitin (C3)</strong></td>
+<td><5 μmol/l</td>
+<td>10-50 μmol/l</td>
+<td>Sekundär durch MMA</td>
+</tr>
+</tbody>
+</table>
+
+<div class="case-study">
+<h4>🧪 Funktionsdiagnostik</h4>
+<p><strong>Cobalamin-Stimulationstest:</strong></p>
+<ul>
+<li><strong>Prinzip:</strong> OH-Cobalamin 1-2 mg/d für 3 Tage</li>
+<li><strong>Messparameter:</strong> MMA und Homocystein vor/nach</li>
+<li><strong>Erwartung:</strong> Deutlicher Abfall bei responsiven Formen</li>
+<li><strong>Interpretation:</strong> Hilft bei Genotyp-Phänotyp-Korrelation</li>
+</ul>
+
+<p><strong>Fibroblasten-Komplementationstest:</strong></p>
+<ul>
+<li><strong>Methode:</strong> Zellfusion mit bekannten Kontrollzellen</li>
+<li><strong>Endpunkt:</strong> Propionat-Inkorporation</li>
+<li><strong>Anwendung:</strong> Bei unklaren genetischen Befunden</li>
+<li><strong>Limitationen:</strong> Aufwändig, nur in Speziallabors</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Therapie der Cobalamin-Defekte</h3>
+
+<div class="case-study">
+<h4>💊 cblC-Defekt Therapie</h4>
+<p><strong>Hydroxocobalamin (OH-Cbl):</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 1-2 mg/d i.m. oder subkutan</li>
+<li><strong>Frequenz:</strong> Täglich bis wöchentlich (je nach Ansprechen)</li>
+<li><strong>Monitoring:</strong> MMA, Homocystein, Methionin</li>
+<li><strong>Ziel:</strong> Normalisierung oder maximale Reduktion</li>
+</ul>
+
+<p><strong>Folsäure-Supplementation:</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 5-15 mg/d oral</li>
+<li><strong>Rationale:</strong> Kompensation des Folat-Traps</li>
+<li><strong>Cave:</strong> Nicht als Monotherapie (maskiert B₁₂-Mangel)</li>
+</ul>
+
+<p><strong>Betain (Trimethylglycin):</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 100-250 mg/kg/d in 2-3 Dosen</li>
+<li><strong>Mechanismus:</strong> Alternative Methylierung von Homocystein</li>
+<li><strong>Vorteil:</strong> Unabhängig von Cobalamin-Status</li>
+<li><strong>Monitoring:</strong> Methionin (Überdosierung vermeiden)</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt-Typ</th>
+<th>Primärtherapie</th>
+<th>Zusatztherapie</th>
+<th>Ansprechen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cblA/B</strong></td>
+<td>OH-Cobalamin 1-2 mg/d</td>
+<td>Carnitin bei Bedarf</td>
+<td>Meist excellent</td>
+</tr>
+<tr>
+<td><strong>cblC früh</strong></td>
+<td>OH-Cobalamin 1-2 mg/d</td>
+<td>Folsäure, Betain</td>
+<td>Gut</td>
+</tr>
+<tr>
+<td><strong>cblC spät</strong></td>
+<td>OH-Cobalamin 2-5 mg/d</td>
+<td>Folsäure, Betain</td>
+<td>Variabel</td>
+</tr>
+<tr>
+<td><strong>cblE/G</strong></td>
+<td>OH-Cobalamin ± Betain</td>
+<td>Folsäure</td>
+<td>Meist gut</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Langzeit-Monitoring</h4>
+<p><strong>Biochemisch (alle 3-6 Monate):</strong></p>
+<ul>
+<li><strong>Methylmalonat (Urin):</strong> Ziel <100 mmol/mol Kreatinin</li>
+<li><strong>Homocystein (Plasma):</strong> Ziel <50 μmol/l</li>
+<li><strong>Methionin (Plasma):</strong> Ziel >20 μmol/l</li>
+<li><strong>Folat, B₁₂:</strong> Ausreichende Versorgung sicherstellen</li>
+</ul>
+
+<p><strong>Klinisch (jährlich):</strong></p>
+<ul>
+<li><strong>Ophthalmologie:</strong> Makuladegeneration, Retinopathie</li>
+<li><strong>Neurologie:</strong> Entwicklung, periphere Neuropathie</li>
+<li><strong>Nephrologie:</strong> Nierenfunktion (bei späten Formen)</li>
+<li><strong>Hämatologie:</strong> Blutbild, B₁₂-Status</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('folsaeure')">Weiter zu Folsäure-Defekten →</button>
+</div>
+</div>
+
+<!-- Folsäure-Defekte -->
+<div class="content-section" id="folsaeure">
+<h2 class="section-title">🍃 Folsäure-Transporter-Defekte</h2>
+
+<div class="subsection">
+<h3>Grundlagen der Folat-Homöostase</h3>
+
+<p><strong>Folat-Transporter-Defekte</strong> umfassen seltene Störungen des Folsäure-Transports und -Metabolismus, die zu einem funktionellen intrazellulären Folatmangel trotz oft normaler Serumspiegel führen.</p>
+
+<div class="pathway-diagram">
+<h4>Folat-Transport und -Metabolismus</h4>
+<div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #22c55e;">
+<div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 20px; align-items: center;">
+<div style="text-align: center;">
+<h5 style="color: #166534; margin-bottom: 10px;">Aufnahme</h5>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">RFC1</div>
+<div style="font-size: 0.9em; margin-top: 5px;">Reduced Folate Carrier</div>
+</div>
+<div style="text-align: center;">
+<h5 style="color: #166534; margin-bottom: 10px;">ZNS-Transport</h5>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">FOLR1</div>
+<div style="font-size: 0.9em; margin-top: 5px;">Folat-Rezeptor α</div>
+<div class="arrow" style="margin: 10px;">↓</div>
+<div class="enzyme-box defect">PCFT</div>
+<div style="font-size: 0.9em; margin-top: 5px;">Proton-coupled Folate Transporter</div>
+</div>
+<div style="text-align: center;">
+<h5 style="color: #166534; margin-bottom: 10px;">Recycling</h5>
+<div class="enzyme-box" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">DHFR</div>
+<div style="font-size: 0.9em; margin-top: 5px;">Dihydrofolat-Reduktase</div>
+</div>
+</div>
+</div>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Gen</th>
+<th>Protein</th>
+<th>Hauptsymptome</th>
+<th>Serum-Folat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CFD</strong></td>
+<td>FOLR1</td>
+<td>Folat-Rezeptor α</td>
+<td>Zerebrale Folat-Defizienz</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>PCFT-Mangel</strong></td>
+<td>SLC46A1</td>
+<td>Proton-coupled Folate Transporter</td>
+<td>Megaloblastenanämie + ZNS</td>
+<td>Niedrig</td>
+</tr>
+<tr>
+<td><strong>DHFR-Mangel</strong></td>
+<td>DHFR</td>
+<td>Dihydrofolat-Reduktase</td>
+<td>Megaloblastose + Immundefekt</td>
+<td>Variabel</td>
+</tr>
+<tr>
+<td><strong>RFC1-Mangel</strong></td>
+<td>SLC19A1</td>
+<td>Reduced Folate Carrier</td>
+<td>Sehr selten</td>
+<td>Hoch</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>Zerebrale Folat-Defizienz (CFD)</h3>
+
+<div class="case-study">
+<h4>🧠 Pathophysiologie und Klinik</h4>
+<p><strong>Molekulare Basis:</strong></p>
+<ul>
+<li><strong>Defekt:</strong> Folat-Rezeptor α (FOLR1) an Blut-Hirn-Schranke</li>
+<li><strong>Konsequenz:</strong> Gestörter Folat-Transport ins ZNS</li>
+<li><strong>Besonderheit:</strong> Systemische Folat-Homöostase intakt</li>
+<li><strong>CSF-Folat:</strong> Typisch <10 nmol/l (Normal >40 nmol/l)</li>
+</ul>
+
+<p><strong>Klinische Manifestation:</strong></p>
+<ul>
+<li><strong>Beginn:</strong> Meist 6-24 Monate</li>
+<li><strong>Initialsymptome:</strong> Entwicklungsrückstand, Reizbarkeit</li>
+<li><strong>Progression:</strong> Epilepsie, spastische Tetraparese</li>
+<li><strong>Besonderheit:</strong> Normale hämatologische Parameter</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>Klassische Symptom-Trias</h4>
+<ul>
+<li><strong>1. Entwicklungsrückstand:</strong> Verlust erworbener Fähigkeiten</li>
+<li><strong>2. Bewegungsstörung:</strong> Spastik, Dystonie, Chorea</li>
+<li><strong>3. Krampfanfälle:</strong> Oft therapieresistent, various Formen</li>
+</ul>
+
+<p><strong>Zusätzliche Symptome:</strong></p>
+<ul>
+<li><strong>Verhaltensstörungen:</strong> Autismus-ähnliche Züge, Reizbarkeit</li>
+<li><strong>Schlafstörungen:</strong> Insomnie, veränderte Schlafarchitektur</li>
+<li><strong>Dysautonomie:</strong> Temperaturregulation, Hypersalivation</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Ursache CFD</th>
+<th>Mechanismus</th>
+<th>Häufigkeit</th>
+<th>Therapeutisches Ansprechen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FOLR1-Autoantikörper</strong></td>
+<td>Blockade des Folat-Rezeptors</td>
+<td>75% der Fälle</td>
+<td>Gut (hohe Folinsäure-Dosen)</td>
+</tr>
+<tr>
+<td><strong>FOLR1-Mutationen</strong></td>
+<td>Struktureller Rezeptordefekt</td>
+<td>15% der Fälle</td>
+<td>Variabel</td>
+</tr>
+<tr>
+<td><strong>PCFT-Mutationen</strong></td>
+<td>Gestörter choroidaler Transport</td>
+<td>5% der Fälle</td>
+<td>Mäßig</td>
+</tr>
+<tr>
+<td><strong>Mitochondriale Defekte</strong></td>
+<td>Sekundäre CSF-Folat-Reduktion</td>
+<td>5% der Fälle</td>
+<td>Schlecht</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="subsection">
+<h3>PCFT-Mangel (Hereditäre Folat-Malabsorption)</h3>
+
+<div class="case-study">
+<h4>🩸 Klinisches Bild</h4>
+<p><strong>Systemische Manifestationen:</strong></p>
+<ul>
+<li><strong>Hämatologisch:</strong> Megaloblastenanämie ab 1-6 Monaten</li>
+<li><strong>Neurologisch:</strong> Krampfanfälle, Entwicklungsrückstand</li>
+<li><strong>Immunologisch:</strong> Rezidivierende Infekte, T-Zell-Defekt</li>
+<li><strong>Gastrointestinal:</strong> Diarrhö, Malabsorption</li>
+</ul>
+
+<p><strong>Laborcharakteristika:</strong></p>
+<ul>
+<li><strong>Serum-Folat:</strong> Stark erniedrigt (<5 nmol/l)</li>
+<li><strong>Homocystein:</strong> Erhöht (>50 μmol/l)</li>
+<li><strong>MCV:</strong> Deutlich erhöht (>110 fl)</li>
+<li><strong>CSF-Folat:</strong> Sekundär erniedrigt</li>
+</ul>
+</div>
+
+<div class="pathway-diagram">
+<h4>PCFT-Funktion und Defekt</h4>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+<div style="background: #f0fdf4; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #22c55e;">
+<h5 style="color: #166534;">Normale PCFT-Funktion</h5>
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
+<div class="enzyme-box">5-MTHF (pH 5,5)</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">PCFT</div>
+<span class="arrow">→</span>
+<div class="enzyme-box">5-MTHF intrazellulär</div>
+</div>
+<p style="font-size: 0.9em; color: #166534;">Optimaler Transport bei pH 5,5 (Duodenum)</p>
+</div>
+
+<div style="background: #fef2f2; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ef4444;">
+<h5 style="color: #dc2626;">PCFT-Mangel</h5>
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
+<div class="enzyme-box">5-MTHF</div>
+<span class="arrow">→</span>
+<div class="enzyme-box defect">PCFT ↓</div>
+<span class="arrow">→</span>
+<div class="metabolite-box" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">Malabsorption</div>
+</div>
+<p style="font-size: 0.9em; color: #dc2626;">Schwere systemische Folat-Defizienz</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Diagnostik der Folat-Defekte</h3>
+
+<div class="diagnostic-flow">
+<div class="flow-step">
+<strong>Verdacht</strong><br>
+Neurologische Symptome +<br>
+normale/niedrige Folat-Werte
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>CSF-Folat</strong><br>
+Lumbalpunktion<br>
+5-MTHF Bestimmung
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>FOLR1-Antikörper</strong><br>
+Serum und CSF<br>
+Blockierende Antikörper
+</div>
+<div class="flow-arrow"></div>
+<div class="flow-step">
+<strong>Molekulargenetik</strong><br>
+FOLR1, SLC46A1, DHFR<br>
+Targeted Sequencing
+</div>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Normal</th>
+<th>CFD</th>
+<th>PCFT-Mangel</th>
+<th>DHFR-Mangel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Serum-Folat</strong></td>
+<td>10-45 nmol/l</td>
+<td>Normal</td>
+<td><5 nmol/l</td>
+<td>Variabel</td>
+</tr>
+<tr>
+<td><strong>CSF-Folat</strong></td>
+<td>>40 nmol/l</td>
+<td><10 nmol/l</td>
+<td><5 nmol/l</td>
+<td>Niedrig</td>
+</tr>
+<tr>
+<td><strong>FOLR1-Antikörper</strong></td>
+<td>Negativ</td>
+<td>75% positiv</td>
+<td>Negativ</td>
+<td>Negativ</td>
+</tr>
+<tr>
+<td><strong>Homocystein</strong></td>
+<td><15 μmol/l</td>
+<td>Normal</td>
+<td>>50 μmol/l</td>
+<td>Erhöht</td>
+</tr>
+<tr>
+<td><strong>MCV</strong></td>
+<td>70-90 fl</td>
+<td>Normal</td>
+<td>>110 fl</td>
+<td>Erhöht</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>FOLR1-Autoantikörper-Test</h4>
+<p><strong>Indikationen:</strong></p>
+<ul>
+<li>CSF-Folat <10 nmol/l bei normalen Serum-Folat-Werten</li>
+<li>Therapieresistente Epilepsie mit Entwicklungsrückstand</li>
+<li>Autismus-Spektrum-Störung mit neurologischer Progression</li>
+</ul>
+
+<p><strong>Testverfahren:</strong></p>
+<ul>
+<li><strong>Bindungs-Assay:</strong> Kompetitive Hemmung der Folat-Bindung</li>
+<li><strong>Cut-off:</strong> >5 pmol/l (serum), >0,5 pmol/l (CSF)</li>
+<li><strong>Interpretation:</strong> Hohe Titer korrelieren mit klinischer Schwere</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Therapie der Folat-Defekte</h3>
+
+<div class="case-study">
+<h4>💊 Zerebrale Folat-Defizienz</h4>
+<p><strong>Folinsäure (5-Formyltetrahydrofolat):</strong></p>
+<ul>
+<li><strong>Dosierung:</strong> 0,5-1 mg/kg/d in 2-3 Dosen</li>
+<li><strong>Maximum:</strong> Bis 40 mg/d bei schweren Fällen</li>
+<li><strong>Rationale:</strong> Umgeht FOLR1-Blockade</li>
+<li><strong>Monitoring:</strong> CSF-Folat alle 6-12 Monate</li>
+</ul>
+
+<p><strong>Zusatztherapien:</strong></p>
+<ul>
+<li><strong>Immunsuppression:</strong> Bei nachgewiesenen Autoantikörpern</li>
+<li><strong>Steroide:</strong> Prednisolon 1-2 mg/kg/d über 2-4 Wochen</li>
+<li><strong>IVIG:</strong> 2 g/kg über 2-5 Tage</li>
+<li><strong>Rituximab:</strong> Bei therapieresistenten Fällen</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt-Typ</th>
+<th>Primärtherapie</th>
+<th>Dosierung</th>
+<th>Monitoring</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CFD (Autoantikörper)</strong></td>
+<td>Folinsäure + Immunsuppression</td>
+<td>1-3 mg/kg/d</td>
+<td>CSF-Folat, Antikörper-Titer</td>
+</tr>
+<tr>
+<td><strong>CFD (FOLR1-Mutation)</strong></td>
+<td>Hochdosis Folinsäure</td>
+<td>2-5 mg/kg/d</td>
+<td>CSF-Folat, Klinik</td>
+</tr>
+<tr>
+<td><strong>PCFT-Mangel</strong></td>
+<td>Folinsäure + Folat</td>
+<td>15-20 mg/d</td>
+<td>Blutbild, Homocystein</td>
+</tr>
+<tr>
+<td><strong>DHFR-Mangel</strong></td>
+<td>Folinsäure</td>
+<td>5-10 mg/d</td>
+<td>Blutbild, Immunstatus</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>Therapeutisches Ansprechen und Prognose</h4>
+<p><strong>Beste Prognose (CFD mit Autoantikörpern):</strong></p>
+<ul>
+<li><strong>Frühe Diagnose:</strong> Normale Entwicklung möglich</li>
+<li><strong>Kombinationstherapie:</strong> Folinsäure + Immunsuppression</li>
+<li><strong>Monitoring:</strong> Antikörper-Titer als Verlaufsparameter</li>
+</ul>
+
+<p><strong>Variable Prognose (genetische Formen):</strong></p>
+<ul>
+<li><strong>PCFT-Mangel:</strong> Gut bei früher Diagnose und Therapie</li>
+<li><strong>FOLR1-Mutationen:</strong> Abhängig von Restfunktion</li>
+<li><strong>Irreversible Schäden:</strong> Bei später Diagnose möglich</li>
+</ul>
+
+<p><strong>Verlaufsparameter:</strong></p>
+<ul>
+<li><strong>CSF-Folat:</strong> Ziel >20 nmol/l</li>
+<li><strong>Klinisch:</strong> Krampfkontrolle, motorische Entwicklung</li>
+<li><strong>MRT:</strong> Myelinisierung, Atrophie-Progression</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+</div>
+</div>
+
+<!-- Quiz/Lernkontrolle -->
+<div class="content-section" id="quiz">
+<h2 class="section-title">🎯 Lernkontrolle</h2>
+
+<div class="quiz-container">
+<div class="quiz-question">1. Welche Aussage zum Biotinidase-Mangel ist korrekt?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Führt zu primärem Biotin-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Stört das Recycling von Biotin aus biotinylierten Proteinen</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Manifestiert sich typischerweise neonatal</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Spricht nicht auf Biotin-Therapie an</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">2. Was ist charakteristisch für die Multiple Carboxylase-Defizienz vom frühen Typ?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Manifestation erst nach dem 1. Lebensjahr</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Massive Erhöhung von 3-Methylcrotonyl-Glycin</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Exzellentes Ansprechen auf Standard-Biotin-Dosen</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Biotinidase-Aktivität ist erniedrigt</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">3. Bei welchem Cobalamin-Defekt findet sich die Kombination aus erhöhtem Methylmalonat UND erhöhtem Homocystein?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) cblA-Defekt</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) cblB-Defekt</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">C) cblC-Defekt</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) cblE-Defekt</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">4. Was ist charakteristisch für die zerebrale Folat-Defizienz?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Erniedrigtes Serum-Folat</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Erniedrigtes CSF-Folat bei normalem Serum-Folat</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Megaloblastenanämie</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Erhöhtes Methylmalonat</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">5. Welche irreversiblen Komplikationen können bei verspäteter Biotinidase-Mangel-Therapie auftreten?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Nur dermatologische Veränderungen</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) Nur neurologische Defizite</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">C) Hörverlust und Optikusatrophie</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Kardiomyopathie</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">6. Was ist das Therapieziel bei cblC-Defekt?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Normalisierung von Cobalamin im Serum</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Reduktion von Methylmalonat und Homocystein</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Erhöhung der Methionin-Synthase-Aktivität</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Normalisierung des Folat-Status</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">7. Bei PCFT-Mangel (hereditäre Folat-Malabsorption) findet sich typischerweise:</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Normale hämatologische Parameter</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Megaloblastenanämie und neurologische Symptome</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Erhöhtes Serum-Folat</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Isolierte ZNS-Symptomatik</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">8. Welche Therapie ist bei zerebraler Folat-Defizienz mit FOLR1-Autoantikörpern indiziert?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Nur hochdosierte Folsäure</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Folinsäure plus Immunsuppression</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Nur Immunsuppression</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Cobalamin-Supplementation</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">9. Was unterscheidet die späte von der frühen Form der Multiple Carboxylase-Defizienz?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Die betroffenen Carboxylasen</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">B) Der zugrundeliegende Enzymdefekt</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Das Muster der organischen Säuren</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">D) Die Biotin-Responsivität</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">10. Bei welchem Defekt kann trotz normaler Vitamin-Spiegel im Serum ein funktioneller Vitaminmangel vorliegen?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">A) Nur bei Biotinidase-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">B) Nur bei Cobalamin-Defekten</div>
+<div class="quiz-option" onclick="selectAnswer(this, false)">C) Nur bei zerebraler Folat-Defizienz</div>
+<div class="quiz-option" onclick="selectAnswer(this, true)">D) Bei allen genannten Defekten</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Lerneinheit abgeschlossen!</h3>
+<p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben alle wichtigen Vitamin-/Cofaktor-Defekte systematisch durchgearbeitet.</p>
+<div class="completion-badge">Experten-Level erreicht! 🏆</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['biotinidase', 'carboxylase', 'cobalamin', 'folsaeure', 'quiz'];
+let quizScore = 0;
+let questionsAnswered = 0;
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+const activeButton = Array.from(allButtons).find(btn => 
+btn.onclick.toString().includes(sectionId)
+);
+if (activeButton) {
+activeButton.classList.add('active');
+}
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+function selectAnswer(element, isCorrect) {
+// Prevent multiple selections
+if (element.parentNode.classList.contains('answered')) {
+return;
+}
+
+// Mark container as answered
+element.parentNode.classList.add('answered');
+questionsAnswered++;
+
+// Style the selected answer
+if (isCorrect) {
+element.classList.add('correct');
+quizScore++;
+} else {
+element.classList.add('incorrect');
+// Also highlight the correct answer
+const options = element.parentNode.querySelectorAll('.quiz-option');
+options.forEach(option => {
+if (option.onclick.toString().includes('true')) {
+option.classList.add('correct');
+}
+});
+}
+
+// Show score if all questions answered
+if (questionsAnswered === 10) {
+setTimeout(() => {
+const percentage = (quizScore / 10) * 100;
+let message = '';
+if (percentage >= 90) {
+message = `Exzellent! ${quizScore}/10 Punkten (${percentage}%) - Sie beherrschen das Thema perfekt! 🏆`;
+} else if (percentage >= 70) {
+message = `Gut! ${quizScore}/10 Punkten (${percentage}%) - Solide Kenntnisse mit kleinen Lücken. 👍`;
+} else if (percentage >= 50) {
+message = `Befriedigend! ${quizScore}/10 Punkten (${percentage}%) - Grundkenntnisse vorhanden, bitte wiederholen Sie die Inhalte. 📚`;
+} else {
+message = `${quizScore}/10 Punkten (${percentage}%) - Bitte arbeiten Sie die Lerneinheit nochmals durch. 💪`;
+}
+alert(message);
+}, 1000);
+}
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '20%';
+</script>
+</body>
+</html>

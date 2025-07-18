@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morbus Fabry - Teil 2: Klinische Manifestationen</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-lighter);
+            border-radius: 4px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, var(--bg-white), var(--bg-light));
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: var(--spacing-md);
+            background: var(--bg-white);
+            padding: 0 var(--spacing-xs);
+            font-size: 1.2rem;
+        }
+        
+        .highlight-box h4 {
+            color: var(--warning-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+        }
+        
+        .organ-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 600;
+            margin: var(--spacing-xs) 0;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .organ-box:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .symptom-box {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 12px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 2px;
+        }
+        
+        .age-timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: var(--spacing-lg) 0;
+            position: relative;
+        }
+        
+        .age-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            z-index: 1;
+        }
+        
+        .age-point {
+            background: var(--bg-white);
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            padding: var(--spacing-md);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            min-width: 120px;
+        }
+        
+        .age-point h5 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .severity-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--spacing-xs);
+        }
+        
+        .severity-mild { background: #10b981; }
+        .severity-moderate { background: #f59e0b; }
+        .severity-severe { background: #ef4444; }
+        
+        /* Next button */
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: var(--spacing-xl) auto 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+            
+            .age-timeline {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .age-timeline::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+        .subsection:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 Morbus Fabry</h1>
+            <p>Teil 2: Klinische Manifestationen</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 50%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>🎯 Lerneinheit Teil 2</h3>
+            <p>Von frühen Symptomen bis zur Multiorganerkrankung - lernen Sie die vielfältigen klinischen Manifestationen des Morbus Fabry kennen.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active">1. Frühe Symptome</button>
+            <button class="nav-btn">2. Organmanifestationen</button>
+            <button class="nav-btn">3. Geschlechtsunterschiede</button>
+            <button class="nav-btn">4. Krankheitsverlauf</button>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Klinische Manifestationen</h2>
+
+            <div class="subsection">
+                <h3>Frühe Symptome in Kindheit und Adoleszenz</h3>
+                <p>Erste Symptome des Morbus Fabry treten oft bereits in der <strong>Kindheit oder Adoleszenz</strong> auf, werden aber häufig übersehen oder fehlgedeutet.</p>
+                
+                <div class="age-timeline">
+                    <div class="age-point">
+                        <h5>3-10 Jahre</h5>
+                        <p style="font-size: 0.9em;">Männer</p>
+                        <p style="font-size: 0.8em; color: var(--danger-color);">Früher Beginn</p>
+                    </div>
+                    <div class="age-point">
+                        <h5>6-15 Jahre</h5>
+                        <p style="font-size: 0.9em;">Frauen</p>
+                        <p style="font-size: 0.8em; color: var(--warning-color);">Später Beginn</p>
+                    </div>
+                    <div class="age-point">
+                        <h5>20-40 Jahre</h5>
+                        <p style="font-size: 0.9em;">Organschäden</p>
+                        <p style="font-size: 0.8em; color: var(--danger-color);">Progredient</p>
+                    </div>
+                </div>
+                
+                <div class="pathway-diagram">
+                    <h4>🚨 Typische Frühsymptome</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="text-align: center;">
+                            <div class="organ-box">⚡ Fabry-Schmerzen</div>
+                            <p style="font-size: 0.9em; margin-top: 8px;">Brennende, stechende Schmerzen an Händen/Füßen</p>
+                            <div style="margin-top: 5px;">
+                                <span class="symptom-box">Akroparästhesien</span>
+                                <span class="symptom-box">Krisenschmerz</span>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="organ-box">🌡️ Temperaturintoleranz</div>
+                            <p style="font-size: 0.9em; margin-top: 8px;">Hitze-/Kälteintoleranz, verminderte Schweißbildung</p>
+                            <div style="margin-top: 5px;">
+                                <span class="symptom-box">Hypo-/Anhidrose</span>
+                                <span class="symptom-box">Überhitzung</span>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="organ-box">🍽️ GI-Beschwerden</div>
+                            <p style="font-size: 0.9em; margin-top: 8px;">Bauchschmerzen, Durchfall, Übelkeit</p>
+                            <div style="margin-top: 5px;">
+                                <span class="symptom-box">32% Prävalenz</span>
+                                <span class="symptom-box">Schulausfälle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>⚠️ Diagnostische Herausforderung</h4>
+                    <p>Gastrointestinale Beschwerden sind bei Kindern die häufigste Ursache für <strong>Schulausfälle</strong>. Die Diagnose wird oft erst nach 10 Jahren gestellt!</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Nierenmanifestationen</h3>
+                <p>Die Niere ist eines der am häufigsten und schwerwiegendsten betroffenen Organe beim Morbus Fabry.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Stadium</th>
+                            <th>Manifestation</th>
+                            <th>Häufigkeit</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="severity-indicator severity-mild"></span><strong>Früh</strong></td>
+                            <td>Proteinurie</td>
+                            <td>Bis zu 18% der Kinder</td>
+                            <td>Prognostisch ungünstig</td>
+                        </tr>
+                        <tr>
+                            <td><span class="severity-indicator severity-moderate"></span><strong>Mittel</strong></td>
+                            <td>Mikro-/Makroalbuminurie</td>
+                            <td>Häufig</td>
+                            <td>Überwachung nötig</td>
+                        </tr>
+                        <tr>
+                            <td><span class="severity-indicator severity-severe"></span><strong>Spät</strong></td>
+                            <td>Niereninsuffizienz</td>
+                            <td>Männer > Frauen</td>
+                            <td>Dialyse/Transplantation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pathway-diagram">
+                    <h4>🔬 Zelluläre Ablagerungen in der Niere</h4>
+                    <ul style="columns: 2; column-gap: 30px; padding-left: 20px;">
+                        <li><strong>Podozyten:</strong> Glomeruläre Filtration</li>
+                        <li><strong>Mesangialzellen:</strong> Struktureller Support</li>
+                        <li><strong>Endothelzellen:</strong> Gefäßfunktion</li>
+                        <li><strong>Tubulusepithelzellen:</strong> Reabsorption</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Kardiale Manifestationen</h3>
+                <p>Herzerkrankungen sind eine der Haupttodesursachen beim Morbus Fabry und können bereits im Kindesalter beginnen.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); padding: 20px; border-radius: 12px;">
+                        <h4 style="color: #dc2626; margin-bottom: 15px;">🫀 Strukturelle Veränderungen</h4>
+                        <ul style="color: #7f1d1d;">
+                            <li><strong>LVH</strong> - Linksventrikuläre Hypertrophie</li>
+                            <li><strong>Erhöhter LVMI</strong> - Schon bei Kindern</li>
+                            <li><strong>Intramyokardiale Fibrose</strong></li>
+                            <li><strong>Late Enhancement</strong> (MRT)</li>
+                        </ul>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fff7ed, #fed7aa); padding: 20px; border-radius: 12px;">
+                        <h4 style="color: #ea580c; margin-bottom: 15px;">⚡ Funktionelle Störungen</h4>
+                        <ul style="color: #9a3412;">
+                            <li><strong>Herzrhythmusstörungen</strong></li>
+                            <li><strong>Reduzierte HRV</strong> - Besonders Männer</li>
+                            <li><strong>Kardiomyopathie</strong></li>
+                            <li><strong>Plötzlicher Herztod</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>🎯 Besonderheit bei Frauen</h4>
+                    <p>Bei Frauen kann sich eine Fabry-Kardiomyopathie zunächst nur als diskretes <strong>Late Enhancement</strong> in der MRT zeigen - auch ohne LVH!</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Neurologische Manifestationen</h3>
+                <p>Das Nervensystem ist früh und schwerwiegend betroffen, sowohl zentral als auch peripher.</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <th>Manifestation</th>
+                            <th>Charakteristika</th>
+                            <th>Häufigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>Ischämischer Schlaganfall</td>
+                            <td>Oft in jungem Alter</td>
+                            <td>Typische Manifestation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>TIA</td>
+                            <td>Transitorische Attacken</td>
+                            <td>Häufig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ZNS</strong></td>
+                            <td>White Matter Lesions</td>
+                            <td>Mikroangiopathie</td>
+                            <td>Asymptomatisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PNS</strong></td>
+                            <td>Small-Fiber-Neuropathie</td>
+                            <td>Brennende Schmerzen</td>
+                            <td>Frühsymptom</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PNS</strong></td>
+                            <td>Karpaltunnelsyndrom</td>
+                            <td>Engpasssyndrom</td>
+                            <td>Häufig</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pathway-diagram">
+                    <h4>🧠 Psychische und kognitive Symptome</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h5 style="color: #6366f1; margin-bottom: 10px;">Depression</h5>
+                            <ul style="font-size: 0.9em;">
+                                <li>27-57% der Patienten</li>
+                                <li>Vs. 7-27% Allgemeinbevölkerung</li>
+                                <li>Oft unbehandelt</li>
+                                <li>Korreliert mit Schmerzen</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: #8b5cf6; margin-bottom: 10px;">Kognitive Störungen</h5>
+                            <ul style="font-size: 0.9em;">
+                                <li>Verlangsamte Informationsverarbeitung</li>
+                                <li>Exekutive Dysfunktion</li>
+                                <li>Konzentrationsschwierigkeiten</li>
+                                <li>Korrelation mit DTI-Befunden</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Weitere Organmanifestationen</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                    <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 15px; border-radius: 12px; border: 2px solid #0ea5e9;">
+                        <h4 style="color: #0369a1; margin-bottom: 10px;">👁️ Augenmanifestationen</h4>
+                        <ul style="font-size: 0.9em; color: #075985;">
+                            <li><strong>Cornea verticillata:</strong> Pathognomonisch, asymptomatisch</li>
+                            <li><strong>Gefäßtortuosität:</strong> Retinale Veränderungen</li>
+                            <li><strong>Katarakt:</strong> Späte Manifestation</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fefce8, #fef3c7); padding: 15px; border-radius: 12px; border: 2px solid #eab308;">
+                        <h4 style="color: #a16207; margin-bottom: 10px;">👂 HNO-Manifestationen</h4>
+                        <ul style="font-size: 0.9em; color: #92400e;">
+                            <li><strong>Hörstürze:</strong> Rezidivierend</li>
+                            <li><strong>Tinnitus:</strong> Chronisch</li>
+                            <li><strong>Schwindel:</strong> Vestibulär</li>
+                            <li><strong>Sensorineurale Schwerhörigkeit</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 15px; border-radius: 12px; border: 2px solid #22c55e;">
+                        <h4 style="color: #15803d; margin-bottom: 10px;">🦴 Hautmanifestationen</h4>
+                        <ul style="font-size: 0.9em; color: #166534;">
+                            <li><strong>Angiokeratome:</strong> Charakteristisch</li>
+                            <li><strong>Hypo-/Anhidrose:</strong> Verminderte Schweißbildung</li>
+                            <li><strong>Lymphödem:</strong> Späte Komplikation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Geschlechtsunterschiede im klinischen Verlauf</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 20px; border-radius: 12px; border: 2px solid #3b82f6;">
+                        <h4 style="color: #1d4ed8; margin-bottom: 15px;">👨 Männer (hemizygot)</h4>
+                        <ul style="color: #1e40af;">
+                            <li><strong>Manifestationsalter:</strong> 3-10 Jahre</li>
+                            <li><strong>Schweregrad:</strong> Meist schwerer Verlauf</li>
+                            <li><strong>Organmanifestationen:</strong> Früher und ausgeprägter</li>
+                            <li><strong>Lebenserwartung:</strong> -20 Jahre reduziert</li>
+                            <li><strong>Diagnostik:</strong> AGLA-Aktivität messbar</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); padding: 20px; border-radius: 12px; border: 2px solid #ec4899;">
+                        <h4 style="color: #be185d; margin-bottom: 15px;">👩 Frauen (heterozygot)</h4>
+                        <ul style="color: #be185d;">
+                            <li><strong>Manifestationsalter:</strong> 6-15 Jahre</li>
+                            <li><strong>Schweregrad:</strong> Variable Ausprägung</li>
+                            <li><strong>X-Inaktivierung:</strong> Bestimmt Schweregrad</li>
+                            <li><strong>Lebenserwartung:</strong> -10 Jahre reduziert</li>
+                            <li><strong>Diagnostik:</strong> Nur Genetik zuverlässig</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4>⚠️ Wichtiger Hinweis für die Praxis</h4>
+                    <p>Frauen sind <strong>nicht nur Konduktorinnen</strong>! Sie können jede Krankheitsschwere erreichen und benötigen dieselbe Aufmerksamkeit wie männliche Patienten.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="next-btn" onclick="window.open('about:blank')">
+            Weiter zu Teil 3: Diagnostik →
+        </button>
+    </div>
+
+    <script>
+        // Progress tracking
+        let currentProgress = 50;
+        
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+        }
+        
+        // Navigation functionality
+        document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update progress based on section (40-60% range for part 2)
+                updateProgress(40 + (index + 1) * 5);
+            });
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.subsection').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Interactive hover effects for organ boxes
+        document.querySelectorAll('.organ-box').forEach(box => {
+            box.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            box.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

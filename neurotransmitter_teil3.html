@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurotransmitter-Defekte - Teil 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--primary-color: #667eea;
+--secondary-color: #764ba2;
+--accent-color: #f093fb;
+--success-color: #4facfe;
+--warning-color: #fa709a;
+--danger-color: #ff6b6b;
+--info-color: #74b9ff;
+--neuro-color: #9c88ff;
+--dopamine-color: #ff6b9d;
+--serotonin-color: #4ecdc4;
+--text-primary: #2d3748;
+--text-secondary: #4a5568;
+--text-muted: #718096;
+--bg-white: #ffffff;
+--bg-light: #f8fafc;
+--bg-lighter: #f1f5f9;
+--border-radius: 16px;
+--border-radius-lg: 24px;
+--spacing-xs: 8px;
+--spacing-sm: 16px;
+--spacing-md: 24px;
+--spacing-lg: 32px;
+--spacing-xl: 48px;
+--shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+line-height: 1.6;
+color: var(--text-primary);
+background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+min-height: 100vh;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: var(--spacing-md);
+}
+
+/* Header */
+.header {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+}
+
+.header h1 {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color), var(--serotonin-color));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: clamp(2rem, 5vw, 3.5rem);
+font-weight: 700;
+margin-bottom: var(--spacing-sm);
+animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+.header p {
+color: var(--text-secondary);
+font-size: 1.3rem;
+font-weight: 400;
+}
+
+/* Progress bar */
+.progress-container {
+background: var(--bg-lighter);
+border-radius: 50px;
+height: 10px;
+margin-top: var(--spacing-md);
+overflow: hidden;
+}
+
+.progress-fill {
+background: linear-gradient(90deg, var(--neuro-color), var(--dopamine-color));
+height: 100%;
+border-radius: 50px;
+transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-fill::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Navigation */
+.navigation {
+background: var(--bg-white);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+display: flex;
+flex-wrap: wrap;
+gap: var(--spacing-sm);
+justify-content: center;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+background: var(--bg-light);
+border: 2px solid #e2e8f0;
+color: var(--text-primary);
+padding: 16px 24px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+border-color: var(--neuro-color);
+}
+
+.nav-btn.active {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border-color: var(--neuro-color);
+box-shadow: var(--shadow-md);
+}
+
+/* Content sections */
+.content-section {
+background: var(--bg-white);
+border-radius: var(--border-radius-lg);
+padding: var(--spacing-xl);
+margin-bottom: var(--spacing-lg);
+box-shadow: var(--shadow-md);
+border: 1px solid #e2e8f0;
+display: none;
+}
+
+.content-section.active {
+display: block;
+animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.section-title {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: var(--spacing-lg);
+position: relative;
+padding-bottom: var(--spacing-sm);
+}
+
+.section-title::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 60px;
+height: 4px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+from { width: 0; }
+to { width: 60px; }
+}
+
+/* Subsections */
+.subsection {
+margin-bottom: var(--spacing-lg);
+padding: var(--spacing-lg);
+background: var(--bg-light);
+border-radius: var(--border-radius);
+border: 1px solid #e2e8f0;
+transition: all 0.3s ease;
+}
+
+.subsection:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+background: var(--bg-white);
+}
+
+.subsection h3 {
+color: var(--text-primary);
+margin-bottom: var(--spacing-md);
+font-size: 1.5rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.subsection h3::before {
+content: '';
+width: 4px;
+height: 24px;
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+border-radius: 2px;
+}
+
+.subsection p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+line-height: 1.7;
+}
+
+.subsection ul {
+color: var(--text-secondary);
+padding-left: 1.5rem;
+}
+
+.subsection li {
+margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.clinical-table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+margin: var(--spacing-md) 0;
+background: var(--bg-white);
+border-radius: var(--border-radius);
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+border: 1px solid #e2e8f0;
+}
+
+.clinical-table th {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+padding: var(--spacing-md);
+text-align: left;
+font-weight: 600;
+font-size: 0.95rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.clinical-table td {
+padding: var(--spacing-md);
+border-bottom: 1px solid #f1f5f9;
+transition: all 0.3s ease;
+color: var(--text-primary);
+}
+
+.clinical-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.clinical-table tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Quiz containers */
+.quiz-container {
+background: var(--bg-light);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+border: 1px solid #e2e8f0;
+box-shadow: var(--shadow-sm);
+}
+
+.quiz-question {
+font-weight: 600;
+margin-bottom: var(--spacing-md);
+color: var(--text-primary);
+font-size: 1.1rem;
+}
+
+.quiz-option {
+background: var(--bg-white);
+border: 2px solid #e2e8f0;
+border-radius: 12px;
+padding: var(--spacing-md);
+margin: var(--spacing-xs) 0;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+font-weight: 500;
+color: var(--text-primary);
+}
+
+.quiz-option:hover {
+background: #eff6ff;
+border-color: var(--neuro-color);
+transform: translateX(8px) scale(1.02);
+}
+
+.quiz-option.correct {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border-color: #22c55e;
+animation: correctPulse 0.6s ease-out;
+}
+
+.quiz-option.incorrect {
+background: linear-gradient(135deg, #fef2f2, #fecaca);
+border-color: #ef4444;
+animation: incorrectShake 0.6s ease-out;
+}
+
+@keyframes correctPulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+75% { transform: translateX(5px); }
+}
+
+.quiz-explanation {
+background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-top: var(--spacing-md);
+display: none;
+}
+
+.quiz-explanation.show {
+display: block;
+animation: slideInUp 0.4s ease-out;
+}
+
+.quiz-explanation h5 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+font-weight: 600;
+}
+
+.quiz-explanation p {
+color: #1e40af;
+margin-bottom: 0.5rem;
+}
+
+/* Case study boxes */
+.case-study {
+background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.case-study h4 {
+color: #166534;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: var(--spacing-xs);
+}
+
+.case-study p, .case-study ul, .case-study li {
+color: #166534;
+}
+
+/* Special neurotransmitter pathway boxes */
+.neuro-pathway {
+background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+border: 2px solid var(--neuro-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+}
+
+.neuro-pathway h4 {
+color: #6b21a8;
+margin-bottom: var(--spacing-md);
+font-size: 1.3rem;
+font-weight: 600;
+}
+
+.neuro-pathway p, .neuro-pathway ul, .neuro-pathway li {
+color: #6b21a8;
+}
+
+/* Highlight boxes */
+.highlight-box {
+background: linear-gradient(135deg, #fff7ed, #fed7aa);
+border: 2px solid var(--warning-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+position: relative;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box::before {
+content: '⚠️';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--warning-color), #fee140);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.highlight-box h4 {
+color: #92400e;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.highlight-box p, .highlight-box ul, .highlight-box li {
+color: #92400e;
+}
+
+/* Prognosis boxes */
+.prognosis-box {
+background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+border: 2px solid var(--success-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-lg);
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-sm);
+position: relative;
+}
+
+.prognosis-box::before {
+content: '📈';
+position: absolute;
+top: -12px;
+left: 24px;
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+padding: 8px 12px;
+border-radius: 50%;
+font-size: 1.2rem;
+box-shadow: var(--shadow-sm);
+}
+
+.prognosis-box h4 {
+color: #166534;
+margin-bottom: var(--spacing-sm);
+margin-top: var(--spacing-sm);
+font-weight: 600;
+}
+
+.prognosis-box p, .prognosis-box ul, .prognosis-box li {
+color: #166534;
+}
+
+/* Buttons */
+.next-step {
+text-align: center;
+margin-top: var(--spacing-xl);
+}
+
+.next-btn, .quiz-btn {
+background: linear-gradient(135deg, var(--neuro-color), var(--dopamine-color));
+color: white;
+border: none;
+padding: 18px 36px;
+border-radius: 50px;
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: var(--shadow-md);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin: 0 10px;
+}
+
+.next-btn:hover, .quiz-btn:hover {
+transform: translateY(-4px) scale(1.05);
+box-shadow: var(--shadow-lg);
+}
+
+.quiz-btn {
+background: linear-gradient(135deg, var(--info-color), var(--neuro-color));
+padding: 12px 24px;
+font-size: 14px;
+}
+
+.part-info {
+background: linear-gradient(135deg, #eff6ff, #dbeafe);
+border: 2px solid var(--info-color);
+border-radius: var(--border-radius);
+padding: var(--spacing-md);
+margin-bottom: var(--spacing-lg);
+text-align: center;
+box-shadow: var(--shadow-sm);
+}
+
+.part-info h3 {
+color: var(--info-color);
+margin-bottom: var(--spacing-sm);
+}
+
+.part-info p {
+color: var(--text-secondary);
+}
+
+.completion-badge {
+background: linear-gradient(135deg, var(--success-color), #00f2fe);
+color: white;
+padding: var(--spacing-md) var(--spacing-lg);
+border-radius: 50px;
+display: inline-block;
+font-weight: 600;
+margin: var(--spacing-md) 0;
+box-shadow: var(--shadow-md);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+.container {
+padding: var(--spacing-sm);
+}
+
+.header h1 {
+font-size: 2.5rem;
+}
+
+.header p {
+font-size: 1.1rem;
+}
+
+.navigation {
+flex-direction: column;
+}
+
+.nav-btn {
+width: 100%;
+text-align: center;
+}
+
+.content-section {
+padding: var(--spacing-md);
+}
+
+.section-title {
+font-size: 2rem;
+}
+
+.subsection {
+padding: var(--spacing-md);
+}
+}
+
+@media (max-width: 480px) {
+.header {
+padding: var(--spacing-md);
+}
+
+.header h1 {
+font-size: 2rem;
+}
+
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+/* Animation stagger */
+.subsection {
+animation: fadeInStagger 0.6s ease-out both;
+}
+
+@keyframes fadeInStagger {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.subsection:nth-child(1) { animation-delay: 0.1s; }
+.subsection:nth-child(2) { animation-delay: 0.2s; }
+.subsection:nth-child(3) { animation-delay: 0.3s; }
+.subsection:nth-child(4) { animation-delay: 0.4s; }
+.subsection:nth-child(5) { animation-delay: 0.5s; }
+.subsection:nth-child(6) { animation-delay: 0.6s; }
+.subsection:nth-child(7) { animation-delay: 0.7s; }
+.subsection:nth-child(8) { animation-delay: 0.8s; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🧠 Neurotransmitter-Defekte</h1>
+<p>Teil 3: Prognose, Fallbeispiele & Lernkontrolle</p>
+<div class="progress-container">
+<div class="progress-fill" id="progressBar" style="width: 0%"></div>
+</div>
+</div>
+
+<div class="part-info">
+<h3>🎯 Lerneinheit Teil 3</h3>
+<p>Dieser abschließende Teil behandelt Langzeitprognose, praxisnahe Fallbeispiele und umfassende Lernkontrolle zur Vertiefung des Wissens.</p>
+</div>
+
+<div class="navigation">
+<button class="nav-btn active" onclick="showSection('prognose')">1. Prognose</button>
+<button class="nav-btn" onclick="showSection('fallbeispiele')">2. Fallbeispiele</button>
+<button class="nav-btn" onclick="showSection('quiz')">3. Lernkontrolle</button>
+</div>
+
+<!-- Prognose -->
+<div class="content-section active" id="prognose">
+<h2 class="section-title">📈 Prognose und Langzeitverlauf</h2>
+
+<div class="subsection">
+<h3>Defekt-spezifische Langzeitprognose</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Defekt</th>
+<th>Unbehandelt</th>
+<th>Bei früher Behandlung</th>
+<th>Bei später Behandlung</th>
+<th>Hauptlimitierungen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AADC-Mangel</strong></td>
+<td>Sehr schlecht</td>
+<td>Gut bis mäßig</td>
+<td>Eingeschränkt</td>
+<td>Schwere Entwicklungsdefizite</td>
+</tr>
+<tr>
+<td><strong>TH-Mangel (Typ A)</strong></td>
+<td>Schlecht</td>
+<td>Mäßig bis gut</td>
+<td>Mäßig</td>
+<td>Kognitive Defizite möglich</td>
+</tr>
+<tr>
+<td><strong>TH-Mangel (Typ B)</strong></td>
+<td>Mäßig</td>
+<td>Sehr gut</td>
+<td>Gut</td>
+<td>Minimale Einschränkungen</td>
+</tr>
+<tr>
+<td><strong>PTPS-Mangel</strong></td>
+<td>Schlecht</td>
+<td>Gut</td>
+<td>Mäßig</td>
+<td>Variable Neurologie</td>
+</tr>
+<tr>
+<td><strong>DHPR-Mangel</strong></td>
+<td>Sehr schlecht</td>
+<td>Mäßig</td>
+<td>Schlecht</td>
+<td>Progressive Komponente</td>
+</tr>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>Variable</td>
+<td>Sehr gut</td>
+<td>Gut</td>
+<td>Abhängig von Mutation</td>
+</tr>
+<tr>
+<td><strong>SR-Mangel</strong></td>
+<td>Gut</td>
+<td>Sehr gut</td>
+<td>Gut</td>
+<td>Beste Gesamtprognose</td>
+</tr>
+</tbody>
+</table>
+
+<div class="prognosis-box">
+<h4>Entscheidende Prognosefaktoren</h4>
+
+<p><strong>Alter bei Therapiebeginn:</strong></p>
+<ul>
+<li><strong>< 6 Monate:</strong> Optimale Prognose, normale Entwicklung möglich</li>
+<li><strong>6-24 Monate:</strong> Gute Prognose, leichte Defizite möglich</li>
+<li><strong>2-5 Jahre:</strong> Mäßige Prognose, deutliche Einschränkungen</li>
+<li><strong>> 5 Jahre:</strong> Eingeschränkte Prognose, schwere Defizite</li>
+</ul>
+
+<p><strong>Schwere der Mutation:</strong></p>
+<ul>
+<li><strong>Null-Mutationen:</strong> Kompletter Enzymmangel, schlechteste Prognose</li>
+<li><strong>Missense-Mutationen:</strong> Restaktivität möglich, bessere Prognose</li>
+<li><strong>Splice-Site-Mutationen:</strong> Variable Restaktivität</li>
+<li><strong>Temperatur-sensitive Mutationen:</strong> Fluktuation der Symptome</li>
+</ul>
+
+<p><strong>Compliance und Therapie-Response:</strong></p>
+<ul>
+<li><strong>Exzellente Compliance:</strong> Maximales Entwicklungspotential</li>
+<li><strong>Schnelle Response:</strong> Bessere Langzeitprognose</li>
+<li><strong>Vollständige Response:</strong> Normale Lebenserwartung</li>
+<li><strong>Partielle Response:</strong> Variable Langzeitresultate</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>AADC-Mangel - Langzeitverlauf</h3>
+
+<div class="case-study">
+<h4>🧬 Entwicklungsverlauf unter Therapie</h4>
+
+<p><strong>Frühe Therapie (< 6 Monate):</strong></p>
+<ul>
+<li><strong>Motorische Entwicklung:</strong> 70-80% erreichen freies Laufen</li>
+<li><strong>Kognitive Entwicklung:</strong> IQ 70-100, meist Lernbehinderung</li>
+<li><strong>Sprachentwicklung:</strong> Verzögert, aber meist funktionelle Sprache</li>
+<li><strong>Selbstständigkeit:</strong> Teilweise bis vollständige Selbstversorgung</li>
+</ul>
+
+<p><strong>Späte Therapie (> 2 Jahre):</strong></p>
+<ul>
+<li><strong>Motorische Entwicklung:</strong> 20-30% erreichen freies Laufen</li>
+<li><strong>Kognitive Entwicklung:</strong> IQ meist < 50, schwere Behinderung</li>
+<li><strong>Sprachentwicklung:</strong> Oft nur wenige Worte oder keine Sprache</li>
+<li><strong>Selbstständigkeit:</strong> Vollständige Pflegebedürftigkeit häufig</li>
+</ul>
+
+<p><strong>Langzeitkomplikationen:</strong></p>
+<ul>
+<li><strong>Bewegungsstörungen:</strong> Persistierende Dystonie trotz Therapie</li>
+<li><strong>Epilepsie:</strong> Bei 20-30% der Patienten</li>
+<li><strong>Schlafstörungen:</strong> Chronische Insomnie häufig</li>
+<li><strong>Gastroösophagealer Reflux:</strong> Operative Korrektur oft nötig</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>📊 Funktionelle Outcome-Kategorien</h4>
+
+<p><strong>Kategorie I (25% der Patienten) - Gutes Outcome:</strong></p>
+<ul>
+<li>Freies Laufen und normale Mobilität</li>
+<li>Funktionelle Sprache und Kommunikation</li>
+<li>Teilnahme an Regelschule (mit Unterstützung)</li>
+<li>Weitgehende Selbstständigkeit im Alltag</li>
+</ul>
+
+<p><strong>Kategorie II (35% der Patienten) - Mäßiges Outcome:</strong></p>
+<ul>
+<li>Laufen mit Hilfe oder Rollstuhl teilweise</li>
+<li>Eingeschränkte aber verständliche Sprache</li>
+<li>Förderschule oder spezielle Betreuung</li>
+<li>Unterstützung bei täglichen Aktivitäten nötig</li>
+</ul>
+
+<p><strong>Kategorie III (40% der Patienten) - Schlechtes Outcome:</strong></p>
+<ul>
+<li>Rollstuhlabhängigkeit oder bettlägerig</li>
+<li>Keine oder minimale verbale Kommunikation</li>
+<li>Vollständige Pflegebedürftigkeit</li>
+<li>Häufige medizinische Komplikationen</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>⚡ Neue Therapieansätze und Zukunftsperspektiven</h4>
+
+<p><strong>Gen-Therapie Ergebnisse (Update 2024):</strong></p>
+<ul>
+<li><strong>20 behandelte Patienten:</strong> Deutliche motorische Verbesserungen</li>
+<li><strong>Reduktion der Krisen:</strong> 90% weniger okulohypische Episoden</li>
+<li><strong>Entwicklungsfortschritte:</strong> Verbesserte Aufmerksamkeit und Interaktion</li>
+<li><strong>Langzeitsicherheit:</strong> Bisher keine schwerwiegenden Nebenwirkungen</li>
+</ul>
+
+<p><strong>Prognose mit Gen-Therapie:</strong></p>
+<ul>
+<li><strong>Frühe Behandlung:</strong> Möglicherweise normale Entwicklung</li>
+<li><strong>Bestehende Defizite:</strong> Teilweise reversibel</li>
+<li><strong>Verfügbarkeit:</strong> Experimentell, klinische Studien laufend</li>
+<li><strong>Kostenfaktor:</strong> Sehr hoch, Kostenerstattung unklar</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Tyrosinhydroxylase-Mangel - Exzellente Prognose</h3>
+
+<div class="prognosis-box">
+<h4>Outcome-Daten aus großen Kohorten</h4>
+
+<p><strong>Langzeitstudie über 15 Jahre (N=67 Patienten):</strong></p>
+<ul>
+<li><strong>Normale Lebenserwartung:</strong> Keine erhöhte Mortalität</li>
+<li><strong>Kognitive Entwicklung:</strong> 85% normale Intelligenz (IQ > 85)</li>
+<li><strong>Motorische Funktion:</strong> 95% erreichen altersgerechte Motorik</li>
+<li><strong>Schulbildung:</strong> 80% reguläre Schullaufbahn</li>
+<li><strong>Berufstätigkeit:</strong> 90% der Erwachsenen berufstätig</li>
+</ul>
+
+<p><strong>Faktoren für optimales Outcome:</strong></p>
+<ul>
+<li><strong>Frühe Diagnose:</strong> Vor Auftreten schwerer Symptome</li>
+<li><strong>Adäquate L-DOPA-Dosierung:</strong> Vollständige Symptomkontrolle</li>
+<li><strong>Regelmäßige Einnahme:</strong> Keine Therapieunterbrechungen</li>
+<li><strong>Familiäre Unterstützung:</strong> Verständnis für lebenslange Therapie</li>
+</ul>
+
+<p><strong>Qualität der Symptomkontrolle:</strong></p>
+<ul>
+<li><strong>Komplette Response (60%):</strong> Keine neurologischen Symptome</li>
+<li><strong>Gute Response (30%):</strong> Minimale Bewegungsstörungen</li>
+<li><strong>Partielle Response (10%):</strong> Deutliche aber kontrollierte Symptome</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🚶 Lebensphasen-spezifische Aspekte</h4>
+
+<p><strong>Kindheit und Adoleszenz:</strong></p>
+<ul>
+<li><strong>Sport und Aktivitäten:</strong> Normale Teilnahme bei guter Einstellung</li>
+<li><strong>Schule:</strong> Meist reguläre Beschulung ohne Einschränkungen</li>
+<li><strong>Pubertät:</strong> Mögliche Dosisanpassung bei Wachstumsschüben</li>
+<li><strong>Compliance:</strong> Herausforderung in der Adoleszenz</li>
+</ul>
+
+<p><strong>Erwachsenenalter:</strong></p>
+<ul>
+<li><strong>Berufswahl:</strong> Keine spezifischen Einschränkungen</li>
+<li><strong>Beziehungen:</strong> Normale soziale und romantische Entwicklung</li>
+<li><strong>Schwangerschaft:</strong> L-DOPA sicher, engmaschige Überwachung</li>
+<li><strong>Lebensplanung:</strong> Normale Lebenserwartung und -qualität</li>
+</ul>
+
+<p><strong>Transition und Selbstmanagement:</strong></p>
+<ul>
+<li><strong>Übertragung der Verantwortung:</strong> Schrittweise ab 14-16 Jahren</li>
+<li><strong>Medikamenten-Management:</strong> Eigenständige Dosierung und Timing</li>
+<li><strong>Notfall-Planung:</strong> Umgang mit Vergessen oder Nebenwirkungen</li>
+<li><strong>Erwachsenen-Betreuung:</strong> Neurologe für Bewegungsstörungen</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🔄 Langzeitstabilität der Therapie</h4>
+
+<p><strong>15-Jahres-Follow-up-Daten:</strong></p>
+<ul>
+<li><strong>Stabile Dosierung:</strong> 70% benötigen nur minimale Anpassungen</li>
+<li><strong>Keine Tolerance:</strong> L-DOPA-Response bleibt erhalten</li>
+<li><strong>Minimale Nebenwirkungen:</strong> Dyskinésien extrem selten</li>
+<li><strong>Lebensqualität:</strong> Vergleichbar mit gesunder Population</li>
+</ul>
+
+<p><strong>Seltene Langzeitkomplikationen:</strong></p>
+<ul>
+<li><strong>Wearing-off (5%):</strong> Wirkungsabnahme vor nächster Dosis</li>
+<li><strong>Dyskinésien (< 2%):</strong> Unwillkürliche Bewegungen</li>
+<li><strong>Schlafstörungen (10%):</strong> Durch Dopamin-Aktivierung</li>
+<li><strong>Impulskontroll-Störungen:</strong> Sehr selten bei L-DOPA-Monotherapie</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>BH4-Defekte - Variable Prognose</h3>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>BH4-Defekt</th>
+<th>Kognitive Entwicklung</th>
+<th>Neurologische Symptome</th>
+<th>Lebenserwartung</th>
+<th>Besonderheiten</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GTP-CH-I</strong></td>
+<td>Normal bis leicht ↓</td>
+<td>Gut kontrollierbar</td>
+<td>Normal</td>
+<td>Beste BH4-Defekt-Prognose</td>
+</tr>
+<tr>
+<td><strong>PTPS</strong></td>
+<td>Leicht bis mäßig ↓</td>
+<td>Variable Response</td>
+<td>Normal bis ↓</td>
+<td>Große Variabilität</td>
+</tr>
+<tr>
+<td><strong>DHPR</strong></td>
+<td>Mäßig bis schwer ↓</td>
+<td>Oft therapie-refraktär</td>
+<td>Reduziert</td>
+<td>Schlechteste Prognose</td>
+</tr>
+<tr>
+<td><strong>PCD</strong></td>
+<td>Normal bis leicht ↓</td>
+<td>Meist gut kontrollierbar</td>
+<td>Normal</td>
+<td>Mildeste Form</td>
+</tr>
+<tr>
+<td><strong>SR</strong></td>
+<td>Normal</td>
+<td>Exzellente Response</td>
+<td>Normal</td>
+<td>Isolierte Dopamin-Störung</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<h4>📊 Prognostische Marker bei BH4-Defekten</h4>
+
+<p><strong>Günstige Prognosefaktoren:</strong></p>
+<ul>
+<li><strong>Frühe Diagnose:</strong> Durch Neugeborenenscreening</li>
+<li><strong>Milde Hyperphenylalaninämie:</strong> < 600 μmol/l</li>
+<li><strong>Schnelle Therapie-Response:</strong> Besserung binnen 4 Wochen</li>
+<li><strong>Missense-Mutationen:</strong> Restenzymaktivität erhalten</li>
+<li><strong>Normale CSF-Folsäure:</strong> Kein zusätzlicher Folsäure-Defekt</li>
+</ul>
+
+<p><strong>Ungünstige Prognosefaktoren:</strong></p>
+<ul>
+<li><strong>Späte Diagnose:</strong> Nach neurologischer Manifestation</li>
+<li><strong>Sehr hohe Phenylalanin-Werte:</strong> > 1200 μmol/l</li>
+<li><strong>DHPR-Mangel:</strong> Zusätzlicher Folsäure-Metabolismus-Defekt</li>
+<li><strong>Null-Mutationen:</strong> Kompletter Enzymmangel</li>
+<li><strong>Therapie-Resistenz:</strong> Unvollständige biochemische Korrektur</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🧬 Spezifische Langzeitaspekte</h4>
+
+<p><strong>DHPR-Mangel - Die komplexeste Form:</strong></p>
+<ul>
+<li><strong>Progressive Komponente:</strong> Trotz Therapie Verschlechterung möglich</li>
+<li><strong>ZNS-Verkalkungen:</strong> Im MRT sichtbare Veränderungen</li>
+<li><strong>Immundefekte:</strong> Erhöhte Infektanfälligkeit</li>
+<li><strong>Lebenserwartung:</strong> Reduziert auf 20-40 Jahre</li>
+</ul>
+
+<p><strong>Sepiapterin-Reduktase-Mangel - Beste Prognose:</strong></p>
+<ul>
+<li><strong>Normale Entwicklung:</strong> Bei früher L-DOPA-Therapie</li>
+<li><strong>Keine Phenylalanin-Probleme:</strong> Normaler Phenylalanin-Metabolismus</li>
+<li><strong>Isolierte Motorik:</strong> Nur Bewegungsstörungen betroffen</li>
+<li><strong>Exzellente Response:</strong> Oft dramatische Verbesserung</li>
+</ul>
+
+<p><strong>Transition ins Erwachsenenalter:</strong></p>
+<ul>
+<li><strong>Medikamenten-Transfer:</strong> Von pädiatrischer zu Erwachsenen-Formulierung</li>
+<li><strong>Genetische Beratung:</strong> Familienplanung und Vererbungsrisiko</li>
+<li><strong>Langzeit-Monitoring:</strong> Jährliche Kontrollen lebenslang nötig</li>
+<li><strong>Neue Therapien:</strong> Experimentelle Ansätze bei Therapie-Resistenz</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Psychosoziale Aspekte und Lebensqualität</h3>
+
+<div class="neuro-pathway">
+<h4>👨‍👩‍👧‍👦 Familiäre Belastung und Bewältigung</h4>
+
+<p><strong>Akute Phase nach Diagnose:</strong></p>
+<ul>
+<li><strong>Schock und Verleugnung:</strong> Normale Trauerreaktion</li>
+<li><strong>Informationsbedürfnis:</strong> Verständnis der Erkrankung</li>
+<li><strong>Schuld und Selbstvorwürfe:</strong> "Warum unser Kind?"</li>
+<li><strong>Zukunftsängste:</strong> Sorge um Entwicklung und Prognose</li>
+</ul>
+
+<p><strong>Langfristige Anpassung:</strong></p>
+<ul>
+<li><strong>Expertise-Entwicklung:</strong> Familien werden zu Experten</li>
+<li><strong>Neue Normalität:</strong> Integration in den Alltag</li>
+<li><strong>Selbsthilfegruppen:</strong> Austausch mit anderen Betroffenen</li>
+<li><strong>Resilienz-Entwicklung:</strong> Bewältigungsstrategien</li>
+</ul>
+
+<p><strong>Geschwister-Aspekte:</strong></p>
+<ul>
+<li><strong>Vernachlässigungs-Gefühle:</strong> Aufmerksamkeit auf krankes Kind</li>
+<li><strong>Verantwortungsgefühl:</strong> Übermäßige Fürsorge</li>
+<li><strong>Genetische Ängste:</strong> Eigenes Erkrankungsrisiko</li>
+<li><strong>Positive Entwicklung:</strong> Empathie und Verständnis</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>🎓 Bildung und berufliche Integration</h4>
+
+<p><strong>Schulische Laufbahn:</strong></p>
+<ul>
+<li><strong>Regelschule (60-80%):</strong> Je nach Defekt und Therapie-Response</li>
+<li><strong>Integrative Beschulung (15-25%):</strong> Mit sonderpädagogischer Unterstützung</li>
+<li><strong>Förderschule (5-15%):</strong> Bei schweren kognitiven Defiziten</li>
+<li><strong>Nachteilsausgleich:</strong> Verlängerte Prüfungszeiten, Hilfsmittel</li>
+</ul>
+
+<p><strong>Berufliche Perspektiven:</strong></p>
+<ul>
+<li><strong>Vollzeit-Berufstätigkeit (70%):</strong> Bei guter Symptomkontrolle</li>
+<li><strong>Teilzeit oder geschützte Werkstatt (20%):</strong> Bei Einschränkungen</li>
+<li><strong>Keine Berufstätigkeit (10%):</strong> Bei schweren Behinderungen</li>
+<li><strong>Spezielle Anforderungen:</strong> Regelmäßige Medikation, Pausen</li>
+</ul>
+
+<p><strong>Soziale Integration:</strong></p>
+<ul>
+<li><strong>Freundschaften:</strong> Meist normale soziale Entwicklung</li>
+<li><strong>Partnerschaften:</strong> Bei guter Therapie keine Einschränkungen</li>
+<li><strong>Eigenständiges Wohnen:</strong> Abhängig von Selbstständigkeitsgrad</li>
+<li><strong>Hobbys und Freizeit:</strong> Angepasst an körperliche Möglichkeiten</li>
+</ul>
+</div>
+
+<div class="prognosis-box">
+<h4>Lebensqualitäts-Studien - Aktuelle Daten</h4>
+
+<p><strong>Patientenberichtete Outcomes (N=156):</strong></p>
+<ul>
+<li><strong>Körperliche Gesundheit:</strong> 65% berichten gute bis sehr gute Gesundheit</li>
+<li><strong>Emotionales Wohlbefinden:</strong> 70% zufrieden mit Lebensqualität</li>
+<li><strong>Soziale Funktionsfähigkeit:</strong> 75% haben stabilen Freundeskreis</li>
+<li><strong>Zukunftsoptimismus:</strong> 80% blicken positiv in die Zukunft</li>
+</ul>
+
+<p><strong>Familien-Belastung (Eltern-Befragung):</strong></p>
+<ul>
+<li><strong>Hohe Belastung (25%):</strong> Schwere Formen, schlechte Prognose</li>
+<li><strong>Mäßige Belastung (45%):</strong> Chronische Sorge, aber Bewältigung</li>
+<li><strong>Geringe Belastung (30%):</strong> Gute Therapie-Response, optimistische Prognose</li>
+<li><strong>Positive Aspekte:</strong> Familienzusammenhalt, Lebensperspektive</li>
+</ul>
+
+<p><strong>Einflussfaktoren auf Lebensqualität:</strong></p>
+<ul>
+<li><strong>Therapie-Erfolg (wichtigster Faktor):</strong> Symptomkontrolle entscheidend</li>
+<li><strong>Soziale Unterstützung:</strong> Familie, Freunde, Selbsthilfe</li>
+<li><strong>Zugang zu Spezialversorgung:</strong> Regelmäßige Kontrollen</li>
+<li><strong>Finanzielle Sicherheit:</strong> Kostenübernahme der Therapie</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('fallbeispiele')">Zu den Fallbeispielen →</button>
+</div>
+</div>
+
+<!-- Fallbeispiele -->
+<div class="content-section" id="fallbeispiele">
+<h2 class="section-title">🩺 Fallbeispiele aus der Praxis</h2>
+
+<div class="subsection">
+<h3>Fall 1: AADC-Mangel - Diagnostische Herausforderung</h3>
+
+<div class="case-study">
+<h4>📋 Anamnese und Erstpräsentation</h4>
+
+<p><strong>Patient:</strong> Lisa, 4 Monate alt, weiblich</p>
+
+<p><strong>Familienanamnese:</strong> Eltern konsanguin (Cousins), bereits ein verstorbenes Kind im Alter von 8 Monaten (damals als SIDS klassifiziert)</p>
+
+<p><strong>Schwangerschaft und Geburt:</strong></p>
+<ul>
+<li>Unauffällige Schwangerschaft, termingerecht geboren</li>
+<li>Geburtsgewicht 3200g, APGAR 9/10/10</li>
+<li>Neugeborenenscreening: Alle Parameter normal</li>
+<li>Initial normale Entwicklung in den ersten 6 Wochen</li>
+</ul>
+
+<p><strong>Entwicklung der Symptome:</strong></p>
+<ul>
+<li><strong>6. Lebenswoche:</strong> Zunehmende Hypotonie bemerkt</li>
+<li><strong>8. Lebenswoche:</strong> Trinkschwäche, Gedeihstörung</li>
+<li><strong>10. Lebenswoche:</strong> Erste okulohypische Episoden</li>
+<li><strong>12. Lebenswoche:</strong> Verlust erworbener Fähigkeiten (Lächeln)</li>
+<li><strong>16. Lebenswoche:</strong> Stationäre Aufnahme wegen Lethargie</li>
+</ul>
+</div>
+
+<table class="clinical-table">
+<thead>
+<tr>
+<th>Zeitpunkt</th>
+<th>Klinische Präsentation</th>
+<th>Diagnostik</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aufnahme</strong></td>
+<td>Schwere Hypotonie, Ptosis, reduzierte Spontanbewegungen</td>
+<td>MRT Schädel, EEG, EMG/NLG, CK</td>
+<td>Initial V.a. SMA/Myopathie</td>
+</tr>
+<tr>
+<td><strong>Tag 2</strong></td>
+<td>Okulohypische Krise (8h anhaltend)</td>
+<td>Metabolisches Screening</td>
+<td>Verdacht auf NT-Defekt</td>
+</tr>
+<tr>
+<td><strong>Tag 3</strong></td>
+<td>Temperaturinstabilität, Hypersalivation</td>
+<td>Liquorpunktion</td>
+<td>Bestätigung: AADC-Mangel</td>
+</tr>
+<tr>
+<td><strong>Tag 5</strong></td>
+<td>Therapiebeginn, erste Besserung</td>
+<td>Genetik</td>
+<td>Molekulare Bestätigung</td>
+</tr>
+</tbody>
+</table>
+
+<div class="neuro-pathway">
+<h4>🔬 Entscheidende diagnostische Befunde</h4>
+
+<p><strong>CSF-Liquoranalyse (Tag 3):</strong></p>
+<ul>
+<li><strong>HVA:</strong> 12 nmol/l (Normal: 200-600) → ↓↓↓</li>
+<li><strong>5-HIAA:</strong> 8 nmol/l (Normal: 80-250) → ↓↓↓</li>
+<li><strong>L-DOPA:</strong> 1240 nmol/l (Normal: < 50) → ↑↑↑</li>
+<li><strong>5-HTP:</strong> 520 nmol/l (Normal: < 20) → ↑↑↑</li>
+<li><strong>BH4:</strong> 28 nmol/l (Normal: 15-35) → Normal</li>
+</ul>
+
+<p><strong>Plasma-AADC-Aktivität:</strong></p>
+<ul>
+<li><strong>Aktivität:</strong> 2,1 nmol/h/ml (Normal: 45-95) → 95% reduziert</li>
+<li><strong>Bestätigung:</strong> Schwerer AADC-Mangel</li>
+</ul>
+
+<p><strong>Molekulargenetik:</strong></p>
+<ul>
+<li><strong>Gen:</strong> DDC (NM_000790.3)</li>
+<li><strong>Mutation:</strong> c.714+4A>T homozygot (Splice-Site-Mutation)</li>
+<li><strong>Pathogenität:</strong> Bekannte pathogene Variante</li>
+<li><strong>Eltern:</strong> Beide heterozygot (Bestätigung der Konsanguinität)</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>💊 Therapieverlauf und Response</h4>
+
+<p><strong>Initiale Therapie (stationär):</strong></p>
+<ul>
+<li><strong>Tag 5:</strong> Beginn Bromocriptin 0,1 mg/kg/d</li>
+<li><strong>Tag 7:</strong> Zusatz Tranylcypromin 0,5 mg/kg/d</li>
+<li><strong>Tag 10:</strong> Zusatz Pyridoxin 20 mg/kg/d</li>
+<li><strong>Tag 14:</strong> Entlassung mit stabiler Medikation</li>
+</ul>
+
+<p><strong>Dosisoptimierung (ambulant):</strong></p>
+<ul>
+<li><strong>Monat 2:</strong> Bromocriptin ↑ auf 0,25 mg/kg/d</li>
+<li><strong>Monat 4:</strong> Tranylcypromin ↑ auf 1,2 mg/kg/d</li>
+<li><strong>Monat 6:</strong> Zusatz Ropinirol 0,5 mg/kg/d</li>
+<li><strong>Jahr 1:</strong> Stabile Kombinationstherapie erreicht</li>
+</ul>
+
+<p><strong>Entwicklungsverlauf unter Therapie:</strong></p>
+<ul>
+<li><strong>6 Monate:</strong> Erste soziale Interaktion, Lächeln kehrt zurück</li>
+<li><strong>12 Monate:</strong> Kopfkontrolle erlangt, weniger Hypotonie</li>
+<li><strong>18 Monate:</strong> Freies Sitzen möglich</li>
+<li><strong>3 Jahre:</strong> Erste Schritte an der Hand</li>
+<li><strong>5 Jahre:</strong> Freies Laufen über kurze Strecken</li>
+</ul>
+
+<p><strong>Langzeit-Outcome (aktuell 8 Jahre):</strong></p>
+<ul>
+<li><strong>Motorik:</strong> Selbstständiges Laufen, leichte Gangunsicherheit</li>
+<li><strong>Sprache:</strong> 50-100 Wörter, 2-Wort-Sätze</li>
+<li><strong>Kognition:</strong> Entwicklungsstand ca. 4-5 Jahre</li>
+<li><strong>Selbstständigkeit:</strong> Essen, Anziehen mit Hilfe</li>
+<li><strong>Schule:</strong> Förderschule mit individueller Betreuung</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>📝 Lernpunkte aus diesem Fall</h4>
+
+<p><strong>Diagnostische Hinweise:</strong></p>
+<ul>
+<li><strong>Okulohypische Krisen sind pathognomonisch</strong> für AADC-Mangel</li>
+<li><strong>Kombination:</strong> Hypotonie + Bewegungsstörungen + Temperaturinstabilität</li>
+<li><strong>Familienanamnese:</strong> Konsanguinität und früher Kindstod als Hinweise</li>
+<li><strong>Normales Neugeborenenscreening</strong> schließt NT-Defekte nicht aus</li>
+</ul>
+
+<p><strong>Therapie-Erfahrungen:</strong></p>
+<ul>
+<li><strong>Kombinationstherapie meist nötig:</strong> Monotherapie selten ausreichend</li>
+<li><strong>Geduldige Dosisoptimierung:</strong> Monate bis zur optimalen Einstellung</li>
+<li><strong>Früher Therapiebeginn entscheidend:</strong> Bestimmt Langzeitprognose</li>
+<li><strong>Realistische Erwartungen:</strong> Verbesserung, aber oft nicht Normalisierung</li>
+</ul>
+
+<p><strong>Prognostische Faktoren:</strong></p>
+<ul>
+<li><strong>Therapiebeginn mit 4 Monaten:</strong> Noch im günstigen Zeitfenster</li>
+<li><strong>Splice-Site-Mutation:</strong> Möglicherweise geringe Restaktivität</li>
+<li><strong>Gute Therapie-Compliance:</strong> Familiäre Unterstützung optimal</li>
+<li><strong>Multidisziplinäre Betreuung:</strong> Physiotherapie, Logopädie, Frühförderung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 2: Tyrosinhydroxylase-Mangel - Dramatische Response</h3>
+
+<div class="case-study">
+<h4>👦 Anamnese und Verlauf</h4>
+
+<p><strong>Patient:</strong> Tom, 6 Jahre alt, männlich</p>
+
+<p><strong>Anamnese:</strong></p>
+<ul>
+<li><strong>Normale Entwicklung</strong> bis zum Alter von 3 Jahren</li>
+<li><strong>Beginn der Symptome:</strong> Schleichende Verschlechterung der Motorik</li>
+<li><strong>Erstmanifestation:</strong> Schwierigkeiten beim Treppensteigen</li>
+<li><strong>Progression:</strong> Zunehmende Steifheit der Beine, Gangstörung</li>
+<li><strong>Tagesrhythmus:</strong> Morgens besser, abends deutlich schlechter</li>
+</ul>
+
+<p><strong>Klinische Präsentation bei Vorstellung:</strong></p>
+<ul>
+<li><strong>Spastisch-dystonische Tetraparese</strong> mit Betonung der Beine</li>
+<li><strong>Ausgeprägter Spitzfußgang</strong>, kann nur kurze Strecken laufen</li>
+<li><strong>Diurnale Fluktuation:</strong> Ausgeprägte Verschlechterung am Nachmittag</li>
+<li><strong>Normale Intelligenz</strong>, keine Verhaltensauffälligkeiten</li>
+<li><strong>Keine Krampfanfälle</strong>, normale Sprache</li>
+</ul>
+
+<p><strong>Differentialdiagnostische Erwägungen:</strong></p>
+<ul>
+<li>Hereditäre spastische Paraparese</li>
+<li>Zerebralparese (perinatal erworben)</li>
+<li>DOPA-responsive Dystonie (Segawa-Syndrom)</li>
+<li>Mitochondriopathie</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🔬 Diagnostisches Vorgehen</h4>
+
+<p><strong>Basis-Diagnostik:</strong></p>
+<ul>
+<li><strong>MRT Schädel:</strong> Unauffällig, keine strukturellen Läsionen</li>
+<li><strong>Liquorpunktion:</strong> Aufgrund der diurnalen Fluktuation durchgeführt</li>
+<li><strong>Genetisches Panel:</strong> HSP-Gene zunächst unauffällig</li>
+</ul>
+
+<p><strong>CSF-Analyse (entscheidend!):</strong></p>
+<ul>
+<li><strong>HVA:</strong> 35 nmol/l (Normal: 200-600) → ↓↓↓</li>
+<li><strong>5-HIAA:</strong> 180 nmol/l (Normal: 80-250) → Normal</li>
+<li><strong>MHPG:</strong> 8 nmol/l (Normal: 15-60) → ↓↓</li>
+<li><strong>L-DOPA:</strong> 15 nmol/l (Normal: < 50) → ↓</li>
+<li><strong>BH4:</strong> 22 nmol/l (Normal: 15-35) → Normal</li>
+</ul>
+
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Selektiver Katecholamin-Mangel:</strong> HVA ↓, 5-HIAA normal</li>
+<li><strong>Erniedrigtes L-DOPA:</strong> Hinweis auf TH-Mangel</li>
+<li><strong>Normales BH4:</strong> Kein BH4-Defekt</li>
+<li><strong>Verdachtsdiagnose:</strong> Tyrosinhydroxylase-Mangel</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>💊 L-DOPA-Test und dramatische Response</h4>
+
+<p><strong>Therapeutischer Probeversuch:</strong></p>
+<ul>
+<li><strong>Baseline-Videos:</strong> Dokumentation der Motorik vor Therapie</li>
+<li><strong>L-DOPA/Carbidopa:</strong> Beginn mit 2 mg/kg/d (aufgeteilt in 3 Dosen)</li>
+<li><strong>Engmaschige Kontrollen:</strong> Täglich telefonische Rücksprache</li>
+<li><strong>Dosisanpassung:</strong> Schrittweise Steigerung alle 3-4 Tage</li>
+</ul>
+
+<p><strong>Dramatische Besserung:</strong></p>
+<ul>
+<li><strong>Tag 2:</strong> Erste Verbesserung der Steifheit bemerkt</li>
+<li><strong>Tag 5:</strong> Deutlich flüssigerer Gang</li>
+<li><strong>Tag 10:</strong> Kann wieder Treppen steigen</li>
+<li><strong>Tag 14:</strong> Kann wieder rennen und springen</li>
+<li><strong>Woche 4:</strong> Praktisch normale Motorik erreicht</li>
+</ul>
+
+<p><strong>Videodokumentation der Verbesserung:</strong></p>
+<ul>
+<li><strong>Vor Therapie:</strong> Schwerer spastisch-dystonischer Spitzfußgang</li>
+<li><strong>Nach 2 Wochen:</strong> Deutlich verbesserter, aber noch abnormer Gang</li>
+<li><strong>Nach 4 Wochen:</strong> Praktisch normale Motorik</li>
+<li><strong>Nach 3 Monaten:</strong> Völlig normale Bewegungen, Sport möglich</li>
+</ul>
+
+<p><strong>Langzeit-Verlauf (Follow-up 3 Jahre):</strong></p>
+<ul>
+<li><strong>Stabile Medikation:</strong> L-DOPA/Carbidopa 8 mg/kg/d</li>
+<li><strong>Normale Schulleistungen:</strong> Altersgerechte Entwicklung</li>
+<li><strong>Sportliche Aktivitäten:</strong> Fußball, Schwimmen ohne Probleme</li>
+<li><strong>Keine Nebenwirkungen:</strong> Keine Dyskinésien oder andere Probleme</li>
+<li><strong>Lebensqualität:</strong> Vollständig normal</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>🧬 Molekulargenetik und Familien-Screening</h4>
+
+<p><strong>Genetische Befunde:</strong></p>
+<ul>
+<li><strong>Gen:</strong> TH (NM_000360.3)</li>
+<li><strong>Mutation:</strong> c.698G>A (p.Arg233His) + c.1297G>A (p.Ala433Thr)</li>
+<li><strong>Compound-heterozygot:</strong> Zwei verschiedene pathogene Varianten</li>
+<li><strong>Funktionelle Studien:</strong> Beide Mutationen reduzieren TH-Aktivität um 70-90%</li>
+</ul>
+
+<p><strong>Familien-Analyse:</strong></p>
+<ul>
+<li><strong>Vater:</strong> Träger der c.698G>A Mutation, asymptomatisch</li>
+<li><strong>Mutter:</strong> Trägerin der c.1297G>A Mutation, asymptomatisch</li>
+<li><strong>Schwester (4 Jahre):</strong> Bisher unauffällig, genetisch nicht getestet</li>
+<li><strong>Wiederholungsrisiko:</strong> 25% für weitere Kinder</li>
+</ul>
+
+<p><strong>Genotyp-Phänotyp-Korrelation:</strong></p>
+<ul>
+<li><strong>Moderate Mutationen:</strong> Erklären den milden Phänotyp (Typ B)</li>
+<li><strong>Restaktivität:</strong> Ermöglicht normale Entwicklung bis zum Kindergartenalter</li>
+<li><strong>Exzellente L-DOPA-Response:</strong> Typisch für partielle TH-Defekte</li>
+<li><strong>Prognose:</strong> Normal bei lebenslanger L-DOPA-Therapie</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>📚 Lernpunkte - Tyrosinhydroxylase-Mangel</h4>
+
+<p><strong>Klinische Erkenntnisse:</strong></p>
+<ul>
+<li><strong>Diurnale Fluktuation ist pathognomonisch</strong> für DOPA-responsive Dystonien</li>
+<li><strong>Normale frühe Entwicklung</strong> schließt angeborene NT-Defekte nicht aus</li>
+<li><strong>Selektiver Katecholamin-Mangel</strong> (HVA ↓, 5-HIAA normal) weist auf TH-Mangel</li>
+<li><strong>Therapeutischer Test</strong> ist oft diagnostisch entscheidend</li>
+</ul>
+
+<p><strong>Therapeutische Erfolgsgeschichte:</strong></p>
+<ul>
+<li><strong>Dramatische Response auf L-DOPA</strong> bei richtiger Diagnose</li>
+<li><strong>Vollständige Normalisierung</strong> der Motorik möglich</li>
+<li><strong>Nebenwirkungsarme Langzeittherapie</strong> bei primären Formen</li>
+<li><strong>Normale Lebenserwartung und -qualität</strong> unter Therapie</li>
+</ul>
+
+<p><strong>Prognostische Einschätzung:</strong></p>
+<ul>
+<li><strong>Exzellente Langzeitprognose</strong> bei TH-Mangel Typ B</li>
+<li><strong>Lebenslange Therapie nötig</strong>, aber sehr effektiv</li>
+<li><strong>Normale soziale und berufliche Entwicklung</strong> zu erwarten</li>
+<li><strong>Familienplanung möglich</strong> mit genetischer Beratung</li>
+</ul>
+</div>
+</div>
+
+<div class="subsection">
+<h3>Fall 3: BH4-Defekt mit komplexer Präsentation</h3>
+
+<div class="case-study">
+<h4>👶 Neugeborenenscreening-Fund</h4>
+
+<p><strong>Patient:</strong> Malik, männlich, 2 Wochen alt</p>
+
+<p><strong>Neugeborenenscreening (Tag 3):</strong></p>
+<ul>
+<li><strong>Phenylalanin:</strong> 850 μmol/l (Normal: < 120) → ↑↑↑</li>
+<li><strong>Kontrollmessung (Tag 7):</strong> 1240 μmol/l → weitere Erhöhung</li>
+<li><strong>Initiale Verdachtsdiagnose:</strong> Klassische PKU</li>
+<li><strong>Sofortige Überweisung:</strong> Stoffwechselzentrum</li>
+</ul>
+
+<p><strong>Familiäre Situation:</strong></p>
+<ul>
+<li><strong>Eltern:</strong> Türkische Herkunft, nicht konsanguin</li>
+<li><strong>Geschwister:</strong> Zwei ältere Schwestern, gesund</li>
+<li><strong>Familienanamnese:</strong> Keine bekannten Stoffwechselerkrankungen</li>
+<li><strong>Schwangerschaft:</strong> Unauffällig, termingerecht</li>
+</ul>
+
+<p><strong>Klinischer Befund bei Erstvorstellung (Tag 10):</strong></p>
+<ul>
+<li><strong>Zunächst unauffällig:</strong> Normales Neugeborenes</li>
+<li><strong>Gutes Trinkverhalten</strong> und normale Gewichtsentwicklung</li>
+<li><strong>Normale neurologische Untersuchung</strong></li>
+<li><strong>Keine Zeichen einer PKU</strong> (noch zu früh)</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>🔬 Erweiterte Diagnostik</h4>
+
+<p><strong>BH4-Belastungstest (Tag 12):</strong></p>
+<ul>
+<li><strong>Baseline Phenylalanin:</strong> 1180 μmol/l</li>
+<li><strong>BH4-Gabe:</strong> 20 mg/kg oral</li>
+<li><strong>Nach 4h:</strong> 920 μmol/l (22% Abfall)</li>
+<li><strong>Nach 8h:</strong> 680 μmol/l (42% Abfall)</li>
+<li><strong>Nach 24h:</strong> 480 μmol/l (59% Abfall)</li>
+<li><strong>Interpretation:</strong> Positive Response → BH4-Defekt oder BH4-responsive PKU</li>
+</ul>
+
+<p><strong>Pterine-Analyse im Urin (Tag 14):</strong></p>
+<ul>
+<li><strong>Neopterin:</strong> 580 mmol/mol Kreatinin (Normal: 10-50) → ↑↑↑</li>
+<li><strong>Biopterin:</strong> 15 mmol/mol Kreatinin (Normal: 10-50) → ↓</li>
+<li><strong>Primapterin:</strong> Nicht nachweisbar</li>
+<li><strong>Neopterin/Biopterin-Ratio:</strong> 38,7 (Normal: < 2)</li>
+<li><strong>Interpretation:</strong> Typisch für PTPS-Mangel</li>
+</ul>
+
+<p><strong>Bestätigende Tests:</strong></p>
+<ul>
+<li><strong>DHPR-Aktivität:</strong> Normal (Ausschluss DHPR-Mangel)</li>
+<li><strong>CSF-Pterine:</strong> BH4 erniedrigt, BH2 erhöht</li>
+<li><strong>CSF-Neurotransmitter:</strong> HVA und 5-HIAA erniedrigt</li>
+<li><strong>Definitiver Befund:</strong> PTPS-Mangel</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>⚖️ Therapieeinleitung und Monitoring</h4>
+
+<p><strong>Initiale Therapie (Tag 16):</strong></p>
+<ul>
+<li><strong>Tetrahydrobiopterin:</strong> 15 mg/kg/d in 2 Dosen</li>
+<li><strong>Phenylalanin-freie Diät:</strong> Vorübergehend bis zur Stabilisierung</li>
+<li><strong>Engmaschige Kontrollen:</strong> Phenylalanin täglich</li>
+</ul>
+
+<p><strong>Erste neurologische Symptome (6. Lebenswoche):</strong></p>
+<ul>
+<li><strong>Leichte Hypotonie</strong> bei U4-Untersuchung bemerkt</li>
+<li><strong>Verminderte Spontanbewegungen</strong></li>
+<li><strong>Trinkschwäche:</strong> Zunehmende Probleme bei der Nahrungsaufnahme</li>
+<li><strong>Irritabilität:</strong> Vermehrtes Schreien, schwer beruhigbar</li>
+</ul>
+
+<p><strong>Therapie-Eskalation (8. Lebenswoche):</strong></p>
+<ul>
+<li><strong>BH4-Erhöhung:</strong> Auf 20 mg/kg/d</li>
+<li><strong>Zusatz L-DOPA/Carbidopa:</strong> 5 mg/kg/d</li>
+<li><strong>Zusatz 5-HTP:</strong> 5 mg/kg/d</li>
+<li><strong>Folinsäure:</strong> 15 mg/d als Sicherheitsmaßnahme</li>
+</ul>
+
+<p><strong>Response auf Kombinationstherapie:</strong></p>
+<ul>
+<li><strong>Woche 2:</strong> Verbesserung des Tonus, besseres Trinken</li>
+<li><strong>Monat 1:</strong> Deutliche neurologische Besserung</li>
+<li><strong>Monat 3:</strong> Normale motorische Entwicklung</li>
+<li><strong>Jahr 1:</strong> Altersgerechte Entwicklung in allen Bereichen</li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4>🧬 Genetik und Familien-Beratung</h4>
+
+<p><strong>Molekulargenetische Befunde:</strong></p>
+<ul>
+<li><strong>Gen:</strong> PTS (NM_000317.2)</li>
+<li><strong>Mutation 1:</strong> c.259C>T (p.Pro87Ser) - paternales Allel</li>
+<li><strong>Mutation 2:</strong> c.286G>A (p.Asp96Asn) - maternales Allel</li>
+<li><strong>Beide Mutationen:</strong> Bekannte pathogene Varianten</li>
+<li><strong>Funktionelle Auswirkung:</strong> Schwere Reduktion der PTPS-Aktivität</li>
+</ul>
+
+<p><strong>Familien-Screening:</strong></p>
+<ul>
+<li><strong>Vater:</strong> Heterozygot für c.259C>T, asymptomatisch</li>
+<li><strong>Mutter:</strong> Heterozygot für c.286G>A, asymptomatisch</li>
+<li><strong>Schwestern:</strong> Eine Trägerin, eine nicht betroffen</li>
+<li><strong>Wiederholungsrisiko:</strong> 25% für weitere Schwangerschaften</li>
+</ul>
+
+<p><strong>Pränatale Diagnostik angeboten:</strong></p>
+<ul>
+<li><strong>Chorionzottenbiopsie:</strong> Ab 10. SSW möglich</li>
+<li><strong>Fruchtwasseruntersuchung:</strong> Ab 15. SSW möglich</li>
+<li><strong>Molekulargenetische Analyse:</strong> Beide Mutationen bekannt</li>
+<li><strong>PID-Option:</strong> Präimplantationsdiagnostik theoretisch möglich</li>
+</ul>
+</div>
+
+<div class="neuro-pathway">
+<h4>📈 Langzeit-Verlauf (aktuell 3 Jahre alt)</h4>
+
+<p><strong>Biochemische Parameter:</strong></p>
+<ul>
+<li><strong>Phenylalanin:</strong> Stabil 60-100 μmol/l (Ziel < 120)</li>
+<li><strong>CSF-Kontrolle (2 Jahre):</strong> HVA und 5-HIAA normalisiert</li>
+<li><strong>Urin-Pterine:</strong> Unter Therapie normalisiert</li>
+<li><strong>Therapie-Compliance:</strong> Ausgezeichnet</li>
+</ul>
+
+<p><strong>Entwicklungsstand:</strong></p>
+<ul>
+<li><strong>Motorik:</strong> Altersgerecht, läuft seit 14 Monaten</li>
+<li><strong>Sprache:</strong> 200+ Wörter, 3-Wort-Sätze</li>
+<li><strong>Kognition:</strong> Normale Entwicklung, IQ-Test mit 3 Jahren: 95</li>
+<li><strong>Sozialverhalten:</strong> Unauffällig, normale Spielentwicklung</li>
+</ul>
+
+<p><strong>Aktuelle Medikation:</strong></p>
+<ul>
+<li><strong>Sapropterin:</strong> 18 mg/kg/d (morgendliche Gabe)</li>
+<li><strong>L-DOPA/Carbidopa:</strong> 8 mg/kg/d (in 3 Dosen)</li>
+<li><strong>5-HTP:</strong> 6 mg/kg/d (in 2 Dosen)</li>
+<li><strong>Folinsäure:</strong> 15 mg/d (Sicherheitsmaßnahme)</li>
+<li><strong>Normale Ernährung:</strong> Keine Diätbeschränkungen</li>
+</ul>
+
+<p><strong>Prognose:</strong></p>
+<ul>
+<li><strong>Exzellent:</strong> Normale Entwicklung bei früher Therapie</li>
+<li><strong>Lebenslange Medikation:</strong> Erforderlich</li>
+<li><strong>Normale Lebenserwartung:</strong> Zu erwarten</li>
+<li><strong>Schulreife:</strong> Regelschule ohne Einschränkungen</li>
+</ul>
+</div>
+
+<div class="case-study">
+<h4>📝 Wichtige Lernpunkte</h4>
+
+<p><strong>Diagnostische Schlüssel:</strong></p>
+<ul>
+<li><strong>Erhöhtes Phenylalanin + neurologische Symptome</strong> = immer BH4-Defekt erwägen</li>
+<li><strong>BH4-Test ist essentiell</strong> bei allen Hyperphenylalaninämien</li>
+<li><strong>Pterine-Analyse ermöglicht</strong> spezifische Defekt-Zuordnung</li>
+<li><strong>Frühe CSF-Analyse</strong> zeigt bereits NT-Mangel vor klinischen Symptomen</li>
+</ul>
+
+<p><strong>Therapie-Prinzipien:</strong></p>
+<ul>
+<li><strong>Triple-Therapie bei BH4-Defekten:</strong> BH4 + L-DOPA + 5-HTP</li>
+<li><strong>Frühzeitige Behandlung verhindert</strong> neurologische Schäden</li>
+<li><strong>Normale Ernährung möglich</strong> bei ausreichender BH4-Substitution</li>
+<li><strong>Lebenslange Therapie erforderlich</strong> ohne Therapiepausen</li>
+</ul>
+
+<p><strong>Prognostische Faktoren:</strong></p>
+<ul>
+<li><strong>Therapiebeginn vor neurologischen Symptomen:</strong> Beste Prognose</li>
+<li><strong>PTPS-Mangel:</strong> Mittlere Prognose aller BH4-Defekte</li>
+<li><strong>Gute Therapie-Response:</strong> Normalisierung der Biomarker</li>
+<li><strong>Familiäre Compliance:</strong> Entscheidend für Langzeiterfolg</li>
+</ul>
+</div>
+</div>
+
+<div class="next-step">
+<button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+</div>
+</div>
+
+<!-- Quiz -->
+<div class="content-section" id="quiz">
+<h2 class="section-title">🧠 Lernkontrolle</h2>
+
+<div class="subsection">
+<h3>Umfassendes Quiz zu Neurotransmitter-Defekten</h3>
+
+<div class="quiz-container">
+<div class="quiz-question">1. Welches Enzym katalysiert den geschwindigkeitsbestimmenden Schritt der Katecholamin-Synthese?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 1)">A) Aromatische L-Aminosäure-Decarboxylase (AADC)</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 1)">B) Tyrosinhydroxylase (TH)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 1)">C) Dopamin-β-Hydroxylase (DBH)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 1)">D) Phenylethanolamin-N-Methyltransferase (PNMT)</div>
+
+<div class="quiz-explanation" id="explanation1">
+<h5>✅ Richtige Antwort: B) Tyrosinhydroxylase (TH)</h5>
+<p><strong>Erklärung:</strong> Die Tyrosinhydroxylase katalysiert die Umwandlung von L-Tyrosin zu L-DOPA und ist der geschwindigkeitsbestimmende (rate-limiting) Schritt der gesamten Katecholamin-Biosynthese. Dieser Schritt benötigt BH4 als Cofaktor und unterliegt einer komplexen Regulation durch Feedback-Inhibition.</p>
+<p><strong>AADC</strong> katalysiert den nachfolgenden Schritt (L-DOPA → Dopamin), <strong>DBH</strong> wandelt Dopamin zu Noradrenalin um, und <strong>PNMT</strong> methyliert Noradrenalin zu Adrenalin.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">2. Welches CSF-Muster ist pathognomonisch für AADC-Mangel?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 2)">A) HVA erniedrigt, 5-HIAA normal, L-DOPA normal</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 2)">B) HVA und 5-HIAA beide stark erniedrigt, L-DOPA und 5-HTP stark erhöht</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 2)">C) HVA normal, 5-HIAA erniedrigt, BH4 erniedrigt</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 2)">D) Alle Neurotransmitter-Metabolite normal</div>
+
+<div class="quiz-explanation" id="explanation2">
+<h5>✅ Richtige Antwort: B) HVA und 5-HIAA beide stark erniedrigt, L-DOPA und 5-HTP stark erhöht</h5>
+<p><strong>Pathophysiologie:</strong> AADC-Mangel betrifft sowohl den Dopamin- als auch den Serotonin-Syntheseweg, da AADC beide Reaktionen katalysiert:</p>
+<p>• <strong>L-DOPA → Dopamin</strong> (gestört) → HVA ↓↓↓</p>
+<p>• <strong>5-HTP → Serotonin</strong> (gestört) → 5-HIAA ↓↓↓</p>
+<p>• <strong>Substrat-Akkumulation:</strong> L-DOPA und 5-HTP häufen sich an</p>
+<p><strong>Differentialdiagnose:</strong> Nur bei AADC-Mangel sind beide NT-Systeme betroffen mit charakteristischer Substrat-Akkumulation.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">3. Welche klinische Präsentation ist charakteristisch für okulohypische Krisen?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 3)">A) Schnelle horizontale Augenbewegungen</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 3)">B) Unwillkürliche, anhaltende Aufwärtsdeviation der Augen mit Opisthotonus</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 3)">C) Pendelnde Augenbewegungen (Nystagmus)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 3)">D) Einseitige Pupillenerweiterung</div>
+
+<div class="quiz-explanation" id="explanation3">
+<h5>✅ Richtige Antwort: B) Unwillkürliche, anhaltende Aufwärtsdeviation der Augen mit Opisthotonus</h5>
+<p><strong>Pathognomonisch für AADC-Mangel:</strong> Okulohypische Krisen sind charakteristisch und fast ausschließlich bei AADC-Mangel zu finden.</p>
+<p><strong>Klinische Merkmale:</strong></p>
+<p>• <strong>Dauer:</strong> Können Stunden bis Tage anhalten</p>
+<p>• <strong>Begleitsymptome:</strong> Opisthotonus (Rückwärtsbeugung des Rumpfes)</p>
+<p>• <strong>Auslöser:</strong> Stress, Müdigkeit, Krankheit</p>
+<p>• <strong>Diagnostisch:</strong> Führt oft zur korrekten Verdachtsdiagnose</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">4. Bei welchem BH4-Defekt ist die Prognose am schlechtesten?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 4)">A) GTP-Cyclohydrolase-I-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 4)">B) PTPS-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 4)">C) DHPR-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 4)">D) Sepiapterin-Reduktase-Mangel</div>
+
+<div class="quiz-explanation" id="explanation4">
+<h5>✅ Richtige Antwort: C) DHPR-Mangel</h5>
+<p><strong>Warum DHPR-Mangel die schlechteste Prognose hat:</strong></p>
+<p>• <strong>Dopamin-Agonisten:</strong> Umgehen den AADC-Defekt komplett (Bromocriptin, Ropinirol)</p>
+<p>• <strong>MAO-Inhibitoren:</strong> Schützen endogene NT vor Abbau (Tranylcypromin, Selegilin)</p>
+<p>• <strong>Pyridoxin (Vitamin B6):</strong> AADC-Cofaktor, kann Restaktivität steigern</p>
+<p><strong>Warum nicht L-DOPA?</strong> L-DOPA kann nicht zu Dopamin umgewandelt werden, daher unwirksam bei AADC-Mangel!</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">6. Was ist das charakteristische Merkmal einer DOPA-responsiven Dystonie?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 6)">A) Konstante Symptome über den Tag</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 6)">B) Diurnale Fluktuation mit morgendlicher Besserung</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 6)">C) Ausschließlich proximale Muskelbeteiligung</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 6)">D) Keine Response auf L-DOPA</div>
+
+<div class="quiz-explanation" id="explanation6">
+<h5>✅ Richtige Antwort: B) Diurnale Fluktuation mit morgendlicher Besserung</h5>
+<p><strong>Pathophysiologie der diurnalen Fluktuation:</strong></p>
+<p>• <strong>Morgens:</strong> Relativ gute Motorik nach Nachtruhe</p>
+<p>• <strong>Abends:</strong> Zunehmende Dystonie durch NT-Verbrauch</p>
+<p>• <strong>Verstärkung:</strong> Bei Stress, Müdigkeit, Fieber</p>
+<p><strong>Differentialdiagnostisch wichtig:</strong> Diurnale Fluktuation ist pathognomonisch für DOPA-responsive Dystonien und unterscheidet sie von anderen Bewegungsstörungen.</p>
+<p><strong>Bei TH-Mangel besonders ausgeprägt</strong> aufgrund der Temperaturempfindlichkeit des Enzyms.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">7. Welcher Urin-Metabolit ist pathognomonisch für AADC-Mangel?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 7)">A) Homovanillinsäure (HVA)</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 7)">B) 3-O-Methyldopa (3-OMD)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 7)">C) 5-Hydroxyindolessigsäure (5-HIAA)</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 7)">D) Vanillinmandelsäure (VMA)</div>
+
+<div class="quiz-explanation" id="explanation7">
+<h5>✅ Richtige Antwort: B) 3-O-Methyldopa (3-OMD)</h5>
+<p><strong>Pathophysiologie:</strong> Bei AADC-Mangel kann L-DOPA nicht zu Dopamin umgewandelt werden und wird stattdessen durch COMT zu 3-OMD methyliert.</p>
+<p><strong>Diagnostische Bedeutung:</strong></p>
+<p>• <strong>Spezifisch:</strong> Nur bei AADC-Mangel so stark erhöht (50-100x normal)</p>
+<p>• <strong>Quantitativ:</strong> Korreliert mit L-DOPA-Akkumulation</p>
+<p>• <strong>Monitoring:</strong> Unter Therapie als Verlaufsparameter nutzbar</p>
+<p><strong>Andere Metabolite:</strong> HVA und 5-HIAA sind bei AADC-Mangel erniedrigt, VMA ist bei verschiedenen NT-Defekten verändert.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">8. Bei welchem BH4-Defekt ist das Phenylalanin typischerweise normal?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 8)">A) GTP-Cyclohydrolase-I-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 8)">B) PTPS-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 8)">C) DHPR-Mangel</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 8)">D) Sepiapterin-Reduktase-Mangel</div>
+
+<div class="quiz-explanation" id="explanation8">
+<h5>✅ Richtige Antwort: D) Sepiapterin-Reduktase-Mangel</h5>
+<p><strong>Besonderheit des SR-Mangels:</strong></p>
+<p>• <strong>Letzter Schritt:</strong> SR katalysiert den finalen Schritt der BH4-Biosynthese</p>
+<p>• <strong>Alternative Route:</strong> BH4 kann über anderen Weg (Dihydrofolat-Reduktase) synthetisiert werden</p>
+<p>• <strong>Ausreichend für PAH:</strong> Genug BH4 für Phenylalanin-Hydroxylase vorhanden</p>
+<p>• <strong>Unzureichend für TH/TPH:</strong> Nicht genug für Neurotransmitter-Synthese</p>
+<p><strong>Klinisch:</strong> Isolierte Bewegungsstörungen ohne Hyperphenylalaninämie - wird daher oft übersehen!</p>
+<p><strong>Alle anderen BH4-Defekte</strong> führen zu erhöhtem Phenylalanin.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">9. Welche Medikamentenklasse ist bei MAO-Inhibitor-Therapie kontraindiziert?</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 9)">A) SSRI und SNRI</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 9)">B) Paracetamol</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 9)">C) Antibiotika</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 9)">D) Protonenpumpenhemmer</div>
+
+<div class="quiz-explanation" id="explanation9">
+<h5>✅ Richtige Antwort: A) SSRI und SNRI</h5>
+<p><strong>Serotonin-Syndrom-Risiko:</strong> Die Kombination von MAO-Inhibitoren mit serotonergen Medikamenten kann zu einem lebensbedrohlichen Serotonin-Syndrom führen.</p>
+<p><strong>Kontraindizierte Medikamente:</strong></p>
+<p>• <strong>SSRI/SNRI:</strong> Fluoxetin, Sertralin, Venlafaxin etc.</p>
+<p>• <strong>Tramadol:</strong> Schwaches Serotonin-Wiederaufnahme-Hemmung</p>
+<p>• <strong>Pethidin:</strong> Besonders gefährlich</p>
+<p>• <strong>Triptane:</strong> Migräne-Medikamente</p>
+<p><strong>Serotonin-Syndrom-Symptome:</strong> Hyperthermie, Rigidität, Bewusstseinsstörung, autonome Instabilität</p>
+<p><strong>Notfall-Management:</strong> Sofortiges Absetzen, supportive Therapie, ggf. Cyproheptadin</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">10. Was ist der wichtigste prognostische Faktor bei Neurotransmitter-Defekten?</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 10)">A) Alter bei Therapiebeginn</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 10)">B) Geschlecht des Patienten</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 10)">C) Sozioökonomischer Status</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 10)">D) Geburtsgewicht</div>
+
+<div class="quiz-explanation" id="explanation10">
+<h5>✅ Richtige Antwort: A) Alter bei Therapiebeginn</h5>
+<p><strong>Kritische Zeitfenster:</strong></p>
+<p>• <strong>< 6 Monate:</strong> Optimale Prognose, normale Entwicklung möglich</p>
+<p>• <strong>6-24 Monate:</strong> Gute Prognose, leichte Defizite möglich</p>
+<p>• <strong>2-5 Jahre:</strong> Mäßige Prognose, deutliche Einschränkungen</p>
+<p>• <strong>> 5 Jahre:</strong> Eingeschränkte Prognose, schwere Defizite</p>
+<p><strong>Neuroplastizität:</strong> Das sich entwickelnde Gehirn ist empfindlicher für NT-Mangel, aber auch plastischer für Erholung.</p>
+<p><strong>Irreversible Schäden:</strong> Neurologische Defizite durch prolongierten NT-Mangel sind oft permanent.</p>
+<p><strong>Präventive Therapie:</strong> Durch Neugeborenenscreening (bei BH4-Defekten) dramatische Verbesserung der Prognose.</p>
+</div>
+</div>
+
+<div style="text-align: center; margin: 2rem 0;">
+<button class="quiz-btn" onclick="showResults()">Auswertung anzeigen</button>
+<button class="quiz-btn" onclick="resetQuiz()">Quiz wiederholen</button>
+</div>
+
+<div id="quiz-results" style="display: none; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+<h4 style="color: var(--info-color); margin-bottom: 1rem;">📊 Ihre Ergebnisse</h4>
+<div id="score-display" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;"></div>
+<div id="performance-feedback" style="margin-bottom: 1rem;"></div>
+<div id="recommendations" style="font-style: italic;"></div>
+</div>
+</div>
+
+<div class="next-step">
+<div style="text-align: center; margin-top: 3rem; padding: 3rem; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: var(--border-radius-lg); border: 2px solid var(--success-color);">
+
+<div class="completion-badge">🎓 Lerneinheit erfolgreich abgeschlossen!</div>
+
+<h3 style="color: #166534; margin: 2rem 0 1rem 0;">Herzlichen Glückwunsch!</h3>
+
+<p style="color: #16a34a; margin-bottom: 2rem; font-size: 1.1rem;">Sie haben die komplette Lerneinheit zu Neurotransmitter-Defekten erfolgreich durchgearbeitet und verfügen nun über fundiertes Expertenwissen in diesem komplexen Bereich der Stoffwechselmedizin.</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+
+<div style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-sm);">
+<h4 style="color: var(--neuro-color); margin-bottom: 1rem;">📚 Gelernte Inhalte</h4>
+<ul style="color: #166534; text-align: left; font-size: 0.9rem;">
+<li>Biochemische Grundlagen</li>
+<li>Klinische Präsentationen</li>
+<li>Diagnostische Verfahren</li>
+<li>Evidenzbasierte Therapien</li>
+<li>Prognostische Faktoren</li>
+</ul>
+</div>
+
+<div style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-sm);">
+<h4 style="color: var(--dopamine-color); margin-bottom: 1rem;">🎯 Kompetenzen</h4>
+<ul style="color: #166534; text-align: left; font-size: 0.9rem;">
+<li>Frühzeitige Diagnosestellung</li>
+<li>Differentialdiagnostik</li>
+<li>Therapieplanung</li>
+<li>Langzeit-Management</li>
+<li>Familien-Beratung</li>
+</ul>
+</div>
+
+<div style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-sm);">
+<h4 style="color: var(--serotonin-color); margin-bottom: 1rem;">🔬 Praktische Fertigkeiten</h4>
+<ul style="color: #166534; text-align: left; font-size: 0.9rem;">
+<li>CSF-Diagnostik</li>
+<li>Therapie-Monitoring</li>
+<li>Notfall-Management</li>
+<li>Genetische Beratung</li>
+<li>Interdisziplinäre Betreuung</li>
+</ul>
+</div>
+
+</div>
+
+<div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: var(--border-radius); margin: 2rem 0;">
+<h4 style="color: var(--info-color); margin-bottom: 1rem;">💡 Kernbotschaften</h4>
+<div style="color: #1e40af; text-align: left;">
+<p style="margin-bottom: 1rem;"><strong>Frühe Diagnose rettet Leben:</strong> Neurotransmitter-Defekte sind behandelbar, aber das Zeitfenster ist kritisch.</p>
+<p style="margin-bottom: 1rem;"><strong>Spezifische Therapien verfügbar:</strong> Jeder Defekt erfordert eine maßgeschneiderte Behandlungsstrategie.</p>
+<p style="margin-bottom: 1rem;"><strong>Exzellente Prognose möglich:</strong> Bei früher Behandlung können Patienten ein weitgehend normales Leben führen.</p>
+<p><strong>Multidisziplinäre Betreuung essentiell:</strong> Erfolgreiche Behandlung erfordert Zusammenarbeit verschiedener Fachrichtungen.</p>
+</div>
+</div>
+
+<div style="margin-top: 2rem;">
+<h4 style="color: #166534; margin-bottom: 1rem;">📖 Weiterführende Ressourcen</h4>
+<p style="color: #16a34a; margin-bottom: 1rem;">Für die kontinuierliche Fortbildung in der Stoffwechselmedizin empfehlen wir:</p>
+<ul style="color: #16a34a; text-align: left; margin: 0 auto; max-width: 600px;">
+<li>SSIEM (Society for the Study of Inborn Errors of Metabolism) Guidelines</li>
+<li>Aktuelle Publikationen zu Gen-Therapie-Ansätzen</li>
+<li>Internationale Konferenzen und Workshops</li>
+<li>Fallkonferenzen und interdisziplinärer Austausch</li>
+<li>Patientenregister und Langzeit-Outcome-Studien</li>
+</ul>
+</div>
+
+<p style="color: #16a34a; margin-top: 2rem; font-weight: 600;">Vielen Dank für Ihr Engagement in der Betreuung von Patienten mit seltenen Stoffwechselerkrankungen!</p>
+
+</div>
+</div>
+
+</div>
+
+<script>
+let currentSection = 0;
+const sections = ['prognose', 'fallbeispiele', 'quiz'];
+let quizAnswers = {};
+let quizCompleted = false;
+
+function showSection(sectionId) {
+// Hide all sections
+const allSections = document.querySelectorAll('.content-section');
+allSections.forEach(section => section.classList.remove('active'));
+
+// Remove active class from all nav buttons  
+const allButtons = document.querySelectorAll('.nav-btn');
+allButtons.forEach(btn => btn.classList.remove('active'));
+
+// Show selected section
+document.getElementById(sectionId).classList.add('active');
+
+// Highlight active nav button
+event.target.classList.add('active');
+
+// Update progress bar
+currentSection = sections.indexOf(sectionId);
+const progress = ((currentSection + 1) / sections.length) * 100;
+document.getElementById('progressBar').style.width = progress + '%';
+
+// Scroll to top
+window.scrollTo(0, 0);
+}
+
+function selectAnswer(element, isCorrect, questionNum) {
+// Remove previous selections
+const container = element.parentElement;
+const options = container.querySelectorAll('.quiz-option');
+options.forEach(option => {
+option.classList.remove('correct', 'incorrect');
+});
+
+// Mark selected answer
+if (isCorrect) {
+element.classList.add('correct');
+} else {
+element.classList.add('incorrect');
+// Also mark the correct answer
+options.forEach(option => {
+if (option.getAttribute('onclick').includes('true')) {
+option.classList.add('correct');
+}
+});
+}
+
+// Store answer
+quizAnswers[questionNum] = isCorrect;
+
+// Show explanation
+const explanation = document.getElementById('explanation' + questionNum);
+explanation.classList.add('show');
+
+// Scroll to explanation
+setTimeout(() => {
+explanation.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}, 300);
+}
+
+function showResults() {
+const totalQuestions = 10;
+const correctAnswers = Object.values(quizAnswers).filter(answer => answer === true).length;
+const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+
+const resultsDiv = document.getElementById('quiz-results');
+const scoreDisplay = document.getElementById('score-display');
+const feedbackDiv = document.getElementById('performance-feedback');
+const recommendationsDiv = document.getElementById('recommendations');
+
+scoreDisplay.innerHTML = `${correctAnswers} von ${totalQuestions} Fragen richtig beantwortet (${percentage}%)`;
+
+let feedback = '';
+let recommendations = '';
+
+if (percentage >= 90) {
+feedback = '🌟 Ausgezeichnet! Sie haben ein umfassendes Verständnis der Neurotransmitter-Defekte demonstriert.';
+recommendations = 'Sie sind bereit für die klinische Anwendung dieses Wissens. Erwägen Sie die Teilnahme an Spezialkursen oder Forschungsprojekten.';
+} else if (percentage >= 80) {
+feedback = '✅ Sehr gut! Sie haben die meisten Konzepte gut verstanden.';
+recommendations = 'Wiederholen Sie die Bereiche, die Ihnen Schwierigkeiten bereitet haben, und vertiefen Sie Ihr Wissen durch zusätzliche Literatur.';
+} else if (percentage >= 70) {
+feedback = '👍 Gut! Sie haben eine solide Basis, aber es gibt noch Raum für Verbesserungen.';
+recommendations = 'Arbeiten Sie die Lerneinheit nochmals durch und konzentrieren Sie sich besonders auf die biochemischen Grundlagen und Differentialdiagnostik.';
+} else if (percentage >= 60) {
+feedback = '📚 Befriedigend. Sie haben grundlegende Kenntnisse, sollten aber noch intensiver lernen.';
+recommendations = 'Wiederholen Sie die gesamte Lerneinheit und nutzen Sie zusätzliche Ressourcen zur Vertiefung des Verständnisses.';
+} else {
+feedback = '📖 Sie sollten die Lerneinheit wiederholen, um ein besseres Verständnis zu entwickeln.';
+recommendations = 'Nehmen Sie sich mehr Zeit für jedes Kapitel und arbeiten Sie systematisch durch alle Inhalte. Bei Fragen wenden Sie sich an Kollegen oder Mentoren.';
+}
+
+feedbackDiv.innerHTML = feedback;
+recommendationsDiv.innerHTML = recommendations;
+resultsDiv.style.display = 'block';
+
+// Scroll to results
+setTimeout(() => {
+resultsDiv.scrollIntoView({ behavior: 'smooth' });
+}, 300);
+
+quizCompleted = true;
+}
+
+function resetQuiz() {
+// Reset all answers
+quizAnswers = {};
+quizCompleted = false;
+
+// Reset all option styles
+const options = document.querySelectorAll('.quiz-option');
+options.forEach(option => {
+option.classList.remove('correct', 'incorrect');
+});
+
+// Hide all explanations
+const explanations = document.querySelectorAll('.quiz-explanation');
+explanations.forEach(explanation => {
+explanation.classList.remove('show');
+});
+
+// Hide results
+document.getElementById('quiz-results').style.display = 'none';
+
+// Scroll to top of quiz section
+window.scrollTo(0, 0);
+}
+
+// Initialize progress bar
+document.getElementById('progressBar').style.width = '33.3%';
+</script>
+
+</body>
+</html>pelter Defekt:</strong> BH4-Recycling + Folsäure-Metabolismus gestört</p>
+<p>• <strong>Progressive Komponente:</strong> Verschlechterung trotz Therapie</p>
+<p>• <strong>ZNS-Verkalkungen:</strong> Charakteristische MRT-Veränderungen</p>
+<p>• <strong>Therapie-Resistenz:</strong> Oft unvollständige Response auf Behandlung</p>
+<p>• <strong>Reduzierte Lebenserwartung:</strong> 20-40 Jahre</p>
+<p><strong>Vergleich:</strong> SR-Mangel hat die beste Prognose, GTP-CH-I und PTPS haben variable aber meist bessere Prognosen.</p>
+</div>
+</div>
+
+<div class="quiz-container">
+<div class="quiz-question">5. Welche Therapiekombination ist Standard bei AADC-Mangel?</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 5)">A) L-DOPA + Carbidopa</div>
+<div class="quiz-option" onclick="selectAnswer(this, true, 5)">B) Dopamin-Agonisten + MAO-Inhibitoren + Pyridoxin</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 5)">C) BH4 + L-DOPA + 5-HTP</div>
+<div class="quiz-option" onclick="selectAnswer(this, false, 5)">D) Nur symptomatische Therapie</div>
+
+<div class="quiz-explanation" id="explanation5">
+<h5>✅ Richtige Antwort: B) Dopamin-Agonisten + MAO-Inhibitoren + Pyridoxin</h5>
+<p><strong>Rationale der Kombinationstherapie:</strong></p>
+<p>• <strong>Dop

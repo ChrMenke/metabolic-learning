@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cholesterin-/Steroid-Biosynthese - Teil 2B</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #ec4899;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* Enzyme boxes */
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .enzyme-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .enzyme-box.defect {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: var(--shadow-sm);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .arrow {
+            display: inline-block;
+            margin: 0 var(--spacing-sm);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .arrow:hover {
+            transform: scale(1.2);
+            color: var(--accent-color);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #065f46;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #065f46;
+        }
+        
+        /* Metabolite boxes */
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color), #0ea5e9);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metabolite-box:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Hormone boxes for CAH */
+        .hormone-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary-color), #be185d);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .hormone-box.elevated {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            animation: pulseGlow 2s infinite;
+        }
+        
+        .hormone-box.decreased {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        /* Special steroid pathway styling */
+        .steroid-pathway {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Cholesterin-/Steroid-Biosynthese</h1>
+            <p>Teil 2B: Andere CAH-Formen & Erweiterte Störungen</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 2B</h3>
+            <p>Dieser Teil behandelt die seltenen CAH-Formen (11β-Hydroxylase, 17α-Hydroxylase, 3β-HSD2, StAR) und erweiterte Steroidogenese-Störungen (PORD, Aldosteron-Synthase).</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('cah11b')">1. 11β-Hydroxylase</button>
+            <button class="nav-btn" onclick="showSection('cah17a')">2. 17α-Hydroxylase</button>
+            <button class="nav-btn" onclick="showSection('cah-selten')">3. Seltene CAH</button>
+            <button class="nav-btn" onclick="showSection('erweitert')">4. Erweiterte Störungen</button>
+        </div>
+
+        <!-- 11β-Hydroxylase CAH -->
+        <div class="content-section active" id="cah11b">
+            <h2 class="section-title">🔥 11β-Hydroxylase-Mangel</h2>
+
+            <div class="subsection">
+                <h3>Epidemiologie und Pathophysiologie</h3>
+                <div class="case-study">
+                    <h4>🔬 Zweithäufigste klassische CAH-Form</h4>
+                    <p><strong>Epidemiologie:</strong></p>
+                    <ul>
+                        <li><strong>Inzidenz:</strong> 1:100.000 - 1:200.000 (5-8% aller CAH)</li>
+                        <li><strong>Ethnische Häufung:</strong> Jüdische Population aus Marokko (1:5.000)</li>
+                        <li><strong>Gen:</strong> CYP11B1 (8q21-22)</li>
+                        <li><strong>Vererbung:</strong> Autosomal-rezessiv</li>
+                    </ul>
+                </div>
+
+                <div class="steroid-pathway">
+                    <h4>CYP11B1-Defekt und Konsequenzen</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 20px 0;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                            <div class="metabolite-box">11-Deoxykortisol</div>
+                            <span class="arrow" style="transform: rotate(90deg); color: #8b5cf6;">↓</span>
+                            
+                            <div class="enzyme-box defect" style="font-size: 1.1em; padding: 15px 25px;">CYP11B1 (DEFEKT)</div>
+                            <div style="text-align: center; color: #ef4444; font-weight: 600;">11β-Hydroxylase</div>
+                            
+                            <span class="arrow" style="transform: rotate(90deg); color: #8b5cf6;">↓</span>
+                            <div class="hormone-box decreased">Kortisol ↓↓</div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; margin-top: 20px;">
+                            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 8px; border: 2px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">↑ Akkumulation</h5>
+                                <div class="hormone-box elevated">11-Deoxykortisol ↑↑</div>
+                                <div class="hormone-box elevated">11-Deoxykortikosteron (DOC) ↑↑</div>
+                                <div class="hormone-box elevated">Androgene ↑↑</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 8px; border: 2px solid #22c55e;">
+                                <h5 style="color: #16a34a; margin-bottom: 10px;">Klinische Folgen</h5>
+                                <p style="color: #16a34a; font-size: 0.9em;">• <strong>Hypertonie</strong> (DOC!)<br>• <strong>Hypokaliämie</strong><br>• <strong>Virilisierung</strong><br>• <strong>Kein Salzverlust</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>21-Hydroxylase CAH</th>
+                            <th>11β-Hydroxylase CAH</th>
+                            <th>Klinische Bedeutung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hauptmarker</strong></td>
+                            <td>17-OH-Progesteron ↑↑</td>
+                            <td>11-Deoxykortisol ↑↑</td>
+                            <td>Spezifische Biomarker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mineralokortikoid</strong></td>
+                            <td>Aldosteron ↓ (Salzverlust)</td>
+                            <td>DOC ↑ (Hypertonie)</td>
+                            <td>Gegensätzliche Effekte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Virilisierung</strong></td>
+                            <td>Ja</td>
+                            <td>Ja (oft stärker)</td>
+                            <td>Beide betroffen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Besonderheit</strong></td>
+                            <td>Salzverlust möglich</td>
+                            <td>Hypertonie charakteristisch</td>
+                            <td>Unterscheidungsmerkmal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Diagnostik und Therapie</h3>
+                <div class="highlight-box">
+                    <h4>Diagnostische Besonderheiten</h4>
+                    <p><strong>Labordiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Primärmarker:</strong> 11-Deoxykortisol >20 μg/dl (Normal: <1 μg/dl)</li>
+                        <li><strong>ACTH-Test:</strong> 11-Deoxykortisol steigt >50 μg/dl</li>
+                        <li><strong>DOC erhöht:</strong> Ursache der Hypertonie und Hypokaliämie</li>
+                        <li><strong>17-OHP:</strong> Kann mäßig erhöht sein (DD zu 21-OHD)</li>
+                    </ul>
+                    
+                    <p><strong>Häufige Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>R448H:</strong> Häufigste Mutation weltweit (30%)</li>
+                        <li><strong>Q356X:</strong> Nonsense-Mutation (20%)</li>
+                        <li><strong>R374W:</strong> Missense mit residualer Aktivität (15%)</li>
+                        <li><strong>L299P:</strong> Founder-Mutation bei marokkanischen Juden</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>💊 Therapieprotokoll</h4>
+                    <p><strong>Glukokortikoid-Substitution:</strong></p>
+                    <ul>
+                        <li><strong>Hydrocortison:</strong> Wie bei 21-OHD (10-15 mg/m²/d)</li>
+                        <li><strong>Monitoring:</strong> 11-Deoxykortisol als Verlaufsparameter</li>
+                        <li><strong>Zielwerte:</strong> 11-Deoxykortisol <10 μg/dl</li>
+                    </ul>
+                    
+                    <p><strong>Antihypertensive Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Spironolacton:</strong> 1-3 mg/kg/d (DOC-Antagonist)</li>
+                        <li><strong>ACE-Hemmer:</strong> Bei unzureichender Kontrolle</li>
+                        <li><strong>Kalziumkanalblocker:</strong> Alternative bei Jugendlichen</li>
+                        <li><strong>KEIN Fludrocortison:</strong> Kontraindiziert wegen DOC-Exzess</li>
+                    </ul>
+                    
+                    <p><strong>Besondere Überwachung:</strong></p>
+                    <ul>
+                        <li><strong>Blutdruck:</strong> Regelmäßig, 24h-RR bei Verdacht</li>
+                        <li><strong>Kalium:</strong> Engmaschig, Substitution oft nötig</li>
+                        <li><strong>Echokardiographie:</strong> Bei Hypertonie-Nachweis</li>
+                        <li><strong>Nierenfunktion:</strong> Langzeitfolgen der Hypertonie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('cah17a')">Weiter zu 17α-Hydroxylase →</button>
+            </div>
+        </div>
+
+        <!-- 17α-Hydroxylase CAH -->
+        <div class="content-section" id="cah17a">
+            <h2 class="section-title">🌟 17α-Hydroxylase/17,20-Lyase-Mangel</h2>
+
+            <div class="subsection">
+                <h3>Dualer Enzymdefekt</h3>
+                <div class="steroid-pathway">
+                    <h4>CYP17A1 - Zwei enzymatische Aktivitäten</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <p style="color: #7c3aed; font-weight: 600; margin-bottom: 10px;">17α-Hydroxylase Aktivität:</p>
+                            <div style="font-size: 0.9em; color: #7c3aed;">
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin: 5px 0;">Pregnenolon → 17-OH-Pregnenolon</div>
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin: 5px 0;">Progesteron → 17-OH-Progesteron</div>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="color: #7c3aed; font-weight: 600; margin-bottom: 10px;">17,20-Lyase Aktivität:</p>
+                            <div style="font-size: 0.9em; color: #7c3aed;">
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin: 5px 0;">17-OH-Pregnenolon → DHEA</div>
+                                <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin: 5px 0;">17-OH-Progesteron → Androstendion</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Hormonsystem</th>
+                            <th>Betroffene Hormone</th>
+                            <th>Laborwerte</th>
+                            <th>Klinische Manifestation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Glukokortikoide</strong></td>
+                            <td>Kortisol ↓</td>
+                            <td>Kortisol <5 μg/dl</td>
+                            <td>Meist asymptomatisch (genug DOC)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mineralokortkoide</strong></td>
+                            <td>DOC ↑, Aldosteron ↓</td>
+                            <td>DOC >5 ng/ml</td>
+                            <td>Hypertonie, Hypokaliämie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sexualhormone</strong></td>
+                            <td>Alle Androgene/Östrogene ↓</td>
+                            <td>Testosteron <50 ng/dl</td>
+                            <td>Sexueller Infantilismus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biomarker</strong></td>
+                            <td>17-OH-Steroide ↓</td>
+                            <td>17-OHP <30 ng/ml</td>
+                            <td>Diagnostischer Marker</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Klinisches Spektrum</h3>
+                <div class="case-study">
+                    <h4>👤 Geschlechtsspezifische Manifestationen</h4>
+                    <p><strong>46,XX Patienten:</strong></p>
+                    <ul>
+                        <li><strong>Äußere Genitalien:</strong> Normal weiblich (keine Androgenexposition)</li>
+                        <li><strong>Pubertät:</strong> Ausbleibende Menarche, fehlende Brustentwicklung</li>
+                        <li><strong>Gonaden:</strong> Streak ovaries, keine Östrogen-Produktion</li>
+                        <li><strong>Größe:</strong> Oft überdurchschnittlich (fehlende Östrogeneffekte)</li>
+                    </ul>
+                    
+                    <p><strong>46,XY Patienten:</strong></p>
+                    <ul>
+                        <li><strong>Genitalien:</strong> Weibliches Erscheinungsbild (komplette Androgenresistenz-ähnlich)</li>
+                        <li><strong>Interne Strukturen:</strong> Hoden vorhanden, oft intraabdominal</li>
+                        <li><strong>Geschlechtsidentität:</strong> Meist weiblich (durch Erziehung)</li>
+                        <li><strong>Tumor-Risiko:</strong> Gonadoblastom-Risiko bei Streak gonads</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Besondere klinische Merkmale</h4>
+                    <p><strong>Beide Geschlechter:</strong></p>
+                    <ul>
+                        <li><strong>Hypertonie:</strong> Durch DOC-Exzess (90% der Patienten)</li>
+                        <li><strong>Hypokaliämie:</strong> Oft schwer (<3 mmol/l)</li>
+                        <li><strong>Osteoporose:</strong> Durch Hypogonadismus</li>
+                        <li><strong>Metabolisches Syndrom:</strong> Durch Kortisolmangel</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostische Hinweise:</strong></p>
+                    <ul>
+                        <li><strong>17-OH-Steroide ↓:</strong> Im Gegensatz zu anderen CAH-Formen</li>
+                        <li><strong>DOC/Kortikosteron ↑:</strong> Spezifischer Marker</li>
+                        <li><strong>Progesteron ↑:</strong> Akkumulation proximal des Blocks</li>
+                        <li><strong>ACTH ↑:</strong> Kompensatorisch erhöht</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapie und Management</h3>
+                <div class="case-study">
+                    <h4>💊 Multimodales Behandlungskonzept</h4>
+                    <p><strong>Hormonsubstitution:</strong></p>
+                    <ul>
+                        <li><strong>Hydrocortison:</strong> 10-15 mg/m²/d (Kortisolersatz)</li>
+                        <li><strong>Sexualhormone:</strong> Ab Pubertätsalter essentiell</li>
+                        <li><strong>46,XX:</strong> Östrogen + Gestagen (normale weibliche Entwicklung)</li>
+                        <li><strong>46,XY:</strong> Testosteron ODER Östrogen (je nach Geschlechtsidentität)</li>
+                    </ul>
+                    
+                    <p><strong>Hypertonie-Management:</strong></p>
+                    <ul>
+                        <li><strong>Spironolacton:</strong> Erstlinien-Therapie (DOC-Antagonist)</li>
+                        <li><strong>Thiazid-Diuretika:</strong> Bei unzureichender Kontrolle</li>
+                        <li><strong>ACE-Hemmer:</strong> Zusätzliche Nephro- und Kardioprotektion</li>
+                        <li><strong>Kalium-Substitution:</strong> Oft dauerhaft erforderlich</li>
+                    </ul>
+                    
+                    <p><strong>Besondere Überlegungen:</strong></p>
+                    <ul>
+                        <li><strong>Gonadektomie:</strong> Bei 46,XY mit weiblicher Identität (Tumor-Risiko)</li>
+                        <li><strong>Familienplanung:</strong> Adoption oder Eizell-/Samenspende</li>
+                        <li><strong>Psychologische Betreuung:</strong> DSD-Team unerlässlich</li>
+                        <li><strong>Osteoporose-Prophylaxe:</strong> Kalzium, Vitamin D, Bisphosphonate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('cah-selten')">Weiter zu seltenen CAH →</button>
+            </div>
+        </div>
+
+        <!-- Seltene CAH-Formen -->
+        <div class="content-section" id="cah-selten">
+            <h2 class="section-title">🧬 Seltene CAH-Formen</h2>
+
+            <div class="subsection">
+                <h3>3β-Hydroxysteroid-Dehydrogenase Typ 2 Mangel</h3>
+                <div class="steroid-pathway">
+                    <h4>HSD3B2-Defekt</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 20px 0;">
+                        <div style="background: #fee2e2; padding: 20px; border-radius: 10px; width: 100%; border: 2px solid #ef4444;">
+                            <div style="text-align: center;">
+                                <h5 style="color: #dc2626; margin-bottom: 15px;">3β-HSD2 = Δ5→Δ4 Konversion</h5>
+                                <p style="color: #dc2626; margin-bottom: 10px;"><strong>Funktion:</strong> Δ5-Steroide → Δ4-Steroide + 3-Keto-Reduktion</p>
+                                <p style="color: #dc2626;"><strong>Lokalisation:</strong> Nebenniere, Gonaden, Plazenta</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
+                            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 8px; border: 2px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">↑ Δ5-Steroide</h5>
+                                <div class="hormone-box elevated">Pregnenolon ↑↑</div>
+                                <div class="hormone-box elevated">17-OH-Pregnenolon ↑↑</div>
+                                <div class="hormone-box elevated">DHEA ↑↑</div>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 8px; border: 2px solid #22c55e;">
+                                <h5 style="color: #16a34a; margin-bottom: 10px;">↓ Δ4-Steroide</h5>
+                                <div class="hormone-box decreased">Progesteron ↓↓</div>
+                                <div class="hormone-box decreased">17-OHP ↓↓</div>
+                                <div class="hormone-box decreased">Androstendion ↓↓</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>🔍 Diagnostische Besonderheiten</h4>
+                    <p><strong>Biochemische Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Δ5/Δ4-Steroid Ratio >5:</strong> Pathognomonisch</li>
+                        <li><strong>17-OH-Pregnenolon/17-OHP >10:</strong> Spezifischer Marker</li>
+                        <li><strong>DHEA-S massiv erhöht:</strong> Oft >10.000 μg/dl</li>
+                        <li><strong>Schwacher Androgen:</strong> DHEA wenig virilisierend</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Manifestation:</strong></p>
+                    <ul>
+                        <li><strong>Salzverlust:</strong> Meist schwer (fehlende Mineralokortkoide)</li>
+                        <li><strong>Milde Virilisierung:</strong> Weniger als bei 21-OHD</li>
+                        <li><strong>46,XY Patienten:</strong> Oft undervirilized, Mikropenis</li>
+                        <li><strong>Prognose:</strong> Schlecht bei schweren Formen</li>
+                    </ul>
+                    
+                    <p><strong>Molekulargenetik:</strong></p>
+                    <ul>
+                        <li><strong>HSD3B2-Gen:</strong> 1p12, 4 Exons</li>
+                        <li><strong>Häufige Mutationen:</strong> A82T, P222Q, G129R</li>
+                        <li><strong>Typ I vs. Typ II:</strong> Typ II (adrenal/gonadal) betroffen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>StAR-Protein Defekt (Lipoid CAH)</h3>
+                <div class="steroid-pathway">
+                    <h4>Schwerstes CAH-Syndrom</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 20px 0;">
+                        <div style="background: #fee2e2; padding: 20px; border-radius: 10px; width: 100%; border: 2px solid #ef4444;">
+                            <div style="text-align: center;">
+                                <h5 style="color: #dc2626; margin-bottom: 15px;">StAR = Steroidogenic Acute Regulatory Protein</h5>
+                                <p style="color: #dc2626; margin-bottom: 10px;"><strong>Funktion:</strong> Cholesterin-Transport in Mitochondrien</p>
+                                <p style="color: #dc2626;"><strong>Bedeutung:</strong> Rate-limiting step der Steroidogenese</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">Cholesterin (Cytoplasma)</div>
+                            <span class="arrow" style="transform: rotate(90deg); color: #ef4444;">❌</span>
+                            
+                            <div class="enzyme-box defect" style="font-size: 1.1em; padding: 15px 25px;">StAR-Protein (DEFEKT)</div>
+                            <div style="text-align: center; color: #ef4444; font-weight: 600;">Cholesterin-Transport blockiert</div>
+                            
+                            <span class="arrow" style="transform: rotate(90deg); color: #ef4444;">❌</span>
+                            <div class="metabolite-box" style="background: linear-gradient(135deg, #6b7280, #4b5563);">Cholesterin (Mitochondrien)</div>
+                            
+                            <div style="margin-top: 20px; text-align: center; background: #fef2f2; padding: 15px; border-radius: 8px; border: 2px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 10px;">Konsequenz: Kompletter Steroidmangel</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+                                    <div class="hormone-box decreased">Kortisol ↓↓</div>
+                                    <div class="hormone-box decreased">Aldosteron ↓↓</div>
+                                    <div class="hormone-box decreased">Testosteron ↓↓</div>
+                                    <div class="hormone-box decreased">Östrogen ↓↓</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Klinische Charakteristika</h4>
+                    <p><strong>Schwere neonatale Manifestation:</strong></p>
+                    <ul>
+                        <li><strong>Salzverlustkrise:</strong> Innerhalb weniger Tage, oft letal</li>
+                        <li><strong>Adrenale Insuffizienz:</strong> Komplette Steroidproduktion ↓</li>
+                        <li><strong>46,XY DSD:</strong> Komplett weibliches Erscheinungsbild</li>
+                        <li><strong>Lipid-Akkumulation:</strong> In Nebennieren und Gonaden ("lipoid")</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Alle Steroide ↓:</strong> Kortisol, Aldosteron, Sexualhormone</li>
+                        <li><strong>ACTH-Test:</strong> Kein Anstieg von Steroiden</li>
+                        <li><strong>Molekulargenetik:</strong> STAR-Gen Mutationen</li>
+                        <li><strong>Bildgebung:</strong> Vergrößerte, "lipoid" Nebennieren</li>
+                    </ul>
+                    
+                    <p><strong>Prognose und Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Mortalität:</strong> Hoch ohne frühzeitige Diagnose</li>
+                        <li><strong>Substitution:</strong> Hydrocortison + Fludrocortison</li>
+                        <li><strong>Pubertät:</strong> Sexualhormon-Substitution erforderlich</li>
+                        <li><strong>Lebenserwartung:</strong> Normal bei adäquater Therapie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('erweitert')">Weiter zu erweiterten Störungen →</button>
+            </div>
+        </div>
+
+        <!-- Erweiterte Störungen -->
+        <div class="content-section" id="erweitert">
+            <h2 class="section-title">🔬 Erweiterte Steroidogenese-Störungen</h2>
+
+            <div class="subsection">
+                <h3>P450-Oxidoreduktase-Defekt (PORD)</h3>
+                <div class="steroid-pathway">
+                    <h4>Elektron-Transfer-Störung</h4>
+                    
+                    <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #0891b2;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <h5 style="color: #0891b2; margin-bottom: 15px;">P450-Oxidoreduktase (POR) - Universeller Elektronendonor</h5>
+                            <p style="color: #0891b2; margin-bottom: 10px;"><strong>Funktion:</strong> NADPH → Cytochrom P450 Enzyme</p>
+                            <p style="color: #0891b2;"><strong>Betroffene Enzyme:</strong> CYP17A1, CYP21A2, CYP19A1 (Aromatase)</p>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <p style="color: #0891b2; font-weight: 600; margin-bottom: 10px;">Betroffene Pathways:</p>
+                                <ul style="font-size: 0.9em; color: #0891b2;">
+                                    <li>Kortisol-Synthese ↓ (17α-Hydroxylase)</li>
+                                    <li>Androgen-Synthese ↓ (17,20-Lyase)</li>
+                                    <li>Östrogen-Synthese ↓ (Aromatase)</li>
+                                    <li>Medikamenten-Metabolismus ↓</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="color: #0891b2; font-weight: 600; margin-bottom: 10px;">Zusätzliche Merkmale:</p>
+                                <ul style="font-size: 0.9em; color: #0891b2;">
+                                    <li>Skelettale Malformationen</li>
+                                    <li>Antley-Bixler Syndrom</li>
+                                    <li>Maternale Virilisierung</li>
+                                    <li>Drug metabolism defects</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Schweregrad</th>
+                            <th>Enzymaktivität</th>
+                            <th>Skelettale Beteiligung</th>
+                            <th>Endokrine Störung</th>
+                            <th>Prognose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Schwer</strong></td>
+                            <td><5%</td>
+                            <td>Antley-Bixler Syndrom</td>
+                            <td>Schwere Steroidmangel</td>
+                            <td>Oft letal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moderat</strong></td>
+                            <td>5-20%</td>
+                            <td>Milde Dysmorphie</td>
+                            <td>Ambige Genitalien</td>
+                            <td>Gut mit Therapie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mild</strong></td>
+                            <td>20-50%</td>
+                            <td>Keine/minimal</td>
+                            <td>Reproduktive Probleme</td>
+                            <td>Normal</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>🏗️ Antley-Bixler Syndrom</h4>
+                    <p><strong>Skelettale Malformationen:</strong></p>
+                    <ul>
+                        <li><strong>Craniosynostose:</strong> Multiple Nähte betroffen</li>
+                        <li><strong>Faziale Dysmorphie:</strong> Hypertelorismus, flache Nasenwurzel</li>
+                        <li><strong>Extremitäten:</strong> Radiohumeral Synostose, Bowing fractures</li>
+                        <li><strong>Wirbelsäule:</strong> Scoliose, vertebrale Malformationen</li>
+                    </ul>
+                    
+                    <p><strong>Endokrine Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>46,XY DSD:</strong> Undervirilization bis weibliches Erscheinungsbild</li>
+                        <li><strong>Maternale Virilisierung:</strong> Während Schwangerschaft</li>
+                        <li><strong>Adrenale Insuffizienz:</strong> Meist mild</li>
+                        <li><strong>Pubertätsstörungen:</strong> Verzögert oder ausbleibend</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Aldosteron-Synthase-Defekt (CYP11B2)</h3>
+                <div class="highlight-box">
+                    <h4>Isolierte Mineralokortikoid-Insuffizienz</h4>
+                    <p><strong>Corticosterone Methyloxidase Deficiency:</strong></p>
+                    <ul>
+                        <li><strong>Typ I (CMO-I):</strong> 18-Hydroxylase-Defekt</li>
+                        <li><strong>Typ II (CMO-II):</strong> 18-Oxidase-Defekt</li>
+                        <li><strong>Beide:</strong> Führen zu Aldosteron-Mangel</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Merkmale:</strong></p>
+                    <ul>
+                        <li><strong>Salzverlust:</strong> Ohne Kortisol-Mangel</li>
+                        <li><strong>Hyperreninämie:</strong> Kompensatorisch</li>
+                        <li><strong>Normale Virilisierung:</strong> Androgene nicht betroffen</li>
+                        <li><strong>Therapie:</strong> Nur Fludrocortison erforderlich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Aromatase-Defekt (CYP19A1)</h3>
+                <div class="case-study">
+                    <h4>🧬 Störung der Östrogen-Synthese</h4>
+                    <p><strong>Pathophysiologie:</strong></p>
+                    <ul>
+                        <li><strong>Enzym:</strong> Aromatase (CYP19A1)</li>
+                        <li><strong>Funktion:</strong> Androstendion → Östron, Testosteron → Östradiol</li>
+                        <li><strong>Lokalisation:</strong> Ovarien, Testes, Knochen, Fettgewebe</li>
+                    </ul>
+                    
+                    <p><strong>Klinische Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>46,XX:</strong> Virilisierung durch Androgen-Akkumulation</li>
+                        <li><strong>46,XY:</strong> Hochwuchs, verzögerter Epiphysenschluss</li>
+                        <li><strong>Maternale Virilisierung:</strong> Während Schwangerschaft</li>
+                        <li><strong>Osteoporose:</strong> Durch Östrogen-Mangel</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostik und Therapie:</strong></p>
+                    <ul>
+                        <li><strong>Androstendion/Östron ↑:</strong> Charakteristisches Verhältnis</li>
+                        <li><strong>Östradiol ↓:</strong> Trotz hoher Testosteron-Werte</li>
+                        <li><strong>Therapie:</strong> Östrogen-Substitution</li>
+                        <li><strong>Fertilität:</strong> Meist erhalten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>5α-Reduktase Typ 2 Defekt</h3>
+                <div class="steroid-pathway">
+                    <h4>Dihydrotestosteron-Mangel</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 20px 0;">
+                        <div style="background: #f8fafc; padding: 15px; border-radius: 8px; text-align: center; width: 100%;">
+                            <h5 style="color: #8b5cf6; margin-bottom: 10px;">5α-Reduktase Typ 2 (SRD5A2)</h5>
+                            <p style="font-size: 0.9em; color: #6b7280;">Testosteron → Dihydrotestosteron (DHT)</p>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                            <div class="metabolite-box">Testosteron</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">5α-Reduktase Typ 2</div>
+                            <span class="arrow">→</span>
+                            <div class="hormone-box decreased">DHT ↓↓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h4>🔍 46,XY DSD durch DHT-Mangel</h4>
+                    <p><strong>Klinische Charakteristika:</strong></p>
+                    <ul>
+                        <li><strong>Geburt:</strong> Weibliches oder ambiges Erscheinungsbild</li>
+                        <li><strong>Pubertät:</strong> Maskulinisierung durch Testosteron-Anstieg</li>
+                        <li><strong>Interne Strukturen:</strong> Normal männlich (Wolff-Dukte)</li>
+                        <li><strong>Prostatahypoplasie:</strong> DHT-abhängige Entwicklung gestört</li>
+                    </ul>
+                    
+                    <p><strong>Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Testosteron/DHT Ratio >20:</strong> Nach hCG-Stimulation</li>
+                        <li><strong>Androstendion/Etiocholanolon >5:</strong> Urin-Steroide</li>
+                        <li><strong>Molekulargenetik:</strong> SRD5A2-Gen Mutationen</li>
+                    </ul>
+                    
+                    <p><strong>Management:</strong></p>
+                    <ul>
+                        <li><strong>Geschlechtszuordnung:</strong> Oft männlich nach Pubertät</li>
+                        <li><strong>Chirurgie:</strong> Genitoplastik individuell</li>
+                        <li><strong>DHT-Gel:</strong> Experimentelle Therapie</li>
+                        <li><strong>Psychologische Betreuung:</strong> DSD-Team</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Zusammenfassung und Vergleich</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Störung</th>
+                            <th>Inzidenz</th>
+                            <th>Hauptmerkmal</th>
+                            <th>Diagnostischer Marker</th>
+                            <th>Therapie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>21-OHD</strong></td>
+                            <td>1:15.000</td>
+                            <td>Virilisierung ± Salzverlust</td>
+                            <td>17-OHP ↑↑</td>
+                            <td>HC + FC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>11β-OHD</strong></td>
+                            <td>1:100.000</td>
+                            <td>Virilisierung + Hypertonie</td>
+                            <td>11-Deoxykortisol ↑↑</td>
+                            <td>HC + Antihypertensiva</td>
+                        </tr>
+                        <tr>
+                            <td><strong>17α-OHD</strong></td>
+                            <td>1:1.000.000</td>
+                            <td>Hypertonie + Hypogonadismus</td>
+                            <td>17-OH-Steroide ↓</td>
+                            <td>HC + Sexualhormone</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3β-HSD2</strong></td>
+                            <td>1:1.000.000</td>
+                            <td>Salzverlust + milde Virilisierung</td>
+                            <td>Δ5/Δ4-Ratio >5</td>
+                            <td>HC + FC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>StAR</strong></td>
+                            <td>1:300.000</td>
+                            <td>Kompletter Steroidmangel</td>
+                            <td>Alle Steroide ↓</td>
+                            <td>HC + FC + Sexualhormone</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PORD</strong></td>
+                            <td>1:300.000</td>
+                            <td>Skelettale + endokrine Störung</td>
+                            <td>Complex steroid pattern</td>
+                            <td>Symptomatisch</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="next-step">
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: var(--border-radius); border: 2px solid var(--info-color);">
+                    <h3 style="color: var(--info-color); margin-bottom: 1rem;">🎉 Teil 2B abgeschlossen!</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sie haben alle CAH-Formen und erweiterte Steroidogenese-Störungen erfolgreich durchgearbeitet.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><strong>Gesamtes Curriculum vollständig!</strong> Teil 1 (Grundlagen + SLOS), Teil 2A (Desmosterolosis + 21-OHD CAH), Teil 2B (Andere CAH + Erweiterte Störungen)</p>
+                    <div class="completion-badge" style="background: linear-gradient(135deg, var(--success-color), #00f2fe); color: white; padding: var(--spacing-md) var(--spacing-lg); border-radius: 50px; display: inline-block; font-weight: 600; margin: var(--spacing-md) 0; box-shadow: var(--shadow-md);">✅ Lernziele erreicht!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['cah11b', 'cah17a', 'cah-selten', 'erweitert'];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all nav buttons
+            const allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Highlight active nav button
+            event.target.classList.add('active');
+
+            // Update progress bar
+            currentSection = sections.indexOf(sectionId);
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '25%';
+    </script>
+</body>
+</html>

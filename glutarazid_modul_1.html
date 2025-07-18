@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glutarazidurie Typ I - Interaktives Lernmodul</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --border-radius: 12px;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: var(--spacing-lg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            position: relative;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .module-info {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            border-radius: 2px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pathway-diagram h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .enzyme-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .enzyme-box:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metabolite-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            color: white;
+            padding: 10px 16px;
+            margin: 4px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            transform: translateX(8px) scale(1.02);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .flow-step {
+            background: var(--bg-white);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            max-width: 320px;
+            text-align: center;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flow-step:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--info-color);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Glutarazidurie Typ I</h1>
+            <p class="subtitle">Interaktives Lernmodul für Stoffwechselexperten</p>
+            <div class="module-info">
+                <strong>📚 Teil 1 von 5:</strong> Grundlagen, Epidemiologie und Pathophysiologie
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🧬 Grundlagen</h2>
+            
+            <div class="subsection">
+                <h3>Definition und Synonyme</h3>
+                <p>Die <strong>Glutarazidurie Typ 1 (GA1)</strong> ist eine seltene autosomal-rezessiv vererbte Störung des Lysinstoffwechsels, die unbehandelt in den meisten Fällen zu einer schweren dystonen Bewegungsstörung führt.</p>
+                
+                <div class="highlight-box">
+                    <h4>Synonyme</h4>
+                    <ul>
+                        <li>Glutarazidämie Typ 1</li>
+                        <li>Glutaryl-CoA-Dehydrogenase (GCDH)-Defizienz</li>
+                        <li>OMIM #231670</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Historischer Hintergrund</h3>
+                <p>Seit der Beschreibung der beiden Indexpatienten im Jahr <strong>1975</strong> durch Goodman et al. wurden bislang weltweit mehr als <strong>600 Patienten</strong> beschrieben.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📊 Epidemiologie</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1:124.000</div>
+                    <div class="stat-label">Inzidenz Deutschland<br>(2005-2015)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1:137.000</div>
+                    <div class="stat-label">Inzidenz Schweiz<br>(2014-2020)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1:75.539</div>
+                    <div class="stat-label">Inzidenz Österreich<br>(2013-2020)</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Populationen mit erhöhter Inzidenz</h3>
+                <p>Mindestens fünf Ethnien weisen eine deutlich höhere Überträgerfrequenz (bis zu 1:10) und Inzidenzrate (bis zu 1:250) auf:</p>
+                
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Population</th>
+                            <th>Region</th>
+                            <th>Inzidenz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Amish Community</strong></td>
+                            <td>Pennsylvania, USA</td>
+                            <td>bis 1:250</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oji-Cree First Nations</strong></td>
+                            <td>Kanada</td>
+                            <td>deutlich erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Irish Travellers</strong></td>
+                            <td>Irland</td>
+                            <td>deutlich erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lumbee</strong></td>
+                            <td>North Carolina, USA</td>
+                            <td>deutlich erhöht</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Xhosa</strong></td>
+                            <td>Südafrika</td>
+                            <td>deutlich erhöht</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🔬 Genetik und Pathophysiologie</h2>
+            
+            <div class="subsection">
+                <h3>Genetische Grundlagen</h3>
+                <div class="pathway-diagram">
+                    <h4>GCDH-Gen</h4>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div class="enzyme-box">Genlokus: 19p13.13</div>
+                        <div class="enzyme-box">Enzym: GCDH (EC 1.3.8.6)</div>
+                        <div class="enzyme-box">290 pathogene Varianten bekannt</div>
+                    </div>
+                </div>
+                
+                <p>Das GCDH-Gen kodiert für die <strong>Glutaryl-CoA-Dehydrogenase</strong>, ein homotetrameres, Flavin-Adenin-Dinukleotid (FAD)-abhängiges mitochondriales Matrixprotein.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemischer Pathway</h3>
+                <div class="pathway-diagram">
+                    <h4>Lysinstoffwechsel - Gemeinsame Endstrecke</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-step">
+                            <strong>Substrate</strong><br>
+                            L-Lysin, L-Hydroxylysin, L-Tryptophan
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">
+                            <div class="enzyme-box">GCDH</div>
+                            Glutaryl-CoA → Crotonyl-CoA<br>
+                            (oxidative Decarboxylierung)
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="flow-step">
+                            <strong>Bei GCDH-Mangel:</strong><br>
+                            Akkumulation neurotoxischer Metabolite
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Akkumulierende Metabolite</h3>
+                <div style="text-align: center; margin: 20px 0;">
+                    <div class="metabolite-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Glutarsäure (GA) - neurotoxisch</div>
+                    <div class="metabolite-box" style="background: linear-gradient(135deg, #ef4444, #dc2626);">3-Hydroxyglutarsäure (3-OH-GA) - neurotoxisch</div>
+                    <div class="metabolite-box" style="background: linear-gradient(135deg, #22c55e, #16a34a);">Glutarylcarnitin (C5DC) - nicht toxisch</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Biochemische Subtypen</h3>
+                <div class="highlight-box">
+                    <h4>Klassifikation nach GA-Ausscheidung im Urin</h4>
+                    <p><strong>High Excretor:</strong> Hohe GA-Konzentrationen im Urin</p>
+                    <p><strong>Low Excretor:</strong> Niedrige GA-Konzentrationen im Urin</p>
+                    <p>Der Genotyp korreliert mit der enzymatischen Restaktivität und dem biochemischen Phänotyp.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🧠 Wissenstest</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    Welche Aminosäuren werden über den Lysinstoffwechsel abgebaut, der bei GA1 betroffen ist?
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">
+                    A) Phenylalanin, Tyrosin, Tryptophan
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">
+                    B) Leucin, Isoleucin, Valin
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">
+                    C) L-Lysin, L-Hydroxylysin, L-Tryptophan
+                </div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">
+                    D) Methionin, Cystein, Homocystein
+                </div>
+            </div>
+        </div>
+
+        <div class="next-step">
+            <button class="next-btn" onclick="nextModule()">
+                Teil 2: Klinische Manifestationen →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(element, isCorrect) {
+            // Remove previous answers
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                setTimeout(() => {
+                    alert('✅ Richtig! Die GA1 betrifft den Abbau von L-Lysin, L-Hydroxylysin und L-Tryptophan über die gemeinsame Endstrecke des Lysinstoffwechsels.');
+                }, 500);
+            } else {
+                element.classList.add('incorrect');
+                setTimeout(() => {
+                    alert('❌ Nicht richtig. Die GA1 betrifft den Abbau von L-Lysin, L-Hydroxylysin und L-Tryptophan.');
+                }, 500);
+            }
+        }
+
+        function nextModule() {
+            alert('📚 Teil 2 wird als nächstes erstellt!\n\nThema: Klinische Manifestationen, Phänotypen und neurologische Komplikationen der Glutarazidurie Typ I');
+        }
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add entrance animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.subsection, .stat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

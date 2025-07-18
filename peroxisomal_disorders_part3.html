@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peroxisomale Erkrankungen - Teil 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --danger-color: #ff6b6b;
+            --info-color: #74b9ff;
+            --rcdp-color: #a29bfe;
+            --skeletal-color: #fd79a8;
+            --growth-color: #fdcb6e;
+            --practice-color: #00b894;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, var(--rcdp-color), var(--skeletal-color), var(--practice-color));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            background: var(--bg-lighter);
+            border-radius: 50px;
+            height: 10px;
+            margin-top: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--rcdp-color), var(--practice-color));
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Navigation */
+        .navigation {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            border-color: var(--rcdp-color);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            color: white;
+            border-color: var(--rcdp-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Content sections */
+        .content-section {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Subsections */
+        .subsection {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+        }
+        
+        .subsection h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .subsection h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            border-radius: 2px;
+        }
+        
+        .subsection p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .subsection ul {
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+        }
+        
+        .subsection li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tables */
+        .clinical-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-md) 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .clinical-table th {
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            color: white;
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .clinical-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .clinical-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .clinical-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Pathway diagrams */
+        .pathway-diagram {
+            background: var(--bg-white);
+            border: 2px solid var(--rcdp-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .pathway-diagram h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .pathway-diagram h5 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .pathway-diagram p {
+            color: var(--text-secondary);
+        }
+        
+        /* RCDP specific boxes */
+        .rcdp-box {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 2px solid var(--rcdp-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .rcdp-box h4 {
+            color: #6366f1;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .rcdp-box p, .rcdp-box ul, .rcdp-box li {
+            color: #6366f1;
+        }
+        
+        .skeletal-box {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border: 2px solid var(--skeletal-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .skeletal-box h4 {
+            color: #be185d;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .skeletal-box p, .skeletal-box ul, .skeletal-box li {
+            color: #be185d;
+        }
+        
+        .practice-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid var(--practice-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .practice-box h4 {
+            color: #047857;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .practice-box p, .practice-box ul, .practice-box li {
+            color: #047857;
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: linear-gradient(135deg, var(--warning-color), #fee140);
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .highlight-box h4 {
+            color: #92400e;
+            margin-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .highlight-box p, .highlight-box ul, .highlight-box li {
+            color: #92400e;
+        }
+        
+        /* Case study boxes */
+        .case-study {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .case-study h4 {
+            color: #166534;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .case-study p, .case-study ul, .case-study li {
+            color: #166534;
+        }
+        
+        /* Quiz containers */
+        .quiz-container {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xs) 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .quiz-option:hover {
+            background: #eff6ff;
+            border-color: var(--rcdp-color);
+            transform: translateX(8px) scale(1.02);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #ef4444;
+            animation: incorrectShake 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .quiz-explanation {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: #f8fafc;
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .quiz-explanation.show {
+            display: block;
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        /* Buttons */
+        .next-step {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--rcdp-color), var(--practice-color));
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .part-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .part-info h3 {
+            color: var(--info-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .part-info p {
+            color: var(--text-secondary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--success-color), #00f2fe);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            margin: var(--spacing-md) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Differential diagnosis matrix */
+        .dd-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .dd-card {
+            background: var(--bg-white);
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dd-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--rcdp-color);
+        }
+        
+        .dd-card h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .dd-card .feature-list {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .dd-card .feature-list strong {
+            color: var(--text-primary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .content-section {
+                padding: var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection {
+                padding: var(--spacing-md);
+            }
+            
+            .dd-matrix {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animation stagger */
+        .subsection {
+            animation: fadeInStagger 0.6s ease-out both;
+        }
+        
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subsection:nth-child(1) { animation-delay: 0.1s; }
+        .subsection:nth-child(2) { animation-delay: 0.2s; }
+        .subsection:nth-child(3) { animation-delay: 0.3s; }
+        .subsection:nth-child(4) { animation-delay: 0.4s; }
+        .subsection:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦴 RCDP & Praxisintegration</h1>
+            <p>Teil 3: Rhizomelia chondrodysplasia punctata & klinische Praxis</p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="part-info">
+            <h3>📚 Lerneinheit Teil 3</h3>
+            <p>Dieser abschließende Teil behandelt RCDP-Erkrankungen, integriert alle peroxisomalen Störungen in die klinische Praxis und schließt mit einer umfassenden Lernkontrolle ab.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('rcdp')">1. RCDP Grundlagen</button>
+            <button class="nav-btn" onclick="showSection('klinik')">2. Klinik & Diagnostik</button>
+            <button class="nav-btn" onclick="showSection('praxis')">3. Praxisintegration</button>
+            <button class="nav-btn" onclick="showSection('quiz')">4. Lernkontrolle</button>
+        </div>
+
+        <!-- RCDP Grundlagen -->
+        <div class="content-section active" id="rcdp">
+            <h2 class="section-title">🦴 Rhizomelia chondrodysplasia punctata</h2>
+
+            <div class="subsection">
+                <h3>Definition und Klassifikation</h3>
+                <div class="rcdp-box">
+                    <h4>🧬 RCDP: Eine seltene Skelettdysplasie</h4>
+                    <p><strong>Definition:</strong> Rhizomelia chondrodysplasia punctata ist eine Gruppe seltener Skelettdysplasien, charakterisiert durch proximale Extremitätenverkürzung, Chondrodysplasia punctata und Katarakt.</p>
+                    
+                    <p><strong>Klassifikation der RCDP-Typen:</strong></p>
+                    <ul>
+                        <li><strong>RCDP Typ 1 (klassisch):</strong> PEX7-Defekt, peroxisomale Biogenesestörung</li>
+                        <li><strong>RCDP Typ 2:</strong> DHAPAT-Mangel (GNPAT-Gen)</li>
+                        <li><strong>RCDP Typ 3:</strong> AGPS-Mangel (Alkyl-DHAP-Synthase)</li>
+                        <li><strong>RCDP Typ 4:</strong> FAR1-Defekt (Fetty acyl-CoA reductase 1)</li>
+                        <li><strong>RCDP Typ 5:</strong> PEX5-Defekt (PTS1-Rezeptor, sehr selten)</li>
+                    </ul>
+                    
+                    <p><strong>Gemeinsame Merkmale aller RCDP-Typen:</strong></p>
+                    <ul>
+                        <li>Rhizomelie (proximale Extremitätenverkürzung)</li>
+                        <li>Chondrodysplasia punctata (punktförmige Kalzifikationen)</li>
+                        <li>Katarakt (meist kongenital)</li>
+                        <li>Gestörte Plasmalogensynthese</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Epidemiologie und Genetik</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>RCDP-Typ</th>
+                            <th>Gen</th>
+                            <th>Protein</th>
+                            <th>Inzidenz</th>
+                            <th>Vererbung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>RCDP1 (klassisch)</strong></td>
+                            <td>PEX7</td>
+                            <td>PTS2-Rezeptor</td>
+                            <td>1:100.000</td>
+                            <td>autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP2</strong></td>
+                            <td>GNPAT</td>
+                            <td>DHAPAT</td>
+                            <td>1:300.000</td>
+                            <td>autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP3</strong></td>
+                            <td>AGPS</td>
+                            <td>AGPS</td>
+                            <td>1:500.000</td>
+                            <td>autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP4</strong></td>
+                            <td>FAR1</td>
+                            <td>FAR1</td>
+                            <td>sehr selten</td>
+                            <td>autosomal-rezessiv</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RCDP5</strong></td>
+                            <td>PEX5</td>
+                            <td>PTS1-Rezeptor</td>
+                            <td>sehr selten</td>
+                            <td>autosomal-rezessiv</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Pathophysiologie der Plasmalogensynthese</h3>
+                <div class="pathway-diagram">
+                    <h4>Plasmalogen-Biosynthese und RCDP-Defekte</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">DHAP</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">DHAPAT (RCDP2)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Acyl-DHAP</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 1: DHAP-Acylierung (RCDP2-Defekt)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Acyl-DHAP</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box defect">AGPS (RCDP3)</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Alkyl-DHAP</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 2: Etherbrücken-Bildung (RCDP3-Defekt)</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Alkyl-DHAP</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Alkyl-DHAP-Reductase</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Alkyl-Glycerol-3-P</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 3: Reduktion</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div class="enzyme-box">Alkyl-Glycerol-3-P</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">weitere Enzyme</div>
+                            <span class="arrow">→</span>
+                            <div class="enzyme-box">Plasmalogene</div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #6b7280; text-align: center;">Schritt 4: Plasmalogen-Reifung</div>
+                    </div>
+                    
+                    <div style="background: #fef2f2; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #fecaca;">
+                        <p style="color: #dc2626; font-weight: bold; text-align: center;">
+                            <strong>RCDP1-Besonderheit:</strong> PEX7-Defekt → gestörter Import der PTS2-Enzyme (DHAPAT, AGPS) → indirekte Plasmalogen-Reduktion
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RCDP Typ 1: Der häufigste und schwerste Typ</h3>
+                <div class="skeletal-box">
+                    <h4>🦴 RCDP1: Peroxisomaler Import-Defekt</h4>
+                    <p><strong>Molekulare Basis:</strong></p>
+                    <ul>
+                        <li><strong>PEX7-Gen-Defekt:</strong> Lokalisation Xp21.1, 10 Exons</li>
+                        <li><strong>PTS2-Rezeptor-Mangel:</strong> Import von PTS2-Proteinen gestört</li>
+                        <li><strong>Betroffene Proteine:</strong> DHAPAT, AGPS, 3-Ketoacyl-CoA-Thiolase</li>
+                        <li><strong>Funktionelle Konsequenz:</strong> Multiple enzymatische Defekte</li>
+                    </ul>
+                    
+                    <p><strong>Biochemische Anomalien:</strong></p>
+                    <ul>
+                        <li><strong>Plasmalogene:</strong> Stark reduziert (1-10% der Norm)</li>
+                        <li><strong>Phytansäure:</strong> Erhöht (α-Oxidationsdefekt)</li>
+                        <li><strong>Pristansäure:</strong> Mäßig erhöht</li>
+                        <li><strong>VLCFA:</strong> Normal oder leicht erhöht</li>
+                    </ul>
+                    
+                    <p><strong>Unterschiede zu anderen RCDP-Typen:</strong></p>
+                    <ul>
+                        <li><strong>Schwerster Phänotyp:</strong> Oft letal im ersten Lebensjahr</li>
+                        <li><strong>Multiple Enzymdefekte:</strong> Nicht nur Plasmalogensynthese</li>
+                        <li><strong>Phytansäure-Erhöhung:</strong> Charakteristisch für RCDP1</li>
+                        <li><strong>Komplexere Biochemie:</strong> Breiteres Spektrum von Anomalien</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Genotyp-Phänotyp-Korrelationen bei RCDP1</h4>
+                    <p><strong>Schwere Mutationen (Null-Allele):</strong></p>
+                    <ul>
+                        <li>Klassisches RCDP1 mit allen Symptomen</li>
+                        <li>Letalität meist im ersten Lebensjahr</li>
+                        <li>Schwere Skelettdysplasie und Katarakt</li>
+                    </ul>
+                    
+                    <p><strong>Milde Mutationen (Leaky-Allele):</strong></p>
+                    <ul>
+                        <li>Mildere Verläufe mit längerem Überleben möglich</li>
+                        <li>Weniger ausgeprägte Skelettveränderungen</li>
+                        <li>Residuelle PEX7-Funktionalität (5-15%)</li>
+                    </ul>
+                    
+                    <p><strong>Häufigste Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>c.903_909del7:</strong> Häufigste Deletion</li>
+                        <li><strong>c.875G>A (p.Gly292Asp):</strong> Missense-Mutation</li>
+                        <li><strong>c.681C>A (p.Phe227Leu):</strong> Mildere Variante</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RCDP Typ 2 und 3: Isolierte Enzymdefekte</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>RCDP2 (DHAPAT-Mangel)</th>
+                            <th>RCDP3 (AGPS-Mangel)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Häufigkeit</strong></td>
+                            <td>Zweithäufigste Form</td>
+                            <td>Dritthäufigste Form</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schweregrad</strong></td>
+                            <td>Meist milder als RCDP1</td>
+                            <td>Variable, oft schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plasmalogene</strong></td>
+                            <td>Stark reduziert (&lt;5%)</td>
+                            <td>Stark reduziert (&lt;5%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phytansäure</strong></td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VLCFA</strong></td>
+                            <td>Normal</td>
+                            <td>Normal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lebenserwartung</strong></td>
+                            <td>Oft >1 Jahr, manche Erwachsenenalter</td>
+                            <td>Variable, meist schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intellektuelle Entwicklung</strong></td>
+                            <td>Oft besser erhalten</td>
+                            <td>Meist schwer beeinträchtigt</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="case-study">
+                    <h4>💡 Praktische Differenzierung der RCDP-Typen</h4>
+                    <p><strong>Laborchemische Unterscheidung:</strong></p>
+                    <ul>
+                        <li><strong>Phytansäure erhöht + Plasmalogene ↓:</strong> RCDP1</li>
+                        <li><strong>Nur Plasmalogene ↓, Phytansäure normal:</strong> RCDP2/3</li>
+                        <li><strong>VLCFA normal bei allen RCDP-Typen</strong> (vs. Zellweger-Spektrum)</li>
+                    </ul>
+                    
+                    <p><strong>Enzymatische Diagnostik:</strong></p>
+                    <ul>
+                        <li><strong>DHAPAT-Aktivität:</strong> RCDP1 + RCDP2 reduziert, RCDP3 normal</li>
+                        <li><strong>AGPS-Aktivität:</strong> RCDP1 + RCDP3 reduziert, RCDP2 normal</li>
+                        <li><strong>Thiolase-Aktivität:</strong> Nur RCDP1 reduziert</li>
+                    </ul>
+                    
+                    <p><strong>Peroxisomen-Mikroskopie:</strong></p>
+                    <ul>
+                        <li><strong>RCDP1:</strong> Normale Peroxisomenzahl, aber gestörter PTS2-Import</li>
+                        <li><strong>RCDP2/3:</strong> Normale Peroxisomen, normaler Protein-Import</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('klinik')">Weiter zu Klinik & Diagnostik →</button>
+            </div>
+        </div>
+
+        <!-- Klinik & Diagnostik -->
+        <div class="content-section" id="klinik">
+            <h2 class="section-title">🏥 Klinische Manifestationen und Diagnostik</h2>
+
+            <div class="subsection">
+                <h3>Charakteristische klinische Trias</h3>
+                <div class="pathway-diagram">
+                    <h4>Die klassische RCDP-Trias</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); padding: 20px; border-radius: 12px; border: 2px solid var(--skeletal-color); text-align: center;">
+                            <h5 style="color: #be185d; margin-bottom: 15px;">🦴 Rhizomelie</h5>
+                            <ul style="color: #be185d; font-size: 0.9em; text-align: left;">
+                                <li>Proximale Extremitätenverkürzung</li>
+                                <li>Humerus und Femur betroffen</li>
+                                <li>Asymmetrisches Wachstum möglich</li>
+                                <li>Kontrakturen der großen Gelenke</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fffbeb, #fef3c7); padding: 20px; border-radius: 12px; border: 2px solid var(--growth-color); text-align: center;">
+                            <h5 style="color: #a16207; margin-bottom: 15px;">⚪ Chondrodysplasia punctata</h5>
+                            <ul style="color: #a16207; font-size: 0.9em; text-align: left;">
+                                <li>Punktförmige Kalzifikationen</li>
+                                <li>Epiphysen und Metaphysen</li>
+                                <li>Im Röntgen als "stippled epiphyses"</li>
+                                <li>Kann mit dem Alter verschwinden</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 20px; border-radius: 12px; border: 2px solid var(--rcdp-color); text-align: center;">
+                            <h5 style="color: #6366f1; margin-bottom: 15px;">👁️ Katarakt</h5>
+                            <ul style="color: #6366f1; font-size: 0.9em; text-align: left;">
+                                <li>Meist kongenital vorhanden</li>
+                                <li>Bilateral, oft dicht</li>
+                                <li>Frühe ophthalmologische Intervention nötig</li>
+                                <li>Kann zur Blindheit führen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; margin-top: 1rem; font-style: italic; color: var(--text-secondary);">
+                        <strong>Alle drei Komponenten müssen für die RCDP-Diagnose vorhanden sein!</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Detaillierte klinische Manifestationen</h3>
+                <div class="skeletal-box">
+                    <h4>🔍 Systematische klinische Untersuchung</h4>
+                    <p><strong>Skelettale Manifestationen:</strong></p>
+                    <ul>
+                        <li><strong>Rhizomelie:</strong> Humerus und Femur verkürzt, Verhältnis zu distalen Knochen verändert</li>
+                        <li><strong>Gelenkskontrakturen:</strong> Hüfte, Knie, Ellenbogen betroffen</li>
+                        <li><strong>Skoliose:</strong> Häufig progredient</li>
+                        <li><strong>Epiphysendysplasie:</strong> Verzögerte und gestörte Verknöcherung</li>
+                        <li><strong>Metaphysäre Veränderungen:</strong> Abflachung und Irregularitäten</li>
+                    </ul>
+                    
+                    <p><strong>Kraniofaziale Dysmorphien:</strong></p>
+                    <ul>
+                        <li><strong>Flaches Gesichtsprofil:</strong> Hypoplasie des Mittelgesichts</li>
+                        <li><strong>Sattelförmige Nase:</strong> Deprimierte Nasenwurzel</li>
+                        <li><strong>Mikrogenie:</strong> Unterentwickelter Unterkiefer</li>
+                        <li><strong>Hypertelorismus:</strong> Weiter Augenabstand</li>
+                        <li><strong>Mikrozephalie:</strong> Oft vorhanden</li>
+                    </ul>
+                    
+                    <p><strong>Ophthalmologische Befunde:</strong></p>
+                    <ul>
+                        <li><strong>Katarakt:</strong> Bilateral, meist bereits neonatal dicht</li>
+                        <li><strong>Mikrophthalmie:</strong> Kleine Augen</li>
+                        <li><strong>Glaukom:</strong> Sekundär durch Katarakt-Operation möglich</li>
+                        <li><strong>Nystagmus:</strong> Bei unbehandelter Katarakt</li>
+                    </ul>
+                    
+                    <p><strong>Hautveränderungen:</strong></p>
+                    <ul>
+                        <li><strong>Ichthyosis:</strong> Trockene, schuppige Haut</li>
+                        <li><strong>Hyperkeratose:</strong> Besonders an Druckstellen</li>
+                        <li><strong>Atopische Dermatitis:</strong> Häufig assoziiert</li>
+                        <li><strong>Alopecia:</strong> Spärliche Behaarung möglich</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Entwicklung und neurologische Manifestationen</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Bereich</th>
+                            <th>RCDP1 (schwer)</th>
+                            <th>RCDP2 (milder)</th>
+                            <th>RCDP3 (variabel)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Intellektuelle Entwicklung</strong></td>
+                            <td>Schwere Behinderung</td>
+                            <td>Mild bis mäßig</td>
+                            <td>Meist schwer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Motorische Entwicklung</strong></td>
+                            <td>Schwer verzögert</td>
+                            <td>Verzögert, aber besser</td>
+                            <td>Schwer verzögert</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sprache</strong></td>
+                            <td>Meist nicht entwickelt</td>
+                            <td>Verzögert, aber möglich</td>
+                            <td>Schwer beeinträchtigt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Krampfanfälle</strong></td>
+                            <td>Häufig (60-70%)</td>
+                            <td>Gelegentlich (20-30%)</td>
+                            <td>Häufig (50-60%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hörverlust</strong></td>
+                            <td>Häufig</td>
+                            <td>Gelegentlich</td>
+                            <td>Häufig</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lebenserwartung</strong></td>
+                            <td>&lt;2 Jahre (meist)</td>
+                            <td>Bis Erwachsenenalter möglich</td>
+                            <td>Variable (Kindheit bis jung-erwachsen)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>Prognostische Faktoren bei RCDP</h4>
+                    <p><strong>Ungünstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Schwere Rhizomelie:</strong> Humeruslänge &lt;60% der Norm</li>
+                        <li><strong>Frühe respiratorische Probleme:</strong> Atemwegsinfekte, Apnoen</li>
+                        <li><strong>Schwere Katarakt:</strong> Bilateral dicht, späte Erkennung</li>
+                        <li><strong>Frühe Krampfanfälle:</strong> Innerhalb der ersten Lebensmonate</li>
+                        <li><strong>Schwere Plasmalogen-Reduktion:</strong> &lt;1% der Norm</li>
+                    </ul>
+                    
+                    <p><strong>Günstige Prognosefaktoren:</strong></p>
+                    <ul>
+                        <li><strong>Mildere Skelettdysplasie:</strong> Erhaltene Proportionen</li>
+                        <li><strong>Frühe Katarakt-Operation:</strong> Visuelle Entwicklung möglich</li>
+                        <li><strong>Residuelle Plasmalogene:</strong> &gt;5% der Norm</li>
+                        <li><strong>Normale respiratorische Funktion:</strong> Keine frühen Atemprobleme</li>
+                        <li><strong>RCDP2/3 vs. RCDP1:</strong> Bessere Langzeitprognose</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Radiologische Diagnostik</h3>
+                <div class="rcdp-box">
+                    <h4>📻 Charakteristische Röntgenbefunde</h4>
+                    <p><strong>Pathognomonische radiologische Zeichen:</strong></p>
+                    <ul>
+                        <li><strong>Chondrodysplasia punctata:</strong> Punktförmige Kalzifikationen in Epiphysen</li>
+                        <li><strong>Coronal cleft vertebrae:</strong> Koronale Wirbelspaltbildung (pathognomonisch!)</li>
+                        <li><strong>Proximal Femoral Epiphysiolysis:</strong> Charakteristische Hüftveränderungen</li>
+                        <li><strong>Metaphysäre Cupping:</strong> Becherförmige Metaphysen</li>
+                    </ul>
+                    
+                    <p><strong>Altersabhängige Veränderungen:</strong></p>
+                    <ul>
+                        <li><strong>Neonatal:</strong> Deutliche Chondrodysplasia punctata</li>
+                        <li><strong>Säuglingsalter:</strong> Coronal cleft vertebrae gut sichtbar</li>
+                        <li><strong>Kleinkind:</strong> Punktierte Kalzifikationen können verschwinden</li>
+                        <li><strong>Ältere Kinder:</strong> Persistierende Skelettdysplasie ohne Punkte</li>
+                    </ul>
+                    
+                    <p><strong>Differentialdiagnostische Röntgenzeichen:</strong></p>
+                    <ul>
+                        <li><strong>RCDP vs. Warfarin-Embryopathie:</strong> Coronal cleft vertebrae nur bei RCDP</li>
+                        <li><strong>RCDP vs. X-linked CDP:</strong> Asymmetrie und Rhizomelie bei RCDP</li>
+                        <li><strong>RCDP vs. Zellweger:</strong> Weniger schwere ZNS-Malformationen</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>📋 Radiologisches Staging-System</h4>
+                    <p><strong>RCDP-Score nach Braverman et al.:</strong></p>
+                    <ul>
+                        <li><strong>Grad 1 (mild):</strong> Diskrete Chondrodysplasia punctata, milde Rhizomelie</li>
+                        <li><strong>Grad 2 (mäßig):</strong> Deutliche Punktierung, moderate Verkürzung</li>
+                        <li><strong>Grad 3 (schwer):</strong> Extensive Punktierung, schwere Rhizomelie</li>
+                        <li><strong>Grad 4 (sehr schwer):</strong> Massive Dysplasie, multiple Kontrakturen</li>
+                    </ul>
+                    
+                    <p><strong>Korrelation Score ↔ Prognose:</strong></p>
+                    <ul>
+                        <li><strong>Grad 1-2:</strong> Bessere Langzeitprognose, oft RCDP2</li>
+                        <li><strong>Grad 3-4:</strong> Schlechtere Prognose, meist RCDP1</li>
+                        <li><strong>Coronal cleft vertebrae:</strong> Unabhängiger negativer Prognosefaktor</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Labordiagnostik und Biochemie</h3>
+                <table class="clinical-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Probenmaterial</th>
+                            <th>RCDP1</th>
+                            <th>RCDP2/3</th>
+                            <th>Normal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Plasmalogene</strong></td>
+                            <td>Erythrozyten</td>
+                            <td>↓↓↓ (1-10%)</td>
+                            <td>↓↓↓ (&lt;5%)</td>
+                            <td>15-25%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phytansäure</strong></td>
+                            <td>Plasma</td>
+                            <td>↑↑ (50-200 μmol/l)</td>
+                            <td>Normal (&lt;20 μmol/l)</td>
+                            <td>&lt;20 μmol/l</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pristansäure</strong></td>
+                            <td>Plasma</td>
+                            <td>↑ (10-25 μmol/l)</td>
+                            <td>Normal (&lt;5 μmol/l)</td>
+                            <td>&lt;5 μmol/l</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VLCFA (C26:0)</strong></td>
+                            <td>Plasma</td>
+                            <td>Normal/leicht ↑</td>
+                            <td>Normal</td>
+                            <td>&lt;1,0 μg/ml</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DHAPAT-Aktivität</strong></td>
+                            <td>Fibroblasten</td>
+                            <td>↓↓ (&lt;10%)</td>
+                            <td>↓↓ (RCDP2) / Normal (RCDP3)</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AGPS-Aktivität</strong></td>
+                            <td>Fibroblasten</td>
+                            <td>↓↓ (&lt;10%)</td>
+                            <td>Normal (RCDP2) / ↓↓ (RCDP3)</td>
+                            <td>100%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="practice-box">
+                    <h4>🔬 Praktisches Vorgehen bei RCDP-Verdacht</h4>
+                    <p><strong>Stufendiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>1. Stufe:</strong> Plasmalogene in Erythrozyten (Screening)</li>
+                        <li><strong>2. Stufe:</strong> Phytansäure/Pristansäure (Typ-Differenzierung)</li>
+                        <li><strong>3. Stufe:</strong> Enzymaktivitäten in Fibroblasten</li>
+                        <li><strong>4. Stufe:</strong> Molekulargenetische Bestätigung</li>
+                    </ul>
+                    
+                    <p><strong>Interpretation der Befunde:</strong></p>
+                    <ul>
+                        <li><strong>Plasmalogene ↓ + Phytansäure ↑:</strong> RCDP1 wahrscheinlich</li>
+                        <li><strong>Plasmalogene ↓ + Phytansäure normal:</strong> RCDP2/3 wahrscheinlich</li>
+                        <li><strong>Normale Plasmalogene:</strong> RCDP ausgeschlossen</li>
+                    </ul>
+                    
+                    <p><strong>Fallstricke:</strong></p>
+                    <ul>
+                        <li><strong>Altersabhängigkeit:</strong> Plasmalogene können sich normalisieren</li>
+                        <li><strong>Methodenabhängigkeit:</strong> Verschiedene Labore, verschiedene Methoden</li>
+                        <li><strong>Milde Formen:</strong> Können übersehen werden</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Molekulargenetische Diagnostik</h3>
+                <div class="highlight-box">
+                    <h4>Genetic Testing bei RCDP</h4>
+                    <p><strong>Empfohlenes Vorgehen:</strong></p>
+                    <ul>
+                        <li><strong>Panel-Diagnostik:</strong> RCDP-spezifisches Gen-Panel (PEX7, GNPAT, AGPS, FAR1)</li>
+                        <li><strong>Trio-Analyse:</strong> Patient + beide Eltern für optimale Interpretation</li>
+                        <li><strong>CNV-Analyse:</strong> Deletion/Duplikation-Screening inklusive</li>
+                    </ul>
+                    
+                    <p><strong>Häufige Mutationen:</strong></p>
+                    <ul>
+                        <li><strong>PEX7:</strong> c.903_909del7 (50% der europäischen Allele)</li>
+                        <li><strong>GNPAT:</strong> c.1510C>T (p.Arg504Cys) häufig</li>
+                        <li><strong>AGPS:</strong> Meist private Mutationen</li>
+                    </ul>
+                    
+                    <p><strong>Pränataldiagnostik:</strong></p>
+                    <ul>
+                        <li><strong>Chorionzottenbiopsie:</strong> 10.-12. SSW</li>
+                        <li><strong>Amniozentese:</strong> 15.-18. SSW</li>
+                        <li><strong>Biochemische Diagnostik:</strong> Plasmalogene in Amniozyten möglich</li>
+                        <li><strong>Fetale Sonographie:</strong> Rhizomelie ab 20. SSW erkennbar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('praxis')">Weiter zur Praxisintegration →</button>
+            </div>
+        </div>
+
+        <!-- Praxisintegration -->
+        <div class="content-section" id="praxis">
+            <h2 class="section-title">🏨 Praxisintegration und Fallbeispiele</h2>
+
+            <div class="subsection">
+                <h3>Differentialdiagnostik peroxisomaler Erkrankungen</h3>
+                <div class="dd-matrix">
+                    <div class="dd-card">
+                        <h4>🧬 Zellweger-Spektrum</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Charakteristische Fazies, schwere Hypotonie, Hepatomegalie<br>
+                            <strong>Biochemie:</strong> VLCFA ↑↑↑, Plasmalogene ↓↓↓, Phytansäure ↑<br>
+                            <strong>Radiologie:</strong> Migrationsstörungen, Gertrude-Zysten<br>
+                            <strong>Prognose:</strong> Meist letal in ersten Lebensjahren
+                        </div>
+                    </div>
+                    
+                    <div class="dd-card">
+                        <h4>🦴 RCDP (alle Typen)</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Rhizomelie, Chondrodysplasia punctata, Katarakt<br>
+                            <strong>Biochemie:</strong> Plasmalogene ↓↓↓, VLCFA normal<br>
+                            <strong>Radiologie:</strong> Coronal cleft vertebrae, stippled epiphyses<br>
+                            <strong>Prognose:</strong> Variable, RCDP2 oft milder
+                        </div>
+                    </div>
+                    
+                    <div class="dd-card">
+                        <h4>🧠 X-linked ALD</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Progressive Neurodegeneration, Addison-Krise<br>
+                            <strong>Biochemie:</strong> VLCFA ↑↑↑, Plasmalogene normal<br>
+                            <strong>Radiologie:</strong> Leukenzephalopathie, Gadolinium-Enhancement<br>
+                            <strong>Prognose:</strong> Variable, HSCT/Gentherapie verfügbar
+                        </div>
+                    </div>
+                    
+                    <div class="dd-card">
+                        <h4>⚗️ Einzelenzymdefekte</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Spezifisch für jeweiligen Defekt<br>
+                            <strong>Biochemie:</strong> Isolierte Stoffwechselstörung<br>
+                            <strong>Radiologie:</strong> Meist unauffällig<br>
+                            <strong>Prognose:</strong> Oft besser als PBD
+                        </div>
+                    </div>
+                    
+                    <div class="dd-card">
+                        <h4>🔄 Erworbene Störungen</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Warfarin-Embryopathie, Vitamin K-Mangel<br>
+                            <strong>Biochemie:</strong> Normale peroxisomale Marker<br>
+                            <strong>Radiologie:</strong> Chondrodysplasia punctata ohne coronal clefts<br>
+                            <strong>Prognose:</strong> Abhängig von Ursache
+                        </div>
+                    </div>
+                    
+                    <div class="dd-card">
+                        <h4>🧬 Andere Skelettdysplasien</h4>
+                        <div class="feature-list">
+                            <strong>Leitsymptome:</strong> Skelettdeformitäten ohne peroxisomale Zeichen<br>
+                            <strong>Biochemie:</strong> Normale peroxisomale Marker<br>
+                            <strong>Radiologie:</strong> Spezifische Skelettveränderungen<br>
+                            <strong>Prognose:</strong> Erkrankungsspezifisch
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 1: Neugeborenes mit Dysmorphien</h3>
+                <div class="case-study">
+                    <h4>👶 Fall 1: Neonatale Präsentation</h4>
+                    <p><strong>Anamnese:</strong> Neugeborenes, 38+2 SSW, 2450g, Apgar 7/8/9</p>
+                    <p><strong>Familienanamnese:</strong> Konsanguine Eltern (Cousin/Cousine), ein früherer perinataler Tod</p>
+                    
+                    <p><strong>Klinische Befunde:</strong></p>
+                    <ul>
+                        <li>Auffällige Fazies: Flaches Profil, deprimierte Nasenwurzel</li>
+                        <li>Bilaterale dichte Katarakt</li>
+                        <li>Verkürzte Oberarme und Oberschenkel (visuell auffällig)</li>
+                        <li>Hypotonie, schwache Primitive Reflexe</li>
+                        <li>Hepatomegalie (3 cm unter Rippenbogen)</li>
+                    </ul>
+                    
+                    <p><strong>Erste Röntgenuntersuchung:</strong></p>
+                    <ul>
+                        <li>Deutliche Chondrodysplasia punctata in Knie- und Hüftregion</li>
+                        <li>Rhizomelie: Humerus und Femur verkürzt</li>
+                        <li>Coronal cleft vertebrae in mehreren Wirbeln</li>
+                        <li>Metaphysäre Irregularitäten</li>
+                    </ul>
+                </div>
+
+                <div class="practice-box">
+                    <h4>🔬 Diagnostisches Vorgehen Fall 1</h4>
+                    <p><strong>Verdachtsdiagnose:</strong> RCDP (aufgrund der klassischen Trias)</p>
+                    
+                    <p><strong>Sofortige Labordiagnostik:</strong></p>
+                    <ul>
+                        <li>Plasmalogene in Erythrozyten: 2% (stark reduziert)</li>
+                        <li>Phytansäure: 85 μmol/l (erhöht)</li>
+                        <li>VLCFA: C26:0 1,2 μg/ml (grenzwertig)</li>
+                        <li>Leberfunktion: AST/ALT leicht erhöht</li>
+                    </ul>
+                    
+                    <p><strong>Weiterführende Diagnostik:</strong></p>
+                    <ul>
+                        <li>Fibroblasten-Kultur für Enzymaktivitätsmessungen</li>
+                        <li>DHAPAT-Aktivität: 3% der Norm (stark reduziert)</li>
+                        <li>AGPS-Aktivität: 5% der Norm (stark reduziert)</li>
+                        <li>Molekulargenetik: PEX7-Gen-Sequenzierung</li>
+                    </ul>
+                    
+                    <p><strong>Genetisches Ergebnis:</strong></p>
+                    <ul>
+                        <li>PEX7: c.903_909del7 homozygot (klassische RCDP1-Mutation)</li>
+                        <li>Bestätigung der Verdachtsdiagnose RCDP Typ 1</li>
+                    </ul>
+                    
+                    <p><strong>Sofortmaßnahmen:</strong></p>
+                    <ul>
+                        <li>Ophthalmologische Evaluation binnen 48h</li>
+                        <li>Katarakt-Operation innerhalb von 6 Wochen geplant</li>
+                        <li>Physiotherapie zur Kontrakturprophylaxe</li>
+                        <li>Genetische Beratung der Eltern</li>
+                        <li>Palliative care team involvement wegen schlechter Prognose</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Fall 2: Kleinkind mit Entwicklungsverzögerung</h3>
+                <div class="case-study">
+                    <h4>🧒 Fall 2: Mildere RCDP-Variante</h4>
+                    <p><strong>Anamnese:</strong> 18 Monate alter Junge, Eltern berichten verzögerte Entwicklung</p>
+                    <p><strong>Familienanamnese:</strong> Unauffällig, keine Konsanguinität</p>
+                    
+                    <p><strong>Entwicklungsstand:</strong></p>
+                    <ul>
+                        <li>Motorik: Sitzt frei, aber kann noch nicht stehen</li>
+                        <li>Sprache: Wenige Worte, versteht einfache Anweisungen</li>
+                        <li>Sozial: Kontaktfreudig, altersgerechtes Spielverhalten</li>
+                    </ul>
+                    
+                    <p><strong>Körperliche Untersuchung:</strong></p>
+                    <ul>
+                        <li>Milde Rhizomelie (erst bei Messung auffällig)</li>
+                        <li>Keine Katarakt, normaler Augenbefund</li>
+                        <li>Milde Kontrakturen der Hüftgelenke</li>
+                        <li>Trockene, schuppige Haut</li>
+                        <li>Normales Gesichtsprofil</li>
+                    </ul>
+                    
+                    <p><strong>Röntgenbefund:</strong></p>
+                    <ul>
+                        <li>Diskrete Chondrodysplasia punctata (nur noch schwach sichtbar)</li>
+                        <li>Milde Rhizomelie ohne schwere Deformitäten</li>
+                        <li>Keine coronal cleft vertebrae</li>
+                        <li>Epiphysen regelrecht entwickelt</li>
+                    </ul>
+                </div>
+
+                <div class="practice-box">
+                    <h4>🔬 Diagnostisches Vorgehen Fall 2</h4>
+                    <p><strong>Labordiagnostik:</strong></p>
+                    <ul>
+                        <li>Plasmalogene: 3% (deutlich reduziert)</li>
+                        <li>Phytansäure: 18 μmol/l (normal)</li>
+                        <li>VLCFA: Normal</li>
+                        <li>Leberfunktion: Normal</li>
+                    </ul>
+                    
+                    <p><strong>Weiterführende Diagnostik:</strong></p>
+                    <ul>
+                        <li>DHAPAT-Aktivität: 8% der Norm (stark reduziert)</li>
+                        <li>AGPS-Aktivität: Normal</li>
+                        <li>Genetik: GNPAT-Gen-Sequenzierung</li>
+                    </ul>
+                    
+                    <p><strong>Diagnose:</strong> RCDP Typ 2 (DHAPAT-Mangel)</p>
+                    
+                    <p><strong>Prognostische Beurteilung:</strong></p>
+                    <ul>
+                        <li>Mildere Form mit besserer Langzeitprognose</li>
+                        <li>Normale Intelligenz möglich</li>
+                        <li>Überleben bis Erwachsenenalter wahrscheinlich</li>
+                        <li>Rehabilitation und Förderung sinnvoll</li>
+                    </ul>
+                    
+                    <p><strong>Management:</strong></p>
+                    <ul>
+                        <li>Frühförderung und Physiotherapie</li>
+                        <li>Orthopädische Mitbetreuung</li>
+                        <li>Jährliche Kontrollen</li>
+                        <li>Genetische Beratung (Wiederholungsrisiko 25%)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Praxisalgorithmus: Verdacht auf peroxisomale Erkrankung</h3>
+                <div class="pathway-diagram">
+                    <h4>Systematisches Vorgehen bei Verdacht auf peroxisomale Störung</h4>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 20px 0;">
+                        <div class="dd-card" style="max-width: 400px; text-align: center;">
+                            <h4>🚨 Klinischer Verdacht</h4>
+                            <div class="feature-list">
+                                Charakteristische Fazies, Hypotonie, Hepatomegalie, Katarakt, Skelettdysplasie, Entwicklungsrückstand
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 2rem; color: var(--rcdp-color);">↓</div>
+                        
+                        <div class="dd-card" style="max-width: 400px; text-align: center;">
+                            <h4>🧪 Basis-Screening</h4>
+                            <div class="feature-list">
+                                VLCFA, Phytansäure, Plasmalogene (Erythrozyten)<br>
+                                <strong>Entscheidend für Typ-Differenzierung!</strong>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 2rem; color: var(--rcdp-color);">↓</div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; width: 100%; max-width: 900px;">
+                            <div class="dd-card" style="text-align: center;">
+                                <h4>VLCFA ↑↑↑<br>Plasmalogene ↓↓↓</h4>
+                                <div class="feature-list">
+                                    <strong>Zellweger-Spektrum</strong><br>
+                                    → Peroxisomen-Mikroskopie<br>
+                                    → PEX-Gene
+                                </div>
+                            </div>
+                            
+                            <div class="dd-card" style="text-align: center;">
+                                <h4>VLCFA ↑↑↑<br>Plasmalogene normal</h4>
+                                <div class="feature-list">
+                                    <strong>X-ALD</strong><br>
+                                    → ABCD1-Gen<br>
+                                    → MRT Gehirn
+                                </div>
+                            </div>
+                            
+                            <div class="dd-card" style="text-align: center;">
+                                <h4>VLCFA normal<br>Plasmalogene ↓↓↓</h4>
+                                <div class="feature-list">
+                                    <strong>RCDP</strong><br>
+                                    → Phytansäure<br>
+                                    → RCDP-Gene
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 2rem; color: var(--rcdp-color);">↓</div>
+                        
+                        <div class="dd-card" style="max-width: 500px; text-align: center;">
+                            <h4>🧬 Molekulargenetische Bestätigung</h4>
+                            <div class="feature-list">
+                                Gen-Panel oder WES<br>
+                                Trio-Analyse empfohlen<br>
+                                CNV-Analyse inklusive
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 2rem; color: var(--rcdp-color);">↓</div>
+                        
+                        <div class="dd-card" style="max-width: 500px; text-align: center;">
+                            <h4>💊 Management und Beratung</h4>
+                            <div class="feature-list">
+                                Symptomatische Therapie<br>
+                                Prognostische Beratung<br>
+                                Genetische Beratung<br>
+                                Multidisziplinäre Betreuung
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Therapeutisches Management und Supportive Care</h3>
+                <div class="practice-box">
+                    <h4>🏥 Multidisziplinäre Betreuung bei RCDP</h4>
+                    <p><strong>Ophthalmologie (essentiell!):</strong></p>
+                    <ul>
+                        <li><strong>Sofortige Evaluation:</strong> Bei Katarakt-Verdacht binnen 48h</li>
+                        <li><strong>Frühe Operation:</strong> Innerhalb von 4-6 Wochen nach Geburt</li>
+                        <li><strong>Amblyopie-Prophylaxe:</strong> Okklusionstherapie, Kontaktlinsen</li>
+                        <li><strong>Glaukom-Screening:</strong> Postoperativ regelmäßig</li>
+                    </ul>
+                    
+                    <p><strong>Orthopädie:</strong></p>
+                    <ul>
+                        <li><strong>Kontraktur-Management:</strong> Physiotherapie, Schienen</li>
+                        <li><strong>Skoliose-Überwachung:</strong> Regelmäßige Röntgenkontrollen</li>
+                        <li><strong>Operative Korrekturen:</strong> Bei funktionellen Einschränkungen</li>
+                        <li><strong>Hilfsmittel:</strong> Rollstuhl, Gehhilfen, Orthesen</li>
+                    </ul>
+                    
+                    <p><strong>Entwicklungsförderung:</strong></p>
+                    <ul>
+                        <li><strong>Frühförderung:</strong> Ab Diagnosestellung</li>
+                        <li><strong>Physiotherapie:</strong> Motorische Entwicklung unterstützen</li>
+                        <li><strong>Ergotherapie:</strong> Alltagsfähigkeiten trainieren</li>
+                        <li><strong>Logopädie:</strong> Sprachentwicklung fördern</li>
+                    </ul>
+                    
+                    <p><strong>Medizinische Überwachung:</strong></p>
+                    <ul>
+                        <li><strong>Wachstum:</strong> Regelmäßige Verlaufskontrollen</li>
+                        <li><strong>Atemwegsinfekte:</strong> Prophylaxe und aggressive Behandlung</li>
+                        <li><strong>Hautpflege:</strong> Bei Ichthyosis intensive Pflege</li>
+                        <li><strong>Ernährung:</strong> Adäquate Kalorienzufuhr sicherstellen</li>
+                    </ul>
+                    
+                    <p><strong>Palliative Care (bei schweren Formen):</strong></p>
+                    <ul>
+                        <li><strong>Symptom-Management:</strong> Schmerzen, Atemnot, Krampfanfälle</li>
+                        <li><strong>Familie unterstützen:</strong> Psychosoziale Betreuung</li>
+                        <li><strong>Qualität vs. Quantität:</strong> Lebensqualität im Vordergrund</li>
+                        <li><strong>Advance Care Planning:</strong> Behandlungswünsche besprechen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-step">
+                <button class="next-btn" onclick="showSection('quiz')">Zur Lernkontrolle →</button>
+            </div>
+        </div>
+
+        <!-- Lernkontrolle -->
+        <div class="content-section" id="quiz">
+            <h2 class="section-title">📝 Lernkontrolle</h2>
+
+            <div class="subsection">
+                <h3>Quiz: Peroxisomale Erkrankungen</h3>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">1. Welche biochemische Konstellation ist charakteristisch für das Zellweger-Spektrum?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q1')">A) VLCFA normal, Plasmalogene reduziert</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q1')">B) VLCFA erhöht, Plasmalogene normal</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'q1')">C) VLCFA erhöht, Plasmalogene reduziert, Phytansäure erhöht</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q1')">D) Alle Parameter normal</div>
+                    <div class="quiz-explanation" id="q1-explanation">
+                        <strong>Richtig: C)</strong> Das Zellweger-Spektrum zeigt eine charakteristische Trias aus erhöhten VLCFA (durch gestörte β-Oxidation), reduzierten Plasmalogenen (durch gestörte Synthese) und erhöhter Phytansäure (durch gestörte α-Oxidation).
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">2. Was ist das pathognomonische radiologische Zeichen für RCDP?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q2')">A) Chondrodysplasia punctata</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'q2')">B) Coronal cleft vertebrae</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q2')">C) Rhizomelie</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q2')">D) Metaphysäre Cupping</div>
+                    <div class="quiz-explanation" id="q2-explanation">
+                        <strong>Richtig: B)</strong> Coronal cleft vertebrae (koronale Wirbelspaltbildung) ist pathognomonisch für RCDP und unterscheidet es von anderen Ursachen der Chondrodysplasia punctata wie der Warfarin-Embryopathie.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">3. Welcher Phänotyp der X-ALD hat die beste Prognose?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q3')">A) Kindheit-zerebrale Form</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q3')">B) Adrenomyeloneuropathie (AMN)</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'q3')">C) Addison-only Phänotyp</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q3')">D) Adoleszent-zerebrale Form</div>
+                    <div class="quiz-explanation" id="q3-explanation">
+                        <strong>Richtig: C)</strong> Der Addison-only Phänotyp hat die beste Prognose, da nur die Nebenniereninsuffizienz vorliegt, die gut behandelbar ist. 60-80% entwickeln später neurologische Symptome, aber oft erst im Erwachsenenalter.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">4. Was unterscheidet RCDP1 von RCDP2/3 biochemisch?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q4')">A) VLCFA-Erhöhung</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'q4')">B) Phytansäure-Erhöhung</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q4')">C) Plasmalogen-Reduktion</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q4')">D) Pristansäure-Erhöhung</div>
+                    <div class="quiz-explanation" id="q4-explanation">
+                        <strong>Richtig: B)</strong> RCDP1 zeigt zusätzlich zu den reduzierten Plasmalogenen auch erhöhte Phytansäure, da der PEX7-Defekt auch die α-Oxidation beeinträchtigt. RCDP2/3 haben normale Phytansäure-Werte.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">5. Welche Therapie ist bei früher zerebraler X-ALD Goldstandard?</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q5')">A) Lorenzo's Oil</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false, 'q5')">B) Hämatopoetische Stammzelltransplantation</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true, 'q5')">C) Gentherapie (Elivaldog
