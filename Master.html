@@ -1250,6 +1250,17 @@
     document.addEventListener('DOMContentLoaded', async () => {
         await loadDynamicModules();
     });
-    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
+        .then(registration => {
+          console.log('Service Worker registriert mit Scope:', registration.scope);
+        })
+        .catch(error => {
+          console.error('Service Worker Registrierung fehlgeschlagen:', error);
+        });
+    });
+  }
 </body>
 </html>
