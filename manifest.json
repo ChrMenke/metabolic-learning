@@ -1,22 +1,22 @@
-1: {
-2:   "name": "Stoffwechselstörungen Lernzentrum",
-3:   "short_name": "MetabolicLearn",
-4:   "description": "Interaktives Lernzentrum für angeborene Stoffwechseldefekte",
-5:   "start_url": "/metabolic-learning/Master.html",
-6:   "display": "standalone",
-7:   "orientation": "any",
-8:   "background_color": "#f8fafc",
-9:   "theme_color": "#667eea",
-10:  "icons": [
-11:    {
-12:      "src": "/metabolic-learning/icons/icon-192x192.png",
-13:      "sizes": "192x192",
-14:      "type": "image/png"
-15:    },
-16:    {
-17:      "src": "/metabolic-learning/icons/icon-512x512.png",
-18:      "sizes": "512x512",
-19:      "type": "image/png"
-20:    }
-21:  ]
-22: }
+ {
+  "name": "Stoffwechselstörungen Lernzentrum",
+  "short_name": "MetabolicLearn",
+  "description": "Interaktives Lernzentrum für angeborene Stoffwechseldefekte",
+  "start_url": "/metabolic-learning/Master.html",
+  "display": "standalone",
+  "orientation": "any",
+   "background_color": "#f8fafc",
+   "theme_color": "#667eea",
+  "icons": [  
+    {
+      "src": "/metabolic-learning/icons/icon-192x192.png",
+     "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/metabolic-learning/icons/icon-512x512.png",
+     "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+ }
