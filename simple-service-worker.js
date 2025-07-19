@@ -6,6 +6,7 @@ const urlsToCache = [
   '/metabolic-learning/simple-sync.js',
   '/metabolic-learning/manifest.json',
   '/metabolic-learning/icons/icon-192x192.png',
+  '/metabolic-learning/icons/icon-512x512.png', // <--- hinzugefügt
   // Module (alphabetisch sortiert)
   '/metabolic-learning/aminosaeurien_teil1.html',
   '/metabolic-learning/aminosaeurien_teil2.html',
@@ -49,7 +50,7 @@ const urlsToCache = [
   '/metabolic-learning/ucd_learning_module_part2.html',
   '/metabolic-learning/ucd_learning_module_part3.html',
   '/metabolic-learning/vitamin_cofactor_defects.html'
-];
+]; // <--- fehlte in deiner Version
 
 // Installation
 self.addEventListener('install', event => {
