@@ -1171,86 +1171,11 @@
         });
     </script>
 
-    <!-- PWA Scripts -->
-    <script src="simple-sync.js"></script>
-    <script>
- <!-- Service Worker Registrierung -->
+<!-- PWA Scripts -->
+<script src="simple-sync.js"></script>
+
 <script>
-  // 1
-  if ('serviceWorker' in navigator) {
-    // 2
-    window.addEventListener('load', function () {
-      // 3
-      navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
-        // 4
-        .then(function (registration) {
-          // 5
-          console.log('Service Worker registriert mit Scope:', registration.scope);
-        })
-        // 6
-        .catch(function (error) {
-          // 7
-          console.error('Service Worker Registrierung fehlgeschlagen:', error);
-        });
-    });
-  }
-</script>
-    }
-
-    // PWA Install Button
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        const installBtn = document.createElement('button');
-        installBtn.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            font-weight: 600;
-        `;
-        installBtn.innerHTML = '📱 App installieren';
-        installBtn.onclick = async () => {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                installBtn.remove();
-            }
-            deferredPrompt = null;
-        };
-        document.body.appendChild(installBtn);
-    });
-
-    // Auto-load modules config (optional)
-    async function loadDynamicModules() {
-        try {
-            const response = await fetch('./modules-config.json?t=' + Date.now());
-            if (response.ok) {
-                const config = await response.json();
-                window.modules = config.modules;
-                if (typeof renderModules === 'function') {
-                    renderModules();
-                    updateStats();
-                }
-            }
-        } catch (error) {
-            console.log('Keine modules-config.json gefunden');
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        await loadDynamicModules();
-    });
-    <script>
+  // Service Worker Registrierung
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
@@ -1262,5 +1187,58 @@
         });
     });
   }
-</body>
-</html>
+
+  // PWA Install Button
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    const installBtn = document.createElement('button');
+    installBtn.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      font-weight: 600;
+    `;
+    installBtn.innerHTML = '📱 App installieren';
+    installBtn.onclick = async () => {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installBtn.remove();
+      }
+      deferredPrompt = null;
+    };
+    document.body.appendChild(installBtn);
+  });
+
+  // Module-Loader
+  async function loadDynamicModules() {
+    try {
+      const response = await fetch('./modules-config.json?t=' + Date.now());
+      if (response.ok) {
+        const config = await response.json();
+        window.modules = config.modules;
+        if (typeof renderModules === 'function') {
+          renderModules();
+          updateStats();
+        }
+      }
+    } catch (error) {
+      console.log('Keine modules-config.json gefunden');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadDynamicModules();
+  });
+</script>
