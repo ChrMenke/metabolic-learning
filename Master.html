@@ -89,16 +89,11 @@
         }
         
         .header h1 {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: var(--spacing-sm);
-            animation: gradientShift 4s ease-in-out infinite;
-        }
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
         
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
