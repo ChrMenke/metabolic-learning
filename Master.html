@@ -1172,11 +1172,27 @@
     <!-- PWA Scripts -->
     <script src="simple-sync.js"></script>
     <script>
-    // Service Worker Registration
-    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-        navigator.serviceWorker.register('simple-service-worker.js')
-            .then(reg => console.log('✅ Service Worker registriert'))
-            .catch(err => console.log('❌ Service Worker Fehler:', err));
+ <!-- Service Worker Registrierung -->
+<script>
+  // 1
+  if ('serviceWorker' in navigator) {
+    // 2
+    window.addEventListener('load', function () {
+      // 3
+      navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
+        // 4
+        .then(function (registration) {
+          // 5
+          console.log('Service Worker registriert mit Scope:', registration.scope);
+        })
+        // 6
+        .catch(function (error) {
+          // 7
+          console.error('Service Worker Registrierung fehlgeschlagen:', error);
+        });
+    });
+  }
+</script>
     }
 
     // PWA Install Button
