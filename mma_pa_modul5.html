@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methylmalonazidämien und Propionazidämien - Modul 5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .header .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 83.33%; /* 5/6 modules */
+            transition: width 0.3s ease;
+        }
+
+        .content-cards {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+        }
+
+        .qol-header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .qol-header h2 {
+            border: none;
+            color: white;
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .qol-domains {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .domain-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #9b59b6;
+            text-align: center;
+        }
+
+        .domain-card.impaired {
+            border-left-color: #e74c3c;
+            background: #fee;
+        }
+
+        .domain-card.preserved {
+            border-left-color: #27ae60;
+            background: #efe;
+        }
+
+        .domain-card.mixed {
+            border-left-color: #f39c12;
+            background: #fff8e1;
+        }
+
+        .domain-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .transition-timeline {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .timeline-age {
+            background: #9b59b6;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            margin-left: 20px;
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .pregnancy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pregnancy-card {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .pregnancy-card.risk {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        .pregnancy-card.management {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+
+        .nutrition-aspects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .nutrition-card {
+            background: #f0f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #2196f3;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .recommendation h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .evidence-quality {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+
+        .high-evidence {
+            background: #27ae60;
+            color: white;
+        }
+
+        .moderate-evidence {
+            background: #f39c12;
+            color: white;
+        }
+
+        .low-evidence {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .strong-rec {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .weak-rec {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .interactive-assessment {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .assessment-question {
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .assessment-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .scale-item {
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            min-width: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .scale-item:hover {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .scale-item.selected {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .social-aspects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .social-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 15px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+
+        .nutrition-tips {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .qol-domains, .pregnancy-grid, .nutrition-aspects, .social-aspects {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timeline-content {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Methylmalonazidämien und Propionazidämien</h1>
+            <p class="subtitle">Modul 5: Spezielle Aspekte und Lebensqualität</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="qol-header">
+            <h2>🌟 LEBENSQUALITÄT UND PSYCHOSOZIALE ASPEKTE</h2>
+            <p>Bedeutungsvolle Outcome-Parameter für chronische Erkrankungen</p>
+        </div>
+
+        <div class="content-cards">
+            <div class="card">
+                <h2>🎯 Lernziele Modul 5</h2>
+                <p>Nach Abschluss dieses Moduls können Sie:</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li>Lebensqualität systematisch erfassen und bewerten</li>
+                    <li>Transition ins Erwachsenenalter strukturiert begleiten</li>
+                    <li>Schwangerschaftsmanagement durchführen</li>
+                    <li>Psychosoziale Unterstützung koordinieren</li>
+                    <li>Ernährungsberatung ganzheitlich gestalten</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📊 Gesundheitsbezogene Lebensqualität (HrQoL)</h2>
+                
+                <div class="recommendation">
+                    <h4>🎯 Empfehlung #21</h4>
+                    <p><strong>Wir empfehlen</strong>, die gesundheitsbezogene Lebensqualität als relevanten Outcome-Parameter bei MMA und PA zu berücksichtigen.</p>
+                    <span class="evidence-quality moderate-evidence">Moderate Evidenz</span>
+                    <span class="evidence-quality strong-rec">Starke Empfehlung</span>
+                </div>
+
+                <h3>Befunde zur Lebensqualität bei MMA/PA</h3>
+                
+                <div class="qol-domains">
+                    <div class="domain-card impaired">
+                        <div class="domain-icon">🧠</div>
+                        <h4>Beeinträchtigt</h4>
+                        <ul style="text-align: left;">
+                            <li>Psychische Domäne</li>
+                            <li>Freundschaften</li>
+                            <li>Familienqualität</li>
+                            <li>Physische Dimension</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="domain-card preserved">
+                        <div class="domain-icon">🏫</div>
+                        <h4>Erhalten/Besser</h4>
+                        <ul style="text-align: left;">
+                            <li>Schulische Domäne</li>
+                            <li>Allgemeines Wohlbefinden</li>
+                            <li>Teilweise normale HrQoL</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="domain-card mixed">
+                        <div class="domain-icon">⚖️</div>
+                        <h4>Einflussfaktoren</h4>
+                        <ul style="text-align: left;">
+                            <li>Diätetische Restriktionen</li>
+                            <li>Stigmatisierung</li>
+                            <li>Sozialer Ausschluss</li>
+                            <li>Chronischer Stress</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Messinstrumente für HrQoL:</strong><br>
+                    • <strong>Generisch:</strong> PedsQL, KINDL<br>
+                    • <strong>Chronisch-generisch:</strong> CHQ, DISABKIDS<br>
+                    • <strong>Spezifisch:</strong> Intoxikations-metabolische Störungen (Zeltner et al.)<br>
+                    • <strong>Empfehlung:</strong> Systematische Erfassung mit standardisierten Instrumenten
+                </div>
+
+                <h3>Familiäre Belastungen</h3>
+                <p>Eltern von MMA/PA-Patienten zeigen im Vergleich zu anderen chronischen Erkrankungen:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Niedrigere familiäre Lebensqualität</li>
+                    <li>Höhere psychosoziale Belastung</li>
+                    <li>Einschränkungen in Freizeitaktivitäten</li>
+                    <li>Bedarf nach umfassender Krankheitsinformation</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🔄 Transition ins Erwachsenenalter</h2>
+                
+                <div class="transition-timeline">
+                    <h3>Strukturierte Transitionsprogramme</h3>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-age">12-14 Jahre</div>
+                        <div class="timeline-content">
+                            <h4>Vorbereitung</h4>
+                            <ul>
+                                <li>Krankheitsverständnis entwickeln</li>
+                                <li>Erste Eigenverantwortung für Medikamente</li>
+                                <li>Notfallplan verstehen</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-age">15-17 Jahre</div>
+                        <div class="timeline-content">
+                            <h4>Übergangsphasen</h4>
+                            <ul>
+                                <li>Selbstständige Terminwahrnehmung</li>
+                                <li>Berufsorientierung und -planung</li>
+                                <li>Reproduktive Gesundheit und Genetik</li>
+                                <li>Sozialer Umgang mit der Erkrankung</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-age">18+ Jahre</div>
+                        <div class="timeline-content">
+                            <h4>Erwachsenenbetreuung</h4>
+                            <ul>
+                                <li>Spezialisierte Erwachsenen-Stoffwechselambulanz</li>
+                                <li>Vollständige Eigenverantwortung</li>
+                                <li>Familien- und Lebensplanung</li>
+                                <li>Berufsintegration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-aspects">
+                    <div class="social-card">
+                        <h3>💼 Berufswahl</h3>
+                        <p><strong>Zu beachten:</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Regelmäßige Essenszeiten</li>
+                            <li>Kein Schichtdienst</li>
+                            <li>Körperliche Belastbarkeit</li>
+                            <li>Stressmanagement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="social-card">
+                        <h3>🚗 Führerschein</h3>
+                        <p><strong>Meist möglich:</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Bei stabiler Stoffwechsellage</li>
+                            <li>Keine Einschränkungen</li>
+                            <li>Notfallplan im Auto</li>
+                            <li>Ärztliche Bescheinigung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="social-card">
+                        <h3>✈️ Reisen</h3>
+                        <p><strong>Vorbereitung:</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Notfallmedikation</li>
+                            <li>Zeitzonenwechsel planen</li>
+                            <li>Ärztlicher Brief</li>
+                            <li>Krankenversicherung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="social-card">
+                        <h3>🏃‍♂️ Sport</h3>
+                        <p><strong>Angepasste Aktivität:</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Nie bis zur Erschöpfung</li>
+                            <li>Ausreichend Pausen</li>
+                            <li>Kohlenhydratzufuhr</li>
+                            <li>Überwachung bei PA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🤰 Schwangerschaftsmanagement</h2>
+                
+                <div class="pregnancy-grid">
+                    <div class="pregnancy-card">
+                        <h3>📋 Präkonzeptionelle Beratung</h3>
+                        <ul>
+                            <li>Genetische Beratung (Vererbungsrisiko)</li>
+                            <li>Partner-Screening bei AR-Formen</li>
+                            <li>Pränataldiagnostik besprechen</li>
+                            <li>Folsäure-Supplementation</li>
+                            <li>Stoffwechseloptimierung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="pregnancy-card risk">
+                        <h3>⚠️ Schwangerschaftsrisiken</h3>
+                        <ul>
+                            <li>Metabolische Dekompensation</li>
+                            <li>Erhöhter katabolischer Stress</li>
+                            <li>Hyperemesis gravidarum</li>
+                            <li>Kardiovaskuläre Komplikationen</li>
+                            <li>Nieren-/Leberfunktionsverschlechterung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="pregnancy-card management">
+                        <h3>🩺 Multidisziplinäres Management</h3>
+                        <ul>
+                            <li>Stoffwechselexperte + Geburtshelfer</li>
+                            <li>Engmaschige Laborkontrollen</li>
+                            <li>Ernährungsberatung anpassen</li>
+                            <li>Entbindungsplanung in Zentrum</li>
+                            <li>Postpartale Überwachung</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Besondere Risiken bei MMA/PA:</strong><br>
+                    • Erhöhtes Risiko für metabolische Dekompensationen während der Schwangerschaft<br>
+                    • Potential für mütterliche Kardiomyopathie (besonders PA)<br>
+                    • Niereninsuffizienz kann sich verschlechtern (MMA)<br>
+                    • Sub-/peripartum katabolischer Stress
+                </div>
+
+                <div class="info-box">
+                    <strong>Anästhesie bei Entbindung:</strong><br>
+                    Frühe Periduralanästhesie kann Katabolismus reduzieren und ist daher empfehlenswert.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🍽️ Ernährungsaspekte und Lebensqualität</h2>
+                
+                <div class="nutrition-aspects">
+                    <div class="nutrition-card">
+                        <h3>👥 Soziale Herausforderungen</h3>
+                        <ul>
+                            <li>Schulmahlzeiten und Kindergarten</li>
+                            <li>Kindergeburtstage und Feiern</li>
+                            <li>Restaurant-Besuche</li>
+                            <li>Peer-Group Integration</li>
+                            <li>Stigmatisierung vermeiden</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <h3>🧑‍🍳 Praktische Aspekte</h3>
+                        <ul>
+                            <li>Mahlzeitenplanung und -vorbereitung</li>
+                            <li>Proteinberechnung und -austausch</li>
+                            <li>Spezialprodukte und Verfügbarkeit</li>
+                            <li>Reisen und Ernährung</li>
+                            <li>Notfallernährung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <h3>👨‍👩‍👧‍👦 Familienauswirkungen</h3>
+                        <ul>
+                            <li>Getrennte Mahlzeiten vs. Familienessen</li>
+                            <li>Zusätzlicher Zeitaufwand</li>
+                            <li>Finanzielle Belastung</li>
+                            <li>Geschwisterkinder berücksichtigen</li>
+                            <li>Großeltern und Betreuung</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="nutrition-tips">
+                    <h3>💡 Praktische Ernährungstipps zur Lebensqualitätssteigerung</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px;">
+                            <h4>🎂 Besondere Anlässe</h4>
+                            <ul>
+                                <li>Eigene "sichere" Alternativen mitbringen</li>
+                                <li>Im Voraus mit Gastgebern sprechen</li>
+                                <li>Proteinarme Backrezepte entwickeln</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px;">
+                            <h4>🏫 Schule/Kindergarten</h4>
+                            <ul>
+                                <li>Ernährungsplan mit Personal besprechen</li>
+                                <li>Notfallplan hinterlegen</li>
+                                <li>Aufklärung der Mitschüler</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px;">
+                            <h4>🛒 Alltagshilfen</h4>
+                            <ul>
+                                <li>Protein-Rechner Apps</li>
+                                <li>Vorgefertigte Mahlzeiten-Kits</li>
+                                <li>Protein-Austauschtabellen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>💭 Psychosoziale Unterstützung</h2>
+                
+                <h3>Psychologische Interventionen</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                        <h4>🎯 Für Patienten</h4>
+                        <ul>
+                            <li>Krankheitsbewältigung</li>
+                            <li>Selbstmanagement-Training</li>
+                            <li>Angst- und Depressionsprävention</li>
+                            <li>Soziale Kompetenztraining</li>
+                            <li>Adherence-Verbesserung</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                        <h4>👨‍👩‍👧‍👦 Für Familien</h4>
+                        <ul>
+                            <li>Stressmanagement</li>
+                            <li>Elterntraining</li>
+                            <li>Geschwisterbetreuung</li>
+                            <li>Familientherapie</li>
+                            <li>Selbsthilfegruppen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>Evidenz-basierte Empfehlungen:</strong><br>
+                    • Psychologen sollten von Diagnosezeitpunkt an einbezogen werden<br>
+                    • Routinemäßiges Screening auf emotionale/behaviorale Parameter<br>
+                    • Kognitive und psychologische Funktionen regelmäßig bewerten<br>
+                    • Erfolgreiche Coping-Strategien früh facilitieren
+                </div>
+
+                <h3>Unterstützungsnetze</h3>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Patientenorganisationen:</strong> Informationsaustausch, Interessenvertretung</li>
+                    <li><strong>Selbsthilfegruppen:</strong> Erfahrungsaustausch, emotionale Unterstützung</li>
+                    <li><strong>Online-Communities:</strong> Vernetzung, Alltagstipps</li>
+                    <li><strong>Sozialberatung:</strong> Anträge, Nachteilsausgleich, Schwerbehinderung</li>
+                    <li><strong>Ernährungsberatung:</strong> Spezialisiert auf angeborene Stoffwechselstörungen</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📋 Interaktive Lebensqualitäts-Bewertung</h2>
+                
+                <div class="interactive-assessment">
+                    <h3>🔍 HrQoL-Screening Tool (verkürzt)</h3>
+                    <p><em>Bewerten Sie verschiedene Lebensbereiche (1 = sehr schlecht, 5 = sehr gut)</em></p>
+                    
+                    <div class="assessment-question">
+                        <p><strong>Körperliche Aktivität und Energie</strong></p>
+                        <div class="assessment-scale">
+                            <div class="scale-item" onclick="selectScale(this, 1)">1</div>
+                            <div class="scale-item" onclick="selectScale(this, 2)">2</div>
+                            <div class="scale-item" onclick="selectScale(this, 3)">3</div>
+                            <div class="scale-item" onclick="selectScale(this, 4)">4</div>
+                            <div class="scale-item" onclick="selectScale(this, 5)">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment-question">
+                        <p><strong>Soziale Beziehungen und Freundschaften</strong></p>
+                        <div class="assessment-scale">
+                            <div class="scale-item" onclick="selectScale(this, 1)">1</div>
+                            <div class="scale-item" onclick="selectScale(this, 2)">2</div>
+                            <div class="scale-item" onclick="selectScale(this, 3)">3</div>
+                            <div class="scale-item" onclick="selectScale(this, 4)">4</div>
+                            <div class="scale-item" onclick="selectScale(this, 5)">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment-question">
+                        <p><strong>Emotionales Wohlbefinden</strong></p>
+                        <div class="assessment-scale">
+                            <div class="scale-item" onclick="selectScale(this, 1)">1</div>
+                            <div class="scale-item" onclick="selectScale(this, 2)">2</div>
+                            <div class="scale-item" onclick="selectScale(this, 3)">3</div>
+                            <div class="scale-item" onclick="selectScale(this, 4)">4</div>
+                            <div class="scale-item" onclick="selectScale(this, 5)">5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="assessment-question">
+                        <p><strong>Umgang mit der Diät im Alltag</strong></p>
+                        <div class="assessment-scale">
+                            <div class="scale-item" onclick="selectScale(this, 1)">1</div>
+                            <div class="scale-item" onclick="selectScale(this, 2)">2</div>
+                            <div class="scale-item" onclick="selectScale(this, 3)">3</div>
+                            <div class="scale-item" onclick="selectScale(this, 4)">4</div>
+                            <div class="scale-item" onclick="selectScale(this, 5)">5</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="evaluateQoL()" style="background: #9b59b6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; width: 100%;">
+                        Bewertung auswerten
+                    </button>
+                    
+                    <div id="qol-result" style="display: none; background: rgba(255,255,255,0.9); color: #333; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="#" class="nav-button" onclick="previousModule()">
+                ← Zurück zu Modul 4
+            </a>
+            <div>
+                <span style="color: white; font-weight: 600;">Modul 5 von 6: Spezielle Aspekte & Lebensqualität</span>
+            </div>
+            <a href="#" class="nav-button" onclick="nextModule()">
+                Weiter zu Modul 6: Zusammenfassung →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let qolScores = [];
+
+        function selectScale(element, value) {
+            // Remove selection from siblings
+            const siblings = element.parentNode.querySelectorAll('.scale-item');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            
+            // Add selection to clicked element
+            element.classList.add('selected');
+            
+            // Store value
+            const questionIndex = Array.from(element.parentNode.parentNode.parentNode.children).indexOf(element.parentNode.parentNode);
+            qolScores[questionIndex] = value;
+        }
+
+        function evaluateQoL() {
+            if (qolScores.length < 4 || qolScores.includes(undefined)) {
+                alert('Bitte bewerten Sie alle Bereiche.');
+                return;
+            }
+            
+            const average = qolScores.reduce((a, b) => a + b, 0) / qolScores.length;
+            let interpretation = '';
+            let colorClass = '';
+            
+            if (average >= 4) {
+                interpretation = 'Sehr gute Lebensqualität';
+                colorClass = 'success';
+            } else if (average >= 3) {
+                interpretation = 'Gute Lebensqualität';
+                colorClass = 'good';
+            } else if (average >= 2) {
+                interpretation = 'Beeinträchtigte Lebensqualität - Unterstützung empfohlen';
+                colorClass = 'warning';
+            } else {
+                interpretation = 'Stark beeinträchtigte Lebensqualität - Intervention erforderlich';
+                colorClass = 'danger';
+            }
+            
+            const resultDiv = document.getElementById('qol-result');
+            resultDiv.innerHTML = `
+                <h4>🔍 Bewertungsergebnis</h4>
+                <p><strong>Durchschnittswert:</strong> ${average.toFixed(1)} von 5</p>
+                <p><strong>Interpretation:</strong> ${interpretation}</p>
+                <div style="margin-top: 15px;">
+                    <strong>Empfehlungen:</strong><br>
+                    ${average < 3 ? '• Psychosoziale Beratung erwägen<br>• Ernährungsberatung optimieren<br>• Selbsthilfegruppen empfehlen' : '• Regelmäßige Verlaufskontrollen<br>• Bei Verschlechterung frühzeitig intervenieren'}
+                </div>
+                <small style="display: block; margin-top: 10px; font-style: italic;">
+                    Dies ist ein vereinfachtes Screening-Tool. Für umfassende HrQoL-Bewertung validierte Instrumente verwenden.
+                </small>
+            `;
+            
+            // Color coding
+            if (colorClass === 'success') {
+                resultDiv.style.background = '#d4edda';
+                resultDiv.style.color = '#155724';
+            } else if (colorClass === 'good') {
+                resultDiv.style.background = '#cce7ff';
+                resultDiv.style.color = '#004085';
+            } else if (colorClass === 'warning') {
+                resultDiv.style.background = '#fff3cd';
+                resultDiv.style.color = '#856404';
+            } else {
+                resultDiv.style.background = '#f8d7da';
+                resultDiv.style.color = '#721c24';
+            }
+            
+            resultDiv.style.display = 'block';
+        }
+
+        function previousModule() {
+            alert('Zurück zu Modul 4: Notfallmanagement');
+        }
+
+        function nextModule() {
+            alert('Modul 6 wird als nächstes erstellt!\n\nSie haben Modul 5 erfolgreich abgeschlossen. 🎉');
+        }
+    </script>
+</body>
+</html>

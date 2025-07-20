@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methylmalonazidämien und Propionazidämien - Modul 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .header .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 66.67%; /* 4/6 modules */
+            transition: width 0.3s ease;
+        }
+
+        .content-cards {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+        }
+
+        .emergency-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .emergency-header h2 {
+            border: none;
+            color: white;
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .flowchart {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .flowchart-step {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 10px;
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flowchart-step.trigger {
+            background: #e74c3c;
+        }
+
+        .flowchart-step.action {
+            background: #27ae60;
+        }
+
+        .flowchart-step.critical {
+            background: #8e44ad;
+        }
+
+        .flowchart-arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #3498db;
+            margin: 10px 0;
+        }
+
+        .ammonia-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ammonia-table th {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .ammonia-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+
+        .ammonia-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .ammonia-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .level-mild {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .level-moderate {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .level-severe {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .level-critical {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .medication-dosing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .dosing-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .dosing-card.glucose {
+            border-left-color: #f39c12;
+        }
+
+        .dosing-card.carnitine {
+            border-left-color: #27ae60;
+        }
+
+        .dosing-card.ammonia-scavenger {
+            border-left-color: #9b59b6;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 15px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+
+        .emergency-calculator {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            color: white;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .calc-result {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .interactive-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .dialysis-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .dialysis-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .medication-dosing, .dialysis-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .interactive-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Methylmalonazidämien und Propionazidämien</h1>
+            <p class="subtitle">Modul 4: Notfallmanagement und akute Dekompensationen</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="emergency-header">
+            <h2>🚨 NOTFALLMANAGEMENT</h2>
+            <p>Sofortige Maßnahmen bei akuter metabolischer Dekompensation</p>
+        </div>
+
+        <div class="content-cards">
+            <div class="card">
+                <h2>🎯 Lernziele Modul 4</h2>
+                <p>Nach Abschluss dieses Moduls können Sie:</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li>Akute metabolische Dekompensationen erkennen</li>
+                    <li>Den Notfallalgorithmus systematisch anwenden</li>
+                    <li>Hyperammonämie-Grade beurteilen und behandeln</li>
+                    <li>Extrakorporale Entgiftung indizieren</li>
+                    <li>Perioperatives Management durchführen</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🔄 Management-Algorithmus für akute Dekompensation</h2>
+                
+                <div class="flowchart">
+                    <div class="flowchart-step trigger">
+                        🚨 Auslöser katabolischer Stoffwechsel<br>
+                        (Intercurrente Krankheit, Fieber, längeres Fasten)
+                    </div>
+                    
+                    <div class="flowchart-arrow">↓</div>
+                    
+                    <div class="flowchart-step action">
+                        • Proteinstopp (max. 24-48h)<br>
+                        • Glukose IV altersgerecht starten<br>
+                        • L-Carnitin auf 200 mg/kg/Tag erhöhen
+                    </div>
+                    
+                    <div class="flowchart-arrow">↓</div>
+                    
+                    <div class="flowchart-step">
+                        (Drohende) akute metabolische Dekompensation
+                    </div>
+                    
+                    <div class="flowchart-arrow">↓</div>
+                    
+                    <div class="flowchart-step action">
+                        Monitoring: Säure-Base-Haushalt, Ammoniak, Elektrolyte
+                    </div>
+                    
+                    <div class="flowchart-arrow">↓</div>
+                    
+                    <div class="flowchart-step critical">
+                        <strong>Erhöhte Ammoniakspiegel</strong><br>
+                        Siehe Hyperammonämie-Protokoll
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠️ Wichtige Hinweise:</strong><br>
+                    • Alle Medikamente intravenös verabreichen<br>
+                    • Bei extensiver Glukosegabe: Risiko für Laktatazidose durch gehemmte Pyruvatdehydrogenase<br>
+                    • Natriumphenybutyrat NICHT als Erstlinientherapie (senkt Glutamin → beeinträchtigt Tricarbonsäure-Zyklus)
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Hyperammonämie-Management</h2>
+                
+                <table class="ammonia-table">
+                    <thead>
+                        <tr>
+                            <th>Ammoniakspiegel (μmol/L)</th>
+                            <th>Maßnahmen</th>
+                            <th>Monitoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="ammonia-level level-mild">100-250 μmol/L</span><br>
+                                <small>Leicht erhöht</small>
+                            </td>
+                            <td>
+                                • Natriumbenzoat (250 mg/kg Bolus über 90 min, dann 250 mg/kg über 24h)<br>
+                                • Carglumsäure erwägen (100 mg/kg Bolus, dann 50 mg/kg alle 6h)
+                            </td>
+                            <td>
+                                Ammoniak alle 3h<br>
+                                BGA, Elektrolyte
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="ammonia-level level-moderate">250-500 μmol/L</span><br>
+                                <small>Moderat erhöht</small>
+                            </td>
+                            <td>
+                                • Wie oben, zusätzlich:<br>
+                                • Vorbereitung extrakorporaler Entgiftung<br>
+                                • Bei signifikanter Enzephalopathie oder schwieriger Ammoniakkontrolle: Dialyse starten
+                            </td>
+                            <td>
+                                Ammoniak alle 2h<br>
+                                Neurologische Kontrollen<br>
+                                Intensivmonitoring
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="ammonia-level level-severe">>500 μmol/L</span><br>
+                                <small>Schwer erhöht</small>
+                            </td>
+                            <td>
+                                • Sofortige extrakorporale Entgiftung<br>
+                                • Hämodiafiltration bevorzugt<br>
+                                • Bis Ammoniak 100-200 μmol/L
+                            </td>
+                            <td>
+                                Kontinuierliches Monitoring<br>
+                                Neurologische Überwachung<br>
+                                ICP-Monitoring erwägen
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <strong>⚠️ Prognostische Marker:</strong><br>
+                    Ammoniak-Spitzenwerte >360 μmol/L sind mit schlechter Prognose assoziiert. Palliativmedizinische Betreuung sollte mit Stoffwechselspezialisten besprochen werden.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>💊 Medikamentöse Notfalltherapie</h2>
+                
+                <div class="interactive-tabs">
+                    <button class="tab-button active" onclick="showTab('glucose')">Glukose</button>
+                    <button class="tab-button" onclick="showTab('carnitine')">L-Carnitin</button>
+                    <button class="tab-button" onclick="showTab('scavengers')">Ammoniakfänger</button>
+                    <button class="tab-button" onclick="showTab('cobalamin')">Cobalamin</button>
+                </div>
+
+                <div id="glucose" class="tab-content active">
+                    <h3>🍯 Glukose-Therapie</h3>
+                    <div class="medication-dosing">
+                        <div class="dosing-card glucose">
+                            <h4>Dosierung</h4>
+                            <ul>
+                                <li><strong>Neonaten:</strong> 10 mg/kg/min</li>
+                                <li><strong>Säuglinge:</strong> 8-10 mg/kg/min</li>
+                                <li><strong>Kinder:</strong> 6-8 mg/kg/min</li>
+                                <li><strong>Erwachsene:</strong> 4-6 mg/kg/min</li>
+                            </ul>
+                        </div>
+                        <div class="dosing-card glucose">
+                            <h4>Monitoring</h4>
+                            <ul>
+                                <li>BZ-Kontrollen alle 2-4h</li>
+                                <li>Bei Hyperglykämie: Insulin-Zusatz</li>
+                                <li>Supplementierung: Na+, K+</li>
+                                <li>Vorsicht: Laktatazidose-Risiko</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="carnitine" class="tab-content">
+                    <h3>🧪 L-Carnitin in der Akutphase</h3>
+                    <div class="medication-dosing">
+                        <div class="dosing-card carnitine">
+                            <h4>Akutdosierung</h4>
+                            <ul>
+                                <li><strong>Erhaltung:</strong> 100 mg/kg/Tag</li>
+                                <li><strong>Akut:</strong> 200 mg/kg/Tag i.v.</li>
+                                <li><strong>Applikation:</strong> 2-3 Einzeldosen</li>
+                                <li><strong>Dauer:</strong> Bis zur Stabilisierung</li>
+                            </ul>
+                        </div>
+                        <div class="dosing-card carnitine">
+                            <h4>Überwachung</h4>
+                            <ul>
+                                <li>Freies Carnitin im Plasma</li>
+                                <li>Propionylcarnitin-Spiegel</li>
+                                <li>Toleranz meist gut</li>
+                                <li>Umstellung auf orale Gabe bei Besserung</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scavengers" class="tab-content">
+                    <h3>🔄 Ammoniakfänger</h3>
+                    <div class="medication-dosing">
+                        <div class="dosing-card ammonia-scavenger">
+                            <h4>Natriumbenzoat</h4>
+                            <ul>
+                                <li><strong>Bolus:</strong> 250 mg/kg über 90 min</li>
+                                <li><strong>Dauerinfusion:</strong> 250 mg/kg über 24h</li>
+                                <li><strong>Applikation:</strong> Intravenös</li>
+                                <li><strong>Monitoring:</strong> Benzoat-Spiegel</li>
+                            </ul>
+                        </div>
+                        <div class="dosing-card ammonia-scavenger">
+                            <h4>Carglumsäure</h4>
+                            <ul>
+                                <li><strong>Bolus:</strong> 100 mg/kg</li>
+                                <li><strong>Erhaltung:</strong> 50 mg/kg alle 6h</li>
+                                <li><strong>Evidenz:</strong> Experimentell</li>
+                                <li><strong>Verträglichkeit:</strong> Gut toleriert</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>❌ Kontraindikationen:</strong><br>
+                        • <strong>Natriumphenybutyrat:</strong> Nicht empfohlen bei MMA/PA (senkt Glutamin)<br>
+                        • <strong>Austauschtransfusion:</strong> Nicht wirksam für Ammoniakentfernung
+                    </div>
+                </div>
+
+                <div id="cobalamin" class="tab-content">
+                    <h3>💉 Cobalamin-Notfalltherapie</h3>
+                    <div class="success-box">
+                        <strong>Bei bekannter oder vermuteter Cobalamin-Responsivität:</strong><br>
+                        • <strong>Hydroxocobalamin:</strong> 1 mg i.m. täglich<br>
+                        • <strong>Bei Akutsituation:</strong> Auch i.v. möglich<br>
+                        • <strong>Dauer:</strong> Bis zur Stabilisierung<br>
+                        • <strong>Besonders wichtig:</strong> Bei cblA, cblB, mut⁻ Patienten
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏥 Extrakorporale Entgiftung</h2>
+                
+                <div class="dialysis-info">
+                    <div class="dialysis-card">
+                        <h3>🥇 Hämodiafiltration</h3>
+                        <p><strong>Methode der Wahl</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Höchste Ammoniakextraktion</li>
+                            <li>Abhängig von Dialysatfluss</li>
+                            <li>Abhängig von Blutfluss</li>
+                            <li>Membranoberfläche wichtig</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dialysis-card">
+                        <h3>🔄 CVVHD</h3>
+                        <p><strong>Bei Säuglingen bevorzugt</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Bessere Toleranz bei Kleinkindern</li>
+                            <li>Kontinuierliche Extraktion</li>
+                            <li>Weniger hämodynamische Komplikationen</li>
+                            <li>Ausgezeichnete Ammoniakclearance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dialysis-card">
+                        <h3>🔄 Peritonealdialyse</h3>
+                        <p><strong>Nur als Überbrückung</strong></p>
+                        <ul style="text-align: left;">
+                            <li>Weniger effektive Ammoniakentfernung</li>
+                            <li>Überbrückung bis zu HD/CVVHD</li>
+                            <li>Transport in Stoffwechselzentrum</li>
+                            <li>Einfachere Durchführung</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Technische Details CVVHD bei Säuglingen:</strong><br>
+                    • <strong>Katheter:</strong> 7F bevorzugt<br>
+                    • <strong>Priming:</strong> Warmes Albumin oder Erythrozytenkonzentrat<br>
+                    • <strong>Blutfluss:</strong> 10-50 ml/kg/min<br>
+                    • <strong>Dialysatfluss:</strong> An erwartete Clearance anpassen<br>
+                    • <strong>Zielspiegel:</strong> Ammoniak 100-200 μmol/L
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>💻 Notfall-Dosierungsrechner</h2>
+                
+                <div class="emergency-calculator">
+                    <h3>🧮 Glukose- und Carnitin-Dosierung</h3>
+                    
+                    <label>Körpergewicht (kg):</label>
+                    <input type="number" class="calc-input" id="weight" placeholder="z.B. 15">
+                    
+                    <label>Alter:</label>
+                    <select class="calc-input" id="ageGroup">
+                        <option value="neonate">Neugeborenes (0-28 Tage)</option>
+                        <option value="infant">Säugling (1-12 Monate)</option>
+                        <option value="child">Kind (1-12 Jahre)</option>
+                        <option value="adolescent">Jugendlicher (13-18 Jahre)</option>
+                        <option value="adult">Erwachsener (>18 Jahre)</option>
+                    </select>
+                    
+                    <button onclick="calculateEmergencyDoses()" style="background: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; width: 100%;">
+                        NOTFALL-DOSIERUNGEN BERECHNEN
+                    </button>
+                    
+                    <div id="emergency-result" class="calc-result" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏥 Perioperatives Management</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px;">
+                        <h3>📋 Präoperative Vorbereitung</h3>
+                        <ul>
+                            <li>Nur bei metabolisch stabilen Patienten</li>
+                            <li>Ammoniak und Aminosäuren normal</li>
+                            <li>Zentrum mit Stoffwechselexpertise</li>
+                            <li>Möglichkeit zur Hämofiltration</li>
+                            <li>Erste Operation des Tages</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #d1ecf1; padding: 20px; border-radius: 10px;">
+                        <h3>💉 Während des Eingriffs</h3>
+                        <ul>
+                            <li>Glukose IV altersgerecht</li>
+                            <li>L-Carnitin auf IV umstellen (100 mg/kg/Tag)</li>
+                            <li>Bei responsiven MMA: Extra-Hydroxocobalamin</li>
+                            <li>Monitoring: BGA, Glukose, Ammoniak, Elektrolyte</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: #d4edda; padding: 20px; border-radius: 10px;">
+                    <h3>🔄 Postoperative Phase</h3>
+                    <ul>
+                        <li>Frühestmögliche orale Ernährung</li>
+                        <li>Schrittweise Reduktion der IV-Glukose</li>
+                        <li>Umstellung auf orale Medikation bei Stabilität</li>
+                        <li>Engmaschiges Monitoring bis Vollstabilisierung</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Anästhesie-Empfehlungen:</strong><br>
+                    Sichere Kombination: Midazolam, S-Ketamin, Fentanyl und Isofluran in Kombination mit lokaler Infiltration (Ropivacain)
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📚 Interaktiver Notfall-Fall</h2>
+                
+                <div class="case-study">
+                    <h3>🚨 Notfall-Szenario</h3>
+                    <p><strong>Patient:</strong> 8-jähriges Mädchen mit bekannter PA<br>
+                    <strong>Präsentation:</strong> 2 Tage Gastroenteritis, heute Morgenurin: massive Ketonurie, zunehmend lethargisch</p>
+                    
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <p><strong>Laborwerte bei Aufnahme:</strong><br>
+                        pH 7.25, BE -8 mmol/L, Ammoniak 180 μmol/L, BZ 45 mg/dl</p>
+                    </div>
+                    
+                    <p><strong>Frage:</strong> Welche Sofortmaßnahmen leiten Sie ein?</p>
+                    
+                    <div style="display: grid; gap: 10px; margin: 15px 0;">
+                        <button style="background: rgba(255,255,255,0.2); padding: 10px; border: none; border-radius: 5px; cursor: pointer;" onclick="showCaseAnswer(1)">
+                            A) Sofortige Dialyse
+                        </button>
+                        <button style="background: rgba(255,255,255,0.2); padding: 10px; border: none; border-radius: 5px; cursor: pointer;" onclick="showCaseAnswer(2)">
+                            B) Proteinstopp, Glukose 8mg/kg/min, L-Carnitin 200mg/kg
+                        </button>
+                        <button style="background: rgba(255,255,255,0.2); padding: 10px; border: none; border-radius: 5px; cursor: pointer;" onclick="showCaseAnswer(3)">
+                            C) Natriumphenybutyrat
+                        </button>
+                        <button style="background: rgba(255,255,255,0.2); padding: 10px; border: none; border-radius: 5px; cursor: pointer;" onclick="showCaseAnswer(4)">
+                            D) Abwarten und beobachten
+                        </button>
+                    </div>
+                    
+                    <div id="case-emergency-answer" style="display: none; background: rgba(255,255,255,0.9); color: #333; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="#" class="nav-button" onclick="previousModule()">
+                ← Zurück zu Modul 3
+            </a>
+            <div>
+                <span style="color: white; font-weight: 600;">Modul 4 von 6: Notfallmanagement</span>
+            </div>
+            <a href="#" class="nav-button" onclick="nextModule()">
+                Weiter zu Modul 5: Spezielle Aspekte →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function calculateEmergencyDoses() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const ageGroup = document.getElementById('ageGroup').value;
+            
+            if (!weight) {
+                alert('Bitte Körpergewicht eingeben.');
+                return;
+            }
+            
+            let glucoseRate;
+            switch(ageGroup) {
+                case 'neonate':
+                    glucoseRate = 10;
+                    break;
+                case 'infant':
+                    glucoseRate = 9;
+                    break;
+                case 'child':
+                    glucoseRate = 7;
+                    break;
+                case 'adolescent':
+                    glucoseRate = 5;
+                    break;
+                case 'adult':
+                    glucoseRate = 4;
+                    break;
+                default:
+                    glucoseRate = 7;
+            }
+            
+            const glucoseMg = glucoseRate * weight;
+            const glucoseMl = glucoseMg / 100; // für 10% Glukoselösung
+            const carnitine = weight * 200; // Akutdosis
+            const carnitineDivided = carnitine / 3; // 3x täglich
+            
+            const benzoateBolus = weight * 250;
+            const benzoateInfusion = weight * 250;
+            
+            const resultDiv = document.getElementById('emergency-result');
+            resultDiv.innerHTML = `
+                <h4>🚨 NOTFALL-DOSIERUNGEN für ${weight} kg</h4>
+                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                    <div><strong>Glukose:</strong> ${glucoseMg.toFixed(1)} mg/kg/min = ${glucoseMl.toFixed(1)} ml/h (10% Lösung)</div>
+                    <div><strong>L-Carnitin:</strong> ${carnitine} mg/Tag = ${carnitineDivided.toFixed(0)} mg alle 8h</div>
+                    <div><strong>Natriumbenzoat Bolus:</strong> ${benzoateBolus} mg über 90 min</div>
+                    <div><strong>Natriumbenzoat Infusion:</strong> ${benzoateInfusion} mg über 24h</div>
+                </div>
+                <div style="background: #f8d7da; padding: 10px; border-radius: 5px; margin-top: 15px; color: #721c24;">
+                    <strong>⚠️ WICHTIG:</strong> Diese Berechnung dient nur der Orientierung. 
+                    Immer individuelle Anpassung und Monitoring erforderlich!
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+
+        function showCaseAnswer(option) {
+            const answerDiv = document.getElementById('case-emergency-answer');
+            
+            if (option === 2) {
+                answerDiv.innerHTML = `
+                    <strong>✅ Richtige Antwort: B</strong><br><br>
+                    <strong>Sofortmaßnahmen bei PA mit Azidose und moderater Hyperammonämie:</strong><br>
+                    1. <strong>Proteinstopp</strong> (max. 24-48h) - verhindert weitere Ammoniakproduktion<br>
+                    2. <strong>Glukose 8 mg/kg/min</strong> - stoppt Katabolismus, altersgerecht für 8-Jährige<br>
+                    3. <strong>L-Carnitin 200 mg/kg</strong> - Akutdosis zur Propionyl-CoA-Elimination<br>
+                    4. <strong>Monitoring</strong> - Ammoniak alle 3h, BGA, Elektrolyte<br><br>
+                    Bei Ammoniak 180 μmol/L: Noch keine Dialyse erforderlich, aber enge Überwachung!
+                `;
+            } else {
+                let wrongAnswer = '';
+                switch(option) {
+                    case 1:
+                        wrongAnswer = 'Dialyse ist bei 180 μmol/L noch nicht erforderlich (erst ab >250-500 μmol/L)';
+                        break;
+                    case 3:
+                        wrongAnswer = 'Natriumphenybutyrat ist bei MMA/PA kontraindiziert (senkt Glutamin)';
+                        break;
+                    case 4:
+                        wrongAnswer = 'Bei Azidose und Hyperammonämie ist sofortiges Handeln erforderlich';
+                        break;
+                }
+                answerDiv.innerHTML = `
+                    <strong>❌ Falsche Antwort</strong><br><br>
+                    ${wrongAnswer}<br><br>
+                    <strong>Die richtige Antwort ist B:</strong> Proteinstopp, Glukose 8mg/kg/min, L-Carnitin 200mg/kg
+                `;
+            }
+            answerDiv.style.display = 'block';
+        }
+
+        function previousModule() {
+            alert('Zurück zu Modul 3: Monitoring und Langzeitkomplikationen');
+        }
+
+        function nextModule() {
+            alert('Modul 5 wird als nächstes erstellt!\n\nSie haben Modul 4 erfolgreich abgeschlossen. 🎉');
+        }
+    </script>
+</body>
+</html>

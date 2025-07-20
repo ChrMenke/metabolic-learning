@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methylmalonazidämien und Propionazidämien - Modul 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .header .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 50%; /* 3/6 modules */
+            transition: width 0.3s ease;
+        }
+
+        .content-cards {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+        }
+
+        .monitoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .monitoring-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .monitoring-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+
+        .monitoring-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .frequency-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .frequency-high {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .frequency-medium {
+            background: #f39c12;
+            color: white;
+        }
+
+        .frequency-low {
+            background: #27ae60;
+            color: white;
+        }
+
+        .complication-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .complication-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .complication-box.neurological {
+            border-left-color: #9b59b6;
+        }
+
+        .complication-box.renal {
+            border-left-color: #3498db;
+        }
+
+        .complication-box.cardiac {
+            border-left-color: #e74c3c;
+        }
+
+        .complication-box.other {
+            border-left-color: #f39c12;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .recommendation h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .evidence-quality {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+
+        .high-evidence {
+            background: #27ae60;
+            color: white;
+        }
+
+        .moderate-evidence {
+            background: #f39c12;
+            color: white;
+        }
+
+        .low-evidence {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .strong-rec {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .weak-rec {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .very-strong-rec {
+            background: #000;
+            color: white;
+        }
+
+        .interactive-calculator {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .calc-result {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 15px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+
+        .monitoring-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .prevalence-chart {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .prevalence-bar {
+            height: 20px;
+            background: #3498db;
+            border-radius: 10px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .prevalence-text {
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .complication-grid, .monitoring-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Methylmalonazidämien und Propionazidämien</h1>
+            <p class="subtitle">Modul 3: Monitoring und Langzeitkomplikationen</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="content-cards">
+            <div class="card">
+                <h2>🎯 Lernziele Modul 3</h2>
+                <p>Nach Abschluss dieses Moduls können Sie:</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li>Ein systematisches Monitoring-Schema anwenden</li>
+                    <li>Langzeitkomplikationen frühzeitig erkennen</li>
+                    <li>Neurologische Komplikationen bewerten</li>
+                    <li>Nierenfunktion adäquat überwachen</li>
+                    <li>Kardiovaskuläre Risiken einschätzen</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📊 Monitoring-Schema</h2>
+                <p>Das Monitoring sollte individuell angepasst werden, aber folgendem Schema folgen:</p>
+                
+                <table class="monitoring-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Häufigkeit</th>
+                            <th>Kategorie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Metabolisches Follow-up</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>NH₃, BGA, Laktat</td>
+                            <td><span class="frequency-badge frequency-high">Jeder Termin</span></td>
+                            <td>Akutmonitoring</td>
+                        </tr>
+                        <tr>
+                            <td>Quantitative Plasmaaminosäuren (3-4h nüchtern)</td>
+                            <td><span class="frequency-badge frequency-medium">3-6 monatlich</span></td>
+                            <td>Metabolisch</td>
+                        </tr>
+                        <tr>
+                            <td>Methylmalonsäure (Plasma und Urin)</td>
+                            <td><span class="frequency-badge frequency-medium">3-6 monatlich</span></td>
+                            <td>Spezifisch</td>
+                        </tr>
+                        <tr>
+                            <td>Acylcarnitinprofil (Propionylcarnitin, freies Carnitin)</td>
+                            <td><span class="frequency-badge frequency-medium">3-6 monatlich</span></td>
+                            <td>Metabolisch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ernährung und Wachstum</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Ernährungsanamnese, Wachstum, klinische Untersuchung</td>
+                            <td><span class="frequency-badge frequency-high">Jeder Termin</span></td>
+                            <td>Basis</td>
+                        </tr>
+                        <tr>
+                            <td>Albumin, Gesamtprotein</td>
+                            <td><span class="frequency-badge frequency-medium">6-monatlich</span></td>
+                            <td>Ernährung</td>
+                        </tr>
+                        <tr>
+                            <td>Knochengesundheit (Ca, P, ALP, Mg, PTH, 25-OH Vit D)</td>
+                            <td><span class="frequency-badge frequency-low">12-monatlich</span></td>
+                            <td>Langzeit</td>
+                        </tr>
+                        <tr>
+                            <td>Blutbild, Ferritin, Folsäure, Vitamin B12</td>
+                            <td><span class="frequency-badge frequency-low">12-monatlich</span></td>
+                            <td>Hämatologie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Langzeitkomplikationen</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Neurologische Untersuchung mit Entwicklungsmeilensteinen</td>
+                            <td><span class="frequency-badge frequency-high">Jeder Termin</span></td>
+                            <td>Neurologie</td>
+                        </tr>
+                        <tr>
+                            <td>Nierenfunktion (Kreatinin, Elektrolyte, Cystatin C, GFR)</td>
+                            <td><span class="frequency-badge frequency-medium">6-monatlich</span></td>
+                            <td>Renal</td>
+                        </tr>
+                        <tr>
+                            <td>Pankreasfunktion (Lipase, Pankreas-Amylase)</td>
+                            <td><span class="frequency-badge frequency-medium">6-monatlich</span></td>
+                            <td>Gastrointestinal</td>
+                        </tr>
+                        <tr>
+                            <td>Herzdiagnostik (EKG, Echokardiographie)</td>
+                            <td><span class="frequency-badge frequency-low">12-monatlich</span></td>
+                            <td>Kardial</td>
+                        </tr>
+                        <tr>
+                            <td>Ophthalmologische Untersuchung</td>
+                            <td><span class="frequency-badge frequency-low">12-monatlich</span></td>
+                            <td>Augen</td>
+                        </tr>
+                        <tr>
+                            <td>EEG, zerebrale MRT</td>
+                            <td><span class="frequency-badge frequency-low">Bei Indikation</span></td>
+                            <td>Neurologie</td>
+                        </tr>
+                        <tr>
+                            <td>Formelle Entwicklungs-/kognitive Testung</td>
+                            <td><span class="frequency-badge frequency-low">Bei Indikation</span></td>
+                            <td>Entwicklung</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight">
+                    <strong>Wichtige Hinweise:</strong><br>
+                    • Bei Säuglingen häufigeres Wachstumsmonitoring<br>
+                    • Bei chronischer Nierenerkrankung engere Kontrollen<br>
+                    • Bei PA: 12-monatliche Biochemie ausreichend für GFR
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🧠 Neurologische Komplikationen</h2>
+                
+                <div class="complication-grid">
+                    <div class="complication-box neurological">
+                        <h3>🎯 Kognitive Entwicklung</h3>
+                        <p><strong>Häufigkeit:</strong> Variabel, abhängig von Dekompensationen</p>
+                        <ul>
+                            <li>Entwicklungsverzögerung</li>
+                            <li>Kognitive Beeinträchtigung</li>
+                            <li>Lernstörungen</li>
+                            <li>Verhaltensprobleme</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box neurological">
+                        <h3>⚡ Epilepsie</h3>
+                        <div class="prevalence-chart">
+                            <div class="prevalence-bar" style="width: 43%;"></div>
+                            <span class="prevalence-text">MMA: 23-43%</span>
+                        </div>
+                        <div class="prevalence-chart">
+                            <div class="prevalence-bar" style="width: 59%;"></div>
+                            <span class="prevalence-text">PA: 25-59%</span>
+                        </div>
+                        <p><small>Kann Erstsymptom vor Diagnose sein</small></p>
+                    </div>
+                    
+                    <div class="complication-box neurological">
+                        <h3>🩸 Metabolischer Schlaganfall</h3>
+                        <p><strong>Häufiger bei MMA</strong></p>
+                        <ul>
+                            <li>Schlaganfall-ähnliche Episoden</li>
+                            <li>Fokale neurologische Ausfälle</li>
+                            <li>MRT-Veränderungen</li>
+                            <li>Auch post-transplantation möglich</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box neurological">
+                        <h3>👁️ Seh- und Hörstörungen</h3>
+                        <ul>
+                            <li>Optikusatrophie</li>
+                            <li>Retinopathie</li>
+                            <li>Sensorineurale Hörstörungen</li>
+                            <li>Regelmäßige Kontrollen erforderlich</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <h4>🎯 Empfehlung #12</h4>
+                    <p><strong>Wir empfehlen dringend</strong> eine angemessene Standarddiagnostik bei metabolischem Schlaganfall, wenn MMA- oder PA-Patienten Symptome zeigen, die auf eine schlaganfallähnliche Episode hindeuten.</p>
+                    <span class="evidence-quality high-evidence">Hohe Evidenz</span>
+                    <span class="evidence-quality very-strong-rec">Sehr starke Empfehlung</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🫘 Nierenkomplikationen</h2>
+                
+                <div class="recommendation">
+                    <h4>🎯 Empfehlung #15</h4>
+                    <p><strong>Wir empfehlen dringend</strong> die Überwachung der Nierenfunktion, da chronische Nierenerkrankung eine Komplikation bei MMA und PA ist.</p>
+                    <span class="evidence-quality high-evidence">Hohe Evidenz</span>
+                    <span class="evidence-quality very-strong-rec">Sehr starke Empfehlung</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div class="complication-box renal">
+                        <h3>📊 Epidemiologie</h3>
+                        <ul>
+                            <li><strong>MMA:</strong> Fast alle entwickeln Niereninsuffizienz</li>
+                            <li><strong>mut⁰:</strong> Früher betroffen als cblB</li>
+                            <li><strong>cblA, mut⁻:</strong> Später im Leben</li>
+                            <li><strong>PA:</strong> Seltener, aber kann schwer sein</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box renal">
+                        <h3>🔬 Pathologie</h3>
+                        <ul>
+                            <li>Tubulo-interstitielle Nephritis</li>
+                            <li>Renale tubuläre Azidose</li>
+                            <li>Mitochondriale Störungen</li>
+                            <li>Progressive Verschlechterung</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-calculator">
+                    <h3>💻 GFR-Rechner (Cystatin C)</h3>
+                    <p>Cystatin C ist genauer als Kreatinin bei MMA/PA (unabhängig von Muskelmasse)</p>
+                    
+                    <label>Cystatin C (mg/L):</label>
+                    <input type="number" class="calc-input" id="cystatinC" step="0.01" placeholder="z.B. 1.2">
+                    
+                    <label>Alter (Jahre):</label>
+                    <input type="number" class="calc-input" id="age" placeholder="z.B. 15">
+                    
+                    <button onclick="calculateGFR()" style="background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                        GFR berechnen
+                    </button>
+                    
+                    <div id="gfr-result" class="calc-result" style="display: none;"></div>
+                </div>
+
+                <div class="success-box">
+                    <strong>Biomarker:</strong><br>
+                    • <strong>Plasma Lipocalin-2:</strong> Frühmarker für Nierenschädigung<br>
+                    • <strong>Nierenwachstum:</strong> Korreliert mit Serum-Cystatin C und Methylmalonsäure<br>
+                    • <strong>Blutdruckmonitoring:</strong> Regelmäßig als Teil der Nierenfunktionsbewertung
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>❤️ Kardiovaskuläre Komplikationen</h2>
+                
+                <div class="complication-grid">
+                    <div class="complication-box cardiac">
+                        <h3>💓 Kardiomyopathie</h3>
+                        <p><strong>Häufiger bei PA</strong></p>
+                        <ul>
+                            <li>Dilatative Kardiomyopathie</li>
+                            <li>Systolische Dysfunktion</li>
+                            <li>Kann zu Herzinsuffizienz führen</li>
+                            <li>Regelmäßige Echokardiographie</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box cardiac">
+                        <h3>⚡ Arrhythmien</h3>
+                        <ul>
+                            <li>QTc-Verlängerung</li>
+                            <li>Potentiell lebensbedrohlich</li>
+                            <li>Plötzlicher Herztod möglich</li>
+                            <li>Regelmäßige EKG-Kontrollen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Wichtiger Hinweis:</strong><br>
+                    Trotz verbessertem Überleben bleiben metabolische Dekompensationen eine wichtige Mortalitätsursache. Plötzlicher Tod kann durch QT-Verlängerung oder Kardiomyopathie auftreten.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🩸 Hämatologische und andere Komplikationen</h2>
+                
+                <div class="recommendation">
+                    <h4>🎯 Empfehlung #17</h4>
+                    <p><strong>Wir schlagen vor</strong>, während der regulären Nachsorge und bei metabolischen Dekompensationen das große Blutbild zu überwachen, da Anämie, Neutropenie und/oder Thrombozytopenie Komplikationen bei MMA- und PA-Patienten sein können.</p>
+                    <span class="evidence-quality moderate-evidence">Moderate Evidenz</span>
+                    <span class="evidence-quality weak-rec">Schwache Empfehlung</span>
+                </div>
+
+                <div class="complication-grid">
+                    <div class="complication-box other">
+                        <h3>🩸 Hämatologisch</h3>
+                        <ul>
+                            <li>Neutropenie (oft reversibel)</li>
+                            <li>Thrombozytopenie</li>
+                            <li>Anämie (chronisch)</li>
+                            <li>Knochenmarksuppression</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box other">
+                        <h3>🦴 Knochengesundheit</h3>
+                        <ul>
+                            <li>Niedrige Knochendichte</li>
+                            <li>Osteoporose-Risiko</li>
+                            <li>Chronische Azidose als Faktor</li>
+                            <li>Vitamin D-Mangel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="complication-box other">
+                        <h3>🏥 Neuere Erkenntnisse</h3>
+                        <ul>
+                            <li>Lebertumoren (Hepatoblastom, HCC)</li>
+                            <li>Pankreatitis</li>
+                            <li>Wachstumsstörungen</li>
+                            <li>Bewegungsstörungen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    <strong>Therapieansätze:</strong><br>
+                    • Ausschluss von Substratmängeln (B12, Folsäure, Eisen)<br>
+                    • Erythropoietin bei chronischer Nierenerkrankung<br>
+                    • G-CSF: Unklare Indikation, limitierte Erfahrung<br>
+                    • Optimierung von Calcium, Phosphat und Vitamin D
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📋 Monitoring Dashboard</h2>
+                <div class="monitoring-dashboard">
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">🧠</div>
+                        <h3>Neurologie</h3>
+                        <p>Epilepsie bis 59%<br>Entwicklungsverzögerung<br>Schlaganfall-ähnlich</p>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">🫘</div>
+                        <h3>Nieren</h3>
+                        <p>MMA: Fast alle<br>PA: Seltener<br>Cystatin C-basiert</p>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">❤️</div>
+                        <h3>Herz</h3>
+                        <p>PA: Kardiomyopathie<br>QTc-Verlängerung<br>Arrhythmierisiko</p>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">🩸</div>
+                        <h3>Hämatologie</h3>
+                        <p>Neutropenie<br>Thrombopenie<br>Chronische Anämie</p>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">🦴</div>
+                        <h3>Knochen</h3>
+                        <p>Niedrige Dichte<br>Osteoporose<br>Vitamin D-Mangel</p>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">👁️</div>
+                        <h3>Sinne</h3>
+                        <p>Optikusatrophie<br>Retinopathie<br>Hörstörungen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="#" class="nav-button" onclick="previousModule()">
+                ← Zurück zu Modul 2
+            </a>
+            <div>
+                <span style="color: white; font-weight: 600;">Modul 3 von 6: Monitoring & Komplikationen</span>
+            </div>
+            <a href="#" class="nav-button" onclick="nextModule()">
+                Weiter zu Modul 4: Notfallmanagement →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function calculateGFR() {
+            const cystatinC = parseFloat(document.getElementById('cystatinC').value);
+            const age = parseInt(document.getElementById('age').value);
+            
+            if (!cystatinC || !age) {
+                alert('Bitte füllen Sie alle Felder aus.');
+                return;
+            }
+            
+            // Vereinfachte CKD-EPI Cystatin C Formel für Kinder/Jugendliche
+            // Dies ist eine Approximation für Bildungszwecke
+            let gfr;
+            if (age < 18) {
+                // Schwartz-Formel angepasst
+                gfr = 70.69 * Math.pow(cystatinC, -0.931);
+            } else {
+                // CKD-EPI Cystatin C für Erwachsene
+                if (cystatinC <= 0.8) {
+                    gfr = 133 * Math.pow(cystatinC/0.8, -0.499) * Math.pow(0.996, age);
+                } else {
+                    gfr = 133 * Math.pow(cystatinC/0.8, -1.328) * Math.pow(0.996, age);
+                }
+            }
+            
+            let interpretation = '';
+            let colorClass = '';
+            
+            if (gfr >= 90) {
+                interpretation = 'Normal oder hoch (Stadium 1)';
+                colorClass = 'success';
+            } else if (gfr >= 60) {
+                interpretation = 'Leicht vermindert (Stadium 2)';
+                colorClass = 'warning';
+            } else if (gfr >= 30) {
+                interpretation = 'Mäßig vermindert (Stadium 3)';
+                colorClass = 'danger';
+            } else if (gfr >= 15) {
+                interpretation = 'Stark vermindert (Stadium 4)';
+                colorClass = 'danger';
+            } else {
+                interpretation = 'Nierenversagen (Stadium 5)';
+                colorClass = 'danger';
+            }
+            
+            const resultDiv = document.getElementById('gfr-result');
+            resultDiv.innerHTML = `
+                <strong>Geschätzte GFR: ${gfr.toFixed(1)} ml/min/1.73m²</strong><br>
+                <em>Interpretation: ${interpretation}</em><br>
+                <small>Hinweis: Dies ist eine vereinfachte Berechnung für Bildungszwecke. 
+                Verwenden Sie validierte Formeln für klinische Entscheidungen.</small>
+            `;
+            resultDiv.style.display = 'block';
+            
+            if (colorClass === 'success') {
+                resultDiv.style.background = '#d4edda';
+                resultDiv.style.color = '#155724';
+            } else if (colorClass === 'warning') {
+                resultDiv.style.background = '#fff3cd';
+                resultDiv.style.color = '#856404';
+            } else {
+                resultDiv.style.background = '#f8d7da';
+                resultDiv.style.color = '#721c24';
+            }
+        }
+
+        function previousModule() {
+            alert('Zurück zu Modul 2: Therapie und Management');
+        }
+
+        function nextModule() {
+            alert('Modul 4 wird als nächstes erstellt!\n\nSie haben Modul 3 erfolgreich abgeschlossen. 🎉');
+        }
+    </script>
+</body>
+</html>
