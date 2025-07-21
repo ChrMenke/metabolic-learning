@@ -667,145 +667,133 @@
     <script>
         // Module Data Structure
         const modules = {
-            aminosaeurien: {
-                title: "🧬 Aminosäuredefekte",
-                icon: "🧬",
-                modules: [
-                    { file: "aminosaeurien_teil1.html", title: "Aminosäuredefekte - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
-                    { file: "aminosaeurien_teil2.html", title: "Aminosäuredefekte - Teil 2", subtitle: "Diagnostik & Therapie" }
-                ]
-            },
-            carnitin: {
-                title: "🚛 Carnitin-Transport",
-                icon: "🚛",
-                modules: [
-                    { file: "carnitin_transport_teil1.html", title: "Carnitin-Transport - Teil 1", subtitle: "Biochemie & Defekte" },
-                    { file: "carnitin_transport_teil2.html", title: "Carnitin-Transport - Teil 2", subtitle: "Klinik & Management" }
-                ]
-            },
-            cholesterol: {
-                title: "⚙️ Cholesterol/Steroid-Biosynthese",
-                icon: "⚙️",
-                modules: [
-                    { file: "cholesterol_steroid_biosynthesis_part1.html", title: "Cholesterol-Biosynthese - Teil 1", subtitle: "Grundlagen" },
-                    { file: "cholesterol_steroid_biosynthesis_part2.html", title: "Cholesterol-Biosynthese - Teil 2", subtitle: "Pathophysiologie" },
-                    { file: "cholesterol_steroid_biosynthesis_part2a.html", title: "Cholesterol-Biosynthese - Teil 2a", subtitle: "Spezielle Aspekte" },
-                    { file: "cholesterol_steroid_biosynthesis_part2b.html", title: "Cholesterol-Biosynthese - Teil 2b", subtitle: "Erweiterte Konzepte" },
-                    { file: "cholesterol_steroid_biosynthesis_part3.html", title: "Cholesterol-Biosynthese - Teil 3", subtitle: "Therapeutische Ansätze" }
-                ]
-            },
-            fabry: {
-                title: "💎 Fabry-Krankheit",
-                icon: "💎",
-                modules: [
-                    { file: "fabry_lernmodul_teil1.html", title: "Fabry-Krankheit - Teil 1", subtitle: "Grundlagen & Genetik" },
-                    { file: "fabry_lernmodul_teil2.html", title: "Fabry-Krankheit - Teil 2", subtitle: "Klinische Manifestationen" },
-                    { file: "fabry_lernmodul_teil3.html", title: "Fabry-Krankheit - Teil 3", subtitle: "Diagnostik" },
-                    { file: "fabry_lernmodul_teil4.html", title: "Fabry-Krankheit - Teil 4", subtitle: "Therapie & Prognose" }
-                ]
-            },
-            glutarazid: {
-                title: "🔬 Glutarazidämie",
-                icon: "🔬",
-                modules: [
-                    { file: "glutarazid_modul_1.html", title: "Glutarazidämie - Kompaktmodul", subtitle: "Übersicht & Management" }
-                ]
-            },
-            homocystin: {
-                title: "🧪 Homocystinurie",
-                icon: "🧪",
-                modules: [
-                    { file: "homocystinurie_lerneinheit.html", title: "Homocystinurie - Lerneinheit", subtitle: "Vollständiger Überblick" }
-                ]
-            },
-            konfirmation: {
-                title: "📋 Konfirmationsdiagnostik",
-                icon: "📋",
-                modules: [
-                    { file: "konfirmationsdiagnostik_seite1.html", title: "Konfirmationsdiagnostik - Seite 1", subtitle: "Grundprinzipien" },
-                    { file: "konfirmationsdiagnostik_seite2.html", title: "Konfirmationsdiagnostik - Seite 2", subtitle: "Methoden" },
-                    { file: "konfirmationsdiagnostik_seite3.html", title: "Konfirmationsdiagnostik - Seite 3", subtitle: "Interpretation" },
-                    { file: "konfirmationsdiagnostik_seite4.html", title: "Konfirmationsdiagnostik - Seite 4", subtitle: "Qualitätssicherung" }
-                ]
-            },
-            lysosomal: {
-                title: "📦 Lysosomale Speicherkrankheiten",
-                icon: "📦",
-                modules: [
-                    { file: "lysosomal_storage_part1.html", title: "Lysosomale Speicherkrankheiten - Teil 1", subtitle: "Grundlagen" },
-                    { file: "lysosomal_storage_part2.html", title: "Lysosomale Speicherkrankheiten - Teil 2", subtitle: "Klassifikation" },
-                    { file: "lysosomal_storage_part3.html", title: "Lysosomale Speicherkrankheiten - Teil 3", subtitle: "Therapieansätze" }
-                ]
-            },
-            mitochondrial: {
-                title: "⚡ Mitochondriopathien",
-                icon: "⚡",
-                modules: [
-                    { file: "mitochondriopathien_teil1.html", title: "Mitochondriopathien - Teil 1", subtitle: "Grundlagen & Biochemie" },
-                    { file: "mitochondriopathien_teil2.html", title: "Mitochondriopathien - Teil 2", subtitle: "Klinische Syndrome" },
-                    { file: "mitochondriopathien_teil3.html", title: "Mitochondriopathien - Teil 3", subtitle: "Diagnostik & Therapie" }
-                ]
-            },
-            neurotransmitter: {
-                title: "🧠 Neurotransmitter-Defekte",
-                icon: "🧠",
-                modules: [
-                    { file: "neurotransmitter_teil1.html", title: "Neurotransmitter-Defekte - Teil 1", subtitle: "Biosynthese & Stoffwechsel" },
-                    { file: "neurotransmitter_teil2.html", title: "Neurotransmitter-Defekte - Teil 2", subtitle: "Klinische Präsentation" },
-                    { file: "neurotransmitter_teil3.html", title: "Neurotransmitter-Defekte - Teil 3", subtitle: "Diagnostik & Behandlung" }
-                ]
-            },
-            organoacid: {
-                title: "⚗️ Organoazidurien",
-                icon: "⚗️",
-                modules: [
-                    { file: "organoacidaemien_teil1.html", title: "Organoazidurien - Teil 1", subtitle: "Grundlagen & Klassifikation" },
-                    { file: "organoacidaemien_teil2.html", title: "Organoazidurien - Teil 2", subtitle: "Wichtige Einzelerkrankungen" },
-                    { file: "organoacidaemien_teil3.html", title: "Organoazidurien - Teil 3", subtitle: "Management & Therapie" }
-                ]
-            },
-            peroxisomal: {
-                title: "🔄 Peroxisomale Störungen",
-                icon: "🔄",
-                modules: [
-                    { file: "peroxisomal_disorders_part1.html", title: "Peroxisomale Störungen - Teil 1", subtitle: "Biogenese & Funktion" },
-                    { file: "peroxisomal_disorders_part2.html", title: "Peroxisomale Störungen - Teil 2", subtitle: "Einzeldefekte" },
-                    { file: "peroxisomal_disorders_part3.html", title: "Peroxisomale Störungen - Teil 3", subtitle: "Klinik & Therapie" }
-                ]
-            },
-            purin: {
-                title: "🧬 Purin/Pyrimidin-Stoffwechsel",
-                icon: "🧬",
-                modules: [
-                    { file: "purin_pyrimidin_lerneinheit.html", title: "Purin/Pyrimidin-Defekte", subtitle: "Kompakte Lerneinheit" }
-                ]
-            },
-            tyrosin: {
-                title: "🏭 Tyrosinämie",
-                icon: "🏭",
-                modules: [
-                    { file: "tyrosinaemie_teil1.html", title: "Tyrosinämie - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
-                    { file: "tyrosinaemie_teil2.html", title: "Tyrosinämie - Teil 2", subtitle: "Diagnostik & Therapie" }
-                ]
-            },
-            ucd: {
-                title: "♻️ Harnstoffzyklusstörungen",
-                icon: "♻️",
-                modules: [
-                    { file: "ucd_learning_module.html", title: "Harnstoffzyklusstörungen - Übersicht", subtitle: "Allgemeine Einführung" },
-                    { file: "ucd_learning_module_part1.html", title: "Harnstoffzyklusstörungen - Teil 1", subtitle: "Biochemie & Pathophysiologie" },
-                    { file: "ucd_learning_module_part2.html", title: "Harnstoffzyklusstörungen - Teil 2", subtitle: "Klinische Aspekte" },
-                    { file: "ucd_learning_module_part3.html", title: "Harnstoffzyklusstörungen - Teil 3", subtitle: "Diagnostik & Management" }
-                ]
-            },
-            vitamin: {
-                title: "💊 Vitamin-Cofaktor-Defekte",
-                icon: "💊",
-                modules: [
-                    { file: "vitamin_cofactor_defects.html", title: "Vitamin-Cofaktor-Defekte", subtitle: "Übersicht & Therapie" }
-                ]
-            }
-        };
+    aminosaeurien: {
+        title: "🧬 Aminosäuredefekte",
+        icon: "🧬",
+        modules: [
+            { file: "modules/Aminosaeurien/aminosaeurien_teil1.html", title: "Aminosäuredefekte - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
+            { file: "modules/Aminosaeurien/aminosaeurien_teil2.html", title: "Aminosäuredefekte - Teil 2", subtitle: "Diagnostik & Therapie" },
+            { file: "modules/Aminosaeurien/glutarazid_modul_1.html", title: "Glutarazidämie - Kompaktmodul", subtitle: "Übersicht & Management" },
+            { file: "modules/Aminosaeurien/homocystinurie_lerneinheit.html", title: "Homocystinurie - Lerneinheit", subtitle: "Vollständiger Überblick" },
+            { file: "modules/Aminosaeurien/tyrosinaemie_teil1.html", title: "Tyrosinämie - Teil 1", subtitle: "Grundlagen & Pathophysiologie" },
+            { file: "modules/Aminosaeurien/tyrosinaemie_teil2.html", title: "Tyrosinämie - Teil 2", subtitle: "Diagnostik & Therapie" }
+        ]
+    },
+    carnitin: {
+        title: "🚛 Carnitin-Transport",
+        icon: "🚛",
+        modules: [
+            { file: "modules/Carnitin/carnitin_transport_teil1.html", title: "Carnitin-Transport - Teil 1", subtitle: "Biochemie & Defekte" },
+            { file: "modules/Carnitin/carnitin_transport_teil2.html", title: "Carnitin-Transport - Teil 2", subtitle: "Klinik & Management" }
+        ]
+    },
+    cholesterol: {
+        title: "⚙️ Cholesterol/Steroid-Biosynthese",
+        icon: "⚙️",
+        modules: [
+            { file: "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part1.html", title: "Cholesterol-Biosynthese - Teil 1", subtitle: "Grundlagen" },
+            { file: "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2.html", title: "Cholesterol-Biosynthese - Teil 2", subtitle: "Pathophysiologie" },
+            { file: "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2a.html", title: "Cholesterol-Biosynthese - Teil 2a", subtitle: "Spezielle Aspekte" },
+            { file: "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2b.html", title: "Cholesterol-Biosynthese - Teil 2b", subtitle: "Erweiterte Konzepte" },
+            { file: "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part3.html", title: "Cholesterol-Biosynthese - Teil 3", subtitle: "Therapeutische Ansätze" }
+        ]
+    },
+    fabry: {
+        title: "💎 Fabry-Krankheit",
+        icon: "💎",
+        modules: [
+            { file: "modules/Speichererkrankungen/fabry_lernmodul_teil1.html", title: "Fabry-Krankheit - Teil 1", subtitle: "Grundlagen & Genetik" },
+            { file: "modules/Speichererkrankungen/fabry_lernmodul_teil2.html", title: "Fabry-Krankheit - Teil 2", subtitle: "Klinische Manifestationen" },
+            { file: "modules/Speichererkrankungen/fabry_lernmodul_teil3.html", title: "Fabry-Krankheit - Teil 3", subtitle: "Diagnostik" },
+            { file: "modules/Speichererkrankungen/fabry_lernmodul_teil4.html", title: "Fabry-Krankheit - Teil 4", subtitle: "Therapie & Prognose" }
+        ]
+    },
+    konfirmation: {
+        title: "📋 Konfirmationsdiagnostik",
+        icon: "📋",
+        modules: [
+            { file: "modules/Konfirmation/konfirmationsdiagnostik_seite1.html", title: "Konfirmationsdiagnostik - Seite 1", subtitle: "Grundprinzipien" },
+            { file: "modules/Konfirmation/konfirmationsdiagnostik_seite2.html", title: "Konfirmationsdiagnostik - Seite 2", subtitle: "Methoden" },
+            { file: "modules/Konfirmation/konfirmationsdiagnostik_seite3.html", title: "Konfirmationsdiagnostik - Seite 3", subtitle: "Interpretation" },
+            { file: "modules/Konfirmation/konfirmationsdiagnostik_seite4.html", title: "Konfirmationsdiagnostik - Seite 4", subtitle: "Qualitätssicherung" }
+        ]
+    },
+    lysosomal: {
+        title: "📦 Lysosomale Speicherkrankheiten",
+        icon: "📦",
+        modules: [
+            { file: "modules/Speichererkrankungen/lysosomal_storage_part1.html", title: "Lysosomale Speicherkrankheiten - Teil 1", subtitle: "Grundlagen" },
+            { file: "modules/Speichererkrankungen/lysosomal_storage_part2.html", title: "Lysosomale Speicherkrankheiten - Teil 2", subtitle: "Klassifikation" },
+            { file: "modules/Speichererkrankungen/lysosomal_storage_part3.html", title: "Lysosomale Speicherkrankheiten - Teil 3", subtitle: "Therapieansätze" }
+        ]
+    },
+    mitochondrial: {
+        title: "⚡ Mitochondriopathien",
+        icon: "⚡",
+        modules: [
+            { file: "modules/Mitochondrien/mitochondriopathien_teil1.html", title: "Mitochondriopathien - Teil 1", subtitle: "Grundlagen & Biochemie" },
+            { file: "modules/Mitochondrien/mitochondriopathien_teil2.html", title: "Mitochondriopathien - Teil 2", subtitle: "Klinische Syndrome" },
+            { file: "modules/Mitochondrien/mitochondriopathien_teil3.html", title: "Mitochondriopathien - Teil 3", subtitle: "Diagnostik & Therapie" },
+            { file: "modules/Mitochondrien/Mitochondriale Erkrankungen - Diagnostik & Th.html", title: "Mitochondriale Erkrankungen", subtitle: "Diagnostik & Therapie - Übersicht" }
+        ]
+    },
+    neurotransmitter: {
+        title: "🧠 Neurotransmitter-Defekte",
+        icon: "🧠",
+        modules: [
+            { file: "modules/Neurotransmitter/neurotransmitter_teil1.html", title: "Neurotransmitter-Defekte - Teil 1", subtitle: "Biosynthese & Stoffwechsel" },
+            { file: "modules/Neurotransmitter/neurotransmitter_teil2.html", title: "Neurotransmitter-Defekte - Teil 2", subtitle: "Klinische Präsentation" },
+            { file: "modules/Neurotransmitter/neurotransmitter_teil3.html", title: "Neurotransmitter-Defekte - Teil 3", subtitle: "Diagnostik & Behandlung" }
+        ]
+    },
+    organoacid: {
+        title: "⚗️ Organoazidurien",
+        icon: "⚗️",
+        modules: [
+            { file: "modules/Organoacidaemien/organoacidaemien_teil1.html", title: "Organoazidurien - Teil 1", subtitle: "Grundlagen & Klassifikation" },
+            { file: "modules/Organoacidaemien/organoacidaemien_teil2.html", title: "Organoazidurien - Teil 2", subtitle: "Wichtige Einzelerkrankungen" },
+            { file: "modules/Organoacidaemien/organoacidaemien_teil3.html", title: "Organoazidurien - Teil 3", subtitle: "Management & Therapie" },
+            { file: "modules/Organoacidaemien/mma_pa_modul1.html", title: "MMA/PA - Modul 1", subtitle: "Methylmalonazidämie & Propionazidämie" },
+            { file: "modules/Organoacidaemien/mma_pa_modul2.html", title: "MMA/PA - Modul 2", subtitle: "Klinische Aspekte" },
+            { file: "modules/Organoacidaemien/mma_pa_modul3.html", title: "MMA/PA - Modul 3", subtitle: "Diagnostik" },
+            { file: "modules/Organoacidaemien/mma_pa_modul4.html", title: "MMA/PA - Modul 4", subtitle: "Therapie" },
+            { file: "modules/Organoacidaemien/mma_pa_modul5.html", title: "MMA/PA - Modul 5", subtitle: "Verlaufskontrolle" },
+            { file: "modules/Organoacidaemien/mma_pa_modul6.html", title: "MMA/PA - Modul 6", subtitle: "Prognose & Komplikationen" }
+        ]
+    },
+    peroxisomal: {
+        title: "🔄 Peroxisomale Störungen",
+        icon: "🔄",
+        modules: [
+            { file: "modules/Speichererkrankungen/peroxisomal_disorders_part1.html", title: "Peroxisomale Störungen - Teil 1", subtitle: "Biogenese & Funktion" },
+            { file: "modules/Speichererkrankungen/peroxisomal_disorders_part2.html", title: "Peroxisomale Störungen - Teil 2", subtitle: "Einzeldefekte" },
+            { file: "modules/Speichererkrankungen/peroxisomal_disorders_part3.html", title: "Peroxisomale Störungen - Teil 3", subtitle: "Klinik & Therapie" }
+        ]
+    },
+    purin: {
+        title: "🧬 Purin/Pyrimidin-Stoffwechsel",
+        icon: "🧬",
+        modules: [
+            { file: "modules/PurinPyrimidin/purin_pyrimidin_lerneinheit.html", title: "Purin/Pyrimidin-Defekte", subtitle: "Kompakte Lerneinheit" }
+        ]
+    },
+    ucd: {
+        title: "♻️ Harnstoffzyklusstörungen",
+        icon: "♻️",
+        modules: [
+            { file: "modules/Harnstoffzyklus/ucd_learning_module_part1.html", title: "Harnstoffzyklusstörungen - Teil 1", subtitle: "Biochemie & Pathophysiologie" },
+            { file: "modules/Harnstoffzyklus/ucd_learning_module_part2.html", title: "Harnstoffzyklusstörungen - Teil 2", subtitle: "Klinische Aspekte" },
+            { file: "modules/Harnstoffzyklus/ucd_learning_module_part3.html", title: "Harnstoffzyklusstörungen - Teil 3", subtitle: "Diagnostik & Management" }
+        ]
+    },
+    vitamin: {
+        title: "💊 Vitamin-Cofaktor-Defekte",
+        icon: "💊",
+        modules: [
+            { file: "modules/Vitamine/vitamin_cofactor_defects.html", title: "Vitamin-Cofaktor-Defekte", subtitle: "Übersicht & Therapie" }
+        ]
+    }
+};
 
 
         // State Management
