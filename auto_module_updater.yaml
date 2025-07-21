@@ -1,0 +1,32 @@
+name: Auto-Update Modules
+
+on:
+  push:
+    paths:
+      - 'modules/**.html'
+      - '.github/workflows/**'
+
+jobs:
+  update-modules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Repo klonen
+        uses: actions/checkout@v3
+
+      - name: 📦 Node installieren
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 🛠 Module-Scanner ausführen
+        run: |
+          node tools/update-modules.js
+
+      - name: 🔃 Änderungen committen (wenn nötig)
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add modules-config.json simple-service-worker.js
+          git diff --cached --quiet || git commit -m "🔄 Auto-Update: Module & SW aktualisiert"
+          git push
