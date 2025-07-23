@@ -1,26 +1,43 @@
 name: Auto-Update Modules
-
 on:
   push:
     paths:
       - 'modules/**.html'
       - '.github/workflows/**'
+      - 'tools/**'  # Auch bei Änderungen in tools/
+  workflow_dispatch:
 
 jobs:
   update-modules:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+    
     steps:
       - name: 📥 Repo klonen
         uses: actions/checkout@v3
-
+        with:
+          fetch-depth: 0  # Wichtig: Ganzen History
+          
+      - name: 🔍 Debug - Was wurde geklont?
+        run: |
+          echo "=== Aktueller Pfad ==="
+          pwd
+          echo "=== Git Status ==="
+          git status
+          echo "=== Tools Ordner ==="
+          ls -la tools/
+          echo "=== Kann ich die Datei sehen? ==="
+          cat tools/update-modules.js | head -5
+          
       - name: 📦 Node installieren
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
+          
       - name: 🛠 Module-Scanner ausführen
         run: |
+          cd ${{ github.workspace }}
           node tools/update-modules.js
 
       - name: 🔃 Änderungen committen (wenn nötig)
