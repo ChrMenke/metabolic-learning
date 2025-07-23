@@ -1,0 +1,334 @@
+{
+  "version": "2.0",
+  "lastUpdate": "2025-07-23T02:19:03.994Z",
+  "totalModules": 51,
+  "modules": {
+    "aminosaeuren": {
+      "title": "Aminosaeuren",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Aminosaeuren/aminosaeurien_teil1.html",
+          "title": "Aminosäurestörungen - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Aminosaeuren/aminosaeurien_teil2.html",
+          "title": "Aminosäurestörungen - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Aminosaeuren/glutarazid_modul_1.html",
+          "title": "Glutarazidurie Typ I - Interaktives Lernmodul",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Aminosaeuren/homocystinurie_lerneinheit.html",
+          "title": "Homocystinurie - Lerneinheit",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Aminosaeuren/tyrosinaemie_teil1.html",
+          "title": "Hepatorenale Tyrosinämie - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Aminosaeuren/tyrosinaemie_teil2.html",
+          "title": "Hepatorenale Tyrosinämie - Teil 2",
+          "subtitle": "Teil 2"
+        }
+      ]
+    },
+    "carnitin": {
+      "title": "🚛 Carnitin-Transport",
+      "icon": "🚛",
+      "modules": [
+        {
+          "file": "modules/Carnitin/carnitin_transport_teil1.html",
+          "title": "Carnitintransporter-Defekte - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Carnitin/carnitin_transport_teil2.html",
+          "title": "Carnitintransporter-Defekte - Teil 2",
+          "subtitle": "Teil 2"
+        }
+      ]
+    },
+    "cholesterol_steroid": {
+      "title": "Cholesterol_Steroid",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part1.html",
+          "title": "Cholesterin-/Steroid-Biosynthese - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2.html",
+          "title": "Cholesterin-/Steroid-Biosynthese - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2a.html",
+          "title": "Cholesterin-/Steroid-Biosynthese - Teil 2A",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part2b.html",
+          "title": "Cholesterin-/Steroid-Biosynthese - Teil 2B",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Cholesterol_Steroid/cholesterol_steroid_biosynthesis_part3.html",
+          "title": "Cholesterin-/Steroid-Biosynthese - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "energie": {
+      "title": "⚡ Energie-Stoffwechsel",
+      "icon": "⚡",
+      "modules": [
+        {
+          "file": "modules/Energie/fao_lerneinheit_teil1.html",
+          "title": "Fettsäure-Oxidationsstörungen - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Energie/fao_lerneinheit_teil2.html",
+          "title": "Fettsäure-Oxidationsstörungen - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Energie/fao_lerneinheit_teil3.html",
+          "title": "Fettsäure-Oxidationsstörungen - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "harnstoffzyklus": {
+      "title": "Harnstoffzyklus",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Harnstoffzyklus/ucd_learning_module_part1.html",
+          "title": "Harnstoffzyklusstörungen - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Harnstoffzyklus/ucd_learning_module_part2.html",
+          "title": "Harnstoffzyklusstörungen - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Harnstoffzyklus/ucd_learning_module_part3.html",
+          "title": "Harnstoffzyklusstörungen - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "konfirmation": {
+      "title": "📋 Konfirmationsdiagnostik",
+      "icon": "📋",
+      "modules": [
+        {
+          "file": "modules/Konfirmation/konfirmationsdiagnostik_seite1.html",
+          "title": "Konfirmationsdiagnostik bei Stoffwechselerkrankungen - Grundlagen",
+          "subtitle": "Diagnostik"
+        },
+        {
+          "file": "modules/Konfirmation/konfirmationsdiagnostik_seite2.html",
+          "title": "Konfirmationsdiagnostik - Diagnostische Ebenen",
+          "subtitle": "Diagnostik"
+        },
+        {
+          "file": "modules/Konfirmation/konfirmationsdiagnostik_seite3.html",
+          "title": "Konfirmationsdiagnostik - Spezifische Algorithmen I",
+          "subtitle": "Diagnostik"
+        },
+        {
+          "file": "modules/Konfirmation/konfirmationsdiagnostik_seite4.html",
+          "title": "Konfirmationsdiagnostik - Finale: Algorithmen II & Praxis",
+          "subtitle": "Diagnostik"
+        }
+      ]
+    },
+    "mitochondrien": {
+      "title": "Mitochondrien",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Mitochondrien/Mitochondriale Erkrankungen - Diagnostik & Therapie.html",
+          "title": "Mitochondriale Erkrankungen - Diagnostik & Therapie",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Mitochondrien/mitochondriopathien_teil1.html",
+          "title": "Mitochondriopathien - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Mitochondrien/mitochondriopathien_teil2.html",
+          "title": "Mitochondriopathien - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Mitochondrien/mitochondriopathien_teil3.html",
+          "title": "Mitochondriopathien - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "neurotransmitter": {
+      "title": "🧠 Neurotransmitter-Defekte",
+      "icon": "🧠",
+      "modules": [
+        {
+          "file": "modules/Neurotransmitter/neurotransmitter_teil1.html",
+          "title": "Neurotransmitter-Defekte - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Neurotransmitter/neurotransmitter_teil2.html",
+          "title": "Neurotransmitter-Defekte - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Neurotransmitter/neurotransmitter_teil3.html",
+          "title": "Neurotransmitter-Defekte - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "organoacidaemien": {
+      "title": "Organoacidaemien",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul1.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 1",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul2.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 2",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul3.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 3",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul4.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 4",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul5.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 5",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/mma_pa_modul6.html",
+          "title": "Methylmalonazidämien und Propionazidämien - Modul 6",
+          "subtitle": "Lernmodul"
+        },
+        {
+          "file": "modules/Organoacidaemien/organoacidaemien_teil1.html",
+          "title": "Organoacidämien - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Organoacidaemien/organoacidaemien_teil2.html",
+          "title": "Organoacidämien - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Organoacidaemien/organoacidaemien_teil3.html",
+          "title": "Organoacidämien - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "purinpyrimidin": {
+      "title": "PurinPyrimidin",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/PurinPyrimidin/purin_pyrimidin_lerneinheit.html",
+          "title": "Purin-/Pyrimidin-Stoffwechselstörungen - Expertenschulung",
+          "subtitle": "Lernmodul"
+        }
+      ]
+    },
+    "speichererkrankungen": {
+      "title": "Speichererkrankungen",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Speichererkrankungen/fabry_lernmodul_teil1.html",
+          "title": "Morbus Fabry - Teil 1: Grundlagen",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Speichererkrankungen/fabry_lernmodul_teil2.html",
+          "title": "Morbus Fabry - Teil 2: Klinische Manifestationen",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Speichererkrankungen/fabry_lernmodul_teil3.html",
+          "title": "Morbus Fabry - Teil 3: Diagnostik",
+          "subtitle": "Teil 3"
+        },
+        {
+          "file": "modules/Speichererkrankungen/fabry_lernmodul_teil4.html",
+          "title": "Morbus Fabry - Teil 4: Therapie & Management",
+          "subtitle": "Teil 4"
+        },
+        {
+          "file": "modules/Speichererkrankungen/lysosomal_storage_part1.html",
+          "title": "Lysosomale Speicherkrankheiten - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Speichererkrankungen/lysosomal_storage_part2.html",
+          "title": "Lysosomale Speicherkrankheiten - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Speichererkrankungen/lysosomal_storage_part3.html",
+          "title": "Lysosomale Speicherkrankheiten - Teil 3",
+          "subtitle": "Teil 3"
+        },
+        {
+          "file": "modules/Speichererkrankungen/peroxisomal_disorders_part1.html",
+          "title": "Peroxisomale Erkrankungen - Teil 1",
+          "subtitle": "Teil 1"
+        },
+        {
+          "file": "modules/Speichererkrankungen/peroxisomal_disorders_part2.html",
+          "title": "Peroxisomale Erkrankungen - Teil 2",
+          "subtitle": "Teil 2"
+        },
+        {
+          "file": "modules/Speichererkrankungen/peroxisomal_disorders_part3.html",
+          "title": "Peroxisomale Erkrankungen - Teil 3",
+          "subtitle": "Teil 3"
+        }
+      ]
+    },
+    "vitamine": {
+      "title": "Vitamine",
+      "icon": "📚",
+      "modules": [
+        {
+          "file": "modules/Vitamine/vitamin_cofactor_defects.html",
+          "title": "Vitamin-/Cofaktor-Defekte - Vollständige Lerneinheit",
+          "subtitle": "Lernmodul"
+        }
+      ]
+    }
+  }
+}
