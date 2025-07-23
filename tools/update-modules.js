@@ -61,7 +61,7 @@ function generateSubtitle(filename) {
     if (match) {
       return `Teil ${match[1] || match[2]}`;
     }
-  }
+  } 
   
   // Standard-Untertitel basierend auf Dateiname
   if (filename.includes('grundlagen')) return 'Grundlagen';
