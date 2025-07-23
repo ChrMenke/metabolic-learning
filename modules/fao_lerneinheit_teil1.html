@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fettsäure-Oxidationsstörungen - Teil 1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8e44ad, #e74c3c, #f39c12);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: "🧬";
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #8e44ad, #e74c3c);
+            width: 33%;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .info-box .icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .nav-item {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header::before {
+            content: "💊";
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        
+        .section-header h2 {
+            color: #8e44ad;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .definition-box {
+            background: #f8f9fa;
+            border-left: 4px solid #8e44ad;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .classification-box {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e91e63;
+        }
+        
+        .classification-box h3 {
+            color: #ad1457;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .classification-box h3::before {
+            content: "🔬";
+            margin-right: 10px;
+        }
+        
+        .disorder-group {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #e91e63;
+        }
+        
+        .disorder-group h4 {
+            color: #8e44ad;
+            margin-top: 0;
+        }
+        
+        .disorder-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .disorder-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .disorder-list li::before {
+            content: "▸";
+            color: #e91e63;
+            position: absolute;
+            left: 0;
+        }
+        
+        .epidemiology-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .epidemiology-table th {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .epidemiology-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .epidemiology-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .epidemiology-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .pathophysiology-box {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #ff9800;
+        }
+        
+        .pathophysiology-box h3 {
+            color: #ef6c00;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pathophysiology-box h3::before {
+            content: "⚡";
+            margin-right: 10px;
+        }
+        
+        .enzyme-defect {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .clinical-pearl {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .clinical-pearl::before {
+            content: "💡 Klinische Praxis";
+            font-weight: bold;
+            color: #2e7d32;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #f44336;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ Wichtiger Hinweis";
+            font-weight: bold;
+            color: #c62828;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .next-section {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .next-section h3 {
+            margin: 0 0 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .epidemiology-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Fettsäure-Oxidationsstörungen</h1>
+            <div class="subtitle">Teil 1: Grundlagen & Pathophysiologie - Klinische Handlungsfähigkeit</div>
+        </header>
+        
+        <div class="progress-bar"></div>
+        
+        <div class="info-box">
+            <span class="icon">📚</span>
+            <strong>Lerneinheit Teil 1</strong><br>
+            Dieser erste Teil behandelt die Grundlagen der Fettsäure-Oxidationsstörungen, Pathophysiologie und das Spektrum der Erkrankungen mit praktischen Diagnosealgorithmen für die klinische Anwendung.
+        </div>
+        
+        <nav class="navigation">
+            <button class="nav-item active">1. GRUNDLAGEN</button>
+            <button class="nav-item" onclick="alert('Teil 2 folgt: Klinische Präsentation & Diagnostik')">2. KLINISCHE PRÄSENTATION</button>
+            <button class="nav-item" onclick="alert('Teil 3 folgt: Therapie & Notfallmanagement')">3. DIAGNOSTIK</button>
+            <button class="nav-item" onclick="alert('Teil 3 folgt: Therapie & Notfallmanagement')">4. THERAPIE</button>
+            <button class="nav-item" onclick="alert('Teil 3 folgt: Therapie & Notfallmanagement')">5. NOTFALLMANAGEMENT</button>
+        </nav>
+        
+        <main class="content">
+            <div class="section-header">
+                <h2>Grundlagen der Fettsäure-Oxidationsstörungen</h2>
+            </div>
+            
+            <section class="definition-box">
+                <h3>Definition und Überblick</h3>
+                <p>Fettsäure-Oxidationsstörungen (FAO-Störungen) sind angeborene Stoffwechseldefekte, die die mitochondriale β-Oxidation langkettiger Fettsäuren betreffen. Sie gehören zu den häufigsten angeborenen Stoffwechselerkrankungen und manifestieren sich typischerweise durch metabolische Entgleisungen bei erhöhtem Energiebedarf oder verminderter Nahrungsaufnahme.</p>
+                
+                <p><strong>Pathophysiologisches Prinzip:</strong> Störung der Fettsäure-β-Oxidation führt zu eingeschränkter Energiegewinnung aus Fetten und zur Akkumulation toxischer Metabolite, insbesondere bei katabolem Stress.</p>
+            </section>
+            
+            <div class="classification-box">
+                <h3>Klassifikation der Fettsäure-Oxidationsstörungen</h3>
+                
+                <div class="disorder-group">
+                    <h4>Gruppe 1: Defekte der Acyl-CoA-Dehydrogenasen</h4>
+                    <ul class="disorder-list">
+                        <li><strong>SCAD-Mangel (Short-Chain Acyl-CoA Dehydrogenase)</strong> - C2-C4 Fettsäuren</li>
+                        <li><strong>MCAD-Mangel (Medium-Chain Acyl-CoA Dehydrogenase)</strong> - C4-C12 Fettsäuren</li>
+                        <li><strong>LCAD-Mangel (Long-Chain Acyl-CoA Dehydrogenase)</strong> - C12-C18 Fettsäuren</li>
+                        <li><strong>VLCAD-Mangel (Very Long-Chain Acyl-CoA Dehydrogenase)</strong> - C14-C20 Fettsäuren</li>
+                    </ul>
+                </div>
+                
+                <div class="disorder-group">
+                    <h4>Gruppe 2: Defekte des Trifunktionellen Proteins (TFP)</h4>
+                    <ul class="disorder-list">
+                        <li><strong>Isolierter LCHAD-Mangel</strong> - α-Untereinheit des TFP</li>
+                        <li><strong>Kompletter TFP-Mangel</strong> - α- und β-Untereinheit des TFP</li>
+                    </ul>
+                </div>
+                
+                <div class="disorder-group">
+                    <h4>Gruppe 3: Carnitin-System-Defekte</h4>
+                    <ul class="disorder-list">
+                        <li><strong>Primärer Carnitin-Mangel (CUD)</strong> - OCTN2-Transporter-Defekt</li>
+                        <li><strong>CPT I-Mangel</strong> - Carnitin-Palmitoyltransferase I</li>
+                        <li><strong>CPT II-Mangel</strong> - Carnitin-Palmitoyltransferase II</li>
+                        <li><strong>CACT-Mangel</strong> - Carnitin/Acylcarnitin-Translocase</li>
+                    </ul>
+                </div>
+                
+                <div class="disorder-group">
+                    <h4>Gruppe 4: Weitere Enzymdefekte</h4>
+                    <ul class="disorder-list">
+                        <li><strong>Multiple Acyl-CoA-Dehydrogenase-Mangel (MADD)</strong> - Glutarsäure Typ II</li>
+                        <li><strong>2,4-Dienoyl-CoA-Reduktase-Mangel</strong></li>
+                        <li><strong>Enoyl-CoA-Hydratase-Mangel</strong></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Epidemiologie und Genetik</h3>
+            
+            <table class="epidemiology-table">
+                <thead>
+                    <tr>
+                        <th>Erkrankung</th>
+                        <th>Inzidenz</th>
+                        <th>Vererbung</th>
+                        <th>Gen (Auswahl)</th>
+                        <th>Manifestationsalter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MCAD-Mangel</td>
+                        <td>1:10.000 - 1:20.000</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>ACADM</td>
+                        <td>Säuglingsalter</td>
+                    </tr>
+                    <tr>
+                        <td>VLCAD-Mangel</td>
+                        <td>1:50.000 - 1:100.000</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>ACADVL</td>
+                        <td>Neonatal bis Erwachsene</td>
+                    </tr>
+                    <tr>
+                        <td>LCHAD-Mangel</td>
+                        <td>1:62.000 - 1:100.000</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>HADHA</td>
+                        <td>Neonatal</td>
+                    </tr>
+                    <tr>
+                        <td>CPT II-Mangel</td>
+                        <td>1:200.000</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>CPT2</td>
+                        <td>Neonatal bis Erwachsene</td>
+                    </tr>
+                    <tr>
+                        <td>Primärer Carnitin-Mangel</td>
+                        <td>1:20.000 - 1:70.000*</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>SLC22A5</td>
+                        <td>Säuglingsalter</td>
+                    </tr>
+                    <tr>
+                        <td>MADD (Glutarsäure Typ II)</td>
+                        <td>1:200.000</td>
+                        <td>autosomal-rezessiv</td>
+                        <td>ETFA, ETFB, ETFDH</td>
+                        <td>Neonatal</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p style="font-size: 0.9rem; color: #666;">*Populationsabhängig, in einigen Ethnien deutlich häufiger</p>
+            
+            <div class="pathophysiology-box">
+                <h3>Pathophysiologie der β-Oxidationsstörungen</h3>
+                
+                <div class="enzyme-defect">
+                    <h4>Normale β-Oxidation</h4>
+                    <p>Die mitochondriale β-Oxidation ist der Hauptweg zur Energiegewinnung aus Fettsäuren, besonders bei Fastenzuständen, erhöhtem Energiebedarf oder in der Neonatalperiode. Der Prozess umfasst vier wiederkehrende Schritte pro Zyklus.</p>
+                </div>
+                
+                <div class="enzyme-defect">
+                    <h4>Pathophysiologische Konsequenzen bei FAO-Defekten</h4>
+                    <p><strong>Primäre Effekte:</strong></p>
+                    <ul>
+                        <li>Verminderte Ketogenese und ATP-Synthese</li>
+                        <li>Akkumulation von Acyl-CoA-Estern und Acylcarnitinen</li>
+                        <li>Störung der Glukoneogenese</li>
+                    </ul>
+                    
+                    <p><strong>Sekundäre Effekte:</strong></p>
+                    <ul>
+                        <li>Hypoglykämie (besonders hypoketon)</li>
+                        <li>Hyperammonämie durch Störung des Harnstoffzyklus</li>
+                        <li>Hepatomegalie und Leberfunktionsstörung</li>
+                        <li>Kardiomyopathie und Rhythmusstörungen</li>
+                        <li>Rhabdomyolyse und Myopathie</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="clinical-pearl">
+                FAO-Störungen manifestieren sich typischerweise bei metabolischem Stress: Fasten, fieberhafte Infekte, Operation oder erhöhte körperliche Aktivität. Die Symptome können bei adäquater Prophylaxe vollständig vermieden werden - daher ist eine frühe Diagnose und präventive Beratung entscheidend.
+            </div>
+            
+            <div class="warning-box">
+                MCAD-Mangel ist die häufigste FAO-Störung und kann bei unerkannter Erkrankung zu plötzlichem Kindstod führen. Das erweiterte Neugeborenenscreening erfasst die meisten FAO-Störungen, aber falsch-negative Befunde sind möglich, besonders bei milden Varianten.
+            </div>
+            
+            <h3>Molekulargenetische Grundlagen</h3>
+            
+            <div class="definition-box">
+                <h4>Genotyp-Phänotyp-Korrelationen</h4>
+                <p><strong>MCAD-Mangel:</strong> Die häufigste Mutation c.985A>G (p.Lys329Glu) kommt in ~70% der europäischen Allele vor und ist mit einem klassischen Phänotyp assoziiert.</p>
+                
+                <p><strong>VLCAD-Mangel:</strong> Drei Hauptphänotypen abhängig von der Restenzymaktivität:</p>
+                <ul>
+                    <li>Schwere neonatale Form (0-2% Restaktivität)</li>
+                    <li>Hepatomuskuläre Form im Kindesalter (2-10% Restaktivität)</li>
+                    <li>Myopathische Form bei Erwachsenen (10-25% Restaktivität)</li>
+                </ul>
+                
+                <p><strong>LCHAD/TFP-Mangel:</strong> Die häufigste Mutation c.1528G>C (p.Glu510Gln) führt zu isoliertem LCHAD-Mangel und ist mit maternaler HELLP-Assoziation und schwerer Retinopathie verknüpft.</p>
+            </div>
+            
+            <div class="next-section">
+                <h3>🔄 Nächster Abschnitt</h3>
+                <p>Teil 2: Klinische Präsentation & Diagnostik</p>
+                <p>Lernen Sie die altersabhängigen Manifestationen, diagnostischen Kriterien und Laborparameter zur sicheren Diagnosestellung kennen.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

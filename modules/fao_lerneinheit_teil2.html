@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fettsäure-Oxidationsstörungen - Teil 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8e44ad, #e74c3c, #f39c12);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: "🩺";
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #8e44ad, #e74c3c);
+            width: 66%;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .info-box .icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .nav-item {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header::before {
+            content: "🔬";
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        
+        .section-header h2 {
+            color: #8e44ad;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .age-group-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .age-group {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e91e63;
+        }
+        
+        .age-group h3 {
+            color: #ad1457;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .age-group.neonatal h3::before { content: "👶"; margin-right: 10px; }
+        .age-group.infant h3::before { content: "🍼"; margin-right: 10px; }
+        .age-group.child h3::before { content: "🧒"; margin-right: 10px; }
+        .age-group.adult h3::before { content: "👨‍⚕️"; margin-right: 10px; }
+        
+        .symptom-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .symptom-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .symptom-list li.severe::before {
+            content: "🔴";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        
+        .symptom-list li.moderate::before {
+            content: "🟡";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        
+        .symptom-list li.mild::before {
+            content: "🟢";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        
+        .diagnostic-flowchart {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #ff9800;
+        }
+        
+        .diagnostic-flowchart h3 {
+            color: #ef6c00;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .diagnostic-flowchart h3::before {
+            content: "🔄";
+            margin-right: 10px;
+        }
+        
+        .flowchart-step {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            position: relative;
+        }
+        
+        .flowchart-step.decision {
+            border-left-color: #2196f3;
+            background: #e3f2fd;
+        }
+        
+        .flowchart-step.action {
+            border-left-color: #4caf50;
+            background: #e8f5e8;
+        }
+        
+        .flowchart-step.warning {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        
+        .lab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .lab-table th {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .lab-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .lab-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .lab-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .case-study {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .case-study h3 {
+            color: #2e7d32;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .case-study h3::before {
+            content: "📋";
+            margin-right: 10px;
+        }
+        
+        .case-details {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .differential-box {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #9c27b0;
+        }
+        
+        .differential-box h3 {
+            color: #6a1b9a;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .differential-box h3::before {
+            content: "🔍";
+            margin-right: 10px;
+        }
+        
+        .differential-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .checklist {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #ffc107;
+        }
+        
+        .checklist h3 {
+            color: #f57f17;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checklist h3::before {
+            content: "✅";
+            margin-right: 10px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,193,7,0.3);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .emergency-box {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #f44336;
+        }
+        
+        .emergency-box h3 {
+            color: #c62828;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .emergency-box h3::before {
+            content: "🚨";
+            margin-right: 10px;
+        }
+        
+        .next-section {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .next-section h3 {
+            margin: 0 0 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .age-group-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .lab-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Fettsäure-Oxidationsstörungen</h1>
+            <div class="subtitle">Teil 2: Klinische Präsentation & Diagnostik</div>
+        </header>
+        
+        <div class="progress-bar"></div>
+        
+        <div class="info-box">
+            <span class="icon">🔬</span>
+            <strong>Lerneinheit Teil 2</strong><br>
+            Dieser Teil behandelt die altersabhängigen klinischen Manifestationen, diagnostischen Algorithmen und Laborparameter für eine sichere Diagnosestellung in der klinischen Praxis.
+        </div>
+        
+        <nav class="navigation">
+            <button class="nav-item" onclick="alert('Teil 1: Grundlagen & Pathophysiologie')">1. GRUNDLAGEN</button>
+            <button class="nav-item active">2. KLINISCHE PRÄSENTATION</button>
+            <button class="nav-item active">3. DIAGNOSTIK</button>
+            <button class="nav-item" onclick="alert('Teil 3 folgt: Therapie & Notfallmanagement')">4. THERAPIE</button>
+            <button class="nav-item" onclick="alert('Teil 3 folgt: Therapie & Notfallmanagement')">5. NOTFALLMANAGEMENT</button>
+        </nav>
+        
+        <main class="content">
+            <div class="section-header">
+                <h2>Klinische Präsentation nach Altersgruppen</h2>
+            </div>
+            
+            <div class="age-group-container">
+                <div class="age-group neonatal">
+                    <h3>Neonatalperiode (0-28 Tage)</h3>
+                    <ul class="symptom-list">
+                        <li class="severe"><strong>Schwere Hypoglykämie</strong> (oft hypoketon)</li>
+                        <li class="severe"><strong>Hyperammonämie</strong> (>100 μmol/L)</li>
+                        <li class="severe"><strong>Metabolische Azidose</strong></li>
+                        <li class="severe"><strong>Hepatomegalie mit Leberfunktionsstörung</strong></li>
+                        <li class="moderate"><strong>Kardiomyopathie</strong> (VLCAD, LCHAD/TFP)</li>
+                        <li class="moderate"><strong>Lethargie, Trinkschwäche</strong></li>
+                        <li class="mild">Hypothermie</li>
+                        <li class="mild">Gedeihstörung</li>
+                    </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 5px;">
+                        <strong>Typisch für:</strong> VLCAD (schwere Form), LCHAD/TFP, MADD
+                    </div>
+                </div>
+                
+                <div class="age-group infant">
+                    <h3>Säuglingsalter (1-12 Monate)</h3>
+                    <ul class="symptom-list">
+                        <li class="severe"><strong>Hypoketon Hypoglykämie</strong> bei Fasten/Fieber</li>
+                        <li class="severe"><strong>Plötzlicher Kindstod (SIDS)</strong></li>
+                        <li class="moderate"><strong>Hepatomegalie</strong></li>
+                        <li class="moderate"><strong>Entwicklungsverzögerung</strong></li>
+                        <li class="moderate"><strong>Rezidivierende Erbrechen/Lethargie</strong></li>
+                        <li class="mild">Hypotonie</li>
+                        <li class="mild">Gedeihstörung</li>
+                    </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 5px;">
+                        <strong>Typisch für:</strong> MCAD (häufigste Manifestation), primärer Carnitin-Mangel
+                    </div>
+                </div>
+                
+                <div class="age-group child">
+                    <h3>Kindesalter (1-18 Jahre)</h3>
+                    <ul class="symptom-list">
+                        <li class="severe"><strong>Belastungsintoleranz</strong></li>
+                        <li class="severe"><strong>Rhabdomyolyse bei Anstrengung</strong></li>
+                        <li class="moderate"><strong>Myalgie und Muskelschwäche</strong></li>
+                        <li class="moderate"><strong>Episodische Hypoglykämie</strong></li>
+                        <li class="moderate"><strong>Rezidivierende Myoglobinurie</strong></li>
+                        <li class="mild">Periphere Retinopathie (LCHAD)</li>
+                        <li class="mild">Polyneuropathie (LCHAD)</li>
+                    </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 5px;">
+                        <strong>Typisch für:</strong> VLCAD (milde Form), CPT II, späte MCAD-Manifestation
+                    </div>
+                </div>
+                
+                <div class="age-group adult">
+                    <h3>Erwachsenenalter (>18 Jahre)</h3>
+                    <ul class="symptom-list">
+                        <li class="severe"><strong>Belastungsmyopathie</strong></li>
+                        <li class="severe"><strong>Rhabdomyolyse</strong> bei prolongierter Anstrengung</li>
+                        <li class="moderate"><strong>Exercise intolerance</strong></li>
+                        <li class="moderate"><strong>Myalgie nach Sport</strong></li>
+                        <li class="mild">Muskelschwäche</li>
+                        <li class="mild">Erhöhte CK-Werte</li>
+                    </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 5px;">
+                        <strong>Typisch für:</strong> CPT II (myopathische Form), VLCAD (milde Form)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="emergency-box">
+                <h3>Trigger für metabolische Entgleisungen</h3>
+                <ul>
+                    <li><strong>Fasten:</strong> >12h Säuglinge, >16h Kleinkinder, >18h Kinder</li>
+                    <li><strong>Fieberhafte Infekte:</strong> Besonders gastrointestinal mit Erbrechen</li>
+                    <li><strong>Anästhesie/Operationen:</strong> Perioperatives Fasten</li>
+                    <li><strong>Körperliche Belastung:</strong> Prolongierte Ausdauerbelastung</li>
+                    <li><strong>Kälteexposition:</strong> Erhöhter Energiebedarf</li>
+                    <li><strong>Schwangerschaft:</strong> Erhöhter metabolischer Bedarf</li>
+                </ul>
+            </div>
+            
+            <div class="section-header">
+                <h2>Diagnostischer Algorithmus</h2>
+            </div>
+            
+            <div class="diagnostic-flowchart">
+                <h3>Schrittweise Diagnostik bei Verdacht auf FAO-Störung</h3>
+                
+                <div class="flowchart-step">
+                    <h4>1. Anamnese und klinische Präsentation</h4>
+                    <p><strong>Verdachtsmomente:</strong> Hypoketon Hypoglykämie, Familienanamnese, Konsanguinität, auffälliges Neugeborenenscreening</p>
+                </div>
+                
+                <div class="flowchart-step decision">
+                    <h4>2. Akutdiagnostik (bei metabolischer Krise)</h4>
+                    <p><strong>Sofortige Bestimmung:</strong></p>
+                    <ul>
+                        <li>Blutzucker, Laktat, Blutgase</li>
+                        <li>Ammoniak, Transaminasen</li>
+                        <li>Ketonkörper (Blut/Urin)</li>
+                        <li>CK, Myoglobin (bei Myopathie-Verdacht)</li>
+                    </ul>
+                </div>
+                
+                <div class="flowchart-step action">
+                    <h4>3. Spezialdiagnostik</h4>
+                    <p><strong>Acylcarnitin-Profil (Trockenblut):</strong></p>
+                    <ul>
+                        <li>Erweitert um freies und Gesamt-Carnitin</li>
+                        <li>Bestimmung pathognomischer Metabolite</li>
+                        <li>Idealerweise im Fasten-/Krankheitszustand</li>
+                    </ul>
+                </div>
+                
+                <div class="flowchart-step action">
+                    <h4>4. Ergänzende Diagnostik</h4>
+                    <p><strong>Organische Säuren (Urin):</strong></p>
+                    <ul>
+                        <li>Adipinsäure, Suberinsäure (MCAD)</li>
+                        <li>Dicarbonsäuren C6-C14 (VLCAD, LCHAD)</li>
+                        <li>3-Hydroxydicarbonsäuren (LCHAD)</li>
+                    </ul>
+                </div>
+                
+                <div class="flowchart-step warning">
+                    <h4>5. Bestätigungsdiagnostik</h4>
+                    <p><strong>Enzymanalytik und/oder Molekulargenetik:</strong></p>
+                    <ul>
+                        <li>Fibroblastenkultur für Enzymanalytik</li>
+                        <li>Gezielte Sequenzierung bekannter Gene</li>
+                        <li>Panel-Diagnostik oder Exom-Sequenzierung</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Laborparameter und Interpretation</h3>
+            
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th>Erkrankung</th>
+                        <th>Primäre Acylcarnitine</th>
+                        <th>Organische Säuren</th>
+                        <th>Besonderheiten</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MCAD-Mangel</strong></td>
+                        <td>C8-Acylcarnitin ↑↑<br>C6, C10:1-Acylcarnitin ↑</td>
+                        <td>Adipinsäure ↑<br>Suberinsäure ↑<br>Sebacinsäure ↑</td>
+                        <td>C8/C2-Ratio >0,5<br>Hypoketon Hypoglykämie</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VLCAD-Mangel</strong></td>
+                        <td>C14:1-Acylcarnitin ↑↑<br>C14, C16, C18:1 ↑</td>
+                        <td>Tetradecandisäure ↑<br>Lange Dicarbonsäuren ↑</td>
+                        <td>C14:1/C2-Ratio >0,03<br>Kardiomyopathie möglich</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LCHAD/TFP-Mangel</strong></td>
+                        <td>C16-OH, C18:1-OH ↑↑<br>C16, C18:1 ↑</td>
+                        <td>3-OH-Dicarbonsäuren ↑<br>Lange Dicarbonsäuren ↑</td>
+                        <td>3-OH-C16:0/C2 >0,01<br>Retinopathie bei LCHAD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CPT I-Mangel</strong></td>
+                        <td>Freies Carnitin ↑↑<br>Gesamt-Acylcarnitine ↓</td>
+                        <td>Meist unauffällig</td>
+                        <td>Ketonurie bei Fasten ↓<br>Hepatomegalie</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CPT II-Mangel</strong></td>
+                        <td>C16, C18:1-Acylcarnitin ↑<br>Bei Myopathie oft normal</td>
+                        <td>Variable</td>
+                        <td>CK ↑↑ bei Rhabdomyolyse<br>Myoglobinurie</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Primärer Carnitin-Mangel</strong></td>
+                        <td>Freies Carnitin ↓↓<br>(<5 μmol/L)</td>
+                        <td>Meist unauffällig</td>
+                        <td>Maternaler Carnitin-Mangel<br>Kardiomyopathie</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="case-study">
+                <h3>Fallbeispiel: 8 Monate alter Säugling</h3>
+                <div class="case-details">
+                    <h4>Anamnese:</h4>
+                    <p>8 Monate alter Säugling wird bewusstlos in der Notaufnahme vorgestellt. Die Eltern berichten über 2-tägige Gastroenteritis mit Erbrechen und reduzierter Nahrungsaufnahme. Neugeborenenscreening war unauffällig.</p>
+                    
+                    <h4>Laborwerte:</h4>
+                    <ul>
+                        <li>Blutzucker: 28 mg/dl (1,6 mmol/L)</li>
+                        <li>Ketonkörper (Blut): 0,2 mmol/L (↓)</li>
+                        <li>Ammoniak: 145 μmol/L (↑)</li>
+                        <li>AST: 350 U/L, ALT: 280 U/L</li>
+                        <li>CK: 850 U/L</li>
+                    </ul>
+                    
+                    <h4>Acylcarnitin-Profil:</h4>
+                    <ul>
+                        <li>C8-Acylcarnitin: 8,2 μmol/L (↑↑)</li>
+                        <li>C10:1-Acylcarnitin: 2,1 μmol/L (↑)</li>
+                        <li>C8/C2-Ratio: 0,65</li>
+                    </ul>
+                    
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                        <strong>🎯 Diagnose:</strong> MCAD-Mangel<br>
+                        <strong>💡 Lernpunkt:</strong> Hypoketon Hypoglykämie + erhöhtes C8-Acylcarnitin = MCAD-Mangel bis zum Beweis des Gegenteils
+                    </div>
+                </div>
+            </div>
+            
+            <div class="differential-box">
+                <h3>Differentialdiagnosen</h3>
+                
+                <div class="differential-item">
+                    <h4>Bei hypoketon Hypoglykämie:</h4>
+                    <ul>
+                        <li><strong>Hyperinsulinismus:</strong> C-Peptid ↑, Insulin ↑</li>
+                        <li><strong>Glykogenosen:</strong> Laktat ↑, normale Acylcarnitine</li>
+                        <li><strong>Glukoneogenese-Defekte:</strong> Laktat ↑, organische Säuren auffällig</li>
+                    </ul>
+                </div>
+                
+                <div class="differential-item">
+                    <h4>Bei Myopathie/Rhabdomyolyse:</h4>
+                    <ul>
+                        <li><strong>Glykogenosen (McArdle, Pompe):</strong> Normale Acylcarnitine</li>
+                        <li><strong>Mitochondriopathien:</strong> Laktat ↑, komplexe Enzymdefekte</li>
+                        <li><strong>Muskeldystrophien:</strong> Progressive Symptomatik, CK persistiert ↑</li>
+                    </ul>
+                </div>
+                
+                <div class="differential-item">
+                    <h4>Bei Kardiomyopathie:</h4>
+                    <ul>
+                        <li><strong>Danon-Erkrankung:</strong> LAMP2-Mutation, Speicher-Myopathie</li>
+                        <li><strong>Pompe-Erkrankung:</strong> α-Glucosidase-Mangel, normale Acylcarnitine</li>
+                        <li><strong>Barth-Syndrom:</strong> TAZ-Mutation, 3-Methylglutaconsäure ↑</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="checklist">
+                <h3>Diagnostische Checkliste</h3>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Familienanamnese auf plötzlichen Kindstod oder ungeklärte Todesfälle erhoben</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Trigger-Situationen (Fasten, Infekt, Belastung) identifiziert</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Acylcarnitin-Profil im symptomatischen Zustand abgenommen</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Organische Säuren im Urin (24h oder Spontanurin) bestimmt</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">Bei Verdacht auf LCHAD: Ophthalmologische Untersuchung veranlasst</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">Bei Kardiomyopathie: Echokardiographie und EKG dokumentiert</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check7">
+                    <label for="check7">Geschwister/Familienmitglieder gescreent (bei positiver Diagnostik)</label>
+                </div>
+                
+                <div class="checklist-item">
+                    <input type="checkbox" id="check8">
+                    <label for="check8">Molekulargenetische Bestätigung eingeleitet</label>
+                </div>
+            </div>
+            
+            <div class="next-section">
+                <h3>🔄 Nächster Abschnitt</h3>
+                <p>Teil 3: Therapie & Notfallmanagement</p>
+                <p>Lernen Sie die therapeutischen Strategien, Notfall-Protokolle und Langzeitbetreuung kennen.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple interactivity for checklist
+        document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    this.parentElement.style.background = 'rgba(76, 175, 80, 0.1)';
+                } else {
+                    this.parentElement.style.background = 'transparent';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
