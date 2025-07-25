@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdate": "2025-07-25T04:16:31.486Z",
+  "lastUpdate": "2025-07-25T04:26:47.516Z",
   "totalModules": 51,
   "modules": {
     "aminosaeuren": {
@@ -55,7 +55,7 @@
         }
       ]
     },
-    "cholesterol_steroid": {
+    "cholesterolsteroid": {
       "title": "Cholesterol_Steroid",
       "icon": "📚",
       "modules": [
