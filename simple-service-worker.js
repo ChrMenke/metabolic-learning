@@ -56,6 +56,7 @@ const urlsToCache = [
   './modules/Speichererkrankungen/peroxisomal_disorders_part1.html',
   './modules/Speichererkrankungen/peroxisomal_disorders_part2.html',
   './modules/Speichererkrankungen/peroxisomal_disorders_part3.html',
+  './modules/Vitamine/systematische_befundung.html',
   './modules/Vitamine/vitamin_cofactor_defects.html'
 ];
 
