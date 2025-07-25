@@ -109,7 +109,7 @@ async function updateModules() {
   updateServiceWorker(allModuleFiles);
   
   // Master.html aktualisieren - NEUE ROBUSTE VERSION
-  updateMasterHTML(modules);
+  //updateMasterHTML(modules);
   
   console.log('\n🎉 Update abgeschlossen!');
 }
