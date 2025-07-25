@@ -84,10 +84,8 @@ async function updateModules() {
   const modulesDir = './modules';
   if (!fs.existsSync(modulesDir)) {
     console.log('⚠️ Kein modules/ Ordner gefunden. Scanne Hauptverzeichnis...');
-    // Fallback: Scanne Hauptverzeichnis
     scanRootDirectory(modules, allModuleFiles);
   } else {
-    // Scanne modules/ Ordner
     scanModulesDirectory(modulesDir, modules, allModuleFiles);
   }
   
@@ -110,7 +108,7 @@ async function updateModules() {
   // Service Worker aktualisieren
   updateServiceWorker(allModuleFiles);
   
-  // Master.html aktualisieren
+  // Master.html aktualisieren - NEUE ROBUSTE VERSION
   updateMasterHTML(modules);
   
   console.log('\n🎉 Update abgeschlossen!');
@@ -127,11 +125,11 @@ function scanModulesDirectory(modulesDir, modules, allModuleFiles) {
     const categoryPath = path.join(modulesDir, category);
     const files = fs.readdirSync(categoryPath)
       .filter(f => f.endsWith('.html'))
-      .sort(); // Alphabetisch sortieren
+      .sort();
     
     if (files.length === 0) return;
     
-    // Kategorie-Info (mit Fallback für neue Kategorien)
+    // Kategorie-Info - verwende Ordnername als Key
     const categoryKey = category.toLowerCase().replace(/[^a-z0-9]/g, '');
     const info = CATEGORY_INFO[categoryKey] || {
       title: category.charAt(0).toUpperCase() + category.slice(1),
@@ -170,7 +168,6 @@ function scanRootDirectory(modules, allModuleFiles) {
   
   console.log(`📁 ${files.length} Module im Hauptverzeichnis gefunden\n`);
   
-  // Versuche Module zu kategorisieren
   files.forEach(file => {
     const category = categorizeByFilename(file);
     const title = extractTitleFromHTML(file);
@@ -232,7 +229,6 @@ function updateServiceWorker(moduleFiles) {
   
   let swContent = fs.readFileSync(swPath, 'utf8');
   
-  // urlsToCache Array finden und ersetzen
   const urlsToCacheRegex = /const urlsToCache = \[([\s\S]*?)\];/;
   
   const baseFiles = [
@@ -253,7 +249,7 @@ function updateServiceWorker(moduleFiles) {
   console.log('✅ Service Worker aktualisiert');
 }
 
-// Master.html aktualisieren - VERBESSERTE VERSION
+// ROBUSTE Master.html Aktualisierung - NEUE VERSION
 function updateMasterHTML(modules) {
   console.log('\n📄 Aktualisiere Master.html...');
   
@@ -265,95 +261,128 @@ function updateMasterHTML(modules) {
   
   let content = fs.readFileSync(masterPath, 'utf8');
   
-  // Suche nach vorhandenem modules Code
-  const startMarker = 'const modules = {';
-  const startIndex = content.indexOf(startMarker);
+  // ROBUSTEN REGEX-ANSATZ verwenden
+  // Suche nach: const modules = { ... };
+  const modulesRegex = /const\s+modules\s*=\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\};/gs;
   
-  if (startIndex === -1) {
-    // KEIN modules Code gefunden - EINFÜGEN!
-    console.log('🆕 Kein modules Code gefunden - füge neuen ein...');
+  const modulesMatch = content.match(modulesRegex);
+  
+  if (!modulesMatch) {
+    console.log('❌ Konnte modules Block nicht finden mit Regex');
     
-    // Suche nach </style> Tag um den Script dort einzufügen
-    const styleEndIndex = content.indexOf('</style>');
-    if (styleEndIndex === -1) {
-      console.log('❌ Konnte </style> Tag nicht finden!');
-      return;
+    // ALTERNATIVE: Einfache Suche und manueller Parser
+    const startMarker = 'const modules = {';
+    const startIndex = content.indexOf(startMarker);
+    
+    if (startIndex === -1) {
+      console.log('🆕 Kein modules Code gefunden - füge neuen ein...');
+      
+      // Suche nach </style> oder <script>
+      let insertPoint = content.indexOf('</style>');
+      if (insertPoint === -1) {
+        insertPoint = content.indexOf('<script>');
+        if (insertPoint === -1) {
+          console.log('❌ Konnte keinen Einfügepunkt finden!');
+          return;
+        }
+      }
+      
+      // Erstelle neuen modules Code
+      const modulesStr = JSON.stringify(modules, null, 4);
+      const newScript = insertPoint === content.indexOf('</style>') 
+        ? `</style>\n\n<script>\nconst modules = ${modulesStr};\n</script>`
+        : `\nconst modules = ${modulesStr};\n`;
+      
+      // Füge ein
+      if (insertPoint === content.indexOf('</style>')) {
+        content = content.replace('</style>', newScript);
+      } else {
+        const scriptStart = content.indexOf('<script>') + 8;
+        content = content.substring(0, scriptStart) + newScript + content.substring(scriptStart);
+      }
+      
+    } else {
+      // Verwende robusteren manuellen Parser
+      console.log('🔄 Verwende manuellen Parser...');
+      const endIndex = findModulesEnd(content, startIndex + startMarker.length);
+      
+      if (endIndex === -1) {
+        console.log('❌ Konnte Ende des modules Block nicht finden');
+        return;
+      }
+      
+      // Erstelle neuen Code
+      const modulesStr = JSON.stringify(modules, null, 4);
+      const newModulesVar = `const modules = ${modulesStr};`;
+      
+      // Ersetze
+      content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
     }
-    
-    // Erstelle den modules JavaScript Code
-    const modulesStr = JSON.stringify(modules, null, 4)
-      .replace(/"([^"]+)":/g, '$1:')
-      .replace(/"/g, "'");
-    
-    const newScriptSection = `</style>
-
-<script>
-// Modulkonfiguration - Automatisch generiert von update-modules.js
-const modules = ${modulesStr};
-
-// Weitere JavaScript-Funktionen...
-function loadModule(moduleName) {
-    // Wird später implementiert
-    console.log('Lade Modul:', moduleName);
-}
-
-function showCategory(categoryKey) {
-    // Wird später implementiert
-    console.log('Zeige Kategorie:', categoryKey);
-}
-</script>`;
-    
-    // Ersetze </style> mit </style> + Script
-    content = content.replace('</style>', newScriptSection);
     
   } else {
-    // modules Code GEFUNDEN - ERSETZEN!
-    console.log('🔄 modules Code gefunden - aktualisiere...');
+    console.log('✅ modules Block mit Regex gefunden');
     
-    // Finde das schließende };
-    let braceCount = 0;
-    let endIndex = startIndex + startMarker.length;
-    let inString = false;
-    let stringChar = '';
+    // Erstelle neuen Code
+    const modulesStr = JSON.stringify(modules, null, 4);
+    const newModulesVar = `const modules = ${modulesStr};`;
     
-    for (let i = endIndex; i < content.length; i++) {
-      const char = content[i];
-      
-      // String-Handling für beide ' und "
-      if ((char === '"' || char === "'") && content[i-1] !== '\\') {
-        if (!inString) {
-          inString = true;
-          stringChar = char;
-        } else if (char === stringChar) {
-          inString = false;
-          stringChar = '';
-        }
-      }
-      
+    // Ersetze mit Regex
+    content = content.replace(modulesRegex, newModulesVar);
+  }
+  
+  // Backup erstellen
+  fs.writeFileSync('Master.html.backup', fs.readFileSync(masterPath));
+  
+  // Speichere neue Datei
+  fs.writeFileSync(masterPath, content);
+  console.log('✅ Master.html aktualisiert (Backup erstellt: Master.html.backup)');
+}
+
+// Hilfsfunktion: Finde Ende des modules Blocks
+function findModulesEnd(content, startPos) {
+  let braceCount = 0;
+  let inString = false;
+  let stringChar = '';
+  let i = startPos;
+  
+  // Überspringe das erste {
+  while (i < content.length && content[i] !== '{') i++;
+  if (i >= content.length) return -1;
+  
+  for (i = i + 1; i < content.length; i++) {
+    const char = content[i];
+    const prevChar = i > 0 ? content[i - 1] : '';
+    
+    // String-Handling
+    if ((char === '"' || char === "'") && prevChar !== '\\') {
       if (!inString) {
-        if (char === '{') braceCount++;
-        if (char === '}') {
-          if (braceCount === 0) {
-            endIndex = i + 1;
-            break;
-          }
-          braceCount--;
-        }
+        inString = true;
+        stringChar = char;
+      } else if (char === stringChar) {
+        inString = false;
+        stringChar = '';
       }
     }
     
-    // Ersetze den modules Teil
-    const modulesStr = JSON.stringify(modules, null, 4)
-      .replace(/"([^"]+)":/g, '$1:')
-      .replace(/"/g, "'");
-    
-    const newModulesVar = `const modules = ${modulesStr};`;
-    
-    content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
+    if (!inString) {
+      if (char === '{') {
+        braceCount++;
+      } else if (char === '}') {
+        if (braceCount === 0) {
+          // Suche das schließende ;
+          let j = i + 1;
+          while (j < content.length && /\s/.test(content[j])) j++;
+          if (j < content.length && content[j] === ';') {
+            return j + 1;
+          }
+          return i + 1;
+        }
+        braceCount--;
+      }
+    }
   }
   
-  fs.writeFileSync(masterPath, content);
-  console.log('✅ Master.html aktualisiert');
+  return -1;
 }
 
 // Script ausführen
