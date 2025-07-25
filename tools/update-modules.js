@@ -77,65 +77,7 @@ function generateSubtitle(filename) {
 async function updateModules() {
   console.log('🔍 Scanne nach HTML-Modulen...\n');
   
-  const modules = {function updateMasterHTML(modules) {
-  console.log('\n📄 Aktualisiere Master.html...');
-  
-  const masterPath = './Master.html';
-  if (!fs.existsSync(masterPath)) {
-    console.log('⚠️ Master.html nicht gefunden!');
-    return;
-  }
-  
-  let content = fs.readFileSync(masterPath, 'utf8');
-  
-  // NEUER ANSATZ: Suche nach dem genauen Text
-  const startMarker = 'const modules = {';
-  const startIndex = content.indexOf(startMarker);
-  
-  if (startIndex === -1) {
-    console.log('❌ Konnte "const modules = {" nicht finden!');
-    console.log('Erste 500 Zeichen von Master.html:');
-    console.log(content.substring(0, 500));
-    return;
-  }
-  
-  // Finde das schließende };
-  let braceCount = 0;
-  let endIndex = startIndex + startMarker.length;
-  let inString = false;
-  
-  for (let i = endIndex; i < content.length; i++) {
-    const char = content[i];
-    
-    // String-Handling
-    if (char === '"' && content[i-1] !== '\\') {
-      inString = !inString;
-    }
-    
-    if (!inString) {
-      if (char === '{') braceCount++;
-      if (char === '}') {
-        if (braceCount === 0) {
-          endIndex = i + 1;
-          break;
-        }
-        braceCount--;
-      }
-    }
-  }
-  
-  // Ersetze den modules Teil
-  const modulesStr = JSON.stringify(modules, null, 4)
-    .replace(/"([^"]+)":/g, '$1:')
-    .replace(/"/g, "'");
-  
-  const newModulesVar = `const modules = ${modulesStr};`;
-  
-  content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
-  
-  fs.writeFileSync(masterPath, content);
-  console.log('✅ Master.html aktualisiert');
-};
+  const modules = {};
   const allModuleFiles = [];
   
   // Prüfe ob modules Ordner existiert
@@ -323,17 +265,50 @@ function updateMasterHTML(modules) {
   
   let content = fs.readFileSync(masterPath, 'utf8');
   
-  // modules Variable finden und ersetzen
-  const modulesRegex = /const modules = {[\s\S]*?};/;
+  // NEUER ANSATZ: Suche nach dem genauen Text
+  const startMarker = 'const modules = {';
+  const startIndex = content.indexOf(startMarker);
   
-  // Formatiere das modules Objekt schön
+  if (startIndex === -1) {
+    console.log('❌ Konnte "const modules = {" nicht finden!');
+    console.log('Erste 500 Zeichen von Master.html:');
+    console.log(content.substring(0, 500));
+    return;
+  }
+  
+  // Finde das schließende };
+  let braceCount = 0;
+  let endIndex = startIndex + startMarker.length;
+  let inString = false;
+  
+  for (let i = endIndex; i < content.length; i++) {
+    const char = content[i];
+    
+    // String-Handling
+    if (char === '"' && content[i-1] !== '\\') {
+      inString = !inString;
+    }
+    
+    if (!inString) {
+      if (char === '{') braceCount++;
+      if (char === '}') {
+        if (braceCount === 0) {
+          endIndex = i + 1;
+          break;
+        }
+        braceCount--;
+      }
+    }
+  }
+  
+  // Ersetze den modules Teil
   const modulesStr = JSON.stringify(modules, null, 4)
-    .replace(/"([^"]+)":/g, '$1:')  // Entferne Quotes von Keys
-    .replace(/"/g, '"');  // Ersetze Quotes mit schönen Quotes
+    .replace(/"([^"]+)":/g, '$1:')
+    .replace(/"/g, "'");
   
   const newModulesVar = `const modules = ${modulesStr};`;
   
-  content = content.replace(modulesRegex, newModulesVar);
+  content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
   
   fs.writeFileSync(masterPath, content);
   console.log('✅ Master.html aktualisiert');
