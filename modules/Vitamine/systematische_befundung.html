@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systematische Befundung - Angeborene Stoffwechselerkrankungen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafb;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(21, 101, 192, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+            border-left: 5px solid #1976d2;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #1976d2;
+        }
+
+        .section h2 {
+            color: #1976d2;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 0.5rem;
+        }
+
+        .interpretation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .interpretation-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .interpretation-card:hover {
+            border-color: #1976d2;
+            box-shadow: 0 6px 25px rgba(25, 118, 210, 0.15);
+        }
+
+        .interpretation-card h3 {
+            color: #1976d2;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comprehensive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .comprehensive-table th {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .comprehensive-table td {
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+
+        .comprehensive-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .amino-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .amino-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .amino-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .amino-card h4 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .pathway-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .pathway-box h4 {
+            color: #f57c00;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .highlight-increased {
+            background-color: #ffebee;
+            color: #d32f2f;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .highlight-decreased {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .highlight-normal {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .algorithm-box {
+            background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%);
+            border: 2px solid #9c27b0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .algorithm-box h4 {
+            color: #7b1fa2;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .step-list li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #1976d2;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .search-box {
+            background: white;
+            border: 2px solid #1976d2;
+            border-radius: 25px;
+            padding: 12px 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: #1976d2;
+            color: white;
+        }
+
+        .chromatogram-example {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .chromatogram-example img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .chromatogram-example caption {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        .diagnostic-flow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: #1976d2;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child):after {
+            content: "→";
+            position: absolute;
+            right: -1.5rem;
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .reference-ranges {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .reference-ranges h5 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+
+        .range-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .range-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.2rem 0;
+            border-bottom: 1px solid #ffe0b2;
+        }
+
+        @media (max-width: 1024px) {
+            .interpretation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comprehensive-table {
+                font-size: 0.8rem;
+            }
+            
+            .comprehensive-table th,
+            .comprehensive-table td {
+                padding: 6px 4px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .amino-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+
+            .diagnostic-flow {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .flow-step:not(:last-child):after {
+                content: "↓";
+                position: static;
+                text-align: center;
+                color: #1976d2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Systematische Befundung</h1>
+            <p>Angeborene Stoffwechselerkrankungen - Strukturierte Interpretation von Aminosäure-Profilen und organischen Säuren</p>
+        </div>
+
+        <div class="info-box">
+            💡 <strong>Expertentipp:</strong> Systematische Befundung in 4 Schritten: Aminosäure-Profil → Organische Säuren → Kombinierte Interpretation → Differentialdiagnose
+        </div>
+
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Suche nach Aminosäure, Erkrankung oder Laborwert..." onkeyup="searchTable()">
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('amino-acids')">AMINOSÄURE-PROFILE</button>
+            <button class="nav-btn" onclick="showSection('organic-acids')">ORGANISCHE SÄUREN</button>
+            <button class="nav-btn" onclick="showSection('combined')">KOMBINIERTE BEFUNDUNG</button>
+            <button class="nav-btn" onclick="showSection('algorithms')">DIAGNOSE-ALGORITHMEN</button>
+        </div>
+
+        <!-- AMINOSÄURE-PROFILE SECTION -->
+        <div id="amino-acids" class="section">
+            <h2>🧬 Aminosäure-Profile Interpretation</h2>
+
+            <div class="filter-tags">
+                <span class="filter-tag active" onclick="filterTable('all')">Alle</span>
+                <span class="filter-tag" onclick="filterTable('hyperammonemia')">Hyperammonämie</span>
+                <span class="filter-tag" onclick="filterTable('transport')">Transport</span>
+                <span class="filter-tag" onclick="filterTable('enzyme')">Enzymdefekte</span>
+                <span class="filter-tag" onclick="filterTable('emergency')">Notfall</span>
+            </div>
+
+            <div class="pathway-box">
+                <h4>🎯 Systematische Interpretation nach Leitsymptomen</h4>
+                <div class="diagnostic-flow">
+                    <span class="flow-step">Erhöhte Aminosäure identifizieren</span>
+                    <span class="flow-step">Begleitmuster analysieren</span>
+                    <span class="flow-step">Klinischen Kontext einbeziehen</span>
+                    <span class="flow-step">Differentialdiagnose erstellen</span>
+                </div>
+            </div>
+
+            <table class="comprehensive-table" id="aminoTable">
+                <thead>
+                    <tr>
+                        <th>Plasma Aminosäure</th>
+                        <th>Variation</th>
+                        <th>Begleit-AA</th>
+                        <th>Andere Fluids</th>
+                        <th>Diagnosen</th>
+                        <th>Kategorie</th>
+                        <th>Klinische Relevanz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-category="hyperammonemia emergency">
+                        <td><strong>Glutamin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Cit ↓, Orn ↓, Arg ↓</td>
+                        <td>U: Orotsäure ↑</td>
+                        <td><strong>OTC, NAGS, CPS</strong></td>
+                        <td>Hyperammonämie</td>
+                        <td>Notfall - sofortige Entgiftung</td>
+                    </tr>
+                    <tr data-category="hyperammonemia emergency">
+                        <td><strong>Citrullin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Gln ↑↑, Arg ↓</td>
+                        <td>U: ASA N, Orotsäure ↑</td>
+                        <td><strong>ASS (Citrullinämie)</strong></td>
+                        <td>Hyperammonämie</td>
+                        <td>Akute Dekompensation möglich</td>
+                    </tr>
+                    <tr data-category="hyperammonemia emergency">
+                        <td><strong>Argininosuccinic acid</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Gln ↑, Cit ↑</td>
+                        <td>U: ASA ↑↑↑</td>
+                        <td><strong>ASL-Defekt</strong></td>
+                        <td>Hyperammonämie</td>
+                        <td>Zyklische Metabolite sichtbar</td>
+                    </tr>
+                    <tr data-category="hyperammonemia">
+                        <td><strong>Arginin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Gln N/↑, Orn ↓</td>
+                        <td>U: Orotsäure ↑↑↑</td>
+                        <td><strong>Arginase-Mangel</strong></td>
+                        <td>Hyperammonämie</td>
+                        <td>Milde Hyperammonämie</td>
+                    </tr>
+                    <tr data-category="transport">
+                        <td><strong>Cystin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>Orn ↑, Lys ↑, Arg ↑</td>
+                        <td>U: alle dibasic AA ↑</td>
+                        <td><strong>Cystinurie klassisch</strong></td>
+                        <td>Transport</td>
+                        <td>Urolithiasis-Risiko</td>
+                    </tr>
+                    <tr data-category="transport emergency">
+                        <td><strong>Lysin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Gln ↑, Cit ↑, Orn ↓</td>
+                        <td>U: Lys ↑↑↑, Orotsäure ↑</td>
+                        <td><strong>LPI-Syndrom</strong></td>
+                        <td>Transport</td>
+                        <td>Protein-Intoleranz</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Methionin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>HCys2 ↑, Cys2 ↓</td>
+                        <td>U: HCys2 ↑</td>
+                        <td><strong>CBS-Mangel</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Thromboembolie-Risiko</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Phenylalanin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Tyr ↓</td>
+                        <td>UOA: Phenolsäuren ↑</td>
+                        <td><strong>PKU klassisch</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Neurologische Entwicklung</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Tyrosin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Met ↑, BCAA ↓</td>
+                        <td>UOA: Succinylaceton +</td>
+                        <td><strong>Tyrosinämie Typ I</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Hepatozelluläres Karzinom</td>
+                    </tr>
+                    <tr data-category="enzyme emergency">
+                        <td><strong>BCAA (alle)</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>AIle +++, Ala ↓</td>
+                        <td>UOA: α-Ketosäuren ↑</td>
+                        <td><strong>MSUD (Ahornsirup)</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Akute Enzephalopathie</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Homocystin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>Met ↓/N, Cys ↓</td>
+                        <td>U: HCys2 ↑</td>
+                        <td><strong>MTHFR-Mangel, Cbl-Defekt</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>B12/Folat-Responsivität prüfen</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Glycin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Allein erhöht</td>
+                        <td>CSF: Gly ↑↑↑</td>
+                        <td><strong>NKH (Non-ketotisch)</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>CSF/Plasma-Ratio diagnostisch</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Prolin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>Gly ↑, HyPro ↑</td>
+                        <td>U: P5C ± ↑</td>
+                        <td><strong>Hyperprolinämie I/II</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Meist benigne</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Sarcosin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>Allein erhöht</td>
+                        <td>U: Sarcosin ↑</td>
+                        <td><strong>Sarcosin-DH-Mangel</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Folat-Responsivität möglich</td>
+                    </tr>
+                    <tr data-category="enzyme">
+                        <td><strong>Ornithin</strong></td>
+                        <td class="highlight-increased">↑↑↑</td>
+                        <td>Allein erhöht</td>
+                        <td>U: δ-Lactam +</td>
+                        <td><strong>OAT-Mangel (Gyrus-Atrophie)</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Progressive Netzhaut-Degeneration</td>
+                    </tr>
+                    <tr data-category="transport">
+                        <td><strong>Histidin</strong></td>
+                        <td class="highlight-increased">↑↑</td>
+                        <td>Allein erhöht</td>
+                        <td>U: Imidazole ↑</td>
+                        <td><strong>Histidase-Mangel</strong></td>
+                        <td>Enzymdefekt</td>
+                        <td>Benigne</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="reference-ranges">
+                <h5>📊 Referenzbereiche (μmol/L Plasma) - Altersabhängig</h5>
+                <div class="range-grid">
+                    <div class="range-item">
+                        <span>Glutamin (Erwachsene)</span>
+                        <span>390-650</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Citrullin (Erwachsene)</span>
+                        <span>20-50</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Phenylalanin (Erwachsene)</span>
+                        <span>40-85</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Methionin (Erwachsene)</span>
+                        <span>15-45</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Glycin (Neonaten)</span>
+                        <span>150-490</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Leucin (Neonaten)</span>
+                        <span>45-140</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORGANISCHE SÄUREN SECTION -->
+        <div id="organic-acids" class="section" style="display: none;">
+            <h2>🧪 Organische Säuren Interpretation</h2>
+
+            <div class="interpretation-grid">
+                <div class="interpretation-card">
+                    <h3>🎯 Leitsäuren-Prinzip</h3>
+                    <div class="algorithm-box">
+                        <h4>Systematischer Ansatz</h4>
+                        <ul class="step-list">
+                            <li><strong>Hauptpeak identifizieren:</strong> Größter abnormaler Peak</li>
+                            <li><strong>Begleitmuster:</strong> Welche anderen Peaks erhöht?</li>
+                            <li><strong>Stoffwechselweg:</strong> Welcher Pathway betroffen?</li>
+                            <li><strong>Konfirmation:</strong> Aminosäuren + klinisches Bild</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interpretation-card">
+                    <h3>⚡ Notfall-Marker</h3>
+                    <div class="reference-ranges">
+                        <h5>Kritische organische Säuren</h5>
+                        <div class="range-grid">
+                            <div class="range-item">
+                                <span>3-OH-Propionsäure</span>
+                                <span class="highlight-increased">Propionacidämie</span>
+                            </div>
+                            <div class="range-item">
+                                <span>Methylmalonsäure</span>
+                                <span class="highlight-increased">MMA-Acidämie</span>
+                            </div>
+                            <div class="range-item">
+                                <span>Succinylaceton</span>
+                                <span class="highlight-increased">Tyrosinämie I</span>
+                            </div>
+                            <div class="range-item">
+                                <span>Glutarsäure</span>
+                                <span class="highlight-increased">GA I/II</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="comprehensive-table">
+                <thead>
+                    <tr>
+                        <th>Hauptsäure</th>
+                        <th>Begleit-OA</th>
+                        <th>Ätiologie</th>
+                        <th>Zusatz-Untersuchungen</th>
+                        <th>Therapieansatz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>3-Hydroxyproprionsäure</strong></td>
+                        <td>PG, TG, MC, 3-HIV</td>
+                        <td><strong>Propionacidämie</strong></td>
+                        <td>AACp (Gly ↑), NH₃</td>
+                        <td>Protein ↓, Biotin, Carnitin</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Methylmalonsäure</strong></td>
+                        <td>3-OHProp, PG, MC</td>
+                        <td><strong>MMA-Acidämie (verschiedene)</strong></td>
+                        <td>B12-Status, Hcy, MMA</td>
+                        <td>B12-Trial, Protein ↓</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Isovalerylglycin</strong></td>
+                        <td>3-OH-Isovaleriansäure</td>
+                        <td><strong>Isovalerianacidämie</strong></td>
+                        <td>Acylcarnitine (C5)</td>
+                        <td>Glycin, Carnitin</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Glutarsäure</strong></td>
+                        <td>3-OH-Glutarsäure</td>
+                        <td><strong>Glutaracidämie I</strong></td>
+                        <td>Acylcarnitine (C5DC)</td>
+                        <td>Lysin/Tryp ↓, Carnitin</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ethylmalonsäure</strong></td>
+                        <td>IBG, 2MBG, IVG, DCA</td>
+                        <td><strong>Glutaracidämie II</strong></td>
+                        <td>Multiple Acylcarnitine ↑</td>
+                        <td>Riboflavin, Carnitin</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Laktatsäure</strong></td>
+                        <td>Pyruvat, Krebs-Cycle</td>
+                        <td><strong>Mitochondriopathie</strong></td>
+                        <td>Laktat/Pyruvat-Ratio</td>
+                        <td>Mitochondriale Cocktails</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3-Methylglutaconsäure</strong></td>
+                        <td>3-Methylglutarsäure</td>
+                        <td><strong>HMG-CoA-Lyase, 3MGA-urie</strong></td>
+                        <td>Acylcarnitine, Ketone</td>
+                        <td>Ketoseprävention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Succinylaceton</strong></td>
+                        <td>Succinylacetoacetat, δ-ALA</td>
+                        <td><strong>Tyrosinämie Typ I</strong></td>
+                        <td>AACp (Tyr, Met ↑)</td>
+                        <td>NTBC, Lebertransplantation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2-Ketoglutarsäure</strong></td>
+                        <td>Laktat, α-Ketosäuren</td>
+                        <td><strong>2-KGD-Komplex, E3-Mangel</strong></td>
+                        <td>Thiamin-Response?</td>
+                        <td>Thiamin-HCl</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adipinsäure (isoliert)</strong></td>
+                        <td>Sebacinsäure, andere DCA</td>
+                        <td><strong>β-Oxidationsdefekt</strong></td>
+                        <td>Acylcarnitine-Profil</td>
+                        <td>Fasten vermeiden, MCT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4-Hydroxybuttersäure</strong></td>
+                        <td>4,5-diOH-Hexansäure</td>
+                        <td><strong>SSADH-Mangel</strong></td>
+                        <td>GABA-Stoffwechsel</td>
+                        <td>Vigabatrin vermeiden</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fumarasäure</strong></td>
+                        <td>Succinat, Malat</td>
+                        <td><strong>Fumarase-Mangel</strong></td>
+                        <td>Krebs-Cycle-Metabolite</td>
+                        <td>Supportiv</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pathway-box">
+                <h4>🔄 Metabolische Pathways und Leitsäuren</h4>
+                <div class="amino-grid">
+                    <div class="amino-card">
+                        <h4>Propionat-Pathway</h4>
+                        <p><strong>Substrate:</strong> Val, Ile, Met, Thr, Cholesterol</p>
+                        <p><strong>Leitsäuren:</strong> 3-OH-Propionsäure, Methylmalonsäure</p>
+                        <p><strong>Klinik:</strong> Ketoacidose, Hyperammonämie</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>Leucin-Pathway</h4>
+                        <p><strong>Substrate:</strong> Leucin</p>
+                        <p><strong>Leitsäuren:</strong> Isovalerylglycin, 3-Methylcrotonylglycin</p>
+                        <p><strong>Klinik:</strong> "Schweißfuß"-Geruch, Hypoglykämie</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>Lysin-Pathway</h4>
+                        <p><strong>Substrate:</strong> Lysin, Tryptophan</p>
+                        <p><strong>Leitsäuren:</strong> Glutarsäure, 2-Aminoadipinsäure</p>
+                        <p><strong>Klinik:</strong> Makrozephalie, Dystonie</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>Fettsäure-β-Oxidation</h4>
+                        <p><strong>Substrate:</strong> Fettsäuren</p>
+                        <p><strong>Leitsäuren:</strong> Dicarbonsäuren, Acylglycine</p>
+                        <p><strong>Klinik:</strong> Hypoketotische Hypoglykämie</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KOMBINIERTE BEFUNDUNG SECTION -->
+        <div id="combined" class="section" style="display: none;">
+            <h2>🔗 Kombinierte Befundung</h2>
+
+            <div class="algorithm-box">
+                <h4>🎯 Integrierter Befundungsansatz</h4>
+                <ul class="step-list">
+                    <li><strong>Aminosäuren-Hauptbefund:</strong> Welche AA ist primär erhöht/erniedrigt?</li>
+                    <li><strong>Organische Säuren-Muster:</strong> Passende org. Säuren zu AA-Muster?</li>
+                    <li><strong>Sekundäre Marker:</strong> NH₃, Laktat, Ketone, Acylcarnitine</li>
+                    <li><strong>Klinische Korrelation:</strong> Symptome + Trigger + Verlauf</li>
+                    <li><strong>Bestätigungsdiagnostik:</strong> Enzymologie, Molekulargenetik</li>
+                </ul>
+            </div>
+
+            <table class="comprehensive-table">
+                <thead>
+                    <tr>
+                        <th>Erkrankungsgruppe</th>
+                        <th>Haupt-AA</th>
+                        <th>Begleit-AA</th>
+                        <th>Org. Säuren</th>
+                        <th>Zusatzmarker</th>
+                        <th>Klinische Hinweise</th>
+                        <th>Differentialdiagnose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Harnstoffzyklus</strong></td>
+                        <td class="highlight-increased">Gln ↑↑↑</td>
+                        <td>Ala ↑, variable</td>
+                        <td>Orotsäure ± ↑</td>
+                        <td>NH₃ ↑↑↑</td>
+                        <td>Protein-Aversion, Koma</td>
+                        <td>OTC vs. ASS vs. ASL vs. ARG</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Organoacidurien</strong></td>
+                        <td class="highlight-increased">Gly ↑</td>
+                        <td>variable</td>
+                        <td>Spezifische OA ↑↑↑</td>
+                        <td>Ketose, AG ↑</td>
+                        <td>Azidose, Geruch</td>
+                        <td>PA vs. MMA vs. IVA vs. GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aminoacidopathien</strong></td>
+                        <td>Spezifische AA ↑↑↑</td>
+                        <td>Pathway-spezifisch</td>
+                        <td>Abbauprodukte ↑</td>
+                        <td>variable</td>
+                        <td>Entwicklungsdefizite</td>
+                        <td>PKU vs. Tyr vs. MSUD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transport-Defekte</strong></td>
+                        <td>Gruppe von AA ↑</td>
+                        <td>Transporter-spezifisch</td>
+                        <td>meist normal</td>
+                        <td>variable</td>
+                        <td>Organ-spezifische Symptome</td>
+                        <td>Cystinurie vs. LPI vs. Hartnup</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mitochondriopathien</strong></td>
+                        <td class="highlight-increased">Ala ↑</td>
+                        <td>variable</td>
+                        <td>Laktat ↑↑, Krebs-Cycle</td>
+                        <td>L/P-Ratio ↑</td>
+                        <td>Multi-System-Erkrankung</td>
+                        <td>RC-Defekte vs. PDH vs. PC</td>
+                    </tr>
+                    <tr>
+                        <td><strong>β-Oxidationsdefekte</strong></td>
+                        <td class="highlight-decreased">Ala ↓</td>
+                        <td>Gly variable</td>
+                        <td>DCA ↑, Acylglycine ↑</td>
+                        <td>Ketone ↓↓, FFS ↑</td>
+                        <td>Hypoketotische Hypoglykämie</td>
+                        <td>MCAD vs. LCAD vs. SCAD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Glykogenspeicher</strong></td>
+                        <td class="highlight-increased">Ala ↑</td>
+                        <td>variable</td>
+                        <td>Laktat ↑↑</td>
+                        <td>Harnsäure ↑, Glc ↓</td>
+                        <td>Hepatomegalie, Hypoglykämie</td>
+                        <td>GSD I vs. III vs. VI</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Neurotransmitter</strong></td>
+                        <td>Phe, Tyr, Trp</td>
+                        <td>variable</td>
+                        <td>Pterin-Metabolite</td>
+                        <td>CSF-Neurotransmitter</td>
+                        <td>Bewegungsstörungen</td>
+                        <td>PKU II/III vs. Pterin-Synthesis</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pathway-box">
+                <h4>🧩 Mustererkennung - Typische Kombinationen</h4>
+                <div class="amino-grid">
+                    <div class="amino-card">
+                        <h4>⚡ Akute Enzephalopathie</h4>
+                        <p><strong>AA:</strong> Gln ↑↑↑, BCAA ↑↑↑ oder normal</p>
+                        <p><strong>OA:</strong> NH₃ ↑↑↑ oder organische Säuren ↑</p>
+                        <p><strong>DD:</strong> Harnstoffzyklus vs. Organoacidurie</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>🍯 Hypoglykämie</h4>
+                        <p><strong>AA:</strong> Ala ↓/↑, variable</p>
+                        <p><strong>OA:</strong> Ketone ↑/↓, Laktat ↑/normal</p>
+                        <p><strong>DD:</strong> GSD vs. β-Oxidation vs. Hyperinsulinismus</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>🧠 Neurodevelopmental</h4>
+                        <p><strong>AA:</strong> Spezifische AA ↑ (Phe, Tyr, etc.)</p>
+                        <p><strong>OA:</strong> Abbauprodukte oder normal</p>
+                        <p><strong>DD:</strong> PKU vs. Tyrosinämie vs. Transport</p>
+                    </div>
+                    <div class="amino-card">
+                        <h4>🫀 Multi-System</h4>
+                        <p><strong>AA:</strong> Ala ↑, variable andere</p>
+                        <p><strong>OA:</strong> Laktat ↑, multiple Störungen</p>
+                        <p><strong>DD:</strong> Mitochondriopathie vs. Peroxisomal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAGNOSE-ALGORITHMEN SECTION -->
+        <div id="algorithms" class="section" style="display: none;">
+            <h2>🎯 Diagnose-Algorithmen</h2>
+
+            <div class="interpretation-grid">
+                <div class="interpretation-card">
+                    <h3>🚨 Notfall-Algorithmus</h3>
+                    <div class="algorithm-box">
+                        <h4>Bei akuter Symptomatik</h4>
+                        <ul class="step-list">
+                            <li><strong>Vitalparameter:</strong> BZ, BGA, NH₃ sofort</li>
+                            <li><strong>Probenentnahme:</strong> Vor Therapiebeginn!</li>
+                            <li><strong>Erste Einschätzung:</strong> Hypo-/Hyperammonämie?</li>
+                            <li><strong>Soforttherapie:</strong> Katabolie stoppen</li>
+                            <li><strong>Spezialdiagnostik:</strong> AA + OA urgend</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interpretation-card">
+                    <h3>🔍 Screening-Algorithmus</h3>
+                    <div class="algorithm-box">
+                        <h4>Bei Verdacht auf IEM</h4>
+                        <ul class="step-list">
+                            <li><strong>Basis-Screening:</strong> AA, OA, Acylcarnitine</li>
+                            <li><strong>Mustererkennung:</strong> Erhöhte Metabolite</li>
+                            <li><strong>Pathway-Analyse:</strong> Welcher Weg betroffen?</li>
+                            <li><strong>Bestätigung:</strong> Spezifische Tests</li>
+                            <li><strong>Familien-Screening:</strong> Geschwister, Eltern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pathway-box">
+                <h4>📊 Differentialdiagnose-Matrix nach Laborkonstellation</h4>
+                <table class="comprehensive-table">
+                    <thead>
+                        <tr>
+                            <th>Laborkonstellation</th>
+                            <th>1. Verdacht</th>
+                            <th>2. Verdacht</th>
+                            <th>3. Verdacht</th>
+                            <th>Ausschluss-DD</th>
+                            <th>Nächste Schritte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NH₃ ↑↑↑, Gln ↑↑↑, Orotsäure ↑↑↑</td>
+                            <td><strong>OTC-Mangel</strong></td>
+                            <td>NAGS-Mangel</td>
+                            <td>CPS-Mangel</td>
+                            <td>Sekundäre Hyperammonämie</td>
+                            <td>Enzymologie, Genetik</td>
+                        </tr>
+                        <tr>
+                            <td>Phe ↑↑↑, Tyr ↓, Phenolsäuren ↑</td>
+                            <td><strong>PKU klassisch</strong></td>
+                            <td>PKU atypisch</td>
+                            <td>Pterin-Defekt</td>
+                            <td>Transiente Hyperphe</td>
+                            <td>BH₄-Test, DHPR</td>
+                        </tr>
+                        <tr>
+                            <td>BCAA ↑↑↑, α-Ketosäuren ↑, Alloisoleucin +</td>
+                            <td><strong>MSUD klassisch</strong></td>
+                            <td>MSUD intermittierend</td>
+                            <td>E3-Mangel</td>
+                            <td>Sekundäre BCAA-Erhöhung</td>
+                            <td>Enzymologie, Thiamin-Test</td>
+                        </tr>
+                        <tr>
+                            <td>Hypoglykämie, Ketone ↓↓, DCA ↑</td>
+                            <td><strong>MCAD-Mangel</strong></td>
+                            <td>LCAD-Mangel</td>
+                            <td>ETF-Defekt</td>
+                            <td>Hyperinsulinismus</td>
+                            <td>Acylcarnitine, Genetik</td>
+                        </tr>
+                        <tr>
+                            <td>Ketoacidose, 3-OHProp ↑, Gly ↑</td>
+                            <td><strong>Propionacidämie</strong></td>
+                            <td>Multiple Carboxylase</td>
+                            <td>B12-Responsiv MMA</td>
+                            <td>Sekundäre Ketose</td>
+                            <td>Biotin-Test, B12-Status</td>
+                        </tr>
+                        <tr>
+                            <td>Laktat ↑↑, Ala ↑, L/P-Ratio ↑</td>
+                            <td><strong>RC-Defekt</strong></td>
+                            <td>PDH-Mangel</td>
+                            <td>PC-Mangel</td>
+                            <td>Sekundäre Laktazidose</td>
+                            <td>Muskelbiopsie, mtDNA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="algorithm-box">
+                <h4>🔄 Therapie-Monitoring Algorithmus</h4>
+                <ul class="step-list">
+                    <li><strong>Baseline etablieren:</strong> Pathologische Metabolite quantifizieren</li>
+                    <li><strong>Therapie-Response:</strong> Metabolite nach 2-4 Wochen</li>
+                    <li><strong>Langzeit-Monitoring:</strong> Regelmäßige Kontrollen</li>
+                    <li><strong>Klinische Korrelation:</strong> Entwicklung + Laborwerte</li>
+                    <li><strong>Anpassung:</strong> Therapie nach Metaboliten adjustieren</li>
+                </ul>
+            </div>
+
+            <div class="reference-ranges">
+                <h5>🎯 Monitoring-Parameter nach Erkrankung</h5>
+                <div class="range-grid">
+                    <div class="range-item">
+                        <span>PKU</span>
+                        <span>Phe 120-360 μmol/L</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Tyrosinämie I</span>
+                        <span>Succinylaceton negativ</span>
+                    </div>
+                    <div class="range-item">
+                        <span>MSUD</span>
+                        <span>Leu &lt;300 μmol/L</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Propionacidämie</span>
+                        <span>3-OHProp &lt;100 mmol/mol Krea</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Glutaracidämie I</span>
+                        <span>Glutarsäure &lt;50 mmol/mol Krea</span>
+                    </div>
+                    <div class="range-item">
+                        <span>Homocystinurie</span>
+                        <span>tHcy &lt;100 μmol/L</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function filterTable(category) {
+            const table = document.getElementById('aminoTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            // Remove active class from all filter tags
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+            
+            // Add active class to clicked filter
+            event.target.classList.add('active');
+            
+            for (let i = 1; i < rows.length; i++) {
+                if (category === 'all') {
+                    rows[i].style.display = '';
+                } else {
+                    const rowCategory = rows[i].getAttribute('data-category');
+                    if (rowCategory && rowCategory.includes(category)) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('aminoTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+                
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        found = true;
+                        break;
+                    }
+                }
+                
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+
+        // Initialize with first section visible
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('amino-acids');
+        });
+    </script>
+</body>
+</html>
