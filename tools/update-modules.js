@@ -132,7 +132,7 @@ function scanModulesDirectory(modulesDir, modules, allModuleFiles) {
     if (files.length === 0) return;
     
     // Kategorie-Info (mit Fallback für neue Kategorien)
-    const categoryKey = category.toLowerCase();
+    const categoryKey = category.toLowerCase().replace(/[^a-z0-9]/g, '');
     const info = CATEGORY_INFO[categoryKey] || {
       title: category.charAt(0).toUpperCase() + category.slice(1),
       icon: "📚"
@@ -253,7 +253,7 @@ function updateServiceWorker(moduleFiles) {
   console.log('✅ Service Worker aktualisiert');
 }
 
-// Master.html aktualisieren
+// Master.html aktualisieren - VERBESSERTE VERSION
 function updateMasterHTML(modules) {
   console.log('\n📄 Aktualisiere Master.html...');
   
@@ -265,50 +265,92 @@ function updateMasterHTML(modules) {
   
   let content = fs.readFileSync(masterPath, 'utf8');
   
-  // NEUER ANSATZ: Suche nach dem genauen Text
+  // Suche nach vorhandenem modules Code
   const startMarker = 'const modules = {';
   const startIndex = content.indexOf(startMarker);
   
   if (startIndex === -1) {
-    console.log('❌ Konnte "const modules = {" nicht finden!');
-    console.log('Erste 500 Zeichen von Master.html:');
-    console.log(content.substring(0, 500));
-    return;
-  }
-  
-  // Finde das schließende };
-  let braceCount = 0;
-  let endIndex = startIndex + startMarker.length;
-  let inString = false;
-  
-  for (let i = endIndex; i < content.length; i++) {
-    const char = content[i];
+    // KEIN modules Code gefunden - EINFÜGEN!
+    console.log('🆕 Kein modules Code gefunden - füge neuen ein...');
     
-    // String-Handling
-    if (char === '"' && content[i-1] !== '\\') {
-      inString = !inString;
+    // Suche nach </style> Tag um den Script dort einzufügen
+    const styleEndIndex = content.indexOf('</style>');
+    if (styleEndIndex === -1) {
+      console.log('❌ Konnte </style> Tag nicht finden!');
+      return;
     }
     
-    if (!inString) {
-      if (char === '{') braceCount++;
-      if (char === '}') {
-        if (braceCount === 0) {
-          endIndex = i + 1;
-          break;
+    // Erstelle den modules JavaScript Code
+    const modulesStr = JSON.stringify(modules, null, 4)
+      .replace(/"([^"]+)":/g, '$1:')
+      .replace(/"/g, "'");
+    
+    const newScriptSection = `</style>
+
+<script>
+// Modulkonfiguration - Automatisch generiert von update-modules.js
+const modules = ${modulesStr};
+
+// Weitere JavaScript-Funktionen...
+function loadModule(moduleName) {
+    // Wird später implementiert
+    console.log('Lade Modul:', moduleName);
+}
+
+function showCategory(categoryKey) {
+    // Wird später implementiert
+    console.log('Zeige Kategorie:', categoryKey);
+}
+</script>`;
+    
+    // Ersetze </style> mit </style> + Script
+    content = content.replace('</style>', newScriptSection);
+    
+  } else {
+    // modules Code GEFUNDEN - ERSETZEN!
+    console.log('🔄 modules Code gefunden - aktualisiere...');
+    
+    // Finde das schließende };
+    let braceCount = 0;
+    let endIndex = startIndex + startMarker.length;
+    let inString = false;
+    let stringChar = '';
+    
+    for (let i = endIndex; i < content.length; i++) {
+      const char = content[i];
+      
+      // String-Handling für beide ' und "
+      if ((char === '"' || char === "'") && content[i-1] !== '\\') {
+        if (!inString) {
+          inString = true;
+          stringChar = char;
+        } else if (char === stringChar) {
+          inString = false;
+          stringChar = '';
         }
-        braceCount--;
+      }
+      
+      if (!inString) {
+        if (char === '{') braceCount++;
+        if (char === '}') {
+          if (braceCount === 0) {
+            endIndex = i + 1;
+            break;
+          }
+          braceCount--;
+        }
       }
     }
+    
+    // Ersetze den modules Teil
+    const modulesStr = JSON.stringify(modules, null, 4)
+      .replace(/"([^"]+)":/g, '$1:')
+      .replace(/"/g, "'");
+    
+    const newModulesVar = `const modules = ${modulesStr};`;
+    
+    content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
   }
-  
-  // Ersetze den modules Teil
-  const modulesStr = JSON.stringify(modules, null, 4)
-    .replace(/"([^"]+)":/g, '$1:')
-    .replace(/"/g, "'");
-  
-  const newModulesVar = `const modules = ${modulesStr};`;
-  
-  content = content.substring(0, startIndex) + newModulesVar + content.substring(endIndex);
   
   fs.writeFileSync(masterPath, content);
   console.log('✅ Master.html aktualisiert');
