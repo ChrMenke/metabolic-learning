@@ -664,26 +664,29 @@
     </div>
 
 
-    <script>
-     let modules = {}; // wird dynamisch ersetzt
-    </script>
+  <script>
+  let modules = {}; // Initial leer
 
+  async function initializeApp() {
+    await loadDynamicModules();        // lädt modules-config.json → setzt window.modules
+    modules = window.modules || {};    // übernimm ins lokale modules
+
+    renderModules();
+    updateStats();
+    setupEventListeners();
+    loadTheme();
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeApp);
+</script>
 };
 
 
-        // State Management
+// State Management
         let currentFilter = 'all';
         let searchTerm = '';
         let currentNotesModule = null;
 
-
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', function() {
-            renderModules();
-            updateStats();
-            setupEventListeners();
-            loadTheme();
-        });
 
 
         function setupEventListeners() {
