@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdate": "2025-07-26T07:10:44.081Z",
+  "lastUpdate": "2025-07-26T07:13:55.666Z",
   "totalModules": 52,
   "modules": {
     "aminosaeuren": {
@@ -151,6 +151,11 @@
           "file": "modules/Konfirmation/konfirmationsdiagnostik_seite4.html",
           "title": "Konfirmationsdiagnostik - Finale: Algorithmen II & Praxis",
           "subtitle": "Diagnostik"
+        },
+        {
+          "file": "modules/Konfirmation/systematische_befundung.html",
+          "title": "Systematische Befundung - Angeborene Stoffwechselerkrankungen",
+          "subtitle": "Lernmodul"
         }
       ]
     },
@@ -323,11 +328,6 @@
       "title": "Vitamine",
       "icon": "📚",
       "modules": [
-        {
-          "file": "modules/Vitamine/systematische_befundung.html",
-          "title": "Systematische Befundung - Angeborene Stoffwechselerkrankungen",
-          "subtitle": "Lernmodul"
-        },
         {
           "file": "modules/Vitamine/vitamin_cofactor_defects.html",
           "title": "Vitamin-/Cofaktor-Defekte - Vollständige Lerneinheit",

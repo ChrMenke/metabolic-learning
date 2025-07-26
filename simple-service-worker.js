@@ -29,6 +29,7 @@ const urlsToCache = [
   './modules/Konfirmation/konfirmationsdiagnostik_seite2.html',
   './modules/Konfirmation/konfirmationsdiagnostik_seite3.html',
   './modules/Konfirmation/konfirmationsdiagnostik_seite4.html',
+  './modules/Konfirmation/systematische_befundung.html',
   './modules/Mitochondrien/Mitochondriale Erkrankungen - Diagnostik & Therapie.html',
   './modules/Mitochondrien/mitochondriopathien_teil1.html',
   './modules/Mitochondrien/mitochondriopathien_teil2.html',
@@ -56,7 +57,6 @@ const urlsToCache = [
   './modules/Speichererkrankungen/peroxisomal_disorders_part1.html',
   './modules/Speichererkrankungen/peroxisomal_disorders_part2.html',
   './modules/Speichererkrankungen/peroxisomal_disorders_part3.html',
-  './modules/Vitamine/systematische_befundung.html',
   './modules/Vitamine/vitamin_cofactor_defects.html'
 ];
 
