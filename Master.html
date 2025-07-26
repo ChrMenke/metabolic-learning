@@ -21,8 +21,8 @@
              margin: 0;
              padding: 0;
              box-sizing: border-box;
-        }
-          
+         }
+        
         :root {
             --primary-color: #667eea;
             --secondary-color: #764ba2;
@@ -90,15 +90,10 @@
         }
         
         .header h1 {
-    color: var(--text-primary);
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-}
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
         }
         
         .header p {
@@ -523,6 +518,28 @@
             border-color: var(--warning-color);
         }
         
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -590,55 +607,46 @@
             <p>Interaktives Lernzentrum für angeborene Stoffwechseldefekte</p>
         </div>
 
-
         <!-- Search Container -->
         <div class="search-container">
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="Module, Inhalte oder Kategorien durchsuchen..." id="searchInput">
                 <span class="search-icon">🔍</span>
             </div>
-            <div class="filter-tags">
-                <button class="filter-tag active" data-category="all">Alle Module</button>
-                <button class="filter-tag" data-category="aminosaeurien">Aminosäuredefekte</button>
-                <button class="filter-tag" data-category="carnitin">Carnitin-Transport</button>
-                <button class="filter-tag" data-category="cholesterol">Cholesterol/Steroid</button>
-                <button class="filter-tag" data-category="fabry">Fabry-Krankheit</button>
-                <button class="filter-tag" data-category="lysosomal">Lysosomale Störungen</button>
-                <button class="filter-tag" data-category="mitochondrial">Mitochondriopathien</button>
-                <button class="filter-tag" data-category="neurotransmitter">Neurotransmitter</button>
-                <button class="filter-tag" data-category="organoacid">Organoazidurien</button>
-                <button class="filter-tag" data-category="peroxisomal">Peroxisomale Störungen</button>
-                <button class="filter-tag" data-category="ucd">Harnstoffzyklus</button>
+            <!-- Filter Tags werden dynamisch generiert -->
+            <div class="filter-tags" id="filterTags">
+                <div class="loading-spinner"></div>
+                <span>Lade Filter...</span>
             </div>
         </div>
-
 
         <!-- Stats Dashboard -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="totalModules">42</div>
+                <div class="stat-number" id="totalModules">—</div>
                 <div class="stat-label">Gesamt Module</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="completedModules">0</div>
+                <div class="stat-number" id="completedModules">—</div>
                 <div class="stat-label">Abgeschlossen</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="notesCount">0</div>
+                <div class="stat-number" id="notesCount">—</div>
                 <div class="stat-label">Notizen</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="progressPercent">0%</div>
+                <div class="stat-number" id="progressPercent">—</div>
                 <div class="stat-label">Fortschritt</div>
             </div>
         </div>
 
-
         <!-- Modules Grid -->
         <div class="modules-grid" id="modulesGrid">
-            <!-- Categories will be populated by JavaScript -->
+            <div class="status-message">
+                <div class="loading-spinner"></div>
+                <p>Lade Module...</p>
+            </div>
         </div>
-
 
         <!-- Export Section -->
         <div class="export-section">
@@ -647,7 +655,6 @@
             <button class="export-btn" onclick="exportAllNotes()">Alle Notizen exportieren</button>
         </div>
     </div>
-
 
     <!-- Notes Modal -->
     <div class="modal" id="notesModal">
@@ -664,90 +671,167 @@
         </div>
     </div>
 
-
-  <script>
-  let modules = {}; // Initial leer
-
-  async function initializeApp() {
-    await loadDynamicModules();        // lädt modules-config.json → setzt window.modules
-    modules = window.modules || {};    // übernimm ins lokale modules
-
-    renderModules();
-    updateStats();
-    setupEventListeners();
-    loadTheme();
-  }
-
-  document.addEventListener('DOMContentLoaded', initializeApp);
-</script>
-};
-
-
-// State Management
+    <script>
+        // Globale Variablen
+        let modules = {};
         let currentFilter = 'all';
         let searchTerm = '';
         let currentNotesModule = null;
 
+        // App Initialization
+        async function initializeApp() {
+            console.log('🚀 Initialisiere App...');
+            
+            // Theme laden
+            loadTheme();
+            
+            // Event Listeners setup
+            setupEventListeners();
+            
+            // Module laden
+            await loadDynamicModules();
+            
+            console.log('✅ App initialisiert');
+        }
 
-
-        function setupEventListeners() {
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                searchTerm = e.target.value.toLowerCase();
+        // Module dynamisch laden
+        async function loadDynamicModules() {
+            try {
+                console.log('📡 Lade modules-config.json...');
+                const response = await fetch('./modules-config.json?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const config = await response.json();
+                modules = config.modules || {};
+                
+                console.log('✅ Module geladen:', {
+                    categories: Object.keys(modules).length,
+                    totalModules: config.totalModules
+                });
+                
+                // UI aktualisieren
+                generateFilterTags();
                 renderModules();
+                updateStats();
+                
+            } catch (error) {
+                console.error('❌ Fehler beim Laden der Module:', error);
+                showErrorMessage(`Fehler beim Laden der Module: ${error.message}`);
+            }
+        }
+
+        // Filter-Tags dynamisch generieren
+        function generateFilterTags() {
+            const filterContainer = document.getElementById('filterTags');
+            
+            // "Alle Module" Button
+            let filterHTML = '<button class="filter-tag active" data-category="all">Alle Module</button>';
+            
+            // Für jede Kategorie einen Filter-Button erstellen
+            Object.entries(modules).forEach(([categoryKey, category]) => {
+                const moduleCount = category.modules ? category.modules.length : 0;
+                filterHTML += `
+                    <button class="filter-tag" data-category="${categoryKey}" title="${moduleCount} Module">
+                        ${category.icon || '📚'} ${category.title}
+                    </button>
+                `;
             });
-
-
-            // Filter tags
-            document.querySelectorAll('.filter-tag').forEach(tag => {
+            
+            filterContainer.innerHTML = filterHTML;
+            
+            // Event Listeners für Filter hinzufügen
+            filterContainer.querySelectorAll('.filter-tag').forEach(tag => {
                 tag.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    filterContainer.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     currentFilter = this.dataset.category;
                     renderModules();
                 });
             });
+            
+            console.log('✅ Filter-Tags generiert:', Object.keys(modules).length + 1);
+        }
 
+        // Event Listeners setup
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    searchTerm = e.target.value.toLowerCase();
+                    renderModules();
+                });
+            }
 
             // Close modal on outside click
-            document.getElementById('notesModal').addEventListener('click', function(e) {
-                if (e.target === this) {
+            const modal = document.getElementById('notesModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeNotesModal();
+                    }
+                });
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 'k') {
+                        e.preventDefault();
+                        searchInput.focus();
+                    } else if (e.key === 'e') {
+                        e.preventDefault();
+                        exportAllNotes();
+                    }
+                }
+                
+                if (e.key === 'Escape') {
                     closeNotesModal();
                 }
             });
         }
 
-
+        // Module rendern
         function renderModules() {
             const grid = document.getElementById('modulesGrid');
-            grid.innerHTML = '';
+            
+            if (!modules || Object.keys(modules).length === 0) {
+                grid.innerHTML = `
+                    <div class="status-message">
+                        <h3>⚠️ Keine Module verfügbar</h3>
+                        <p>Führe <code>node update-modules.js</code> aus um Module zu scannen.</p>
+                    </div>
+                `;
+                return;
+            }
 
+            grid.innerHTML = '';
 
             Object.entries(modules).forEach(([categoryKey, category]) => {
                 if (currentFilter !== 'all' && currentFilter !== categoryKey) {
                     return;
                 }
 
-
                 // Filter modules based on search term
-                const filteredModules = category.modules.filter(module => {
+                const filteredModules = (category.modules || []).filter(module => {
                     return module.title.toLowerCase().includes(searchTerm) || 
                            module.subtitle.toLowerCase().includes(searchTerm) ||
                            category.title.toLowerCase().includes(searchTerm);
                 });
 
-
                 if (filteredModules.length === 0 && searchTerm) {
                     return;
                 }
-
 
                 const categorySection = document.createElement('div');
                 categorySection.className = 'category-section fade-in';
                 
                 categorySection.innerHTML = `
                     <div class="category-header">
-                        <span class="category-icon">${category.icon}</span>
+                        <span class="category-icon">${category.icon || '📚'}</span>
                         <span class="category-title">${category.title}</span>
                         <span class="category-count">${filteredModules.length}</span>
                     </div>
@@ -759,9 +843,9 @@
                                     <div class="module-subtitle">${module.subtitle}</div>
                                 </div>
                                 <div class="module-actions">
-                                    <button class="action-btn notes-btn" onclick="event.stopPropagation(); openNotes('${module.file}', '${module.title}')" title="Notizen">📝</button>
+                                    <button class="action-btn notes-btn" onclick="event.stopPropagation(); openNotes('${module.file}', '${module.title.replace(/'/g, '\\\'')}')" title="Notizen">📝</button>
                                     <button class="action-btn progress-btn" onclick="event.stopPropagation(); toggleProgress('${module.file}')" title="Fortschritt">
-                                        <div class="progress-indicator ${getModuleProgress(module.file)}" id="progress-${module.file.replace('.html', '')}"></div>
+                                        <div class="progress-indicator ${getModuleProgress(module.file)}" id="progress-${module.file.replace(/[^a-zA-Z0-9]/g, '_')}"></div>
                                     </button>
                                 </div>
                             </div>
@@ -772,28 +856,42 @@
                 grid.appendChild(categorySection);
             });
 
-
             if (grid.children.length === 0) {
                 grid.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--text-muted); grid-column: 1 / -1;">
-                        <h3>Keine Module gefunden</h3>
+                    <div class="status-message" style="grid-column: 1 / -1;">
+                        <h3>🔍 Keine Module gefunden</h3>
                         <p>Versuche andere Suchbegriffe oder Filter</p>
                     </div>
                 `;
             }
         }
 
+        // Error Message anzeigen
+        function showErrorMessage(message) {
+            const grid = document.getElementById('modulesGrid');
+            const filterTags = document.getElementById('filterTags');
+            
+            grid.innerHTML = `
+                <div class="status-message" style="grid-column: 1 / -1;">
+                    <h3>❌ Fehler</h3>
+                    <p>${message}</p>
+                    <p><small>Prüfe die Browser-Konsole für Details</small></p>
+                </div>
+            `;
+            
+            filterTags.innerHTML = `
+                <button class="filter-tag active" data-category="all">❌ Fehler beim Laden</button>
+            `;
+        }
 
+        // Module öffnen
         function openModule(filename) {
-            // Track that user opened this module
             markModuleAsInProgress(filename);
             updateStats();
-            
-            // Open the HTML file
             window.open(filename, '_blank');
         }
 
-
+        // Notizen öffnen
         function openNotes(filename, title) {
             currentNotesModule = filename;
             document.getElementById('modalTitle').textContent = `Notizen: ${title}`;
@@ -802,26 +900,24 @@
             document.getElementById('notesEditor').focus();
         }
 
-
+        // Notizen schließen
         function closeNotesModal() {
             document.getElementById('notesModal').classList.remove('active');
             currentNotesModule = null;
         }
 
-
+        // Notizen speichern
         function saveNotes() {
             if (currentNotesModule) {
                 const notes = document.getElementById('notesEditor').value;
                 setModuleNotes(currentNotesModule, notes);
                 updateStats();
                 closeNotesModal();
-                
-                // Show success feedback
                 showNotification('Notizen gespeichert! 💾', 'success');
             }
         }
 
-
+        // Fortschritt umschalten
         function toggleProgress(filename) {
             const currentProgress = getModuleProgress(filename);
             let newProgress;
@@ -847,13 +943,10 @@
             showNotification(`Status geändert: ${statusMap[newProgress]} ✅`, 'info');
         }
 
-
         // Local Storage Functions
         function getModuleNotes(filename) {
-            const notes = localStorage.getItem(`notes_${filename}`);
-            return notes || '';
+            return localStorage.getItem(`notes_${filename}`) || '';
         }
-
 
         function setModuleNotes(filename, notes) {
             if (notes.trim()) {
@@ -863,11 +956,9 @@
             }
         }
 
-
         function getModuleProgress(filename) {
             return localStorage.getItem(`progress_${filename}`) || '';
         }
-
 
         function setModuleProgress(filename, progress) {
             if (progress) {
@@ -877,7 +968,6 @@
             }
         }
 
-
         function markModuleAsInProgress(filename) {
             const currentProgress = getModuleProgress(filename);
             if (!currentProgress) {
@@ -885,29 +975,28 @@
             }
         }
 
-
+        // Stats aktualisieren
         function updateStats() {
             let totalModules = 0;
             let completedModules = 0;
             let notesCount = 0;
 
-
             Object.values(modules).forEach(category => {
-                totalModules += category.modules.length;
-                
-                category.modules.forEach(module => {
-                    if (getModuleProgress(module.file) === 'completed') {
-                        completedModules++;
-                    }
-                    if (getModuleNotes(module.file)) {
-                        notesCount++;
-                    }
-                });
+                if (category.modules) {
+                    totalModules += category.modules.length;
+                    
+                    category.modules.forEach(module => {
+                        if (getModuleProgress(module.file) === 'completed') {
+                            completedModules++;
+                        }
+                        if (getModuleNotes(module.file)) {
+                            notesCount++;
+                        }
+                    });
+                }
             });
 
-
             const progressPercent = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
-
 
             document.getElementById('totalModules').textContent = totalModules;
             document.getElementById('completedModules').textContent = completedModules;
@@ -915,7 +1004,7 @@
             document.getElementById('progressPercent').textContent = progressPercent + '%';
         }
 
-
+        // Alle Notizen exportieren
         function exportAllNotes() {
             let exportData = {
                 exportDate: new Date().toISOString(),
@@ -923,27 +1012,27 @@
                 notesData: {}
             };
 
-
             Object.values(modules).forEach(category => {
-                exportData.totalModules += category.modules.length;
-                
-                category.modules.forEach(module => {
-                    const notes = getModuleNotes(module.file);
-                    const progress = getModuleProgress(module.file);
+                if (category.modules) {
+                    exportData.totalModules += category.modules.length;
                     
-                    if (notes || progress) {
-                        exportData.notesData[module.file] = {
-                            title: module.title,
-                            subtitle: module.subtitle,
-                            category: category.title,
-                            notes: notes,
-                            progress: progress,
-                            lastModified: new Date().toISOString()
-                        };
-                    }
-                });
+                    category.modules.forEach(module => {
+                        const notes = getModuleNotes(module.file);
+                        const progress = getModuleProgress(module.file);
+                        
+                        if (notes || progress) {
+                            exportData.notesData[module.file] = {
+                                title: module.title,
+                                subtitle: module.subtitle,
+                                category: category.title,
+                                notes: notes,
+                                progress: progress,
+                                lastModified: new Date().toISOString()
+                            };
+                        }
+                    });
+                }
             });
-
 
             const dataStr = JSON.stringify(exportData, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -958,7 +1047,7 @@
             showNotification('Notizen erfolgreich exportiert! 📄', 'success');
         }
 
-
+        // Theme umschalten
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute('data-theme');
@@ -971,16 +1060,18 @@
             toggleBtn.textContent = newTheme === 'light' ? '🌙 Dark' : '☀️ Light';
         }
 
-
+        // Theme laden
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
             
             const toggleBtn = document.querySelector('.theme-toggle');
-            toggleBtn.textContent = savedTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+            if (toggleBtn) {
+                toggleBtn.textContent = savedTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+            }
         }
 
-
+        // Notification anzeigen
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.style.cssText = `
@@ -1009,98 +1100,66 @@
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
-                    document.body.removeChild(notification);
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
                 }, 300);
             }, 3000);
         }
 
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === 'k') {
-                    e.preventDefault();
-                    document.getElementById('searchInput').focus();
-                } else if (e.key === 'e') {
-                    e.preventDefault();
-                    exportAllNotes();
-                }
-            }
-            
-            if (e.key === 'Escape') {
-                closeNotesModal();
-            }
-        });
+        // App starten
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 
-<!-- PWA Scripts -->
-<script src="simple-sync.js"></script>
+    <!-- PWA Scripts -->
+    <script src="simple-sync.js"></script>
 
-<script>
-  // Service Worker Registrierung
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registriert mit Scope:', registration.scope);
-        })
-        .catch(error => {
-          console.error('Service Worker Registrierung fehlgeschlagen:', error);
-        });
-    });
-  }
-
-  // PWA Install Button
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    const installBtn = document.createElement('button');
-    installBtn.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 24px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      z-index: 1000;
-      font-weight: 600;
-    `;
-    installBtn.innerHTML = '📱 App installieren';
-    installBtn.onclick = async () => {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        installBtn.remove();
-      }
-      deferredPrompt = null;
-    };
-    document.body.appendChild(installBtn);
-  });
-
-  // Module-Loader
-  async function loadDynamicModules() {
-    try {
-      const response = await fetch('./modules-config.json?t=' + Date.now());
-      if (response.ok) {
-        const config = await response.json();
-        window.modules = config.modules;
-        if (typeof renderModules === 'function') {
-          renderModules();
-          updateStats();
+    <script>
+        // Service Worker Registrierung
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/metabolic-learning/simple-service-worker.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registriert:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('❌ Service Worker Registrierung fehlgeschlagen:', error);
+                    });
+            });
         }
-      }
-    } catch (error) {
-      console.log('Keine modules-config.json gefunden');
-    }
-  }
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    await loadDynamicModules();
-  });
-</script>
+        // PWA Install Button
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const installBtn = document.createElement('button');
+            installBtn.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 12px 24px;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 600;
+            `;
+            installBtn.innerHTML = '📱 App installieren';
+            installBtn.onclick = async () => {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.remove();
+                }
+                deferredPrompt = null;
+            };
+            document.body.appendChild(installBtn);
+        });
+    </script>
+</body>
+</html>
